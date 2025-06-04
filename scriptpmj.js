@@ -1,4 +1,4 @@
-console.log("V1.0");
+console.log("V1.01");
 $(document).ready(function() {
 	setTimeout(function() {
 		document.getElementById('initial-loading').style.display = 'none';
@@ -153,23 +153,23 @@ $(document).ready(function() {
 	});
 	
 	const BBCodeTemplates = {
-		header: '[font=Poppins][center][table style="border-color: black; border-radius: 10px; overflow: hidden; width: auto;" bgcolor="#4d4c4c"][tr][td][size=16][color=#ffffff][b]{{titulo}}[/b][/color][/center][/size][/font][/td][/tr][/table]',
-		
-		content: '[center][size=14][font=Poppins][b][color=black]{{nome}}[/color][/b]{{campos}}[/center][/font][/size]',
-		fields: {
-			data: '\n[color=black][b]Data[/b][/color]: {{valor}}',
-			cargoAtual: '\n[color=black][b]Cargo Atual[/b][/color]: {{valor}}',
-			novoCargo: '\n[color=black][b]Novo Cargo[/b][/color]: {{valor}}',
-			motivo: '\n[color=black][b]Motivo[/b][/color]: {{valor}}',
-			comprovacoes: '\n[color=black][b]Comprovações[/b][/color]: {{valor}}',
-			permissao: '\n[color=black][b]Permissão[/b][/color]: {{valor}}',
-			quantidadeDias: '\n[color=black][b]Quantidade de Dias[/b][/color]: {{valor}}',
-			cargo: '\n[color=black][b]Cargo[/b][/color]: {{valor}}',
-			novoNome: '\n[color=black][b]Novo Nome[/b][/color]: {{valor}}'
-		},
-		
-		atualizacao: '<table class="rank pmj" style="transition: none 0ms ease 0s; margin: 1em; padding: 1.4em; RCC - SÓ A VERDADEIRA-color: rgb(0, 92, 3); width: -webkit-fill-available; height: auto; text-align: center; border-radius: 8px; color: white; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;"><tbody><tr style="transition: none; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"><td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"><img src="https://www.habbo.com.br/habbo-imaging/badge/b09244s43131s50134s17133s17135b1210d8727f4f7f0adf08ed5ab5bd644.gif" alt="PMJ LOGO"><br><font face="Poppins"><font color="white"><span style="font-size: 17px; line-height: normal"><strong>Atualizado por {{tag}}</strong></span></font></font></td></tr></tbody></table>'
-	};
+    header: '[font=Poppins][center][table style="border-color: black; border-radius: 10px; overflow: hidden; width: auto;" bgcolor="#4d4c4c"][tr][td][size=16][color=#ffffff][b]{{titulo}}[/b][/color][/size][/td][/tr][/table][/center][/font]',
+    content: '[center][size=14][font=Poppins][b][color=black]{{nome}}[/color][/b]{{campos}}[/font][/size][/center]',
+    
+    fields: {
+        data: '\n[color=black][b]Data[/b][/color]: {{valor}}',
+        cargoAtual: '\n[color=black][b]Cargo Atual[/b][/color]: {{valor}}',
+        novoCargo: '\n[color=black][b]Novo Cargo[/b][/color]: {{valor}}',
+        motivo: '\n[color=black][b]Motivo[/b][/color]: {{valor}}',
+        comprovacoes: '\n[color=black][b]Comprovações[/b][/color]: {{valor}}',
+        permissao: '\n[color=black][b]Permissão[/b][/color]: {{valor}}',
+        quantidadeDias: '\n[color=black][b]Quantidade de Dias[/b][/color]: {{valor}}',
+        cargo: '\n[color=black][b]Cargo[/b][/color]: {{valor}}',
+        novoNome: '\n[color=black][b]Novo Nome[/b][/color]: {{valor}}'
+    },
+    
+    atualizacao: '[table class="rank pmj" style="transition: none 0ms ease 0s; margin: 1em; padding: 1.4em; background-color: rgb(0, 92, 3); width: -webkit-fill-available; height: auto; text-align: center; border-radius: 8px; color: white; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;"][tr style="transition: none; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][img]https://www.habbo.com.br/habbo-imaging/badge/b09244s43131s50134s17133s17135b1210d8727f4f7f0adf08ed5ab5bd644.gif[/img][br][font=Poppins][color=white][size=17][b]Atualizado por {{tag}}[/b][/size][/color][/font][/td][/tr][/table]'
+};
 	
 	const FormConfigs = {
 		entrada: {
@@ -300,37 +300,41 @@ $(document).ready(function() {
 	}
 
 	function gerarBBCode(formType) {
+    console.log("Gerando BBCode para:", formType);
 
-		if (formType === 'atualizacao') {
-			const dados = obterDadosFormulario(formType);
-			return processTemplate(BBCodeTemplates.atualizacao, dados);
-		}
+    if (formType === 'atualizacao') {
+        const dados = obterDadosFormulario(formType);
+        const bbcodeGerado = processTemplate(BBCodeTemplates.atualizacao, dados);
+        console.log("BBCode de atualização gerado:", bbcodeGerado);
+        return bbcodeGerado;
+    }
 
-		const config = FormConfigs[formType];
-		if (!config) {
-			console.error('Tipo de formulário não encontrado:', formType);
-			return '';
-		}
+    const config = FormConfigs[formType];
+    if (!config) {
+        console.error('Tipo de formulário não encontrado:', formType);
+        return '';
+    }
 
-		const dados = obterDadosFormulario(formType);
-		dados.titulo = config.titulo;
-		
-		let bbcode = processTemplate(BBCodeTemplates.header, dados);
-		bbcode += '\n\n';
-		
-		let campos = '';
-		config.campos.forEach(campo => {
-			if (dados[campo] && BBCodeTemplates.fields[campo]) {
-				const campoTemplate = BBCodeTemplates.fields[campo];
-				campos += processTemplate(campoTemplate, { valor: dados[campo] });
-			}
-		});
-		
-		dados.campos = campos + ' ';
-		bbcode += processTemplate(BBCodeTemplates.content, dados);
-		
-		return bbcode;
-	}
+    const dados = obterDadosFormulario(formType);
+    dados.titulo = config.titulo;
+
+    let bbcode = processTemplate(BBCodeTemplates.header, dados);
+    
+    bbcode += '\n\n';
+    let campos = '';
+    config.campos.forEach(campo => {
+        if (dados[campo] && BBCodeTemplates.fields[campo]) {
+            const campoTemplate = BBCodeTemplates.fields[campo];
+            campos += processTemplate(campoTemplate, { valor: dados[campo] });
+        }
+    });
+    
+    dados.campos = campos;
+    bbcode += processTemplate(BBCodeTemplates.content, dados);
+    
+    console.log("BBCode final gerado:", bbcode);
+    return bbcode;
+}
 	
 	function formatarData(dataISO) {
 		if (!dataISO) return '';
