@@ -304,6 +304,12 @@ $(document).ready(function() {
         console.log("BBCode de atualização gerado:", bbcodeGerado);
         return bbcodeGerado;
     }
+    if (formType === 'retorno') {
+        const dados = obterDadosFormulario(formType);
+        const bbcodeGerado = processTemplate(BBCodeTemplates.retorno, dados);
+        console.log("BBCode de retorno gerado:", bbcodeGerado);
+        return bbcodeGerado;
+    }
 
     const config = FormConfigs[formType];
     if (!config) {
