@@ -1,4 +1,4 @@
-console.log("V1.01");
+console.log("V1.0");
 $(document).ready(function() {
 	setTimeout(function() {
 		document.getElementById('initial-loading').style.display = 'none';
@@ -126,7 +126,7 @@ $(document).ready(function() {
 		
 		setTimeout(function () {
 			$.post('/post', {
-				t: 36391,
+				t: 37455,
 				message: bbcode,
 				mode: 'reply',
 				post: 1,
