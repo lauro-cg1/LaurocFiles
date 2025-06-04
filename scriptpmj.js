@@ -1,4 +1,4 @@
-console.log("V1.01");
+console.log("V1.0");
 $(document).ready(function() {
 	setTimeout(function() {
 		document.getElementById('initial-loading').style.display = 'none';
@@ -129,7 +129,7 @@ $(document).ready(function() {
 		setTimeout(function () {
 			$.post('/post', {
 				t: 36391,
-				message: $('#fa-generated-message').val().trim(),
+				message: bbcode,
 				mode: 'reply',
 				post: 1,
 				}).done(function () {
