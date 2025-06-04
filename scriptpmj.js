@@ -1,4 +1,4 @@
-console.log("V1.01");
+console.log("V1.0");
 $(document).ready(function() {
 	setTimeout(function() {
 		document.getElementById('initial-loading').style.display = 'none';
