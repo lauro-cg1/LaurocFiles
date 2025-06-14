@@ -1,4 +1,5 @@
-			const opcoesPorMinisterio = {
+console.log("V1.0");			
+const opcoesPorMinisterio = {
 				"Ministério da Administração": [
 				"Postagem de Pontos",
 				"Atualização do Quadro de Advertências"
