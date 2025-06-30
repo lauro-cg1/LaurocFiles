@@ -1,4 +1,4 @@
-console.log("V1.0");
+console.log("V1.1");
 function selectOption(button, targetId, value) {
 				const container = button.parentElement;
 				const buttons = container.querySelectorAll('.form-selector-button');
@@ -222,35 +222,43 @@ A leitura das avaliações realizadas pela Diretoria do Corpo Executivo é essen
 				}
 				
 				var textoObrigatoriedade = '';
+				var textoPunicao = '';
 				var usergroup = '';
 				
-				if (especializacao === 'avançada') {
-					textoObrigatoriedade = 'É [b]dever[/b] de todos os [b]diretores[/b] ativos, com exceção daqueles que estão isentos [b]de acordo[/b] com as normativas presentes no tópico';
-					usergroup = '146';
-				} else {
-					textoObrigatoriedade = 'É [b]dever[/b] de todos os portadores da [b]Especialização Avançada[/b] ou [b]diretores[/b] ativos, com exceção daqueles que estão isentos [b]de acordo[/b] com as normativas presentes no tópico';
+				if (especializacao === 'intermediária') {
+					textoObrigatoriedade = 'É [b]dever[/b] de todos os portadores da [b]Especialização Avançada[/b]';
+					textoPunicao = 'Está passível de punição, [b]conforme a gravidade[/b], o portador da Especialização Avançada que:';
 					usergroup = '718';
+				} else {
+					textoObrigatoriedade = 'É [b]dever[/b] de todos os [b]diretores[/b]';
+					textoPunicao = 'Está passível de punição, [b]conforme a gravidade[/b], o Diretor que:';
+					usergroup = '146';
 				}
 				
-				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
-[table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]AVALIAÇÃO ${tipoAvaliacao.toUpperCase()} DA ESPECIALIZAÇÃO ${especializacao.toUpperCase()}[/font][/size][/b][/color][/center][/td][/tr][/table]
+				var mp = `[table style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
+[table style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]AVALIAÇÃO ${tipoAvaliacao.toUpperCase()} DA ESPECIALIZAÇÃO ${especializacao.toUpperCase()}[/font][/size][/b][/color][/center][/td][/tr][/table]
 
-[table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
+[table style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
 [font=Poppins][center][b][color=#4b8410]Saudações, {USERNAME}![/color][/b][/center]
 
-[justify]A seguir, estará disposto o [b]formulário de avaliação[/b] dos [b]oficiais do Corpo Executivo[/b] que possuem [b]Especialização ${especializacao.charAt(0).toUpperCase() + especializacao.slice(1)}[/b], os quais estão divididos entre turnos. ${textoObrigatoriedade} [url=https://www.policiarcc.com/t38732-ce-regulamento-de-avaliacoes][b][color=green][CE] Regulamento de Avaliações[/color][/b][/url], responder à avaliação. Está passível de punição, [b]conforme a gravidade[/b], o portador da Especialização Avançada ou Diretor que:
-[table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border:  none!Important; overflow: hidden;"][color=white][b]01[/b][/color][/td][/tr][/table] Não responder à avaliação até o dia [b]${dataLimite} ${horarioLimite} (horário de Brasília)[/b], sujeito a advertência escrita;
-[table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border:  none!Important; overflow: hidden;"][color=white][b]02[/b][/color][/td][/tr][/table] [b]Falsificar informações[/b] no formulário, seja tal realizado de [b]forma intencional[/b] ou com base numa avaliação realizada de [b]forma rasa/equivocada[/b], sujeito a advertência interna;
-[table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border:  none!Important; overflow: hidden;"][color=white][b]03[/b][/color][/td][/tr][/table] Sair em licença [b]após o recebimento[/b] desta Mensagem Privada, sem ter a [b]dispensa da Presidência deste órgão[/b] para responder à avaliação, sujeito a advertência interna;
-[table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border:  none!Important; overflow: hidden;"][color=white][b]04[/b][/color][/td][/tr][/table] [b]Deixar de avaliar[/b] algum executivo que esteja nos [b]parâmetros expostos no formulário da avaliação[/b], sujeito ao recebimento de 50 medalhas negativas efetivas por executivo não avaliado.
+[justify]A seguir, estará disposto o [b]formulário de avaliação[/b] dos [b]oficiais do Corpo Executivo[/b] que possuem [b]Especialização ${especializacao.charAt(0).toUpperCase() + especializacao.slice(1)}[/b], os quais estão divididos entre turnos. ${textoObrigatoriedade} ativos, com exceção daqueles que estão isentos [b]de acordo[/b] com as normativas presentes no tópico [url=https://www.policiarcc.com/t38732-ce-regulamento-de-avaliacoes][b][color=green][CE] Regulamento de Avaliações[/color][/b][/url], responder à avaliação. ${textoPunicao}
+[table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border: none!Important; overflow: hidden;"][color=white][b]01[/b][/color][/td][/tr][/table] Não responder à avaliação até o dia [b]${dataLimite} às ${horarioLimite} (horário de Brasília)[/b], sujeito a advertência escrita;
+[table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border: none!Important; overflow: hidden;"][color=white][b]02[/b][/color][/td][/tr][/table] [b]Falsificar informações[/b] no formulário, seja tal realizado de [b]forma intencional[/b] ou com base numa avaliação realizada de [b]forma rasa/equivocada[/b], sujeito a advertência interna;
+[table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border: none!Important; overflow: hidden;"][color=white][b]03[/b][/color][/td][/tr][/table] Sair em licença [b]após o recebimento[/b] desta Mensagem Privada, sem ter a [b]dispensa da Presidência deste órgão[/b] para responder à avaliação, sujeito a advertência interna;
+[table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border: none!Important; overflow: hidden;"][color=white][b]04[/b][/color][/td][/tr][/table] [b]Deixar de avaliar[/b] algum executivo que esteja nos [b]parâmetros expostos no formulário da avaliação[/b], sujeito ao recebimento de 50 medalhas negativas efetivas por executivo não avaliado.
 
-[table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fas  fa-file-import"></i>[color=black]___[/color] Para acessar o formulário de avaliação da Especialização ${especializacao.charAt(0).toUpperCase() + especializacao.slice(1)}, [url=${linkFormulario}][b][color=white]CLIQUE AQUI[/color][/b][/url][/td][/tr][/table][/justify][/font][/td][/tr][/table]
+[table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fas fa-file-import"></i>[color=black]___[/color] Para acessar o formulário de avaliação da Especialização ${especializacao.charAt(0).toUpperCase() + especializacao.slice(1)}, [url=${linkFormulario}][b][color=white]CLIQUE AQUI[/color][/b][/url][/td][/tr][/table][/justify][/font][/td][/tr][/table]
 
 
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
 [/td][/tr][/table][/td][/tr][/table]`;
 				
-				send_MP("[DIR] Avaliação de Especialização - Leitura Obrigatória", usergroup, mp);
+				console.log("=== BBCode de Avaliação de Especialização ===");
+				console.log(mp);
+				console.log("=== Fim do BBCode ===");
+				console.log("Grupo de envio:", usergroup);
+				
+				send_MPGroup("[DIR] Avaliação de Especialização - Leitura Obrigatória", usergroup, mp);
 			}
 			
 			function enviarMelhoresQuinzena(e) {
@@ -318,14 +326,98 @@ Aguardamos a presença de [b]todos[/b]![/justify][/font][/td][/tr][/table]
 				send_MPGroup("[DIR] Avaliação de Projetos", "718", mp);
 			}
 			
+			let analiseCount = 3;
+			
+			function selectVeredicto(button, inputId, value) {
+				const container = button.parentElement;
+				const buttons = container.querySelectorAll('.form-selector-button');
+				buttons.forEach(btn => btn.classList.remove('selected'));
+				
+				button.classList.add('selected');
+				document.getElementById(inputId).value = value;
+			}
+			
+			function addAnalise() {
+				if (analiseCount >= 5) {
+					alert('Máximo de 5 análises permitidas!');
+					return;
+				}
+				
+				analiseCount++;
+				const container = document.getElementById('analises_container');
+				
+				const newAnalise = document.createElement('div');
+				newAnalise.className = 'analise-item';
+				newAnalise.style.cssText = 'border: 2px solid rgba(255, 215, 0, 0.3); border-radius: 15px; padding: 25px; margin: 15px 0; background: rgba(255, 255, 255, 0.1); width: 98%; min-height: 250px; box-sizing: border-box;';
+				
+				newAnalise.innerHTML = `
+					<h4 style="color: #FFD700; margin-bottom: 15px; font-size: 18px;">Análise ${analiseCount}</h4>
+					<div class="input-box">
+						<span class="details_span">Veredito:</span>
+						<div class="form-selector-container">
+							<button type="button" class="form-selector-button" onclick="selectVeredicto(this, 'veredito_${analiseCount}', 'Deferido')">Deferido</button>
+							<button type="button" class="form-selector-button" onclick="selectVeredicto(this, 'veredito_${analiseCount}', 'Indeferido')">Indeferido</button>
+						</div>
+						<input type="hidden" id="veredito_${analiseCount}" name="veredito_${analiseCount}" required>
+					</div>
+					<div class="input-box">
+						<span class="details_span">Nickname do Analisador:</span>
+						<input type="text" id="nickname_${analiseCount}" placeholder="Digite o nickname" required>
+					</div>
+					<div class="input-box">
+						<span class="details_span">Comentário:</span>
+						<textarea id="comentario_${analiseCount}" rows="3" placeholder="Digite o comentário da análise" required style="width: 100%; padding: 15px; border: 2px solid rgba(255, 215, 0, 0.3); border-radius: 15px; font-size: 16px; background: rgba(255, 255, 255, 0.9);"></textarea>
+					</div>
+				`;
+				
+				container.appendChild(newAnalise);
+				
+				if (analiseCount >= 5) {
+					document.getElementById('add_analise_btn').style.display = 'none';
+				}
+			}
+			
 			function enviarAnaliseIndeferida(e) {
 				e.preventDefault();
 				
 				var username = $("#username_indeferida").val();
-				var comentario = $("#comentario_indeferida").val();
 				
-				if (!username || !comentario) {
-					alert('Preencha todos os campos!');
+				if (!username) {
+					alert('Preencha o nome do usuário!');
+					return;
+				}
+				
+				let analiseValida = false;
+				let analisesBBCode = '';
+				
+				for (let i = 1; i <= analiseCount; i++) {
+					const veredito = document.getElementById(`veredito_${i}`);
+					const nickname = document.getElementById(`nickname_${i}`);
+					const comentario = document.getElementById(`comentario_${i}`);
+					
+					if (veredito && nickname && comentario && 
+						veredito.value && nickname.value.trim() && comentario.value.trim()) {
+						
+						analiseValida = true;
+						
+						if (veredito.value === 'Deferido') {
+							analisesBBCode += `[table style="width: 80px; border-radius: 5px!Important; overflow: hidden;border: none !important; border-radius: 5px; padding-top: 10px;position: relative;top: 2.4em; left: 4.5em;margin: -3em; display: ruby-text; z-index: 10;" bgcolor="green"][tr style="overflow: hidden; border: none!important;"][td style="overflow: hidden; border: none!important; padding-top: 25px;"][color=white]<i class="fas fa-check"></i> DEFERIDO[/color][/td][/tr][/table]
+[table style="overflow: hidden; border: none!important; box-shadow: 0 0 0 1px green; border-radius: 5px!Important;"][tr style="overflow: hidden; border: none!important; border-radius: 5px!important;"][td style="overflow: hidden; border: none!important;"]
+[justify][b]${nickname.value}:[/b] ${comentario.value}[/justify][/td][/tr][/table]
+
+`;
+						} else {
+							analisesBBCode += `[table style="width: 80px; border-radius: 5px!Important; overflow: hidden;border: none !important; border-radius: 5px; padding-top: 10px;position: relative;top: 2.4em; left: 4.5em;margin: -3em; display: ruby-text; z-index: 10;" bgcolor="red"][tr style="overflow: hidden; border: none!important;"][td style="overflow: hidden; border: none!important; padding-top: 25px;"][color=white]<i class="fas fa-times"></i> INDEFERIDO[/color][/td][/tr][/table]
+[table style="overflow: hidden; border: none!important; box-shadow: 0 0 0 1px red; border-radius: 5px!Important;"][tr style="overflow: hidden; border: none!important; border-radius: 5px!important;"][td style="overflow: hidden; border: none!important;"]
+[justify][b]${nickname.value}:[/b] ${comentario.value}[/justify][/td][/tr][/table]
+
+`;
+						}
+					}
+				}
+				
+				if (!analiseValida) {
+					alert('Preencha pelo menos uma análise completa (veredito, nickname e comentário)!');
 					return;
 				}
 				
@@ -335,9 +427,10 @@ Aguardamos a presença de [b]todos[/b]![/justify][/font][/td][/tr][/table]
 [table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
 [font=Poppins][center][b][color=#4b8410]Saudações, {USERNAME}![/color][/b][/center]
 
-[justify]Por meio desta Mensagem Privada, comunico-lhe que a sua análise solicitada foi [b]indeferida[/b] por não ter as informações adequadas e/ou suficientes para ser processada pela [b]Diretoria do Corpo Executivo[/b], impossibilitando a sua devida análise. 
+[justify]Por meio desta Mensagem Privada, comunico-lhe que a sua análise solicitada foi [b]processada[/b] pela [b]Diretoria do Corpo Executivo[/b]. Segue abaixo o resultado das análises:
 
-[b]Comentário específico da análise:[/b] [i]"${comentario}"[/i]
+[justify][spoiler="Análises"]
+${analisesBBCode}[/spoiler][/justify]
 
 [table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fas  fa-file-import"></i>[color=black]___[/color] [color=white]Para abrir uma nova análise ou entrar em contato com o diretor responsável,[/color] [url=https://www.policiarcc.com/t23956-rcc-abertura-de-analises][b]clique aqui[/b][/url][/td][/tr][/table][/justify][/font][/td][/tr][/table]
 
@@ -345,7 +438,13 @@ Aguardamos a presença de [b]todos[/b]![/justify][/font][/td][/tr][/table]
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
 [/td][/tr][/table][/td][/tr][/table]`;
 				
-				send_MP("[DIR] Análise Indeferida", username, mp);
+				console.log("=== BBCode Completo da Análise ===");
+				console.log(mp);
+				console.log("=== Seção das Análises (BBCode) ===");
+				console.log(analisesBBCode);
+				console.log("===================================");
+				
+				send_MP("[DIR] Análise Processada", username, mp);
 			}
 			
 			function enviarAnaliseNegada(e) {
@@ -416,15 +515,14 @@ Aguardamos a presença de [b]todos[/b]![/justify][/font][/td][/tr][/table]
 				}
 				
 				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
-[table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]CARTA DE OBSERVAÇÃO[/font][/size][/b][/color][/center][/td][/tr][/table]
+[table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]CARTA  DE OBSERVAÇÃO[/font][/size][/b][/color][/center][/td][/tr][/table]
 
 [table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
 [font=Poppins][center][b][color=#4b8410]Saudações, {USERNAME}![/color][/b][/center]
 
-[justify]Por meio desta Mensagem Privada, comunico-lhe que você recebeu uma [b]Carta de Observação[/b] da [b]Diretoria do Corpo Executivo[/b]. A mesma servirá apenas de [b]alerta[/b] sobre alguma falta ou atitude que vai contra os [b]preceitos e normas[/b] da corporação, sendo possível corrigi-la facilmente.
+[justify]Informo-lhe, por meio desta [b]carta[/b], que, conforme a avaliação realizada, você obteve o veredito de observação, seja por prevalência ou por maioria. Em decorrência disso, sua promoção está bloqueada por sete dias a partir da data desta Mensagem Privada. Você deverá ser acompanhado por um membro do Esquadrão de Corpo Executivo ou da Especialização Avançada. Em breve, um deles entrará em contato com você.
 
-[table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fas  fa-file-import"></i>[color=black]___[/color] [color=white]Para saber mais informações sobre Cartas de Observação,[/color] [url=https://www.policiarcc.com/t39462-rcc-diretrizes-do-corpo-executivo#403421][b]clique aqui[/b][/url][/td][/tr][/table][/justify][/font][/td][/tr][/table]
-
+Caso não deseje o acompanhamento, este é um direito seu. No entanto, ficará sob sua responsabilidade resolver os pontos em déficit indicados na avaliação. Se não concordar com alguma nota, comentário ou com o próprio veredito, você poderá interpor recurso, acessando a [b][url=https://www.policiarcc.com/t38726-ce-central-de-sindicancias][CE] Central de Sindicâncias[/url][/b].[/justify][/font][/td][/tr][/table]
 
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
 [/td][/tr][/table][/td][/tr][/table]`;
@@ -582,6 +680,111 @@ O subalterno precisa estar apto quando for promovê-lo, para assumir as responsa
 				}
 				
 				send_MP("[DIR] Avanço de Especialização", username, mp);			}
+			
+			function enviarCartaProjetoAprovado(e) {
+				e.preventDefault();
+				
+				var username = $("#username_projeto").val();
+				var numeroProposta = $("#numero_proposta").val();
+				var statusAprovacao = $("#status_aprovacao").val();
+				var numeroMedalhas = $("#numero_medalhas").val();
+				
+				if (!username || !numeroProposta || !statusAprovacao || !numeroMedalhas) {
+					alert('Preencha todos os campos!');
+					return;
+				}
+				
+				var mp = `[table style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
+[table style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]CARTA DE PROJETO APROVADO[/font][/size][/b][/color][/center][/td][/tr][/table]
+
+[table style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
+[font=Poppins][center][b][color=#4b8410]Saudações, {USERNAME}![/color][/b][/center]
+
+[justify]Informo-lhe, por meio desta [b]carta[/b], que, conforme a proposta [b]${numeroProposta}[/b] na Ouvidoria, você obteve o veredito de [b]${statusAprovacao}[/b], pela decisão do Presidente e Vice-Presidente da Diretoria do Corpo Executivo. Agradecemos imensamente por sua valiosa contribuição ao Corpo Executivo. Que esse comprometimento continue a se refletir em suas futuras atuações. Em reconhecimento a esse mérito, serão concedidas a você ${numeroMedalhas} medalhas temporárias pela proposta apresentada.[/justify][/font][/td][/tr][/table]
+
+
+[color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
+[/td][/tr][/table][/td][/tr][/table]`;
+				
+				console.log("=== BBCode de Carta de Projeto Aprovado ===");
+				console.log(mp);
+				console.log("=== Fim do BBCode ===");
+				console.log("Usuário destinatário:", username);
+				
+				send_MP("[DIR] Carta de Projeto Aprovado", username, mp);
+			}
+			
+			function enviarCartaProjetoReprovado(e) {
+				e.preventDefault();
+				
+				var username = $("#username_projeto_reprovado").val();
+				var numeroProposta = $("#numero_proposta_reprovado").val();
+				var motivoReprovacao = $("#motivo_reprovacao").val();
+				
+				if (!username || !numeroProposta || !motivoReprovacao) {
+					alert('Preencha todos os campos!');
+					return;
+				}
+				
+				var mp = `[table style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
+[table style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]CARTA DE PROJETO REPROVADO[/font][/size][/b][/color][/center][/td][/tr][/table]
+
+[table style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
+[font=Poppins][center][b][color=#4b8410]Saudações, {USERNAME}![/color][/b][/center]
+
+[justify]Informo-lhe, por meio desta [b]carta[/b], que, conforme a proposta [b]${numeroProposta}[/b] na Ouvidoria, infelizmente, você obteve o veredito de [b]reprovado[/b], pela decisão do Presidente e Vice-Presidente da Diretoria do Corpo Executivo. Todavia, agradecemos imensamente por sua valiosa contribuição ao Corpo Executivo. Que esse comprometimento continue a se refletir em suas futuras atuações. Segue a síntese de por qual razão decidimos reprovar a proposta em questão:
+
+[quote][b]Síntese de reprovação:[/b] ${motivoReprovacao}[/quote][/justify][/font][/td][/tr][/table]
+
+
+[color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
+[/td][/tr][/table][/td][/tr][/table]`;
+				
+				console.log("=== BBCode de Carta de Projeto Reprovado ===");
+				console.log(mp);
+				console.log("=== Fim do BBCode ===");
+				console.log("Usuário destinatário:", username);
+				
+				send_MP("[DIR] Carta de Projeto Reprovado", username, mp);
+			}
+			
+			function enviarCartaTransparenciaSindicancial(e) {
+				e.preventDefault();
+				
+				var username = $("#username_sindicancia").val();
+				var nomeApelante = $("#nome_apelante").val();
+				var codigoIdentificacao = $("#codigo_identificacao").val();
+				var parecerSindicancia = $("#parecer_sindicancia").val();
+				var comentarioFundamentacao = $("#comentario_fundamentacao").val();
+				
+				if (!username || !nomeApelante || !codigoIdentificacao || !parecerSindicancia || !comentarioFundamentacao) {
+					alert('Preencha todos os campos!');
+					return;
+				}
+				
+				var mp = `[table style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
+[table style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]CARTA DE TRANSPARÊNCIA SINDICANCIAL[/font][/size][/b][/color][/center][/td][/tr][/table]
+
+[table style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
+[font=Poppins][center][b][color=#4b8410]Saudações, {USERNAME}![/color][/b][/center]
+
+[justify]Informo-lhe, por meio desta [b]carta[/b], que, conforme a sindicância solicitada pelo [b]${nomeApelante}[/b], pelo código de identificação [b]${codigoIdentificacao}[/b], onde você é este apelante ou um dos envolvidos, a sindicância teve o parecer de [b]${parecerSindicancia}[/b], pelo Presidente e Vice-Presidente da Diretoria do Corpo Executivo.
+Informo-lhe, por meio desta [b]carta[/b], que a sindicância requerida por [b]${nomeApelante}[/b], na qualidade de [b]apelante[/b], sob o código de identificação [b]${codigoIdentificacao}[/b], foi devidamente analisada. Após apreciação, a Diretoria do Corpo Executivo, por decisão conjunta de seu Presidente e Vice-Presidente, deliberou pelo [b]${parecerSindicancia}[/b] da solicitação.
+[table style="width: 80px; border-radius: 5px!Important; overflow: hidden;border: none !important; border-radius: 5px; padding-top: 10px;position: relative;top: 2.4em; left: 4.5em;margin: -3em; display: ruby-text; z-index: 10;" bgcolor="212121"][tr style="overflow: hidden; border: none!important;"][td style="overflow: hidden; border: none!important; padding-top: 25px;"][color=white]<i class="fas fa-user-cog"></i> FUNDAMENTAÇÃO DA PRESIDÊNCIA[/color][/td][/tr][/table]
+[table style="overflow: hidden; border: none!important; box-shadow: 0 0 0 1px #212121; border-radius: 5px!Important;"][tr style="overflow: hidden; border: none!important; border-radius: 5px!important;"][td style="overflow: hidden; border: none!important;"]
+[justify]${comentarioFundamentacao}[/justify][/td][/tr][/table]
+Se uma das ambas partes não estiver satisfeita com o parecer, você poderá interpor recurso à segunda instância, acessando a [b][url=https://www.policiarcc.com/t34967-cor-protocolamento-de-recursos][/url][/b].[/justify][/font][/td][/tr][/table]
+
+[color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
+[/td][/tr][/table][/td][/tr][/table]`;
+				
+				console.log("=== BBCode de Carta de Transparência Sindicancial ===");
+				console.log(mp);
+				console.log("=== Fim do BBCode ===");
+				console.log("Usuário destinatário:", username);
+				
+				send_MP("[DIR] Carta de Transparência Sindicancial", username, mp);
+			}
 			
 			function enviarEscalaFuncoes(e) {
 				e.preventDefault();
