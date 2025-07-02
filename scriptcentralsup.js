@@ -1,4 +1,5 @@
-			const opcoesPorMinisterio = {
+console.log("V1.0");
+const opcoesPorMinisterio = {
 				"Ministério da Administração": [
 				"Atualização de aulas",
 				"Não teve requerimentos"
