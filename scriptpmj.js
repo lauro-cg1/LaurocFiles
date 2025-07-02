@@ -1,4 +1,4 @@
-console.log("V1.02");
+console.log("V1.03");
 $(document).ready(function() {
 	setTimeout(function() {
 		document.getElementById('initial-loading').style.display = 'none';
@@ -88,7 +88,7 @@ $(document).ready(function() {
 		const loadingOverlay = document.createElement('div');
 		loadingOverlay.className = 'loading-overlay';
 		loadingOverlay.innerHTML = `
-		<img src="https://i.imgur.com/irpfaPL.gif" alt="Carregando..." class="loading-img">
+		<img src="https://i.imgur.com/7XXbGB8.gif" alt="Carregando..." class="loading-img">
 		<div class="loading-message">Enviando...</div>
 		`;
 		document.body.appendChild(loadingOverlay);
