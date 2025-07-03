@@ -1,4 +1,4 @@
-console.log("V1.2.2");
+console.log("V1.2.3");
 function selectOption(button, targetId, value) {
 				const container = button.parentElement;
 				const buttons = container.querySelectorAll('.form-selector-button');
@@ -981,6 +981,8 @@ Vale ressaltar que a presença de [b]todos os portadores da Especialização Int
 			
 			
 			function send_MP(title, user, message){
+				showLoading();
+				
 				$.post('/privmsg',{
 					folder: 'inbox',
 					mode: 'post',
@@ -989,11 +991,15 @@ Vale ressaltar que a presença de [b]todos os portadores da Especialização Int
 					subject: title,
 					message: message
 					}).done(function () {
-					alert("Mensagem Privada enviada para " + user);
+					hideLoading();
+					showSuccessPopup("Mensagem Privada enviada para " + user);
 					}).fail(function (){
+					hideLoading();
 					alert("Erro");
 				})
 			}			function send_MPGroup(title, usergroup, message){
+				showLoading();
+				
 				$.post('/privmsg',{
 					folder: 'inbox',
 					mode: 'post',
@@ -1002,8 +1008,10 @@ Vale ressaltar que a presença de [b]todos os portadores da Especialização Int
 					subject: title,
 					message: message
 					}).done(function () {
-					alert("Mensagem Privada enviada!");
+					hideLoading();
+					showSuccessPopup("Mensagem Privada enviada!");
 					}).fail(function (){
+					hideLoading();
 					alert("Erro");
 				})
 			}
@@ -1014,3 +1022,242 @@ Vale ressaltar que a presença de [b]todos os portadores da Especialização Int
 			var mes_hoje = meses[data.getMonth()];
 			var ano_hoje = data.getFullYear();
 			var retornar = data_hoje + ' ' + mes_hoje + ' ' + ano_hoje;
+			
+			function showLoading() {
+				var existingLoading = document.getElementById('loading-overlay');
+				if (existingLoading) {
+					existingLoading.remove();
+				}
+				
+				var loadingOverlay = document.createElement('div');
+				loadingOverlay.id = 'loading-overlay';
+				loadingOverlay.style.cssText = `
+					position: fixed;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: rgba(0, 0, 0, 0.7);
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					z-index: 999999;
+					backdrop-filter: blur(5px);
+				`;
+				
+				var loadingContainer = document.createElement('div');
+				loadingContainer.style.cssText = `
+					background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 248, 248, 0.9));
+					border-radius: 20px;
+					padding: 40px;
+					text-align: center;
+					box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+					border: 3px solid rgba(144, 238, 144, 0.6);
+					min-width: 300px;
+				`;
+				
+				var spinner = document.createElement('div');
+				spinner.style.cssText = `
+					width: 50px;
+					height: 50px;
+					border: 4px solid #f3f3f3;
+					border-top: 4px solid #7CB342;
+					border-radius: 50%;
+					animation: spin 1s linear infinite;
+					margin: 0 auto 20px;
+				`;
+				
+				var loadingText = document.createElement('p');
+				loadingText.textContent = 'Enviando mensagem...';
+				loadingText.style.cssText = `
+					color: #2C2C2C;
+					font-family: 'Poppins', sans-serif;
+					font-size: 18px;
+					font-weight: 600;
+					margin: 0;
+				`;
+				
+				if (!document.getElementById('loading-styles')) {
+					var styles = document.createElement('style');
+					styles.id = 'loading-styles';
+					styles.textContent = `
+						@keyframes spin {
+							0% { transform: rotate(0deg); }
+							100% { transform: rotate(360deg); }
+						}
+					`;
+					document.head.appendChild(styles);
+				}
+				
+				loadingContainer.appendChild(spinner);
+				loadingContainer.appendChild(loadingText);
+				loadingOverlay.appendChild(loadingContainer);
+				document.body.appendChild(loadingOverlay);
+			}
+			
+			function hideLoading() {
+				var loadingOverlay = document.getElementById('loading-overlay');
+				if (loadingOverlay) {
+					loadingOverlay.remove();
+				}
+			}
+			
+			function showSuccessPopup(message) {
+				setTimeout(function() {
+					var popupOverlay = document.createElement('div');
+					popupOverlay.id = 'success-popup-overlay';
+					popupOverlay.style.cssText = `
+						position: fixed;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						background: rgba(0, 0, 0, 0.7);
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						z-index: 999999;
+						backdrop-filter: blur(5px);
+					`;
+					
+					var popupContainer = document.createElement('div');
+					popupContainer.style.cssText = `
+						background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 248, 248, 0.9));
+						border-radius: 20px;
+						padding: 40px;
+						text-align: center;
+						box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+						border: 3px solid rgba(144, 238, 144, 0.6);
+						min-width: 400px;
+						max-width: 500px;
+					`;
+					
+					var successIcon = document.createElement('div');
+					successIcon.innerHTML = '✓';
+					successIcon.style.cssText = `
+						width: 60px;
+						height: 60px;
+						border-radius: 50%;
+						background: linear-gradient(135deg, #7CB342, #90EE90);
+						color: white;
+						font-size: 30px;
+						font-weight: bold;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						margin: 0 auto 20px;
+						box-shadow: 0 8px 25px rgba(124, 179, 66, 0.4);
+					`;
+					
+					var title = document.createElement('h2');
+					title.textContent = 'Sucesso!';
+					title.style.cssText = `
+						color: #2C2C2C;
+						font-family: 'Poppins', sans-serif;
+						font-size: 24px;
+						font-weight: 700;
+						margin: 0 0 15px 0;
+					`;
+					
+					var messageElement = document.createElement('p');
+					messageElement.textContent = message;
+					messageElement.style.cssText = `
+						color: #2C2C2C;
+						font-family: 'Poppins', sans-serif;
+						font-size: 16px;
+						margin: 0 0 25px 0;
+						line-height: 1.5;
+					`;
+					
+					var questionElement = document.createElement('p');
+					questionElement.textContent = 'Deseja enviar mais alguma mensagem?';
+					questionElement.style.cssText = `
+						color: #2C2C2C;
+						font-family: 'Poppins', sans-serif;
+						font-size: 16px;
+						font-weight: 600;
+						margin: 0 0 30px 0;
+					`;
+					
+					var buttonsContainer = document.createElement('div');
+					buttonsContainer.style.cssText = `
+						display: flex;
+						gap: 15px;
+						justify-content: center;
+					`;
+					
+					var yesButton = document.createElement('button');
+					yesButton.textContent = 'Sim';
+					yesButton.style.cssText = `
+						padding: 12px 30px;
+						background: linear-gradient(135deg, #7CB342, #90EE90);
+						color: #000;
+						border: none;
+						border-radius: 15px;
+						font-family: 'Poppins', sans-serif;
+						font-size: 16px;
+						font-weight: 600;
+						cursor: pointer;
+						transition: all 0.3s ease;
+						box-shadow: 0 4px 15px rgba(124, 179, 66, 0.3);
+					`;
+					
+					yesButton.addEventListener('mouseenter', function() {
+						this.style.transform = 'translateY(-2px)';
+						this.style.boxShadow = '0 6px 20px rgba(124, 179, 66, 0.4)';
+					});
+					
+					yesButton.addEventListener('mouseleave', function() {
+						this.style.transform = 'translateY(0)';
+						this.style.boxShadow = '0 4px 15px rgba(124, 179, 66, 0.3)';
+					});
+					
+					yesButton.addEventListener('click', function() {
+						popupOverlay.remove();
+						location.reload();
+					});
+					
+					var noButton = document.createElement('button');
+					noButton.textContent = 'Não';
+					noButton.style.cssText = `
+						padding: 12px 30px;
+						background: linear-gradient(135deg, #dc3545, #ff6b7a);
+						color: white;
+						border: none;
+						border-radius: 15px;
+						font-family: 'Poppins', sans-serif;
+						font-size: 16px;
+						font-weight: 600;
+						cursor: pointer;
+						transition: all 0.3s ease;
+						box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+					`;
+					
+					noButton.addEventListener('mouseenter', function() {
+						this.style.transform = 'translateY(-2px)';
+						this.style.boxShadow = '0 6px 20px rgba(220, 53, 69, 0.4)';
+					});
+					
+					noButton.addEventListener('mouseleave', function() {
+						this.style.transform = 'translateY(0)';
+						this.style.boxShadow = '0 4px 15px rgba(220, 53, 69, 0.3)';
+					});
+					
+					noButton.addEventListener('click', function() {
+						popupOverlay.remove();
+						window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox';
+					});
+					
+					buttonsContainer.appendChild(yesButton);
+					buttonsContainer.appendChild(noButton);
+					
+					popupContainer.appendChild(successIcon);
+					popupContainer.appendChild(title);
+					popupContainer.appendChild(messageElement);
+					popupContainer.appendChild(questionElement);
+					popupContainer.appendChild(buttonsContainer);
+					
+					popupOverlay.appendChild(popupContainer);
+					document.body.appendChild(popupOverlay);
+				}, 3000);
+			}
