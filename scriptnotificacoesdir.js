@@ -1,4 +1,4 @@
-console.log("V1.2.1");
+console.log("V1.2.2");
 function selectOption(button, targetId, value) {
 				const container = button.parentElement;
 				const buttons = container.querySelectorAll('.form-selector-button');
@@ -939,7 +939,20 @@ Os executivos que não puderem comparecer deverão [b]justificar obrigatoriament
 					return;
 				}
 				
-				var mp = `teste`;
+				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https:
+[table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]CARTA  DE OBSERVAÇÃO[/font][/size][/b][/color][/center][/td][/tr][/table]
+
+[table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
+[font=Poppins][center][b][color=#4b8410]Saudações, {USERNAME}![/color][/b][/center]
+
+[justify]Informo-lhe, através desta Mensagem Privada, que a [b]Diretoria do Corpo Executivo[/b] vem convocá-lo para uma [b]reunião geral do Corpo Executivo[/b] no dia [b]${dataReuniao}, ${horarioReuniao} no horário de Brasília[/b]. Sua presença é de suma importância.
+
+Vale ressaltar que a presença de [b]todos os portadores da Especialização Intermediária e Especialização Avançada é obrigatória[/b] na data mencionada nesta Mensagem Privada, estando sujeitos ao recebimento de uma [b]advertência escrita[/b] por [b]Abandono de Dever/Negligência[/b] caso não compareçam. Aqueles que, por algum motivo, não puderem comparecer, [b]devem justificar[/b] sua ausência no [b]formulário[/b] presente no tópico [url=https:
+
+
+[color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
+[/td][/tr][/table][/td][/tr][/table]
+`;
 				
 				console.log("=== BBCode de Reunião Geral ===");
 				console.log("Título: [DIR] Reunião Geral");
@@ -949,7 +962,7 @@ Os executivos que não puderem comparecer deverão [b]justificar obrigatoriament
 				console.log("Mensagem:", mp);
 				console.log("=== Fim do BBCode ===");
 				
-				send_MPGroup("[DA] Teste", "696", mp);
+				send_MPGroup("[DIR] Reunião Geral", "268", mp);
 			}
 			
 			function copiarBBCode() {
