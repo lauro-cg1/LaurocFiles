@@ -1,4 +1,4 @@
-console.log("V1.2");
+console.log("V1.2.1");
 function selectOption(button, targetId, value) {
 				const container = button.parentElement;
 				const buttons = container.querySelectorAll('.form-selector-button');
