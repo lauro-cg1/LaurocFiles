@@ -1,4 +1,4 @@
-console.log("V1.2.3");
+	console.log("V1.3");
 function selectOption(button, targetId, value) {
 				const container = button.parentElement;
 				const buttons = container.querySelectorAll('.form-selector-button');
@@ -502,7 +502,7 @@ ${analisesBBCode}[/spoiler][/justify]
 
 [justify]Informo-lhe, através desta Mensagem Privada, que sua [b]solicitação[/b] de análise de avanço foi [b]negada[/b] devido à [b]ausência[/b] de [b]um ou mais[/b] dos [b]requisitos obrigatórios[/b] para a solicitação ser considerada para análise. No seu caso, a problemática foi devido a/ao [b]${motivoTexto}[/b].
 
-[table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fas  fa-file-import"></i>[color=black]___[/color] [color=white]Para abrir uma nova análise ou entrar em contato com o diretor responsável,[/color] [url=https:
+[table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fas  fa-file-import"></i>[color=black]___[/color] [color=white]Para abrir uma nova análise ou entrar em contato com o diretor responsável,[/color] [url=https://www.policiarcc.com/t23956-rcc-abertura-de-analises][b]clique aqui[/b][/url].[/td][/tr][/table][/justify][/font][/td][/tr][/table]
 
 
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
@@ -531,7 +531,7 @@ ${analisesBBCode}[/spoiler][/justify]
 					return;
 				}
 				
-				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https:
+				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
 [table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]REGRESSO DE ESPECIALIZAÇÃO[/font][/size][/b][/color][/center][/td][/tr][/table]
 
 [table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
@@ -541,7 +541,7 @@ ${analisesBBCode}[/spoiler][/justify]
 
 [b]Comprovação: [url=${linkComprovacao}]Clique aqui.[/url][/b] 
 
-Em caso de dúvidas, entre em contato com a [b]Diretoria do Corpo Executivo[/b].Para interposição de recursos, acesse a [b][url=https:
+Em caso de dúvidas, entre em contato com a [b]Diretoria do Corpo Executivo[/b]. Para interposição de recursos, acesse a [b][url=https://www.policiarcc.com/t23956-rcc-abertura-de-analises]Ouvidoria do Corpo Executivo[/url][/b].[/justify][/font][/td][/tr][/table]
 
 
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
@@ -569,15 +569,16 @@ Em caso de dúvidas, entre em contato com a [b]Diretoria do Corpo Executivo[/b].
 					return;
 				}
 				
-				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https:
-[table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]CARTA  DE OBSERVAÇÃO[/font][/size][/b][/color][/center][/td][/tr][/table]
+				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
+[table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]CARTA DE OBSERVAÇÃO[/font][/size][/b][/color][/center][/td][/tr][/table]
 
 [table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
 [font=Poppins][center][b][color=#4b8410]Saudações, {USERNAME}![/color][/b][/center]
 
 [justify]Informo-lhe, por meio desta [b]carta[/b], que, conforme a avaliação realizada, você obteve o veredito de observação, seja por prevalência ou por maioria. Em decorrência disso, sua promoção está bloqueada por sete dias a partir da data desta Mensagem Privada. Você deverá ser acompanhado por um membro do Esquadrão de Corpo Executivo ou da Especialização Avançada. Em breve, um deles entrará em contato com você.
 
-Caso não deseje o acompanhamento, este é um direito seu. No entanto, ficará sob sua responsabilidade resolver os pontos em déficit indicados na avaliação. Se não concordar com alguma nota, comentário ou com o próprio veredito, você poderá interpor recurso, acessando a [b][url=https:
+Caso não deseje o acompanhamento, este é um direito seu. No entanto, ficará sob sua responsabilidade resolver os pontos em déficit indicados na avaliação. Se não concordar com alguma nota, comentário ou com o próprio veredito, você poderá interpor recurso, acessando a [b][url=https://www.policiarcc.com/t23956-rcc-abertura-de-analises]Ouvidoria do Corpo Executivo[/url][/b].[/justify][/font][/td][/tr][/table]
+
 
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
 [/td][/tr][/table][/td][/tr][/table]`;
@@ -605,7 +606,7 @@ Caso não deseje o acompanhamento, este é um direito seu. No entanto, ficará s
 					return;
 				}
 				
-				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https:
+				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
 [table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]CARTA DE ADVERTÊNCIA INTERNA[/font][/size][/b][/color][/center][/td][/tr][/table]
 
 [table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
@@ -643,13 +644,13 @@ Caso não deseje o acompanhamento, este é um direito seu. No entanto, ficará s
 					return;
 				}
 				
-				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https:
+				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
 [table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]PROMOÇÃO[/font][/size][/b][/color][/center][/td][/tr][/table]
 
 [table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
 [font=Poppins][center][b][color=#4b8410]Saudações, {USERNAME}![/color][/b][/center]
 
-[justify]Informo-lhe, através desta Mensagem Privada, que você foi [b]promovido[/b] pela [b]Diretoria do Corpo Executivo[/b] devido ao seu veredito na última [b]avaliação ${tipoAvaliacao}[/b]! Para conferir os [b]motivos[/b] e os [b]vereditos[/b] na avaliação, leia em: [url=https:
+[justify]Informo-lhe, através desta Mensagem Privada, que você foi [b]promovido[/b] pela [b]Diretoria do Corpo Executivo[/b] devido ao seu veredito na última [b]avaliação ${tipoAvaliacao}[/b]! Para conferir os [b]motivos[/b] e os [b]vereditos[/b] na avaliação, leia em: [url=https://www.policiarcc.com/f864-diario-oficial-diretoria-avaliacoes][b][color=#4b8410][Diário Oficial] - Diretoria: Avaliações[/color][/b][/url].[/justify][/font][/td][/tr][/table]
 
 
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
@@ -675,9 +676,10 @@ Caso não deseje o acompanhamento, este é um direito seu. No entanto, ficará s
 					alert('Preencha todos os campos!');
 					return;
 				}
-						var mp = '';
+				
+				var mp = '';
 				if (tipoAvanco === 'basica_intermediaria') {
-					mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https:
+					mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
 [table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]AVANÇO DE ESPECIALIZAÇÃO[/font][/size][/b][/color][/center][/td][/tr][/table]
 
 [table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
@@ -687,25 +689,27 @@ Caso não deseje o acompanhamento, este é um direito seu. No entanto, ficará s
 [table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border:  none!Important; overflow: hidden;"][color=white][b]01[/b][/color][/td][/tr][/table] Manter seus turnos e tarefas atualizados, sob pena de advertência escrita, caso não atualize em até 48 horas;
 [table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border:  none!Important; overflow: hidden;"][color=white][b]02[/b][/color][/td][/tr][/table] Manter presença em base, conhecimento elevado sobre os documentos, pulso firme, rigidez, boa ortografia, postura, ajudar e gratificar seus subalternos, como todo e qualquer bom oficial;
 [table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border:  none!Important; overflow: hidden;"][color=white][b]03[/b][/color][/td][/tr][/table] Ao promover, conferir corretamente os requisitos do promovido e, caso necessite, deter da permissão para tal;
-[table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border:  none!Important; overflow: hidden;"][color=white][b]04[/b][/color][/td][/tr][/table] Acompanhar os resultados da [b]Avaliação Quinzenal[/b] em [url=https:
-[table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border:  none!Important; overflow: hidden;"][color=white][b]05[/b][/color][/td][/tr][/table] Não passar mais de 72 horas offline sem um pedido de licença da especialização no RCCSystem em: [url=https:
+[table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border:  none!Important; overflow: hidden;"][color=white][b]04[/b][/color][/td][/tr][/table] Acompanhar os resultados da [b]Avaliação Quinzenal[/b] em [url=https://docs.google.com/spreadsheets/d/1qrOXiYUh8KZpPJmU0VGMlZ5xkLEPLLmHrP9LgxQzYDI/edit#gid=0]Planilha de Avaliações[/url];
+[table style="width: 20px; display: math; position: relative; border-radius: 5px; border: none!Important; padding-top: 12px; top: 8px;" bgcolor="#65b026"][tr style="border: none!Important; overflow: hidden;"][td style="border:  none!Important; overflow: hidden;"][color=white][b]05[/b][/color][/td][/tr][/table] Não passar mais de 72 horas offline sem um pedido de licença da especialização no RCCSystem em: [url=https://rccsystem.com/]RCCSystem[/url].
 
 [color=green][b]GRUPO DE COMUNICAÇÃO[/B][/COLOR]
 Atualmente, a Especialização Intermediária, dispõe de um grupo no WhatsApp, sendo gerenciado pela Diretoria do Corpo Executivo, para estimular a comunicação entre os oficiais sobre os assuntos pertinentes à instituição, de exemplo, é comum haver debates em base das palestras, dos acompanhamentos e outrem realizados por outros policiais. É importante que o portador saiba explorar esse grupo para exercer a comunicatividade e o interesse no que envolve sobre a polícia. Para entrar nesse grupo, o convite está disposto abaixo:
 
-[table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fab  fa-whatsapp"></i>[color=black]___[/color] Para acessar o [b]grupo oficial[/b] da Especialização Intermediária, entre [url=https:
+[table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fab  fa-whatsapp"></i>[color=black]___[/color] Para acessar o [b]grupo oficial[/b] da Especialização Intermediária, entre [url=https://chat.whatsapp.com/LqDTt49ttxGLRGxJCqYmZR]aqui[/url].[/td][/tr][/table]
+
 [color=green][b]ATIVIDADES QUINZENAIS[/B][/COLOR]
 A Diretoria do Corpo Executivo organiza atividades voltadas para o aperfeiçoamento dos portadores da especialização intermediária, como resoluções de casos, discussões e outras dinâmicas inovadoras. A data e horário das atividades são previamente notificadas por mensagem privada. Essas atividades são [b]obrigatórias[/b] e, portanto, a sua participação é indispensável.
 
 No entanto, caso não possa comparecer, é necessário justificar a ausência utilizando o formulário disponibilizado pelo órgão, o qual deve ser respondido num prazo de 24 horas a partir do horário inicial da atividade. Faltas não justificadas resultarão em advertência escrita por Abandono de Dever/Negligência.
 
 [color=#cb1717][b]FICHAMENTO POLICIAL[/B][/COLOR]
-[justify][font=Poppins][table style="overflow: hidden; border: none!important; border-radius: 5px!important;" bgcolor="#cb1717"][tr style="overflow: hidden; border: none!important;"][td style="overflow: hidden;  border: none!important;"][justify][color=white][color=#cb1717]___[/color]<i class="fas fa-exclamation"></i> [color=#cb1717]___[/color] Você [b]deve[/b] realizar seu [b]fichamento policial[/b] em até [b]48 horas[/b] a contar do recebimento desta Mensagem Privada, sob pena de [b]advertência escrita[/b] por [b]Abandono de Dever/Negligência[/b], caso não o faça. Para realizá-lo, [url=https:
+[font=Poppins][table style="overflow: hidden; border: none!important; border-radius: 5px!important;" bgcolor="#cb1717"][tr style="overflow: hidden; border: none!important;"][td style="overflow: hidden;  border: none!important;"][justify][color=white][color=#cb1717]___[/color]<i class="fas fa-exclamation"></i> [color=#cb1717]___[/color] Você [b]deve[/b] realizar seu [b]fichamento policial[/b] em até [b]48 horas[/b] a contar do recebimento desta Mensagem Privada, sob pena de [b]advertência escrita[/b] por [b]Abandono de Dever/Negligência[/b], caso não o faça. Para realizá-lo, [url=https://rccsystem.com/]acesse o RCCSystem[/url].[/color][/justify][/td][/tr][/table][/font][/justify][/font][/td][/tr][/table]
+
 
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
 [/td][/tr][/table][/td][/tr][/table]`;
 				} else if (tipoAvanco === 'intermediaria_avancada') {
-					mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https:
+					mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
 [table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]AVANÇO DE ESPECIALIZAÇÃO[/font][/size][/b][/color][/center][/td][/tr][/table]
 
 [table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
@@ -732,9 +736,10 @@ Portanto, a avaliação de subalternos é um ponto principal para ser exercido p
 [color=green][b]GRUPO DE COMUNICAÇÃO[/B][/COLOR]
 Atualmente, a Especialização Avançada, dispõe de um grupo no WhatsApp, sendo gerenciado pela Diretoria do Corpo Executivo, para estimular a comunicação entre os oficiais sobre os assuntos pertinentes à instituição. Para entrar nesse grupo, o convite está disposto abaixo:
 
-[table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fab  fa-whatsapp"></i>[color=black]___[/color] Para acessar o [b]grupo oficial[/b] da Especialização Intermediária, entre [url=https:
+[table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fab  fa-whatsapp"></i>[color=black]___[/color] Para acessar o [b]grupo oficial[/b] da Especialização Avançada, entre [url=https://chat.whatsapp.com/IWqpuTU55OQBewMzbcDxYF]aqui[/url].[/td][/tr][/table]
+
 [color=green][b]SENSO CRÍTICO E PROMOÇÕES[/B][/COLOR]
-Como membro da Especialização Avançada, possui mais autonomia  para integrar novos policiais no Corpo de Oficiais, tanto no Corpo Executivo como também no Corpo Militar e aplicar medidas administrativas caso haja escassez de policiais nessa posição hierárquica. No entanto, não é o suficiente apenas saber dessas responsabilidades: é crucial entender como executá-las. Isso requer um aspecto fundamental em qualquer oficial: o senso crítico. Seja para conduzir movimentações hierárquicas, como promoções ou punições, ou para realizar avaliações quinzenais e resoluções de casos, o senso crítico é essencial.
+Como membro da Especialização Avançada, possui mais autonomia para integrar novos policiais no Corpo de Oficiais, tanto no Corpo Executivo como também no Corpo Militar e aplicar medidas administrativas caso haja escassez de policiais nessa posição hierárquica. No entanto, não é o suficiente apenas saber dessas responsabilidades: é crucial entender como executá-las. Isso requer um aspecto fundamental em qualquer oficial: o senso crítico. Seja para conduzir movimentações hierárquicas, como promoções ou punições, ou para realizar avaliações quinzenais e resoluções de casos, o senso crítico é essencial.
 
 O senso crítico significa a capacidade de questionar e analisar de forma racional e inteligente. A palavra "crítico" vem de origem grega como "kritikos", que significa "a capacidade de fazer julgamentos". Esse significado da origem grega, é o que deve ser colocado em pauta para os portadores da especialização avançada. A habilidade para realizar avaliações críticas é importante para qualquer policial, mas a partir de possuir a especialização avançada, eles têm que dominar proficientemente para as ações realizadas estarem condizentes com os documentos e uma avaliação minuciosa em aspecto de meritocracia (isso se envolver promoções ou benefícios).
 
@@ -742,9 +747,9 @@ O senso crítico também é fundamental para as avaliações dos portadores da e
 
 O portador da especialização avançada tem a responsabilidade de avaliar tudo que envolve o subalterno na especialização, em todos os aspectos. É preciso ter abundantemente todas as evidências, informações ou testemunhas que podem notabilizar a capacidade de algum aspecto do subalterno. Se há por qualquer falha, seja uma ou mais, for existir no subalterno e que essas precisam ser dominadas naquele cargo ou na especialização, automaticamente, não é apto para ascender de cargo ou de especialização, mesmo que haja aspectos deste que o destaque dos demais.
 
-Além disso, para evitar discordâncias de visões, não que deve ser influenciado para impedir a promoção ou avanço de especialização  do seu subalterno, mas buscar o que outros superiores hierárquicos acham deste no turno que este subalterno escolheu no RCCSystem e se possuem provas de tais atos que podem ser obstáculos impeditivos para a ascensão. O portador da especialização avançada não deve tornar-se exclusivamente dependente de opiniões terceiras para decidir, deve confiar plenamente na sua capacidade de julgamento e  analisar todas as informações que estão disponíveis a mercê do policial.
+Além disso, para evitar discordâncias de visões, não que deve ser influenciado para impedir a promoção ou avanço de especialização do seu subalterno, mas buscar o que outros superiores hierárquicos acham deste no turno que este subalterno escolheu no RCCSystem e se possuem provas de tais atos que podem ser obstáculos impeditivos para a ascensão. O portador da especialização avançada não deve tornar-se exclusivamente dependente de opiniões terceiras para decidir, deve confiar plenamente na sua capacidade de julgamento e analisar todas as informações que estão disponíveis a mercê do policial.
 
-O subalterno precisa estar apto quando for promovê-lo, para assumir as responsabilidades como oficial e não possuir brechas que podem ser usadas para finalidade de cancelamento de subida do grau hierárquico, afinal, é sua responsabilidade de evitar esse tipo de caso, caso contrário, poderá surtir consequências negativas ao seu subalterno, como a desmotivação ou perca da produtividade e esforço. É importante ressaltar que os critérios de promoção ou avanço de especialização devem ser cuidadosamente examinados e considerar todos os aspectos relevantes, mesmo que não sejam o fator primordial que desencadeou a promoção ou avanço. Essa abordagem visa reduzir a margem para interpretações ambíguas, como mencionado anteriormente, e garantirá a aceitação por parte daqueles que revisam os motivos pelos quais a promoção foi aprovada e avançou. Os motivos devem abordar desempenho nos grupos de tarefas, comportamento, características dos oficiais, conhecimento de documentos e outros elementos pertinentes – existem critérios a se avaliar para avanço de especialização no tópico [b][Esp.III] Regimento de Análises[/b] no qual devem ler ele -..[/justify][/font][/td][/tr][/table]
+O subalterno precisa estar apto quando for promovê-lo, para assumir as responsabilidades como oficial e não possuir brechas que podem ser usadas para finalidade de cancelamento de subida do grau hierárquico, afinal, é sua responsabilidade de evitar esse tipo de caso, caso contrário, poderá surtir consequências negativas ao seu subalterno, como a desmotivação ou perca da produtividade e esforço. É importante ressaltar que os critérios de promoção ou avanço de especialização devem ser cuidadosamente examinados e considerar todos os aspectos relevantes, mesmo que não sejam o fator primordial que desencadeou a promoção ou avanço. Essa abordagem visa reduzir a margem para interpretações ambíguas, como mencionado anteriormente, e garantirá a aceitação por parte daqueles que revisam os motivos pelos quais a promoção foi aprovada e avançou. Os motivos devem abordar desempenho nos grupos de tarefas, comportamento, características dos oficiais, conhecimento de documentos e outros elementos pertinentes – existem critérios a se avaliar para avanço de especialização no tópico [b][Esp.III] Regimento de Análises[/b] no qual devem ler.[/justify][/font][/td][/tr][/table]
 
 
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
@@ -754,11 +759,12 @@ O subalterno precisa estar apto quando for promovê-lo, para assumir as responsa
 				console.log("=== BBCode de Avanço de Especialização ===");
 				console.log("Título: [DIR] Avanço de Especialização");
 				console.log("Usuário:", username);
-				console.log("Especialização de avanço:", especializacaoAvanco);
+				console.log("Tipo de avanço:", tipoAvanco);
 				console.log("Mensagem:", mp);
 				console.log("=== Fim do BBCode ===");
 				
-				send_MP("[DIR] Avanço de Especialização", username, mp);			}
+				send_MP("[DIR] Avanço de Especialização", username, mp);
+			}
 			
 			function enviarCartaProjetoAprovado(e) {
 				e.preventDefault();
@@ -841,18 +847,20 @@ O subalterno precisa estar apto quando for promovê-lo, para assumir as responsa
 					return;
 				}
 				
-				var mp = `[table style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https:
+				var mp = `[table style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
 [table style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]CARTA DE TRANSPARÊNCIA SINDICANCIAL[/font][/size][/b][/color][/center][/td][/tr][/table]
 
 [table style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
 [font=Poppins][center][b][color=#4b8410]Saudações, {USERNAME}![/color][/b][/center]
 
-[justify]Informo-lhe, por meio desta [b]carta[/b], que, conforme a sindicância solicitada pelo [b]${nomeApelante}[/b], pelo código de identificação [b]${codigoIdentificacao}[/b], onde você é este apelante ou um dos envolvidos, a sindicância teve o parecer de [b]${parecerSindicancia}[/b], pelo Presidente e Vice-Presidente da Diretoria do Corpo Executivo.
-Informo-lhe, por meio desta [b]carta[/b], que a sindicância requerida por [b]${nomeApelante}[/b], na qualidade de [b]apelante[/b], sob o código de identificação [b]${codigoIdentificacao}[/b], foi devidamente analisada. Após apreciação, a Diretoria do Corpo Executivo, por decisão conjunta de seu Presidente e Vice-Presidente, deliberou pelo [b]${parecerSindicancia}[/b] da solicitação.
-[table style="width: 80px; border-radius: 5px!Important; overflow: hidden;border: none !important; border-radius: 5px; padding-top: 10px;position: relative;top: 2.4em; left: 4.5em;margin: -3em; display: ruby-text; z-index: 10;" bgcolor="212121"][tr style="overflow: hidden; border: none!important;"][td style="overflow: hidden; border: none!important; padding-top: 25px;"][color=white]<i class="fas fa-user-cog"></i> FUNDAMENTAÇÃO DA PRESIDÊNCIA[/color][/td][/tr][/table]
+[justify]Informo-lhe, por meio desta [b]carta[/b], que a sindicância requerida por [b]${nomeApelante}[/b], na qualidade de [b]apelante[/b], sob o código de identificação [b]${codigoIdentificacao}[/b], foi devidamente analisada. Após apreciação, a Diretoria do Corpo Executivo, por decisão conjunta de seu Presidente e Vice-Presidente, deliberou pelo [b]${parecerSindicancia}[/b] da solicitação.
+
+[table style="width: 80px; border-radius: 5px!Important; overflow: hidden;border: none !important; border-radius: 5px; padding-top: 10px;position: relative;top: 2.4em; left: 4.5em;margin: -3em; display: ruby-text; z-index: 10;" bgcolor="#212121"][tr style="overflow: hidden; border: none!important;"][td style="overflow: hidden; border: none!important; padding-top: 25px;"][color=white]<i class="fas fa-user-cog"></i> FUNDAMENTAÇÃO DA PRESIDÊNCIA[/color][/td][/tr][/table]
 [table style="overflow: hidden; border: none!important; box-shadow: 0 0 0 1px #212121; border-radius: 5px!Important;"][tr style="overflow: hidden; border: none!important; border-radius: 5px!important;"][td style="overflow: hidden; border: none!important;"]
 [justify]${comentarioFundamentacao}[/justify][/td][/tr][/table]
-Se uma das ambas partes não estiver satisfeita com o parecer, você poderá interpor recurso à segunda instância, acessando a [b][url=https:
+
+Se uma das ambas partes não estiver satisfeita com o parecer, você poderá interpor recurso à segunda instância, acessando a [b][url=https://www.policiarcc.com/t23956-rcc-abertura-de-analises]Ouvidoria do Corpo Executivo[/url][/b].[/justify][/font][/td][/tr][/table]
+
 
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
 [/td][/tr][/table][/td][/tr][/table]`;
@@ -868,7 +876,7 @@ Se uma das ambas partes não estiver satisfeita com o parecer, você poderá int
 			function enviarEscalaFuncoes(e) {
 				e.preventDefault();
 				
-				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https:
+				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
 [table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]ATUALIZAÇÃO DA ESCALA DE FUNÇÕES[/font][/size][/b][/color][/center][/td][/tr][/table]
 
 [table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
@@ -876,7 +884,8 @@ Se uma das ambas partes não estiver satisfeita com o parecer, você poderá int
 
 [justify]Informo-lhe, através desta Mensagem Privada, que a escala de funções foi atualizada! Confira sua função para realizar as atividades programadas. Qualquer dúvida, procure a secretária responsável pelo seu setor ou a presidência do órgão.[/justify]
 
-[table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fas  fa-file-import"></i>[color=black]___[/color] Para visualizar a [b]escala de funções[/b], acesse [url=https:
+[table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fas  fa-file-import"></i>[color=black]___[/color] Para visualizar a [b]escala de funções[/b], acesse [url=https://docs.google.com/spreadsheets/d/1GYUxpAR2QHpKfR5fVocE9he2c-Pm3INuU-vlMVAjS5U/]a planilha oficial[/url].[/td][/tr][/table][/font][/td][/tr][/table]
+
 
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
 [/td][/tr][/table][/td][/tr][/table]`;
@@ -901,7 +910,7 @@ Se uma das ambas partes não estiver satisfeita com o parecer, você poderá int
 					return;
 				}
 				
-				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https:
+				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
 [table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]ATIVIDADE QUINZENAL[/font][/size][/b][/color][/center][/td][/tr][/table]
 
 [table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
@@ -911,7 +920,7 @@ Se uma das ambas partes não estiver satisfeita com o parecer, você poderá int
 
 Os executivos que não puderem comparecer deverão [b]justificar obrigatoriamente[/b] sua ausência em até [b]24 horas após a data e o horário de início da atividade[/b]. Caso contrário, estarão sujeitos a receber uma [b]advertência escrita[/b] pelo crime de [b]Abandono de Dever/Negligência[/b].
 
-[table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fas  fa-file-import"></i>[color=black]___[/color] Para justificar a sua falta, acesse o tópico [url=https:
+[table class="rank instable" style=" border-radius: 5px!important; border: none!important; margin: 0em; font-weight: 500; line-height: 0em;" bgcolor="black"][tr style="border: none;"][td style="border: none!important;"]<i class="fas  fa-file-import"></i>[color=black]___[/color] Para justificar a sua falta, acesse o tópico [url=https://www.policiarcc.com/t30642-rcc-justificativa-de-faltas]oficial de justificativas[/url].[/td][/tr][/table][/justify][/font][/td][/tr][/table]
 
 
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
@@ -939,20 +948,19 @@ Os executivos que não puderem comparecer deverão [b]justificar obrigatoriament
 					return;
 				}
 				
-				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https:
-[table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]CARTA  DE OBSERVAÇÃO[/font][/size][/b][/color][/center][/td][/tr][/table]
+				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
+[table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]REUNIÃO GERAL[/font][/size][/b][/color][/center][/td][/tr][/table]
 
 [table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
 [font=Poppins][center][b][color=#4b8410]Saudações, {USERNAME}![/color][/b][/center]
 
 [justify]Informo-lhe, através desta Mensagem Privada, que a [b]Diretoria do Corpo Executivo[/b] vem convocá-lo para uma [b]reunião geral do Corpo Executivo[/b] no dia [b]${dataReuniao}, ${horarioReuniao} no horário de Brasília[/b]. Sua presença é de suma importância.
 
-Vale ressaltar que a presença de [b]todos os portadores da Especialização Intermediária e Especialização Avançada é obrigatória[/b] na data mencionada nesta Mensagem Privada, estando sujeitos ao recebimento de uma [b]advertência escrita[/b] por [b]Abandono de Dever/Negligência[/b] caso não compareçam. Aqueles que, por algum motivo, não puderem comparecer, [b]devem justificar[/b] sua ausência no [b]formulário[/b] presente no tópico [url=https:
+Vale ressaltar que a presença de [b]todos os portadores da Especialização Intermediária e Especialização Avançada é obrigatória[/b] na data mencionada nesta Mensagem Privada, estando sujeitos ao recebimento de uma [b]advertência escrita[/b] por [b]Abandono de Dever/Negligência[/b] caso não compareçam. Aqueles que, por algum motivo, não puderem comparecer, [b]devem justificar[/b] sua ausência no [b]formulário[/b] presente no tópico [url=https://www.policiarcc.com/t30642-rcc-justificativa-de-faltas]oficial de justificativas[/url].[/justify][/font][/td][/tr][/table]
 
 
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
-[/td][/tr][/table][/td][/tr][/table]
-`;
+[/td][/tr][/table][/td][/tr][/table]`;
 				
 				console.log("=== BBCode de Reunião Geral ===");
 				console.log("Título: [DIR] Reunião Geral");
