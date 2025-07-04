@@ -1,4 +1,5 @@
-			function debounce(func, wait) {
+console.log("V1.0");
+function debounce(func, wait) {
 				let timeout;
 				return function executedFunction(...args) {
 					const context = this;
