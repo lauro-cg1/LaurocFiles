@@ -1,4 +1,5 @@
-			$(document).ready(function() {
+console.log("V1.0");
+$(document).ready(function() {
 				$('.dropdown-btn').click(function(e) {
 					e.stopPropagation();
 					$('.dropdown-content').toggleClass('show');
