@@ -1,4 +1,4 @@
-          console.log("V1.12");
+          console.log("V1.02");
   let selectedNotificationType = null;
 
         document.querySelectorAll('.menu-item').forEach(item => {
