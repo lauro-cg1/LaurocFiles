@@ -1,4 +1,4 @@
-     console.log("V1.1");
+          console.log("V1.12");
   let selectedNotificationType = null;
 
         document.querySelectorAll('.menu-item').forEach(item => {
@@ -775,7 +775,7 @@
                         <p style="margin-top: 15px;">Deseja enviar uma nova mensagem?</p>
                         <div style="margin-top: 20px;">
                             <button onclick="this.closest('.multiple-results-modal').remove(); resetForm();" class="modal-btn modal-btn-sim">Sim</button>
-                            <button onclick="window.location.href = 'https:'; this.closest('.multiple-results-modal').remove();" class="modal-btn modal-btn-nao">Ir para Caixa de Mensagens</button>
+                            <button onclick="window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox'; this.closest('.multiple-results-modal').remove();" class="modal-btn modal-btn-nao">Ir para Caixa de Mensagens</button>
                         </div>
                     </div>
                 </div>
