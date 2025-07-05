@@ -1,4 +1,4 @@
-console.log("V1.01");
+console.log("V1.02");
 function debounce(func, wait) {
 				let timeout;
 				return function executedFunction(...args) {
@@ -244,7 +244,7 @@ function debounce(func, wait) {
 				.then(() => {
 					const tipoSelect = form.querySelector('#tipo_caso');
 					if (tipoSelect && tipoSelect.value === 'Fechamento de Infração') {
-						return fetch('https://script.google.com/macros/s/AKfycbxljV5nIGQov9Z1ICs2X8Z7CdpEdp0Jkh6risQAjnj-6MLVTBZ8vFrDJzV75kx876au/exec', {
+						return fetch('https://script.google.com/macros/s/AKfycbw8hRJtJGpx2T40sYPAGQDTC-ECdQLzQy8Y1K_kcaVLc3jwqW0t-a7QyvRfSGvBZEvG/exec', {
 							method: 'GET',
 							mode: 'no-cors'
 						})
