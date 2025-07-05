@@ -1,5 +1,5 @@
-console.log("V1.1");
-			function debounce(func, wait) {
+console.log("V1.02");
+function debounce(func, wait) {
 				let timeout;
 				return function executedFunction(...args) {
 					const context = this;
@@ -245,12 +245,13 @@ console.log("V1.1");
 					const tipoSelect = form.querySelector('#tipo_caso');
 					if (tipoSelect && tipoSelect.value === 'Fechamento de Infração') {
 						return fetch('https://script.google.com/macros/s/AKfycbxljV5nIGQov9Z1ICs2X8Z7CdpEdp0Jkh6risQAjnj-6MLVTBZ8vFrDJzV75kx876au/exec', {
-							method: 'POST',
-							body: formData
+							method: 'GET'
 						})
 						.then(response => {
 							if (!response.ok) {
 								console.warn('Warning: Additional script execution failed:', response.status);
+							} else {
+								console.log('Additional script executed successfully for Fechamento de Infração');
 							}
 							return response;
 						})
