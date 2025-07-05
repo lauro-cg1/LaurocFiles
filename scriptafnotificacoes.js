@@ -1,4 +1,4 @@
-  console.log("V1.0");
+     console.log("V1.1");
   let selectedNotificationType = null;
 
         document.querySelectorAll('.menu-item').forEach(item => {
@@ -638,13 +638,11 @@
                     successModal.innerHTML = `
                         <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
                             <div style="background-color: #1a3d2e; color: white; padding: 30px 40px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid #4ade80;">
-                                <h3 style="color: #4ade80; margin-bottom: 15px;">✅ Sucesso!</h3>
-                                <p>Mensagem Privada enviada para <strong>${user}</strong>.</p>
-                                <p style="font-size: 12px; color: #ccc; margin-top: 10px;">Enviada em: ${new Date().toLocaleString()}</p>
-                                <p style="margin-top: 15px;">Deseja enviar outra mensagem?</p>
+                                <h3 style="color: #4ade80; margin-bottom: 15px;">✅ Enviado com sucesso!</h3>
+                                <p style="margin-top: 15px;">Deseja enviar uma nova mensagem?</p>
                                 <div style="margin-top: 20px;">
                                     <button onclick="this.closest('.success-modal-container').remove(); resetForm();" class="modal-btn modal-btn-sim">Sim</button>
-                                    <button onclick="window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox'; this.closest('.success-modal-container').remove();" class="modal-btn modal-btn-nao">Não</button>
+                                    <button onclick="window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox'; this.closest('.success-modal-container').remove();" class="modal-btn modal-btn-nao">Ir para Caixa de Mensagens</button>
                                 </div>
                             </div>
                         </div>
@@ -769,44 +767,19 @@
         }
 
         function showMultipleResults(results, successCount, errorCount) {
-            const totalCount = results.length;
-            
-            let resultHtml = `
-                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; overflow-y: auto;">
-                    <div style="background-color: #1a3d2e; color: white; padding: 30px 40px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid #4ade80; max-width: 600px; max-height: 80vh; overflow-y: auto;">
-                        <h3 style="color: #4ade80; margin-bottom: 20px;">📊 Resultado do Envio</h3>
-                        
-                        <div style="background-color: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                            <p style="margin: 5px 0;"><strong>Total de usuários:</strong> ${totalCount}</p>
-                            <p style="margin: 5px 0; color: #4ade80;"><strong>✅ Enviados com sucesso:</strong> ${successCount}</p>
-                            <p style="margin: 5px 0; color: #ff7675;"><strong>❌ Falhas:</strong> ${errorCount}</p>
-                        </div>
-                        
-                        <div style="text-align: left; max-height: 200px; overflow-y: auto; margin-bottom: 20px;">
-                            <h4 style="color: #4ade80; margin-bottom: 10px;">Detalhes:</h4>
-            `;
-
-            results.forEach(result => {
-                if (result.success) {
-                    resultHtml += `<p style="margin: 3px 0; color: #4ade80;">✅ ${result.user}</p>`;
-                } else {
-                    resultHtml += `<p style="margin: 3px 0; color: #ff7675;">❌ ${result.user}</p>`;
-                }
-            });
-
-            resultHtml += `
-                        </div>
-                        
+            const modal = document.createElement('div');
+            modal.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+                    <div style="background-color: #1a3d2e; color: white; padding: 30px 40px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid #4ade80;">
+                        <h3 style="color: #4ade80; margin-bottom: 15px;">✅ Enviado com sucesso!</h3>
+                        <p style="margin-top: 15px;">Deseja enviar uma nova mensagem?</p>
                         <div style="margin-top: 20px;">
-                            <button onclick="this.closest('.multiple-results-modal').remove(); resetForm();" class="modal-btn modal-btn-sim">Enviar Outras Mensagens</button>
-                            <button onclick="window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox'; this.closest('.multiple-results-modal').remove();" class="modal-btn modal-btn-nao">Ver Caixa de Saída</button>
+                            <button onclick="this.closest('.multiple-results-modal').remove(); resetForm();" class="modal-btn modal-btn-sim">Sim</button>
+                            <button onclick="window.location.href = 'https:'; this.closest('.multiple-results-modal').remove();" class="modal-btn modal-btn-nao">Ir para Caixa de Mensagens</button>
                         </div>
                     </div>
                 </div>
             `;
-
-            const modal = document.createElement('div');
-            modal.innerHTML = resultHtml;
             modal.firstElementChild.classList.add('multiple-results-modal');
             document.body.appendChild(modal);
         }
