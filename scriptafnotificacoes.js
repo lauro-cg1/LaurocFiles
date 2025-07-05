@@ -1,4 +1,4 @@
-          console.log("V1.02");
+   console.log("V1.03");
   let selectedNotificationType = null;
 
         document.querySelectorAll('.menu-item').forEach(item => {
@@ -231,7 +231,7 @@
 
 
         function getNotificationData(type, userName = '', motivo = '', provas = '') {
-            switch (type) {
+           switch (type) {
                 case 'advertencia_verbal':
                     return {
                         title: '(AF) Advertência Verbal',
@@ -307,151 +307,202 @@
                 case 'promocao_supervisor_secretario_dc':
                     return {
                         title: '(AF) Você foi promovido(a)!',
-                        message: `[table style="border: none!important; overflow: hidden; border-radius: 15px; width: auto; padding: 0; margin: 0 auto; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); text-align: center;" bgcolor="#D9A404"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.8em; margin: 0 auto;" bgcolor="#010D05"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 14px"][img]https://i.imgur.com/dw33NA3.png[/img]
-						
-						[font=Poppins][table style="border: none!important; border-radius: 40px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); overflow: hidden; width: 40%; margin: -2% auto; top: 1.8em; position: relative; z-index: 10; justify-content: center;" bgcolor="094e21"][tr style="border: none !important;"][td style="border: none!important;"][center][color=#ffffff][b][size=18][AF] Carta de Promoção[/size][/b][/color][/center][/td][/tr][/table]
-						
-						[table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; position: relative; z-index: 1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.6em; margin: 0 auto;" bgcolor="094e21"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 1em; margin: 0 auto;" bgcolor="ffffff"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; line-height: 1.5em; margin: 0 auto;" bgcolor="f2f2f2"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 10px"]
-						[center][b]Saudações, auditor![/b][/center]
-						
-						[justify]A [b]Auditoria Fiscal[/b] vem, por meio desta Mensagem Privada, parabenizá-lo pela sua [b]promoção[/b] no Departamento de Contabilidade da subcompanhia! Para ficar a par dos seus novos afazeres, leia a carta de promoção na sua totalidade.
-						
-						Enquanto [b]Secretário do Departamento de Contabilidade[/b], você poderá fazer parte da secretaria de administração ou da secretaria de assuntos técnicos, em que deverá cumprir com as funções de cada uma, assim como abaixo: 
-						
-						[quote][size=13][b]Secretário de Administração do Departamento de Contabilidade:[/b]
-						
-						[b]•[/b] Fiscalizar o subfórum do Departamento de Contabilidade e seu respectivo grupo, em até 24 horas após a saída de membros do departamento;
-						[b]•[/b] Realizar a postagem das medalhas do departamento até o dia 06 de cada mês;
-						[b]•[/b] Realizar os devidos backups de escalas e registros de funções em até 24 horas antes da mudança da escala;
-						[b]•[/b] Acompanhar e corrigir os registros de funções dos Auditores Trainees, Auditores e Agentes Supervisores;
-						[b]•[/b] Emitir o Relatório de Vendas de cargos, em até 48 horas após o encerramento do mês;
-						[b]•[/b] Promover melhorias na organização e na administração do grupo;
-						[b]•[/b] Participar das decisões de promoções no departamento;
-						[b]•[/b] Organizar o pagamento mensal bimestralmente.[/size][/quote]
-						[quote][size=13][b]Secretário de Assuntos Técnicos do Departamento de Contabilidade:[/b]
-						
-						[b]•[/b] Criação das escalas de medalhas todo dia 07 de cada mês;
-						[b]•[/b] Alterar permissões nas planilhas de controle de gratificações;
-						[b]•[/b] Criação da escala de pagamento até o dia 02 de cada mês;
-						[b]•[/b] Criação do quadro de pagamentos até o dia 07 de cada mês;
-						[b]•[/b] Emitir o relatório do pagamento mensal, em até 48 horas após o pagamento;
-						[b]•[/b] Acompanhar e coordenar os Agentes Supervisores e suas atividades;
-						[b]•[/b] Promover melhorias no cumprimento de funções do departamento;
-						[b]•[/b] Participar das decisões de promoções no departamento;
-						[b]•[/b] Organizar o pagamento mensal bimestralmente.[/size][/quote]
-						Caso não cumpra com suas metas/funções, o agente supervisor estará sujeito a alguma [b]punições[/b], sendo elas:
-						
-						[quote][size=13][b]Advertência escrita interna:[/b] São utilizadas como forma de punição em infrações moderadas, a cada 3 advertências internas, estará sujeito a um rebaixamento.
-						[b]Rebaixamento:[/b] São utilizadas como forma de punição em infrações graves.
-						
-						[b]Obs:[/b] As advertências internas possuem o prazo de 30 dias. Você pode as consultar no quadro de advertências, juntamente das regras que você deverá seguir para que não seja punido.[/size][/quote]
-						Por fim, não se esqueça de atualizar as suas tarefas no RCCSystem, no período de até 48 horas após o envio desta Mensagem Privada. A sua nova sigla é [b][S.AF][/b].
-						
-						Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com a [b]diretoria[/b] da [b]Auditoria Fiscal (benjlfbaby, Annehatfield1 e Slintow)[/b].[/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
-						
-						[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
+                        message: `
+[table style="border: none!important; overflow: hidden; border-radius: 15px; width: auto; padding: 0; margin: 0 auto; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); text-align: center;" bgcolor="#D9A404"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.8em; margin: 0 auto;" bgcolor="#010D05"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 14px"][img]https://i.imgur.com/dw33NA3.png[/img]
+
+[font=Poppins][table style="border: none!important; border-radius: 40px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); overflow: hidden; width: 40%; margin: -2% auto; top: 1.8em; position: relative; z-index: 10; justify-content: center;" bgcolor="094e21"][tr style="border: none !important;"][td style="border: none!important;"][center][color=#ffffff][b][size=18][AF] Carta de Promoção[/size][/b][/color][/center][/td][/tr][/table]
+
+[table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; position: relative; z-index: 1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.6em; margin: 0 auto;" bgcolor="094e21"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 1em; margin: 0 auto;" bgcolor="ffffff"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; line-height: 1.5em; margin: 0 auto;" bgcolor="f2f2f2"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 10px"]
+[center][b]Saudações, auditor![/b][/center]
+
+[justify]A [b]Auditoria Fiscal[/b] vem, por meio desta Mensagem Privada, parabenizá-lo pela sua [b]promoção[/b] no Departamento de Contabilidade da subcompanhia! Para ficar a par dos seus novos afazeres, leia a carta de promoção na sua totalidade.
+
+Enquanto [b]Secretário do Departamento de Contabilidade[/b], você poderá fazer parte da secretaria de administração ou da secretaria de assuntos técnicos, em que deverá cumprir com as funções de cada uma, assim como abaixo: 
+
+[quote][size=13][b]Secretário de Administração do Departamento de Contabilidade:[/b]
+
+[b]•[/b] Fiscalizar o subfórum do Departamento de Contabilidade e seu respectivo grupo, em até 24 horas após a saída de membros do departamento;
+[b]•[/b] Realizar a postagem das medalhas do departamento até o dia 06 de cada mês;
+[b]•[/b] Realizar os devidos backups de escalas e registros de funções em até 24 horas antes da mudança da escala;
+[b]•[/b] Acompanhar e corrigir os registros de funções dos Auditores Trainees, Auditores e Agentes Supervisores;
+[b]•[/b] Emitir o Relatório de Vendas de cargos, em até 48 horas após o encerramento do mês;
+[b]•[/b] Promover melhorias na organização e na administração do grupo;
+[b]•[/b] Participar das decisões de promoções no departamento;
+[b]•[/b] Organizar o pagamento mensal bimestralmente.[/size][/quote]
+[quote][size=13][b]Secretário de Assuntos Técnicos do Departamento de Contabilidade:[/b]
+
+[b]•[/b] Criação das escalas de medalhas todo dia 07 de cada mês;
+[b]•[/b] Alterar permissões nas planilhas de controle de gratificações;
+[b]•[/b] Criação da escala de pagamento até o dia 02 de cada mês;
+[b]•[/b] Criação do quadro de pagamentos até o dia 07 de cada mês;
+[b]•[/b] Emitir o relatório do pagamento mensal, em até 48 horas após o pagamento;
+[b]•[/b] Acompanhar e coordenar os Agentes Supervisores e suas atividades;
+[b]•[/b] Promover melhorias no cumprimento de funções do departamento;
+[b]•[/b] Participar das decisões de promoções no departamento;
+[b]•[/b] Organizar o pagamento mensal bimestralmente.[/size][/quote]
+Caso não cumpra com suas metas/funções, o Secretário estará sujeito a alguma [b]punições[/b], sendo elas:
+
+[quote][size=13][b]Advertência escrita interna:[/b] São utilizadas como forma de punição em infrações moderadas, a cada 3 advertências internas, estará sujeito a um rebaixamento.
+[b]Rebaixamento:[/b] São utilizadas como forma de punição em infrações graves.
+
+[b]Obs:[/b] As advertências internas possuem o prazo de 30 dias. Você pode as consultar no quadro de advertências, juntamente das regras que você deverá seguir para que não seja punido.[/size][/quote]
+Por fim, não se esqueça de atualizar as suas tarefas no RCCSystem, no período de até 48 horas após o envio desta Mensagem Privada. A sua nova sigla é [b][S.AF][/b].
+
+Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com a [b]diretoria[/b] da [b]Auditoria Fiscal (benjlfbaby, Annehatfield1 e Slintow)[/b].[/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
+
+[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
                     };
 
                 case 'promocao_auditor_supervisor_dc':
                     return {
                         title: '(AF) Você foi promovido(a)!',
                         message: `[table style="border: none!important; overflow: hidden; border-radius: 15px; width: auto; padding: 0; margin: 0 auto; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); text-align: center;" bgcolor="#D9A404"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.8em; margin: 0 auto;" bgcolor="#010D05"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 14px"][img]https://i.imgur.com/dw33NA3.png[/img]
-						
-						[font=Poppins][table style="border: none!important; border-radius: 40px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); overflow: hidden; width: 40%; margin: -2% auto; top: 1.8em; position: relative; z-index: 10; justify-content: center;" bgcolor="094e21"][tr style="border: none !important;"][td style="border: none!important;"][center][color=#ffffff][b][size=18][AF] Carta de Promoção[/size][/b][/color][/center][/td][/tr][/table]
-						
-						[table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; position: relative; z-index: 1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.6em; margin: 0 auto;" bgcolor="094e21"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 1em; margin: 0 auto;" bgcolor="ffffff"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; line-height: 1.5em; margin: 0 auto;" bgcolor="f2f2f2"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 10px"]
-						[center][b]Saudações, auditor![/b][/center]
-						
-						[justify]A [b]Auditoria Fiscal[/b] vem, por meio desta Mensagem Privada, parabenizá-lo pela sua [b]promoção[/b] no Departamento de Contabilidade da subcompanhia! Para ficar a par dos seus novos afazeres, leia a carta de promoção na sua totalidade.
-						
-						Enquanto [b]Agente Supervisor do Departamento de Contabilidade[/b], você poderá fazer parte da secretaria de administração ou da secretaria de assuntos técnicos, em que deverá cumprir com as funções de cada uma, assim como abaixo: 
-						
-						[quote][size=13][b]Secretário de Administração do Departamento de Contabilidade:[/b]
-						
-						[b]•[/b] Fiscalizar o subfórum do Departamento de Contabilidade e seu respectivo grupo, em até 24 horas após a saída de membros do departamento;
-						[b]•[/b] Realizar a postagem das medalhas do departamento até o dia 06 de cada mês;
-						[b]•[/b] Realizar os devidos backups de escalas e registros de funções em até 24 horas antes da mudança da escala;
-						[b]•[/b] Acompanhar e corrigir os registros de funções dos Auditores Trainees, Auditores e Agentes Supervisores;
-						[b]•[/b] Emitir o Relatório de Vendas de cargos, em até 48 horas após o encerramento do mês;
-						[b]•[/b] Promover melhorias na organização e na administração do grupo;
-						[b]•[/b] Participar das decisões de promoções no departamento;
-						[b]•[/b] Organizar o pagamento mensal bimestralmente.[/size][/quote]
-						[quote][size=13][b]Secretário de Assuntos Técnicos do Departamento de Contabilidade:[/b]
-						
-						[b]•[/b] Criação das escalas de medalhas todo dia 07 de cada mês;
-						[b]•[/b] Alterar permissões nas planilhas de controle de gratificações;
-						[b]•[/b] Criação da escala de pagamento até o dia 02 de cada mês;
-						[b]•[/b] Criação do quadro de pagamentos até o dia 07 de cada mês;
-						[b]•[/b] Emitir o relatório do pagamento mensal, em até 48 horas após o pagamento;
-						[b]•[/b] Acompanhar e coordenar os Agentes Supervisores e suas atividades;
-						[b]•[/b] Promover melhorias no cumprimento de funções do departamento;
-						[b]•[/b] Participar das decisões de promoções no departamento;
-						[b]•[/b] Organizar o pagamento mensal bimestralmente.[/size][/quote]
-						Caso não cumpra com suas metas/funções, o agente supervisor estará sujeito a alguma [b]punições[/b], sendo elas:
-						
-						[quote][size=13][b]Advertência escrita interna:[/b] São utilizadas como forma de punição em infrações moderadas, a cada 3 advertências internas, estará sujeito a um rebaixamento.
-						[b]Rebaixamento:[/b] São utilizadas como forma de punição em infrações graves.
-						
-						[b]Obs:[/b] As advertências internas possuem o prazo de 30 dias. Você pode as consultar no quadro de advertências, juntamente das regras que você deverá seguir para que não seja punido.[/size][/quote]
-						Por fim, não se esqueça de atualizar as suas tarefas no RCCSystem, no período de até 48 horas após o envio desta Mensagem Privada. A sua nova sigla é [b][S.AF][/b].
-						
-						Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com a [b]diretoria[/b] da [b]Auditoria Fiscal (benjlfbaby, Annehatfield1 e Slintow)[/b].[/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
-						
-						[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
+
+[font=Poppins][table style="border: none!important; border-radius: 40px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); overflow: hidden; width: 40%; margin: -2% auto; top: 1.8em; position: relative; z-index: 10; justify-content: center;" bgcolor="094e21"][tr style="border: none !important;"][td style="border: none!important;"][center][color=#ffffff][b][size=18][AF] Carta de Promoção[/size][/b][/color][/center][/td][/tr][/table]
+
+[table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; position: relative; z-index: 1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.6em; margin: 0 auto;" bgcolor="094e21"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 1em; margin: 0 auto;" bgcolor="ffffff"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; line-height: 1.5em; margin: 0 auto;" bgcolor="f2f2f2"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 10px"]
+[center][b]Saudações, auditor![/b][/center]
+
+[justify]A [b]Auditoria Fiscal[/b] vem, por meio desta Mensagem Privada, parabenizá-lo pela sua [b]promoção[/b] no Departamento de Contabilidade da subcompanhia! Para ficar a par dos seus novos afazeres, leia a carta de promoção na sua totalidade.
+
+Enquanto [b]Agente Supervisor do Departamento de Contabilidade[/b], é da sua responsabilidade atender as [b]demandas solicitadas[/b] pelo Secretário de Assuntos Técnicos do Departamento de Contabilidade com primor e da forma correta, se atentando aos [b]prazos[/b] e cumprindo-os. Logo, também é seu dever [b]repassar tais demandas[/b] aos auditores/trainees do seu setor, desta forma, supervisionar, orientar, revisar, fiscalizar e direcionar as atividades, além de punir caso seja necessário. É necessário [b]cobrir[/b] algum escalado caso haja um desfalque de função, desta forma, sendo fiel à [b]missão institucional[/b] da subcompanhia, garantindo o sucesso operacional. 
+
+Caso não cumpra com suas metas/funções, o agente supervisor estará sujeito a algumas [b]punições[/b], sendo elas:
+
+[quote][size=13][b]Advertência escrita interna:[/b] São utilizadas como forma de punição em infrações moderadas, a cada 3 advertências internas, estará sujeito a um rebaixamento.
+[b]Rebaixamento:[/b] São utilizadas como forma de punição em infrações graves.
+
+[b]Obs:[/b] As advertências internas possuem o prazo de 30 dias. Você pode as consultar no quadro de advertências, juntamente das regras que você deverá seguir para que não seja punido.[/size][/quote]
+Por fim, não se esqueça de atualizar as suas tarefas no RCCSystem, no período de até 48 horas após o envio desta Mensagem Privada. A sua nova sigla é [b][AS.AF][/b].
+
+Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com o [b]Secretário de Assuntos Técnicos do seu departamento.[/b][/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
+
+[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
+                    };
+
+                case 'promocao_trainee_auditor_dc':
+                    return {
+                        title: '(AF) Você foi promovido(a)!',
+                        message: `[table style="border: none!important; overflow: hidden; border-radius: 15px; width: auto; padding: 0; margin: 0 auto; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); text-align: center;" bgcolor="#D9A404"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.8em; margin: 0 auto;" bgcolor="#010D05"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 14px"][img]https://i.imgur.com/dw33NA3.png[/img]
+
+[font=Poppins][table style="border: none!important; border-radius: 40px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); overflow: hidden; width: 40%; margin: -2% auto; top: 1.8em; position: relative; z-index: 10; justify-content: center;" bgcolor="094e21"][tr style="border: none !important;"][td style="border: none!important;"][center][color=#ffffff][b][size=18][AF] Carta de Promoção[/size][/b][/color][/center][/td][/tr][/table]
+
+[table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; position: relative; z-index: 1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.6em; margin: 0 auto;" bgcolor="094e21"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 1em; margin: 0 auto;" bgcolor="ffffff"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; line-height: 1.5em; margin: 0 auto;" bgcolor="f2f2f2"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 10px"]
+[center][b]Saudações, auditor![/b][/center]
+
+[justify]A [b]Auditoria Fiscal[/b] vem, por meio desta Mensagem Privada, parabenizá-lo pela sua [b]promoção[/b] no Departamento de Contabilidade da subcompanhia! Para ficar a par dos seus novos afazeres, leia a carta de promoção na sua totalidade.
+
+Enquanto [b]Auditor Fiscal do Departamento de Contabilidade[/b], você deverá atualizar os cofres de medalhas de cada companhia, subcompanhia ou órgão, de acordo com a escala, além disso, deverá ajudar na organização dos pagamentos de forma bimestral.
+
+Caso não cumpra com suas metas/funções, o auditor estará sujeito a algumas [b]punições[/b], sendo elas:
+
+[quote][size=13][b]Notificações:[/b] São utilizadas como forma de punição em infrações leves, a cada 3 notificações, estará sujeito a uma advertência escrita interna.
+[b]Advertência escrita interna:[/b] São utilizadas como forma de punição em infrações moderadas e graves, a cada 3 advertências, estará sujeito a um rebaixamento.
+
+[b]Obs:[/b] As notificações e advertências internas possuem o prazo de 30 dias. Você pode as consultar no quadro de notificações ou advertências, dependendo de qual recebeu, lá possuem algumas regras que você deverá seguir para que não seja punido.[/size][/quote]
+Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com um [b]Agente Supervisor do Departamento de Contabilidade.[/b]
+
+Por fim, não se esqueça de atualizar as suas tarefas no RCCSystem, no período de até 48 horas após o envio desta Mensagem Privada. A sua nova sigla é [b][A.AF][/b].[/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
+
+[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
+                    };
+
+                case 'promocao_supervisor_secretario_dp':
+                    return {
+                        title: '(AF) Você foi promovido(a)!',
+                        message: `[table style="border: none!important; overflow: hidden; border-radius: 15px; width: auto; padding: 0; margin: 0 auto; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); text-align: center;" bgcolor="#D9A404"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.8em; margin: 0 auto;" bgcolor="#010D05"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 14px"][img]https://i.imgur.com/dw33NA3.png[/img]
+
+[font=Poppins][table style="border: none!important; border-radius: 40px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); overflow: hidden; width: 40%; margin: -2% auto; top: 1.8em; position: relative; z-index: 10; justify-content: center;" bgcolor="094e21"][tr style="border: none !important;"][td style="border: none!important;"][center][color=#ffffff][b][size=18][AF] Carta de Promoção[/size][/b][/color][/center][/td][/tr][/table]
+
+[table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; position: relative; z-index: 1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.6em; margin: 0 auto;" bgcolor="094e21"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 1em; margin: 0 auto;" bgcolor="ffffff"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; line-height: 1.5em; margin: 0 auto;" bgcolor="f2f2f2"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 10px"]
+[center][b]Saudações, auditor![/b][/center]
+
+[justify]A [b]Auditoria Fiscal[/b] vem, por meio desta Mensagem Privada, parabenizá-lo pela sua [b]promoção[/b] no Departamento de Pesquisa da subcompanhia! Para ficar a par dos seus novos afazeres, leia a carta de promoção na sua totalidade.
+
+Enquanto [b]Secretário do Departamento de Pesquisa[/b], você poderá fazer parte da secretaria de administração ou da secretaria de assuntos técnicos, em que deverá cumprir com as funções de cada uma, assim como abaixo: 
+
+[quote][b]Secretário de Administração do Departamento de Pesquisa:[/b]
+
+[b]•[/b] Fiscalizar o subfórum Departamento de Pesquisa e seu respectivo grupo, em até 24 horas após a saída de membros do departamento;
+[b]•[/b] Realizar a postagem das medalhas do departamento até o dia 02 de cada mês;
+[b]•[/b] Realizar os devidos backups de escalas e registros de funções em até 48 horas após o encerramento do prazo de envio dos relatórios;
+[b]•[/b] Promover melhorias na organização e na administração do departamento;
+[b]•[/b] Auxiliar na publicação de decisões de promoção, rebaixamento, suspensão ou expulsão de membros;
+[b]•[/b] Participar das decisões de promoções no departamento;
+[b]•[/b] Organizar o pagamento mensal bimestralmente.[/quote]
+[quote][b]Secretário de Assuntos Técnicos do Departamento de Pesquisa:[/b]
+
+[b]•[/b] Criação das escalas de pesquisas até 48h antes de seu início;
+[b]•[/b] Garantir a permanência das equipes nos grupos corretos do WhatsApp para maior comunicação;
+[b]•[/b] Acompanhar e coordenar os Agentes Supervisores e suas atividades;
+[b]•[/b] Promover melhorias nas operações do departamento;
+[b]•[/b] Participar das decisões de promoções no departamento;
+[b]•[/b] Organizar o pagamento mensal bimestralmente.[/quote]
+Caso não cumpra com suas metas/funções, o Secretário estará sujeito a algumas [b]punições[/b], sendo elas:
+
+[quote][size=13][b]Advertência escrita interna:[/b] São utilizadas como forma de punição em infrações moderadas, a cada 3 advertências internas, estará sujeito a um rebaixamento.
+[b]Rebaixamento:[/b] São utilizadas como forma de punição em infrações graves.
+
+[b]Obs:[/b] As advertências internas possuem o prazo de 30 dias. Você pode as consultar no quadro de advertências, juntamente das regras que você deverá seguir para que não seja punido.[/size][/quote]
+Por fim, não se esqueça de atualizar as suas tarefas no RCCSystem, no período de até 48 horas após o envio desta Mensagem Privada. A sua nova sigla é [b][S.AF][/b].
+
+Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com a [b]diretoria[/b] da [b]Auditoria Fiscal (benjlfbaby, Annehatfield1 e Slintow)[/b].[/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
+
+[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
                     };
 
                 case 'promocao_auditor_supervisor_dp':
                     return {
                         title: '(AF) Você foi promovido(a)!',
                         message: `[table style="border: none!important; overflow: hidden; border-radius: 15px; width: auto; padding: 0; margin: 0 auto; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); text-align: center;" bgcolor="#D9A404"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.8em; margin: 0 auto;" bgcolor="#010D05"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 14px"][img]https://i.imgur.com/dw33NA3.png[/img]
-						
-						[font=Poppins][table style="border: none!important; border-radius: 40px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); overflow: hidden; width: 40%; margin: -2% auto; top: 1.8em; position: relative; z-index: 10; justify-content: center;" bgcolor="094e21"][tr style="border: none !important;"][td style="border: none!important;"][center][color=#ffffff][b][size=18][AF] Carta de Promoção[/size][/b][/color][/center][/td][/tr][/table]
-						
-						[table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; position: relative; z-index: 1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.6em; margin: 0 auto;" bgcolor="094e21"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 1em; margin: 0 auto;" bgcolor="ffffff"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; line-height: 1.5em; margin: 0 auto;" bgcolor="f2f2f2"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 10px"]
-						[center][b]Saudações, auditor![/b][/center]
-						
-						[justify]A [b]Auditoria Fiscal[/b] vem, por meio desta Mensagem Privada, parabenizá-lo pela sua [b]promoção[/b] no Departamento de Pesquisa da subcompanhia! Para ficar a par dos seus novos afazeres, leia a carta de promoção na sua totalidade.
-						
-						Enquanto [b]Agente Supervisor do Departamento de Pesquisa[/b], é da sua responsabilidade atender as [b]demandas solicitadas[/b] pelo Secretário de Assuntos Técnicos do Departamento de Pesquisa com primor e da forma correta, se atentando aos [b]prazos[/b] e cumprindo-os. Logo, também é seu dever [b]repassar tais demandas[/b] aos auditores/trainees do seu setor, desta forma, supervisionar, orientar, revisar, fiscalizar e direcionar as atividades, além de punir caso seja necessário. É necessário [b]cobrir[/b] algum escalado caso haja um desfalque de função, desta forma, sendo fiel à [b]missão institucional[/b] da subcompanhia, garantindo o sucesso operacional.
-						
-						Caso não cumpra com suas metas/funções, o agente supervisor estará sujeito a algumas [b]punições[/b], sendo elas:
-						
-						[quote][size=13][b]Advertência escrita interna:[/b] São utilizadas como forma de punição em infrações moderadas, a cada 3 advertências internas, estará sujeito a um rebaixamento.
-						[b]Rebaixamento:[/b] São utilizadas como forma de punição em infrações graves.
-						
-						[b]Obs:[/b] As advertências internas possuem o prazo de 30 dias. Você pode as consultar no quadro de advertências, juntamente das regras que você deverá seguir para que não seja punido.[/size][/quote]
-						Por fim, não se esqueça de atualizar as suas tarefas no RCCSystem, no período de até 48 horas após o envio desta Mensagem Privada. A sua nova sigla é [b][AS.AF][/b].
-						
-						Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com o [b]Secretário de Assuntos Técnicos do seu departamento.[/b][/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
-						
-						[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
+
+[font=Poppins][table style="border: none!important; border-radius: 40px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); overflow: hidden; width: 40%; margin: -2% auto; top: 1.8em; position: relative; z-index: 10; justify-content: center;" bgcolor="094e21"][tr style="border: none !important;"][td style="border: none!important;"][center][color=#ffffff][b][size=18][AF] Carta de Promoção[/size][/b][/color][/center][/td][/tr][/table]
+
+[table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; position: relative; z-index: 1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.6em; margin: 0 auto;" bgcolor="094e21"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 1em; margin: 0 auto;" bgcolor="ffffff"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; line-height: 1.5em; margin: 0 auto;" bgcolor="f2f2f2"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 10px"]
+[center][b]Saudações, auditor![/b][/center]
+
+[justify]A [b]Auditoria Fiscal[/b] vem, por meio desta Mensagem Privada, parabenizá-lo pela sua [b]promoção[/b] no Departamento de Pesquisa da subcompanhia! Para ficar a par dos seus novos afazeres, leia a carta de promoção na sua totalidade.
+
+Enquanto [b]Agente Supervisor do Departamento de Pesquisa[/b], é da sua responsabilidade atender as [b]demandas solicitadas[/b] pelo Secretário de Assuntos Técnicos do Departamento de Pesquisa com primor e da forma correta, se atentando aos [b]prazos[/b] e cumprindo-os. Logo, também é seu dever [b]repassar tais demandas[/b] aos auditores/trainees do seu setor, desta forma, supervisionar, orientar, revisar, fiscalizar e direcionar as atividades, além de punir caso seja necessário. É necessário [b]cobrir[/b] algum escalado caso haja um desfalque de função, desta forma, sendo fiel à [b]missão institucional[/b] da subcompanhia, garantindo o sucesso operacional.
+
+Caso não cumpra com suas metas/funções, o agente supervisor estará sujeito a algumas [b]punições[/b], sendo elas:
+
+[quote][size=13][b]Advertência escrita interna:[/b] São utilizadas como forma de punição em infrações moderadas, a cada 3 advertências internas, estará sujeito a um rebaixamento.
+[b]Rebaixamento:[/b] São utilizadas como forma de punição em infrações graves.
+
+[b]Obs:[/b] As advertências internas possuem o prazo de 30 dias. Você pode as consultar no quadro de advertências, juntamente das regras que você deverá seguir para que não seja punido.[/size][/quote]
+Por fim, não se esqueça de atualizar as suas tarefas no RCCSystem, no período de até 48 horas após o envio desta Mensagem Privada. A sua nova sigla é [b][AS.AF][/b].
+
+Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com o [b]Secretário de Assuntos Técnicos do seu departamento.[/b][/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
+
+[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
                     };
 
                 case 'promocao_trainee_auditor_dp':
                     return {
                         title: '(AF) Você foi promovido(a)!',
                         message: `[table style="border: none!important; overflow: hidden; border-radius: 15px; width: auto; padding: 0; margin: 0 auto; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); text-align: center;" bgcolor="#D9A404"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.8em; margin: 0 auto;" bgcolor="#010D05"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 14px"][img]https://i.imgur.com/dw33NA3.png[/img]
-						
-						[font=Poppins][table style="border: none!important; border-radius: 40px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); overflow: hidden; width: 40%; margin: -2% auto; top: 1.8em; position: relative; z-index: 10; justify-content: center;" bgcolor="094e21"][tr style="border: none !important;"][td style="border: none!important;"][center][color=#ffffff][b][size=18][AF] Carta de Promoção[/size][/b][/color][/center][/td][/tr][/table]
-						
-						[table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; position: relative; z-index: 1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.6em; margin: 0 auto;" bgcolor="094e21"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 1em; margin: 0 auto;" bgcolor="ffffff"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; line-height: 1.5em; margin: 0 auto;" bgcolor="f2f2f2"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 10px"]
-						[center][b]Saudações, auditor![/b][/center]
-						
-						[justify]A [b]Auditoria Fiscal[/b] vem, por meio desta Mensagem Privada, parabenizá-lo pela sua [b]promoção[/b] no Departamento de Pesquisa da subcompanhia! Para ficar a par dos seus novos afazeres, leia a carta de promoção na sua totalidade.
-						
-						Enquanto [b]Auditor Fiscal do Departamento de Pesquisa[/b], é da sua responsabilidade a elaboração de textos e trabalhos propostos pelos Agentes Supervisores do seu setor, respeitando os prazos estabelecidos e seguindo de forma constante e consciente a missão institucional garantindo, dessa forma, o sucesso de cada operação realizada pelo setor.
-						
-						Caso não cumpra com suas metas/funções, o auditor estará sujeito a algumas [b]punições[/b], sendo elas:
-						
-						[quote][size=13][b]Notificações:[/b] São utilizadas como forma de punição em infrações leves, a cada 3 notificações, estará sujeito a uma advertência escrita interna.
-						[b]Advertência escrita interna:[/b] São utilizadas como forma de punição em infrações moderadas e graves, a cada 3 advertências, estará sujeito a um rebaixamento.
-						
-						[b]Obs:[/b] As notificações e advertências internas possuem o prazo de 30 dias. Você pode as consultar no quadro de notificações ou advertências, dependendo de qual recebeu, lá possuem algumas regras que você deverá seguir para que não seja punido.[/size][/quote]
-						Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com um [b]Agente Supervisor do Departamento de Contabilidade.[/b]
-						
-						Por fim, não se esqueça de atualizar as suas tarefas no RCCSystem, no período de até 48 horas após o envio desta Mensagem Privada. A sua nova sigla é [b][A.AF][/b].[/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
-						
-						[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
+
+[font=Poppins][table style="border: none!important; border-radius: 40px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); overflow: hidden; width: 40%; margin: -2% auto; top: 1.8em; position: relative; z-index: 10; justify-content: center;" bgcolor="094e21"][tr style="border: none !important;"][td style="border: none!important;"][center][color=#ffffff][b][size=18][AF] Carta de Promoção[/size][/b][/color][/center][/td][/tr][/table]
+
+[table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; position: relative; z-index: 1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.6em; margin: 0 auto;" bgcolor="094e21"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 1em; margin: 0 auto;" bgcolor="ffffff"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; line-height: 1.5em; margin: 0 auto;" bgcolor="f2f2f2"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 10px"]
+[center][b]Saudações, auditor![/b][/center]
+
+[justify]A [b]Auditoria Fiscal[/b] vem, por meio desta Mensagem Privada, parabenizá-lo pela sua [b]promoção[/b] no Departamento de Pesquisa da subcompanhia! Para ficar a par dos seus novos afazeres, leia a carta de promoção na sua totalidade.
+
+Enquanto [b]Auditor Fiscal do Departamento de Pesquisa[/b], é da sua responsabilidade a elaboração de textos e trabalhos propostos pelos Agentes Supervisores do seu setor, respeitando os prazos estabelecidos e seguindo de forma constante e consciente a missão institucional garantindo, dessa forma, o sucesso de cada operação realizada pelo setor.
+
+Caso não cumpra com suas metas/funções, o auditor estará sujeito a algumas [b]punições[/b], sendo elas:
+
+[quote][size=13][b]Notificações:[/b] São utilizadas como forma de punição em infrações leves, a cada 3 notificações, estará sujeito a uma advertência escrita interna.
+[b]Advertência escrita interna:[/b] São utilizadas como forma de punição em infrações moderadas e graves, a cada 3 advertências, estará sujeito a um rebaixamento.
+
+[b]Obs:[/b] As notificações e advertências internas possuem o prazo de 30 dias. Você pode as consultar no quadro de notificações ou advertências, dependendo de qual recebeu, lá possuem algumas regras que você deverá seguir para que não seja punido.[/size][/quote]
+Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com o [b]Agente Supervisor do seu setor.[/b]
+
+Por fim, não se esqueça de atualizar as suas tarefas no RCCSystem, no período de até 48 horas após o envio desta Mensagem Privada. A sua nova sigla é [b][A.AF][/b].[/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
+
+[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
                     };
 
                 case 'reintegracao_dc':
@@ -477,7 +528,7 @@
 						
 						[b]Agentes supervisores:[/b] Daemon / Aloscon / Vilete / Draward / s0viet-chief / bebpaulore
 						
-						Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com o [b]Agente Supervisor do seu setor.[/b][/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
+						Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com o [b]Agente Supervisor do seu setor.[/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
 						
 						[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
                     };
@@ -536,10 +587,44 @@
 						[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
                     };
 
-                case 'entrada_dc':
+                case 'entrada_dp':
                     return {
                         title: '(AF) Carta de Boas Vindas',
                         message: `[table style="border: none!important; overflow: hidden; border-radius: 15px; width: auto; padding: 0; margin: 0 auto; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); text-align: center;" bgcolor="#D9A404"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.8em; margin: 0 auto;" bgcolor="#010D05"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 14px"][img]https://i.imgur.com/dw33NA3.png[/img]
+						
+						[font=Poppins][table style="border: none!important; border-radius: 40px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); overflow: hidden; width: 40%; margin: -2% auto; top: 1.8em; position: relative; z-index: 10; justify-content: center;" bgcolor="094e21"][tr style="border: none !important;"][td style="border: none!important;"][center][color=#ffffff][b][size=18][AF] Carta de Orientação[/size][/b][/color][/center][/td][/tr][/table]
+						
+						[table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; position: relative; z-index: 1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.6em; margin: 0 auto;" bgcolor="094e21"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 1em; margin: 0 auto;" bgcolor="ffffff"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; line-height: 1.5em; margin: 0 auto;" bgcolor="f2f2f2"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 10px"]
+						[center][b]Saudações, auditor![/b][/center]
+						
+						[justify]Inicialmente, a Auditoria Fiscal lhe parabeniza pela aprovação no processo seletivo, você começará no cargo de [b]Auditor Trainee![/b] 
+						Portanto, atualize suas tarefas com: [b](Tr.AF)[/b]. Você ingressou no [b]Departamento de Pesquisa[/b], leia esta carta para entender melhor sobre o funcionamento do departamento, importância, funções e prazos no cargo inicial.
+						
+						O [b]Departamento de Pesquisa[/b] é responsável pela retratação da instituição com informações necessárias e essenciais ao conhecimento de sua realidade por meio da produção, análise e pesquisa de natureza estatística com o objetivo de buscar soluções e inovações nos grupos de tarefas, possuindo funções fixas, sendo:
+						
+						[b]I -[/b] realização da Auditoria de Confiança, Censo Demográfico e Balanço das Companhias;
+						[b]II -[/b] realização de auditorias expositivas a respeito dos grupos de tarefas;
+						[b]III -[/b] realização de auditorias especiais e extraordinárias;
+						[b]IV -[/b] auxílio na realização do pagamento mensal.
+						
+						Ele é dividido em quatro setores, sendo eles: [b]inteligência de dados, marketing, redação e design,[/b] que ficarão responsáveis pelas funções fixas de forma mais específica e organizada entre estes.
+						
+						[quote][size=13]O setor de [b]inteligência de dados[/b] é responsável pela criação de planilhas, análise de elegibilidade, codificação, coleta e criação de gráficos. - [b]Agente Supervisor:[/b] Gkwr
+						O setor de [b]marketing[/b] é responsável pela divulgação e marketing dos resultados relacionados à Auditoria Fiscal e pela criação de tópicos e envio de mensagens privadas. - [b]Agente Supervisor:[/b] Cole
+						O setor de [b]redação[/b] é responsável pela produção e manutenção de textos relacionados às auditorias e relatórios da subcompanhia. - [b]Agente Supervisor:[/b] !weniyori?
+						O setor de [b]design[/b] é responsável pelo desenvolvimento de interfaces e aprimoração da experiência dos policiais no uso das ferramentas da Auditoria Fiscal. - [b]Agente Supervisor:[/b] Zeyn[/size][/quote]
+						O [b]prazo[/b] de cumprimento das funções de um auditor trainee são previstas em escalas determinadas pela secretária e garantidas pelo agente supervisor de cada setor.
+						
+						Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com o [b]Agente Supervisor do seu setor.[/b][/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
+						
+						[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
+                    };
+
+                case 'entrada_dc':
+                    return {
+                        title: '(AF) Carta de Boas Vindas',
+                        message: `
+						[table style="border: none!important; overflow: hidden; border-radius: 15px; width: auto; padding: 0; margin: 0 auto; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); text-align: center;" bgcolor="#D9A404"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 7px"][table style="width: 100%; border-radius: 15px; border: none!important; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); line-height: 0.8em; margin: 0 auto;" bgcolor="#010D05"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden; padding: 14px"][img]https://i.imgur.com/dw33NA3.png[/img]
 						
 						[font=Poppins][table style="border: none!important; border-radius: 40px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); overflow: hidden; width: 40%; margin: -2% auto; top: 1.8em; position: relative; z-index: 10; justify-content: center;" bgcolor="094e21"][tr style="border: none !important;"][td style="border: none!important;"][center][color=#ffffff][b][size=18][AF] Carta de Orientação[/size][/b][/color][/center][/td][/tr][/table]
 						
@@ -559,7 +644,7 @@
 						
 						[b]Agentes supervisores:[/b] Daemon / Aloscon / Vilete / Draward / s0viet-chief / bebpaulore
 						
-						Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com o [b]Agente Supervisor do seu setor.[/b][/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
+						Em caso de dúvidas, consulte o [b]regimento interno da subcompanhia[/b] ou entre em contato com o [b]Agente Supervisor do seu setor.[/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
 						
 						[size=11][color=white]Todos os direitos reservados à [b]Auditoria Fiscal[/b] [size=15]℠[/size].[/color][/size][/td][/tr][/table][/td][/tr][/table][/font]`
                     };
