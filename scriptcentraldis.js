@@ -1,5 +1,5 @@
-console.log("V1.0");
-function debounce(func, wait) {
+console.log("V1.1");
+			function debounce(func, wait) {
 				let timeout;
 				return function executedFunction(...args) {
 					const context = this;
@@ -240,6 +240,24 @@ function debounce(func, wait) {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
 					return response;
+				})
+				.then(() => {
+					const tipoSelect = form.querySelector('#tipo_caso');
+					if (tipoSelect && tipoSelect.value === 'Fechamento de Infração') {
+						return fetch('https://script.google.com/macros/s/AKfycbxljV5nIGQov9Z1ICs2X8Z7CdpEdp0Jkh6risQAjnj-6MLVTBZ8vFrDJzV75kx876au/exec', {
+							method: 'POST',
+							body: formData
+						})
+						.then(response => {
+							if (!response.ok) {
+								console.warn('Warning: Additional script execution failed:', response.status);
+							}
+							return response;
+						})
+						.catch(error => {
+							console.warn('Warning: Additional script execution failed:', error);
+						});
+					}
 				})
 				.then(() => {
 					showSuccessModal({
