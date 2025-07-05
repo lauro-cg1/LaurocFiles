@@ -245,14 +245,11 @@ function debounce(func, wait) {
 					const tipoSelect = form.querySelector('#tipo_caso');
 					if (tipoSelect && tipoSelect.value === 'Fechamento de Infração') {
 						return fetch('https://script.google.com/macros/s/AKfycbxljV5nIGQov9Z1ICs2X8Z7CdpEdp0Jkh6risQAjnj-6MLVTBZ8vFrDJzV75kx876au/exec', {
-							method: 'GET'
+							method: 'GET',
+							mode: 'no-cors'
 						})
 						.then(response => {
-							if (!response.ok) {
-								console.warn('Warning: Additional script execution failed:', response.status);
-							} else {
-								console.log('Additional script executed successfully for Fechamento de Infração');
-							}
+							console.log('Additional script executed for Fechamento de Infração');
 							return response;
 						})
 						.catch(error => {
