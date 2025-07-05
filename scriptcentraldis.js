@@ -1,4 +1,4 @@
-console.log("V1.02");
+console.log("V1.01");
 function debounce(func, wait) {
 				let timeout;
 				return function executedFunction(...args) {
