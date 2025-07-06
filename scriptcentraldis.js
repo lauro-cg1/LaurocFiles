@@ -1,7 +1,32 @@
-console.log("V1.03");
+	console.log("V1.02");
 			
 			function forceCustomCursor() {
 				const customCursor = "url('https://i.imgur.com/JgKyhbO.png') 14 4, auto";
+				
+				const style = document.createElement('style');
+				style.id = 'custom-cursor-styles';
+				style.textContent = `
+					input, textarea, select, button, a, 
+					.choices, .choices__inner, .choices__input, .choices__list, .choices__item,
+					.dropdown, .menu, [role="button"], [role="menuitem"], [role="tab"], [tabindex],
+					.nav-card, .form-group, .form-control, .btn, .clickable,
+					input[type="text"], input[type="email"], input[type="password"], 
+					input[type="search"], input[type="tel"], input[type="url"], input[type="number"] {
+						cursor: ${customCursor} !important;
+					}
+					input:hover, textarea:hover, select:hover, button:hover, a:hover,
+					.choices:hover, .choices__inner:hover, .choices__input:hover, .choices__list:hover, .choices__item:hover,
+					.dropdown:hover, .menu:hover, [role="button"]:hover, [role="menuitem"]:hover, [role="tab"]:hover,
+					.nav-card:hover, .form-group:hover, .form-control:hover, .btn:hover, .clickable:hover,
+					input:focus, textarea:focus, select:focus, button:focus, a:focus,
+					.choices:focus, .choices__inner:focus, .choices__input:focus, .choices__list:focus, .choices__item:focus,
+					.dropdown:focus, .menu:focus, [role="button"]:focus, [role="menuitem"]:focus, [role="tab"]:focus,
+					.nav-card:focus, .form-group:focus, .form-control:focus, .btn:focus, .clickable:focus {
+						cursor: ${customCursor} !important;
+					}
+				`;
+				
+				document.head.appendChild(style);
 				
 				const interactiveElements = [
 					'input[type="text"]',
@@ -36,18 +61,22 @@ console.log("V1.03");
 				interactiveElements.forEach(selector => {
 					const elements = document.querySelectorAll(selector);
 					elements.forEach(element => {
-						element.style.cursor = customCursor + ' !important';
+						element.style.setProperty('cursor', customCursor, 'important');
 						
 						element.addEventListener('mouseenter', function() {
-							this.style.cursor = customCursor + ' !important';
+							this.style.setProperty('cursor', customCursor, 'important');
 						});
 						
 						element.addEventListener('mouseover', function() {
-							this.style.cursor = customCursor + ' !important';
+							this.style.setProperty('cursor', customCursor, 'important');
 						});
 						
 						element.addEventListener('focus', function() {
-							this.style.cursor = customCursor + ' !important';
+							this.style.setProperty('cursor', customCursor, 'important');
+						});
+						
+						element.addEventListener('mouseleave', function() {
+							this.style.setProperty('cursor', customCursor, 'important');
 						});
 					});
 				});
@@ -59,28 +88,34 @@ console.log("V1.03");
 								if (node.nodeType === 1) {
 									interactiveElements.forEach(selector => {
 										if (node.matches && node.matches(selector)) {
-											node.style.cursor = customCursor + ' !important';
+											node.style.setProperty('cursor', customCursor, 'important');
 											node.addEventListener('mouseenter', function() {
-												this.style.cursor = customCursor + ' !important';
+												this.style.setProperty('cursor', customCursor, 'important');
 											});
 											node.addEventListener('mouseover', function() {
-												this.style.cursor = customCursor + ' !important';
+												this.style.setProperty('cursor', customCursor, 'important');
 											});
 											node.addEventListener('focus', function() {
-												this.style.cursor = customCursor + ' !important';
+												this.style.setProperty('cursor', customCursor, 'important');
+											});
+											node.addEventListener('mouseleave', function() {
+												this.style.setProperty('cursor', customCursor, 'important');
 											});
 										}
 										const childElements = node.querySelectorAll ? node.querySelectorAll(selector) : [];
 										childElements.forEach(childElement => {
-											childElement.style.cursor = customCursor + ' !important';
+											childElement.style.setProperty('cursor', customCursor, 'important');
 											childElement.addEventListener('mouseenter', function() {
-												this.style.cursor = customCursor + ' !important';
+												this.style.setProperty('cursor', customCursor, 'important');
 											});
 											childElement.addEventListener('mouseover', function() {
-												this.style.cursor = customCursor + ' !important';
+												this.style.setProperty('cursor', customCursor, 'important');
 											});
 											childElement.addEventListener('focus', function() {
-												this.style.cursor = customCursor + ' !important';
+												this.style.setProperty('cursor', customCursor, 'important');
+											});
+											childElement.addEventListener('mouseleave', function() {
+												this.style.setProperty('cursor', customCursor, 'important');
 											});
 										});
 									});
@@ -94,6 +129,17 @@ console.log("V1.03");
 					childList: true,
 					subtree: true
 				});
+				
+				setInterval(function() {
+					interactiveElements.forEach(selector => {
+						const elements = document.querySelectorAll(selector);
+						elements.forEach(element => {
+							if (element.style.cursor !== customCursor) {
+								element.style.setProperty('cursor', customCursor, 'important');
+							}
+						});
+					});
+				}, 1000);
 			}
 			
 			function debounce(func, wait) {
