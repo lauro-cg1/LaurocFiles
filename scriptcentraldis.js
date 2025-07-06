@@ -1,5 +1,102 @@
-console.log("V1.02");
-function debounce(func, wait) {
+console.log("V1.03");
+			
+			function forceCustomCursor() {
+				const customCursor = "url('https://i.imgur.com/JgKyhbO.png') 14 4, auto";
+				
+				const interactiveElements = [
+					'input[type="text"]',
+					'input[type="email"]', 
+					'input[type="password"]',
+					'input[type="search"]',
+					'input[type="tel"]',
+					'input[type="url"]',
+					'input[type="number"]',
+					'textarea',
+					'select',
+					'button',
+					'a',
+					'.choices',
+					'.choices__inner',
+					'.choices__input',
+					'.choices__list',
+					'.choices__item',
+					'.dropdown',
+					'.menu',
+					'[role="button"]',
+					'[role="menuitem"]',
+					'[role="tab"]',
+					'[tabindex]',
+					'.nav-card',
+					'.form-group',
+					'.form-control',
+					'.btn',
+					'.clickable'
+				];
+				
+				interactiveElements.forEach(selector => {
+					const elements = document.querySelectorAll(selector);
+					elements.forEach(element => {
+						element.style.cursor = customCursor + ' !important';
+						
+						element.addEventListener('mouseenter', function() {
+							this.style.cursor = customCursor + ' !important';
+						});
+						
+						element.addEventListener('mouseover', function() {
+							this.style.cursor = customCursor + ' !important';
+						});
+						
+						element.addEventListener('focus', function() {
+							this.style.cursor = customCursor + ' !important';
+						});
+					});
+				});
+				
+				const observer = new MutationObserver(function(mutations) {
+					mutations.forEach(function(mutation) {
+						if (mutation.type === 'childList') {
+							mutation.addedNodes.forEach(function(node) {
+								if (node.nodeType === 1) {
+									interactiveElements.forEach(selector => {
+										if (node.matches && node.matches(selector)) {
+											node.style.cursor = customCursor + ' !important';
+											node.addEventListener('mouseenter', function() {
+												this.style.cursor = customCursor + ' !important';
+											});
+											node.addEventListener('mouseover', function() {
+												this.style.cursor = customCursor + ' !important';
+											});
+											node.addEventListener('focus', function() {
+												this.style.cursor = customCursor + ' !important';
+											});
+										}
+										const childElements = node.querySelectorAll ? node.querySelectorAll(selector) : [];
+										childElements.forEach(childElement => {
+											childElement.style.cursor = customCursor + ' !important';
+											childElement.addEventListener('mouseenter', function() {
+												this.style.cursor = customCursor + ' !important';
+											});
+											childElement.addEventListener('mouseover', function() {
+												this.style.cursor = customCursor + ' !important';
+											});
+											childElement.addEventListener('focus', function() {
+												this.style.cursor = customCursor + ' !important';
+											});
+										});
+									});
+								}
+							});
+						}
+					});
+				});
+				
+				observer.observe(document.body, {
+					childList: true,
+					subtree: true
+				});
+			}
+			
+			function debounce(func, wait) {
 				let timeout;
 				return function executedFunction(...args) {
 					const context = this;
@@ -1356,6 +1453,7 @@ function debounce(func, wait) {
 [color=#ffffff][b]• Nome:[/b][/color] [color=#b0b0b0]${nome}[/color]
 ${camposHtml}
 [/td][/tr][/table]
+
 [center][color=white][b][size=10] BBCode por laurocg2 - Todos os direitos reservados à Divisão de Investigação e Segurança (DIS).[/size][/b][/color][/center]
 [/td][/tr][/table][/font]`;
 			}
@@ -1491,6 +1589,8 @@ ${camposHtml}
 			}
 			
 			document.addEventListener('DOMContentLoaded', function () {
+				forceCustomCursor();
+				
 				initializeRequerimentosDropdown();
 				
 				addKeyboardSupport();
