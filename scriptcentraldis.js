@@ -1,145 +1,128 @@
-	console.log("V1.02");
+	console.log("V1.03");
 			
 			function forceCustomCursor() {
 				const customCursor = "url('https://i.imgur.com/JgKyhbO.png') 14 4, auto";
 				
 				const style = document.createElement('style');
-				style.id = 'custom-cursor-styles';
+				style.id = 'force-cursor-styles';
 				style.textContent = `
-					input, textarea, select, button, a, 
-					.choices, .choices__inner, .choices__input, .choices__list, .choices__item,
-					.dropdown, .menu, [role="button"], [role="menuitem"], [role="tab"], [tabindex],
-					.nav-card, .form-group, .form-control, .btn, .clickable,
-					input[type="text"], input[type="email"], input[type="password"], 
-					input[type="search"], input[type="tel"], input[type="url"], input[type="number"] {
+					* {
 						cursor: ${customCursor} !important;
 					}
-					input:hover, textarea:hover, select:hover, button:hover, a:hover,
-					.choices:hover, .choices__inner:hover, .choices__input:hover, .choices__list:hover, .choices__item:hover,
-					.dropdown:hover, .menu:hover, [role="button"]:hover, [role="menuitem"]:hover, [role="tab"]:hover,
-					.nav-card:hover, .form-group:hover, .form-control:hover, .btn:hover, .clickable:hover,
-					input:focus, textarea:focus, select:focus, button:focus, a:focus,
-					.choices:focus, .choices__inner:focus, .choices__input:focus, .choices__list:focus, .choices__item:focus,
-					.dropdown:focus, .menu:focus, [role="button"]:focus, [role="menuitem"]:focus, [role="tab"]:focus,
-					.nav-card:focus, .form-group:focus, .form-control:focus, .btn:focus, .clickable:focus {
+					*:hover, *:focus, *:active {
+						cursor: ${customCursor} !important;
+					}
+					input, textarea, select, button, a, div, span, label, form, fieldset {
 						cursor: ${customCursor} !important;
 					}
 				`;
-				
 				document.head.appendChild(style);
 				
-				const interactiveElements = [
-					'input[type="text"]',
-					'input[type="email"]', 
-					'input[type="password"]',
-					'input[type="search"]',
-					'input[type="tel"]',
-					'input[type="url"]',
-					'input[type="number"]',
-					'textarea',
-					'select',
-					'button',
-					'a',
-					'.choices',
-					'.choices__inner',
-					'.choices__input',
-					'.choices__list',
-					'.choices__item',
-					'.dropdown',
-					'.menu',
-					'[role="button"]',
-					'[role="menuitem"]',
-					'[role="tab"]',
-					'[tabindex]',
-					'.nav-card',
-					'.form-group',
-					'.form-control',
-					'.btn',
-					'.clickable'
-				];
+				const originalSetProperty = CSSStyleDeclaration.prototype.setProperty;
+				CSSStyleDeclaration.prototype.setProperty = function(property, value, priority) {
+					if (property === 'cursor' && value !== customCursor) {
+						return originalSetProperty.call(this, property, customCursor, 'important');
+					}
+					return originalSetProperty.call(this, property, value, priority);
+				};
 				
-				interactiveElements.forEach(selector => {
-					const elements = document.querySelectorAll(selector);
-					elements.forEach(element => {
-						element.style.setProperty('cursor', customCursor, 'important');
-						
-						element.addEventListener('mouseenter', function() {
-							this.style.setProperty('cursor', customCursor, 'important');
-						});
-						
-						element.addEventListener('mouseover', function() {
-							this.style.setProperty('cursor', customCursor, 'important');
-						});
-						
-						element.addEventListener('focus', function() {
-							this.style.setProperty('cursor', customCursor, 'important');
-						});
-						
-						element.addEventListener('mouseleave', function() {
-							this.style.setProperty('cursor', customCursor, 'important');
-						});
+				const originalStyle = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'style') || 
+								   Object.getOwnPropertyDescriptor(Element.prototype, 'style');
+				
+				function applyCursorToAll() {
+					const allElements = document.querySelectorAll('*');
+					allElements.forEach(element => {
+						if (element.style) {
+							element.style.setProperty('cursor', customCursor, 'important');
+						}
 					});
-				});
+				}
+				
+				document.addEventListener('mouseover', function(e) {
+					if (e.target && e.target.style) {
+						e.target.style.setProperty('cursor', customCursor, 'important');
+					}
+				}, true);
+				
+				document.addEventListener('mouseenter', function(e) {
+					if (e.target && e.target.style) {
+						e.target.style.setProperty('cursor', customCursor, 'important');
+					}
+				}, true);
+				
+				document.addEventListener('mousemove', function(e) {
+					if (e.target && e.target.style) {
+						e.target.style.setProperty('cursor', customCursor, 'important');
+					}
+				}, true);
+				
+				document.addEventListener('focus', function(e) {
+					if (e.target && e.target.style) {
+						e.target.style.setProperty('cursor', customCursor, 'important');
+					}
+				}, true);
 				
 				const observer = new MutationObserver(function(mutations) {
 					mutations.forEach(function(mutation) {
 						if (mutation.type === 'childList') {
 							mutation.addedNodes.forEach(function(node) {
 								if (node.nodeType === 1) {
-									interactiveElements.forEach(selector => {
-										if (node.matches && node.matches(selector)) {
-											node.style.setProperty('cursor', customCursor, 'important');
-											node.addEventListener('mouseenter', function() {
-												this.style.setProperty('cursor', customCursor, 'important');
-											});
-											node.addEventListener('mouseover', function() {
-												this.style.setProperty('cursor', customCursor, 'important');
-											});
-											node.addEventListener('focus', function() {
-												this.style.setProperty('cursor', customCursor, 'important');
-											});
-											node.addEventListener('mouseleave', function() {
-												this.style.setProperty('cursor', customCursor, 'important');
-											});
+									if (node.style) {
+										node.style.setProperty('cursor', customCursor, 'important');
+									}
+									const allChildren = node.querySelectorAll ? node.querySelectorAll('*') : [];
+									allChildren.forEach(child => {
+										if (child.style) {
+											child.style.setProperty('cursor', customCursor, 'important');
 										}
-										const childElements = node.querySelectorAll ? node.querySelectorAll(selector) : [];
-										childElements.forEach(childElement => {
-											childElement.style.setProperty('cursor', customCursor, 'important');
-											childElement.addEventListener('mouseenter', function() {
-												this.style.setProperty('cursor', customCursor, 'important');
-											});
-											childElement.addEventListener('mouseover', function() {
-												this.style.setProperty('cursor', customCursor, 'important');
-											});
-											childElement.addEventListener('focus', function() {
-												this.style.setProperty('cursor', customCursor, 'important');
-											});
-											childElement.addEventListener('mouseleave', function() {
-												this.style.setProperty('cursor', customCursor, 'important');
-											});
-										});
 									});
 								}
 							});
+						}
+						if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+							if (mutation.target && mutation.target.style) {
+								mutation.target.style.setProperty('cursor', customCursor, 'important');
+							}
 						}
 					});
 				});
 				
 				observer.observe(document.body, {
 					childList: true,
-					subtree: true
+					subtree: true,
+					attributes: true,
+					attributeFilter: ['style', 'class']
 				});
 				
-				setInterval(function() {
-					interactiveElements.forEach(selector => {
-						const elements = document.querySelectorAll(selector);
-						elements.forEach(element => {
-							if (element.style.cursor !== customCursor) {
-								element.style.setProperty('cursor', customCursor, 'important');
+				applyCursorToAll();
+				
+				setInterval(applyCursorToAll, 100);
+				
+				document.addEventListener('DOMSubtreeModified', function(e) {
+					if (e.target && e.target.style) {
+						e.target.style.setProperty('cursor', customCursor, 'important');
+					}
+				}, true);
+				
+				const originalAddEventListener = EventTarget.prototype.addEventListener;
+				EventTarget.prototype.addEventListener = function(type, listener, options) {
+					if (type === 'mouseenter' || type === 'mouseover' || type === 'mousemove' || type === 'focus') {
+						const wrappedListener = function(e) {
+							if (e.target && e.target.style) {
+								e.target.style.setProperty('cursor', customCursor, 'important');
 							}
-						});
-					});
-				}, 1000);
+							if (typeof listener === 'function') {
+								listener.call(this, e);
+							}
+						};
+						return originalAddEventListener.call(this, type, wrappedListener, options);
+					}
+					return originalAddEventListener.call(this, type, listener, options);
+				};
+				
+				document.body.style.setProperty('cursor', customCursor, 'important');
+				
+				console.log('Cursor personalizado forçado em todos os elementos');
 			}
 			
 			function debounce(func, wait) {
