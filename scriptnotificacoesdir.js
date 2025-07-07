@@ -1,4 +1,4 @@
-	console.log("V1.3");
+console.log("V1.4");
 function selectOption(button, targetId, value) {
 				const container = button.parentElement;
 				const buttons = container.querySelectorAll('.form-selector-button');
@@ -63,12 +63,13 @@ function selectOption(button, targetId, value) {
 				var nomeUsuario = $("#nome_usuario").val();
 				var tipoAnalise = $("#tipo_analise").val();
 				var turno = $("#turno").val();
+				var horarioDisponivel = $("#horario_disponivel").val();
 				var especializacao = $("#especializacao").val();
 				var dataLimite = $("#data_limite").val();
 				var horarioLimite = $("#horario_limite").val();
 				var linkMotivos = $("#link_motivos").val();
 				
-				if (!nomeUsuario || !tipoAnalise || !turno || !especializacao || !dataLimite || !horarioLimite || !linkMotivos) {
+				if (!nomeUsuario || !tipoAnalise || !turno || !horarioDisponivel || !especializacao || !dataLimite || !horarioLimite || !linkMotivos) {
 					alert('Preencha todos os campos!');
 					return;
 				}
@@ -90,7 +91,7 @@ function selectOption(button, targetId, value) {
 [table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
 [font=Poppins][center][b][color=#4b8410]Saudações, {USERNAME}![/color][/b][/center]
 
-[justify]Foi aberta uma análise de especialização para o [b]${tipoAnalise}[/b] do/a [b]${nomeUsuario}[/b] do turno da [b]${turno}[/b] para a [b]Especialização ${especializacao.charAt(0).toUpperCase() + especializacao.slice(1)}[/b]. ${textoObrigatoriedade}${textoCondicional}
+[justify]Foi aberta uma análise de especialização para o [b]${tipoAnalise}[/b] do/a [b]${nomeUsuario}[/b] com horário disponível das [b]${horarioDisponivel}[/b] do turno da [b]${turno}[/b] para a [b]Especialização ${especializacao.charAt(0).toUpperCase() + especializacao.slice(1)}[/b]. ${textoObrigatoriedade}${textoCondicional}
 
 Para realizar a análise, responda à [b]esta Mensagem[/b] Privada até o dia [b]${dataLimite} às ${horarioLimite} no horário de Brasília[/b]. Confira os motivos apresentados para o [b]${tipoAnalise}[/b] do/a ${nomeUsuario} [url=${linkMotivos}][b][color=green]clicando aqui[/color][/b][/url].[/justify][/font][/td][/tr][/table]
 
@@ -871,6 +872,46 @@ Se uma das ambas partes não estiver satisfeita com o parecer, você poderá int
 				console.log("Usuário destinatário:", username);
 				
 				send_MP("[DIR] Carta de Transparência Sindicancial", username, mp);
+			}
+			
+			function enviarCartaIntimacao(e) {
+				e.preventDefault();
+				
+				var username = $("#username_intimacao").val();
+				var tipoProcesso = $("#tipo_processo").val();
+				var motivo = $("#motivo_intimacao").val();
+				
+				if (!username || !tipoProcesso || !motivo) {
+					alert('Preencha todos os campos!');
+					return;
+				}
+				
+				var tipoTexto = tipoProcesso === 'análise de regresso' ? 'análise de regresso de especialização' : 'sindicância';
+				var tipoTitulo = tipoProcesso === 'análise de regresso' ? 'Análise de Regresso' : 'Sindicância';
+				
+				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
+[table  style="border: none!important; border-radius: 5px; overflow: hidden; width: 40%; margin: -2% auto; top: 0.8em; position: relative; z-index: 10; justify-content: center; box-shadow: -8px 0px 0px 0px #4b8410, 1px 4px 16px 0px #53891b6e, -1px -4px 14px 0px #00ff1473;" bgcolor="#65b026"][tr style="border: none!important;"][td style="border: none!important;"][center][color=white][b][size=16][font=Poppins]CARTA DE INTIMAÇÃO[/font][/size][/b][/color][/center][/td][/tr][/table]
+
+[table  style="width: 100%; border-radius: 5px; border-bottom: none!important; border-top: none!Important; border-right: none!important; border-left: 5px solid #65b026!important; overflow: hidden; position: relative; z-index: 1;line-height: 1.6em; margin: 0 auto; border-top: 3px solid #212121!important; box-shadow: -8px 0px 0px 0px #65b026;" bgcolor="#ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"]
+[font=Poppins][center][b][color=#4b8410]Saudações, {USERNAME}![/color][/b][/center]
+
+[justify]Informo-lhe, através desta [b]intimação[/b], que foi aberta uma [b]${tipoTexto}[/b] pelos motivos expostos abaixo. Sendo assim, você tem o prazo de [b]24 horas[/b] a partir do recebimento desta intimação para enviar sua [b]defesa[/b], caso queira.Em caso de dúvidas, procure a [b]Presidência da Diretoria do Corpo Executivo[/b].
+
+[spoiler="${tipoTitulo}"]${motivo}[/spoiler][/justify][/font][/td][/tr][/table]
+
+
+[color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
+[/td][/tr][/table][/td][/tr][/table]`;
+				
+				console.log("=== BBCode de Carta de Intimação ===");
+				console.log("Título: [DIR] Carta de Intimação");
+				console.log("Usuário:", username);
+				console.log("Tipo de Processo:", tipoProcesso);
+				console.log("Motivo:", motivo);
+				console.log("Mensagem:", mp);
+				console.log("=== Fim do BBCode ===");
+				
+				send_MP("[DIR] Carta de Intimação", username, mp);
 			}
 			
 			function enviarEscalaFuncoes(e) {
