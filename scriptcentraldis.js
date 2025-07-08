@@ -1,4 +1,4 @@
-	console.log("V1.03");
+console.log("V1.04");
 			
 			function forceCustomCursor() {
 				const customCursor = "url('https://i.imgur.com/JgKyhbO.png') 14 4, auto";
@@ -231,6 +231,10 @@
 			function mostrarRequerimentos() {
 				hideAllForms();
 				showElement('requerimentos_container');
+				
+				setTimeout(() => {
+					initializeRequerimentosDropdown();
+				}, 100);
 			}
 			
 			function toggleFields() {
@@ -1565,11 +1569,30 @@ ${camposHtml}
 			}
 			
 			function initializeRequerimentosDropdown() {
+				console.log('Tentando inicializar dropdown de requerimentos...');
+				
 				const dropdownBtn = document.getElementById('requerimentos-dropdown-btn');
 				const dropdownContent = document.getElementById('requerimentos-dropdown-content');
-				const dropdownItems = document.querySelectorAll('.dropdown-item');
+				
+				if (!dropdownBtn || !dropdownContent) {
+					console.log('Elementos do dropdown de requerimentos não encontrados');
+					return;
+				}
+				
+				const dropdownItems = document.querySelectorAll('#requerimentos-dropdown-content .dropdown-item');
 				const selectedText = dropdownBtn.querySelector('.selected-text');
 				const chevronIcon = dropdownBtn.querySelector('.fas.fa-chevron-down');
+				
+				if (!selectedText || !chevronIcon || dropdownItems.length === 0) {
+					console.log('Elementos internos do dropdown não encontrados');
+					return;
+				}
+				
+				if (dropdownBtn.hasAttribute('data-initialized')) {
+					console.log('Dropdown já foi inicializado');
+					return;
+				}
+				dropdownBtn.setAttribute('data-initialized', 'true');
 				
 				function closeDropdown() {
 					dropdownContent.style.display = 'none';
@@ -1582,10 +1605,13 @@ ${camposHtml}
 				}
 				
 				dropdownBtn.addEventListener('click', function(e) {
+					console.log('Dropdown button clicked!');
 					e.stopPropagation();
 					if (dropdownContent.style.display === 'block') {
+						console.log('Fechando dropdown');
 						closeDropdown();
 					} else {
+						console.log('Abrindo dropdown');
 						openDropdown();
 					}
 				});
@@ -1615,12 +1641,13 @@ ${camposHtml}
 						closeDropdown();
 					}
 				});
+				
+				console.log('Dropdown de requerimentos inicializado com sucesso!');
 			}
 			
 			document.addEventListener('DOMContentLoaded', function () {
 				forceCustomCursor();
 				
-				initializeRequerimentosDropdown();
 				
 				addKeyboardSupport();
 				
