@@ -1,4 +1,4 @@
-console.log("V1.0");
+console.log("V1.1");
 const opcoesPorMinisterio = {
 				"Ministério da Administração": [
 				"Atualização de aulas",
@@ -898,7 +898,6 @@ const opcoesPorMinisterio = {
 
 			function enviarMP_Popup(event, tipo) {
 				event.preventDefault();
-				mostrarLoadingEnvio();
 				
 				const formData = new FormData(event.target);
 				const dados = {
@@ -909,14 +908,210 @@ const opcoesPorMinisterio = {
 					provas: formData.get('provas') || ''
 				};
 				
-				setTimeout(() => {
-					fecharLoadingEnvio();
-					fecharPopup('popup-mp-form');
-					processarEnvioMP(dados, tipo);
-				}, 1000);
+				fecharPopup('popup-mp-form');
+				processarEnvioMP(dados, tipo);
+			}
+			
+			function mostrarCarregamentoDragao() {
+				const dragaoCarregamento = document.createElement('div');
+				dragaoCarregamento.id = 'dragaoCarregamento';
+				dragaoCarregamento.innerHTML = `
+					<div style="
+						position: fixed;
+						top: 0;
+						left: 0;
+						width: 100vw;
+						height: 100vh;
+						background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(12, 65, 22, 0.9) 100%);
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						justify-content: center;
+						z-index: 9999;
+						backdrop-filter: blur(25px);
+						">
+						<div style="
+							background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+							border-radius: 25px;
+							padding: 50px;
+							text-align: center;
+							border: 2px solid rgba(108, 210, 78, 0.3);
+							box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+							backdrop-filter: blur(20px);
+							">
+							<img src="https://i.imgur.com/b2a4Uch.gif" style="width: 120px; margin-bottom: 25px; animation: bounce 2s infinite;">
+							<h2 style="
+								color: #6CD24E;
+								font-size: 24px;
+								font-weight: 700;
+								margin: 0 0 15px 0;
+								text-shadow: 0 2px 10px rgba(108, 210, 78, 0.5);
+								">📤 Enviando Mensagem...</h2>
+							<p style="
+								color: #ffffff;
+								font-size: 16px;
+								font-weight: 500;
+								margin: 0;
+								opacity: 0.9;
+								">Aguarde enquanto processamos sua solicitação</p>
+							<div style="
+								margin-top: 30px;
+								display: flex;
+								justify-content: center;
+								">
+								<div style="
+									width: 50px;
+									height: 50px;
+									border: 4px solid rgba(108, 210, 78, 0.3);
+									border-radius: 50%;
+									border-top-color: #6CD24E;
+									animation: spin 1s linear infinite;
+									"></div>
+							</div>
+						</div>
+					</div>
+					<style>
+						@keyframes spin {
+							0% { transform: rotate(0deg); }
+							100% { transform: rotate(360deg); }
+						}
+						@keyframes bounce {
+							0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+							40% { transform: translateY(-10px); }
+							60% { transform: translateY(-5px); }
+						}
+					</style>
+				`;
+				document.body.appendChild(dragaoCarregamento);
+			}
+			
+			function mostrarPopupSucesso() {
+				const popup = document.createElement('div');
+				popup.id = 'popup-sucesso-mp';
+				popup.innerHTML = `
+					<div style="
+						position: fixed;
+						top: 0;
+						left: 0;
+						width: 100vw;
+						height: 100vh;
+						background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(12, 65, 22, 0.8) 100%);
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						z-index: 9999;
+						backdrop-filter: blur(20px);
+						animation: fadeInOverlay 0.5s ease-out;
+						">
+						<div style="
+							background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+							color: #065f23;
+							padding: 40px;
+							border-radius: 20px;
+							text-align: center;
+							max-width: 90%;
+							width: 450px;
+							box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+							border: 2px solid rgba(52, 211, 153, 0.3);
+							position: relative;
+							overflow: hidden;
+							animation: slideInPopup 0.5s ease-out;
+							">
+							<div style="
+								position: absolute;
+								top: 0;
+								left: 0;
+								right: 0;
+								height: 4px;
+								background: linear-gradient(90deg, #10b981, #34d399, #6ee7b7);
+								"></div>
+							<h2 style="
+								margin-top: 0;
+								margin-bottom: 20px;
+								font-size: 24px;
+								font-weight: 700;
+								color: #065f23;
+								">📩 MP Enviada com Sucesso!</h2>
+							<p style="
+								margin-bottom: 30px;
+								font-size: 16px;
+								color: #374151;
+								line-height: 1.5;
+								">Deseja enviar outra mensagem?</p>
+							<div style="
+								margin-top: 25px;
+								display: flex;
+								justify-content: center;
+								gap: 20px;
+								">
+								<button id="btnSim" style="
+									padding: 14px 28px;
+									background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+									border: none;
+									border-radius: 12px;
+									cursor: pointer;
+									font-weight: 600;
+									font-size: 15px;
+									color: white;
+									transition: all 0.3s ease;
+									box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+									">✓ Sim, enviar outra</button>
+								<button id="btnNao" style="
+									padding: 14px 28px;
+									background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+									border: none;
+									border-radius: 12px;
+									cursor: pointer;
+									font-weight: 600;
+									font-size: 15px;
+									color: white;
+									transition: all 0.3s ease;
+									box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+									">📂 Ver caixa de saída</button>
+							</div>
+						</div>
+					</div>
+				`;
+				
+				document.body.appendChild(popup);
+				
+				// Adicionar event listeners aos botões
+				document.getElementById('btnSim').addEventListener('click', () => {
+					popup.remove();
+					mostrarPopupSelecaoMP();
+				});
+				
+				document.getElementById('btnNao').addEventListener('click', () => {
+					window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox';
+				});
+				
+				// Adicionar efeitos hover aos botões
+				const btnSim = document.getElementById('btnSim');
+				const btnNao = document.getElementById('btnNao');
+				
+				btnSim.onmouseover = () => {
+					btnSim.style.transform = 'translateY(-2px) scale(1.05)';
+					btnSim.style.boxShadow = '0 12px 30px rgba(16, 185, 129, 0.4)';
+				};
+				btnSim.onmouseout = () => {
+					btnSim.style.transform = 'translateY(0) scale(1)';
+					btnSim.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.3)';
+				};
+				
+				btnNao.onmouseover = () => {
+					btnNao.style.transform = 'translateY(-2px) scale(1.05)';
+					btnNao.style.boxShadow = '0 12px 30px rgba(59, 130, 246, 0.4)';
+				};
+				btnNao.onmouseout = () => {
+					btnNao.style.transform = 'translateY(0) scale(1)';
+					btnNao.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.3)';
+				};
 			}
 
 			function processarEnvioMP(dados, tipoMP) {
+				// Mostrar carregamento com dragão
+				mostrarCarregamentoDragao();
+				
 				let hoje = new Date().toLocaleDateString("pt-BR");
 				let tituloMPNovo = '';
 				
@@ -1192,8 +1387,11 @@ const opcoesPorMinisterio = {
 				break;	
 				
 				default:
+				const dragaoCarregamento = document.getElementById('dragaoCarregamento');
+				if (dragaoCarregamento) {
+					dragaoCarregamento.remove();
+				}
 				mostrarErroEnvio("Por favor, selecione um tipo de MP.");
-				document.getElementById('dragaoCarregamento').remove();
 				return;
 				}
 				
@@ -1202,8 +1400,12 @@ const opcoesPorMinisterio = {
 				
 				send_MP(tituloMP, dados.nome, mensagemMP);
 				
-				document.getElementById("enviar_Mp").reset();
-				document.getElementById("enviar_Mp").style.display = "none";
+				// Limpar formulários após envio
+				const formEnviarMp = document.getElementById("enviar_Mp");
+				if (formEnviarMp) {
+					formEnviarMp.reset();
+					formEnviarMp.style.display = "none";
+				}
 				
 				const blocos = document.querySelectorAll('.form-mp');
 				blocos.forEach(div => div.style.display = 'none');
@@ -1229,148 +1431,31 @@ const opcoesPorMinisterio = {
 				})
 				.done(function () {
 				completedRequests++;
+				console.log(`Mensagem enviada com sucesso para ${nome}. Progresso: ${completedRequests}/${totalRequests}`);
+				
 				if (completedRequests === totalRequests) {
-				const loadingOverlay = document.getElementById('dragaoCarregamento');
-				if (loadingOverlay) {
-				setTimeout(() => {
-				loadingOverlay.remove();
-				const popup = document.createElement('div');
-				popup.innerHTML = `
-				<div style="
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100vw;
-				height: 100vh;
-				background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(12, 65, 22, 0.8) 100%);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				z-index: 9999;
-				backdrop-filter: blur(20px);
-				">
-				<div style="
-				background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-				color: #065f23;
-				padding: 40px;
-				border-radius: 20px;
-				text-align: center;
-				max-width: 90%;
-				width: 450px;
-				box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
-				border: 2px solid rgba(52, 211, 153, 0.3);
-				position: relative;
-				overflow: hidden;
-				">
-				<div style="
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				height: 4px;
-				background: linear-gradient(90deg, #10b981, #34d399, #6ee7b7);
-				"></div>
-				<h2 style="
-				margin-top: 0;
-				margin-bottom: 20px;
-				font-size: 24px;
-				font-weight: 700;
-				color: #065f23;
-				">📩 MP Enviada com Sucesso!</h2>
-				<p style="
-				margin-bottom: 30px;
-				font-size: 16px;
-				color: #374151;
-				line-height: 1.5;
-				">Deseja enviar outra mensagem?</p>
-				<div style="
-				margin-top: 25px;
-				display: flex;
-				justify-content: center;
-				gap: 20px;
-				">
-				<button id="btnSim" style="
-				padding: 14px 28px;
-				background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-				border: none;
-				border-radius: 12px;
-				cursor: pointer;
-				font-weight: 600;
-				font-size: 15px;
-				color: white;
-				transition: all 0.3s ease;
-				box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
-				">✓ Sim, enviar outra</button>
-				<button id="btnNao" style="
-				padding: 14px 28px;
-				background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-				border: none;
-				border-radius: 12px;
-				cursor: pointer;
-				font-weight: 600;
-				font-size: 15px;
-				color: white;
-				transition: all 0.3s ease;
-				box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
-				">📂 Ver caixa de saída</button>
-				</div>
-				</div>
-				</div>
-				`;
-				
-				document.body.appendChild(popup);
-				
-				document.getElementById('btnSim').addEventListener('click', () => {
-				const form = document.querySelector('form');
-				if (form) {
-				form.reset();
-				
-				const choicesElements = form.querySelectorAll('select');
-				choicesElements.forEach(select => {
-				if (select.choicesInstance) {
-				select.choicesInstance.removeActiveItems();
-				select.choicesInstance.setChoiceByValue('');
-				}
-				});
-				}
-				popup.remove();
-				});
-				
-				document.getElementById('btnNao').addEventListener('click', () => {
-				window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox';
-				});
-				
-				const btnSim = document.getElementById('btnSim');
-				const btnNao = document.getElementById('btnNao');
-				
-				btnSim.onmouseover = () => {
-					btnSim.style.transform = 'translateY(-2px) scale(1.05)';
-					btnSim.style.boxShadow = '0 12px 30px rgba(16, 185, 129, 0.4)';
-				};
-				btnSim.onmouseout = () => {
-					btnSim.style.transform = 'translateY(0) scale(1)';
-					btnSim.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.3)';
-				};
-				
-				btnNao.onmouseover = () => {
-					btnNao.style.transform = 'translateY(-2px) scale(1.05)';
-					btnNao.style.boxShadow = '0 12px 30px rgba(59, 130, 246, 0.4)';
-				};
-				btnNao.onmouseout = () => {
-					btnNao.style.transform = 'translateY(0) scale(1)';
-					btnNao.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.3)';
-				};
-				}, 3000);
-				}
+					const loadingOverlay = document.getElementById('dragaoCarregamento');
+					if (loadingOverlay) {
+						setTimeout(() => {
+							loadingOverlay.remove();
+							mostrarPopupSucesso();
+						}, 2000);
+					} else {
+						// Caso não tenha o overlay, mostrar sucesso imediatamente
+						mostrarPopupSucesso();
+					}
 				}
 				})
 				.fail(function () {
+				console.error(`Erro ao enviar mensagem para ${nome}`);
 				const loadingOverlay = document.getElementById('dragaoCarregamento');
 				if (loadingOverlay) {
-				setTimeout(() => {
-				loadingOverlay.remove();
-				mostrarErroEnvio(`Erro ao enviar a mensagem para ${nome}.`);
-				}, 3000); 
+					setTimeout(() => {
+						loadingOverlay.remove();
+						mostrarErroEnvio(`Erro ao enviar a mensagem para ${nome}.`);
+					}, 2000); 
+				} else {
+					mostrarErroEnvio(`Erro ao enviar a mensagem para ${nome}.`);
 				}
 				})
 				.always(function () {
