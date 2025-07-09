@@ -1,4 +1,4 @@
-console.log("V1.1");
+console.log("V1.1.1");
 const opcoesPorMinisterio = {
 				"Ministério da Administração": [
 				"Atualização de aulas",
@@ -939,7 +939,7 @@ const opcoesPorMinisterio = {
 							box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
 							backdrop-filter: blur(20px);
 							">
-							<img src="https://i.imgur.com/b2a4Uch.gif" style="width: 120px; margin-bottom: 25px; animation: bounce 2s infinite;">
+							<img src="https://i.imgur.com/CVFDkiX.png" style="width: 180px; margin-bottom: 25px; animation: bounce 2s infinite;">
 							<h2 style="
 								color: #6CD24E;
 								font-size: 24px;
@@ -1075,7 +1075,6 @@ const opcoesPorMinisterio = {
 				
 				document.body.appendChild(popup);
 				
-				// Adicionar event listeners aos botões
 				document.getElementById('btnSim').addEventListener('click', () => {
 					popup.remove();
 					mostrarPopupSelecaoMP();
@@ -1085,7 +1084,6 @@ const opcoesPorMinisterio = {
 					window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox';
 				});
 				
-				// Adicionar efeitos hover aos botões
 				const btnSim = document.getElementById('btnSim');
 				const btnNao = document.getElementById('btnNao');
 				
@@ -1109,7 +1107,6 @@ const opcoesPorMinisterio = {
 			}
 
 			function processarEnvioMP(dados, tipoMP) {
-				// Mostrar carregamento com dragão
 				mostrarCarregamentoDragao();
 				
 				let hoje = new Date().toLocaleDateString("pt-BR");
@@ -1400,7 +1397,6 @@ const opcoesPorMinisterio = {
 				
 				send_MP(tituloMP, dados.nome, mensagemMP);
 				
-				// Limpar formulários após envio
 				const formEnviarMp = document.getElementById("enviar_Mp");
 				if (formEnviarMp) {
 					formEnviarMp.reset();
@@ -1441,7 +1437,6 @@ const opcoesPorMinisterio = {
 							mostrarPopupSucesso();
 						}, 2000);
 					} else {
-						// Caso não tenha o overlay, mostrar sucesso imediatamente
 						mostrarPopupSucesso();
 					}
 				}
