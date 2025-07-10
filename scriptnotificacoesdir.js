@@ -80,9 +80,9 @@ function selectOption(button, targetId, value) {
 				}
 						var textoObrigatoriedade = '';
 				if (tipoAnalise === 'avanço' && especializacao === 'avançada') {
-					textoObrigatoriedade = 'A análise é [b]obrigatória[/b] aos diretores de todos os turnos e deve ser realizada em até [b]48 horas[/b], sob pena de recebimento de uma [b]advertência interna[/b] para aqueles que não o fizerem.';
+					textoObrigatoriedade = 'A análise é [b]obrigatória[/b] aos diretores de todos os turnos e deve ser realizada em até [b]24 horas[/b], sob pena de recebimento de uma [b]advertência interna[/b] para aqueles que não o fizerem.';
 				} else {
-					textoObrigatoriedade = 'A análise é [b]obrigatória[/b] aos portadores da [b]Especialização Avançada[/b] ou diretores que são compatíveis ao [b]turno do executivo[/b] e deve ser realizada em até [b]48 horas[/b], sob pena de recebimento de uma [b]advertência interna[/b] para aqueles que não o fizerem.';
+					textoObrigatoriedade = 'A análise é [b]obrigatória[/b] aos portadores da [b]Especialização Avançada[/b] ou diretores que são compatíveis ao [b]turno do executivo[/b] e deve ser realizada em até [b]24 horas[/b], sob pena de recebimento de uma [b]advertência interna[/b] para aqueles que não o fizerem.';
 				}
 				
 				var mp = `[table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.1em" bgcolor="#65b026"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][table  style="border: none!important; overflow: hidden; border-radius: 5px; line-height: 0.6em; margin: -10px;" bgcolor="#212121"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/8RaCNua.png[/img]
