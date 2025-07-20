@@ -1,4 +1,4 @@
-console.log("V1.4");
+console.log("V1.5");
 function selectOption(button, targetId, value) {
 				const container = button.parentElement;
 				const buttons = container.querySelectorAll('.form-selector-button');
@@ -704,7 +704,7 @@ A Diretoria do Corpo Executivo organiza atividades voltadas para o aperfeiçoame
 No entanto, caso não possa comparecer, é necessário justificar a ausência utilizando o formulário disponibilizado pelo órgão, o qual deve ser respondido num prazo de 24 horas a partir do horário inicial da atividade. Faltas não justificadas resultarão em advertência escrita por Abandono de Dever/Negligência.
 
 [color=#cb1717][b]FICHAMENTO POLICIAL[/B][/COLOR]
-[font=Poppins][table style="overflow: hidden; border: none!important; border-radius: 5px!important;" bgcolor="#cb1717"][tr style="overflow: hidden; border: none!important;"][td style="overflow: hidden;  border: none!important;"][justify][color=white][color=#cb1717]___[/color]<i class="fas fa-exclamation"></i> [color=#cb1717]___[/color] Você [b]deve[/b] realizar seu [b]fichamento policial[/b] em até [b]48 horas[/b] a contar do recebimento desta Mensagem Privada, sob pena de [b]advertência escrita[/b] por [b]Abandono de Dever/Negligência[/b], caso não o faça. Para realizá-lo, [url=https://rccsystem.com/]acesse o RCCSystem[/url].[/color][/justify][/td][/tr][/table][/font][/justify][/font][/td][/tr][/table]
+[font=Poppins][table style="overflow: hidden; border: none!important; border-radius: 5px!important;" bgcolor="#cb1717"][tr style="overflow: hidden; border: none!important;"][td style="overflow: hidden;  border: none!important;"][justify][color=white][color=#cb1717]___[/color]<i class="fas fa-exclamation"></i> [color=#cb1717]___[/color] Você [b]deve[/b] realizar seu [b]fichamento policial[/b] em até [b]48 horas[/b] a contar do recebimento desta Mensagem Privada, sob pena de [b]advertência escrita[/b] por [b]Abandono de Dever/Negligência[/b], caso não o faça. Para realizá-lo, [color=white][url=https://www.policiarcc.com/t36126-csi-fichamento-policial]acesse o fichamento[/url].[/color][/color][/justify][/td][/tr][/table][/font][/justify][/font][/td][/tr][/table]
 
 
 [color=white][font=Poppins][color=#4b8410]<i class="fas fa-code"></i>[/color] por [b]Aloscon[/b] | Todos os direitos reservados à [b]Diretoria do Corpo Executivo[/b].[/font][/color]
