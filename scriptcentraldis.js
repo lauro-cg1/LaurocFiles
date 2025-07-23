@@ -1,4 +1,4 @@
-			console.log("V1.06");
+			console.log("V1.05");
 			
 			function debounce(func, wait) {
 				let timeout;
@@ -1530,6 +1530,18 @@ ${camposHtml}
 				}
 				
 				enhanceFormValidation();
+				
+				function fixObservacaoEmoji() {
+					const style = document.createElement('style');
+					style.textContent = `
+						.manual-content .observacao::before {
+							content: "📋 " !important;
+						}
+					`;
+					document.head.appendChild(style);
+				}
+				
+				fixObservacaoEmoji();
 			});
 			
 			function initializeChoices() {
@@ -1934,6 +1946,25 @@ ${camposHtml}
 					modalTitle.innerHTML = `<i class="fas fa-book"></i> ${manuais[tipoManual].titulo}`;
 					manualContent.innerHTML = manuais[tipoManual].conteudo;
 					modal.classList.remove('hidden');
+					
+					setTimeout(() => {
+						const observacaoElements = document.querySelectorAll('.manual-content .observacao');
+						observacaoElements.forEach(el => {
+							const computedStyle = window.getComputedStyle(el, '::before');
+							if (computedStyle.content.includes('�') || computedStyle.content.includes('?')) {
+								if (!document.getElementById('emoji-fix-style')) {
+									const style = document.createElement('style');
+									style.id = 'emoji-fix-style';
+									style.textContent = `
+										.manual-content .observacao::before {
+											content: "📋 " !important;
+										}
+									`;
+									document.head.appendChild(style);
+								}
+							}
+						});
+					}, 100);
 					
 					const closeOnEsc = (e) => {
 						if (e.key === 'Escape') {
