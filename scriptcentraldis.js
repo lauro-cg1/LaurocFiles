@@ -1,4 +1,4 @@
-	console.log("V1.06");
+	console.log("V1.05");
 			
 			function debounce(func, wait) {
 				let timeout;
@@ -91,16 +91,31 @@
 			function mostrarFormulario() {
 				hideAllForms();
 				showElement('postagem_casos_forms');
+				setTimeout(() => {
+					if (typeof Choices !== 'undefined') {
+						initializeChoices();
+					}
+				}, 50);
 			}
 			
 			function mostrarFormulario2() {
 				hideAllForms();
 				showElement('postagem_funcao_forms');
+				setTimeout(() => {
+					if (typeof Choices !== 'undefined') {
+						initializeChoices();
+					}
+				}, 50);
 			}
 			
 			function mostrarFormulario3() {
 				hideAllForms();
 				showElement('enviar_Mp');
+				setTimeout(() => {
+					if (typeof Choices !== 'undefined') {
+						initializeChoices();
+					}
+				}, 50);
 			}
 			
 			function mostrarRequerimentos() {
@@ -109,6 +124,9 @@
 				
 				setTimeout(() => {
 					initializeRequerimentosDropdown();
+					if (typeof Choices !== 'undefined') {
+						initializeChoices();
+					}
 				}, 100);
 			}
 			
@@ -1559,11 +1577,22 @@ ${camposHtml}
 			document.addEventListener('DOMContentLoaded', function () {
 				addKeyboardSupport();
 				
-				try {
-					initializeChoices();
-				} catch (error) {
-					showError('Erro ao inicializar seletores: ' + error.message);
+				function waitForChoicesAndInitialize() {
+					if (typeof Choices !== 'undefined') {
+						console.log('Choices.js detectado, inicializando dropdowns...');
+						try {
+							initializeChoices();
+						} catch (error) {
+							console.error('Erro ao inicializar seletores:', error);
+							showError('Erro ao inicializar seletores: ' + error.message);
+						}
+					} else {
+						console.log('Aguardando carregamento do Choices.js...');
+						setTimeout(waitForChoicesAndInitialize, 300);
+					}
 				}
+				
+				waitForChoicesAndInitialize();
 				
 				enhanceFormValidation();
 				
@@ -1581,46 +1610,94 @@ ${camposHtml}
 			});
 			
 			function initializeChoices() {
-				document.querySelectorAll('select').forEach(function(selectElement) {
+				if (typeof Choices === 'undefined') {
+					console.warn('Choices.js não foi carregado ainda. Tentando novamente...');
+					setTimeout(initializeChoices, 200);
+					return;
+				}
+
+				console.log('Inicializando Choices.js para dropdowns...');
+				
+				document.querySelectorAll('select.form-select').forEach(function(selectElement) {
 					if (!selectElement.choicesInstance && !selectElement.classList.contains('choices__input')) {
-						selectElement.choicesInstance = new Choices(selectElement, {
-							searchEnabled: false,
-							itemSelectText: '',
-							shouldSort: false,
-							placeholder: true,
-							placeholderValue: 'Selecione uma opção...',
-							allowHTML: true,
-							classNames: {
-								containerOuter: 'choices',
-								containerInner: 'choices__inner',
-								input: 'choices__input',
-								inputCloned: 'choices__input--cloned',
-								list: 'choices__list',
-								listItems: 'choices__list--multiple',
-								listSingle: 'choices__list--single',
-								listDropdown: 'choices__list--dropdown',
-								item: 'choices__item',
-								itemSelectable: 'choices__item--selectable',
-								itemDisabled: 'choices__item--disabled',
-								itemChoice: 'choices__item--choice',
-								placeholder: 'choices__placeholder',
-								group: 'choices__group',
-								groupHeading: 'choices__heading',
-								button: 'choices__button',
-								activeState: 'is-active',
-								focusState: 'is-focused',
-								openState: 'is-open',
-								disabledState: 'is-disabled',
-								highlightedState: 'is-highlighted',
-								selectedState: 'is-selected',
-								flippedState: 'is-flipped',
-								loadingState: 'is-loading',
-								noResults: 'has-no-results',
-								noChoices: 'has-no-choices'
-							}
-						});
+						try {
+							selectElement.choicesInstance = new Choices(selectElement, {
+								searchEnabled: false,
+								itemSelectText: '',
+								shouldSort: false,
+								placeholder: true,
+								placeholderValue: 'Selecione uma opção...',
+								allowHTML: true,
+								removeItemButton: false,
+								duplicateItemsAllowed: false,
+								paste: false,
+								addItems: true,
+								editItems: false,
+								maxItemCount: 1,
+								classNames: {
+									containerOuter: 'choices',
+									containerInner: 'choices__inner',
+									input: 'choices__input',
+									inputCloned: 'choices__input--cloned',
+									list: 'choices__list',
+									listItems: 'choices__list--multiple',
+									listSingle: 'choices__list--single',
+									listDropdown: 'choices__list--dropdown',
+									item: 'choices__item',
+									itemSelectable: 'choices__item--selectable',
+									itemDisabled: 'choices__item--disabled',
+									itemChoice: 'choices__item--choice',
+									placeholder: 'choices__placeholder',
+									group: 'choices__group',
+									groupHeading: 'choices__heading',
+									button: 'choices__button',
+									activeState: 'is-active',
+									focusState: 'is-focused',
+									openState: 'is-open',
+									disabledState: 'is-disabled',
+									highlightedState: 'is-highlighted',
+									selectedState: 'is-selected',
+									flippedState: 'is-flipped',
+									loadingState: 'is-loading',
+									noResults: 'has-no-results',
+									noChoices: 'has-no-choices'
+								}
+							});
+
+							setTimeout(() => {
+								const choicesContainer = selectElement.parentElement.querySelector('.choices');
+								if (choicesContainer) {
+									choicesContainer.style.width = '100%';
+									choicesContainer.style.maxWidth = '100%';
+									
+									const inner = choicesContainer.querySelector('.choices__inner');
+									if (inner) {
+										inner.style.cssText += '; width: 100% !important; max-width: 100% !important;';
+									}
+								}
+								forceChoicesStyles();
+							}, 10);
+
+							selectElement.choicesInstance.passedElement.element.addEventListener('choice', function(event) {
+								setTimeout(() => {
+									const choicesContainer = selectElement.parentElement.querySelector('.choices');
+									if (choicesContainer) {
+										choicesContainer.style.width = '100%';
+										choicesContainer.style.maxWidth = '100%';
+									}
+								}, 10);
+							});
+
+							console.log('Choices.js inicializado para:', selectElement.id);
+						} catch (error) {
+							console.error('Erro ao inicializar Choices para', selectElement.id, ':', error);
+						}
 					}
 				});
+				
+				console.log('Inicialização do Choices.js concluída.');
+				
+				setTimeout(forceChoicesStyles, 200);
 			}
 			
 			function enhanceFormValidation() {
@@ -2015,4 +2092,59 @@ ${camposHtml}
 			function fecharManual() {
 				const modal = document.getElementById('modal-manual');
 				modal.classList.add('hidden');
+			}
+
+			function forceChoicesStyles() {
+				document.querySelectorAll('.choices').forEach(choicesContainer => {
+					if (choicesContainer) {
+						choicesContainer.style.width = '100%';
+						choicesContainer.style.maxWidth = '100%';
+						
+						const inner = choicesContainer.querySelector('.choices__inner');
+						if (inner) {
+							inner.style.cssText += '; width: 100% !important; max-width: 100% !important; background: var(--bg-secondary) !important; border: 1px solid var(--border-color) !important; border-radius: 12px !important; color: var(--text-primary) !important;';
+						}
+
+						const dropdown = choicesContainer.querySelector('.choices__list--dropdown');
+						if (dropdown) {
+							dropdown.style.cssText += '; background: var(--bg-secondary) !important; border: 1px solid var(--border-color) !important; border-radius: 12px !important;';
+						}
+
+						const items = choicesContainer.querySelectorAll('.choices__item--selectable');
+						items.forEach(item => {
+							item.style.cssText += '; color: var(--text-primary) !important; text-align: center !important;';
+						});
+					}
+				});
+			}
+
+			const observer = new MutationObserver(function(mutations) {
+				let shouldForceStyles = false;
+				mutations.forEach(function(mutation) {
+					if (mutation.type === 'childList') {
+						mutation.addedNodes.forEach(function(node) {
+							if (node.nodeType === 1 && (node.classList.contains('choices') || node.querySelector && node.querySelector('.choices'))) {
+								shouldForceStyles = true;
+							}
+						});
+					}
+				});
+				
+				if (shouldForceStyles) {
+					setTimeout(forceChoicesStyles, 100);
+				}
+			});
+
+			if (document.body) {
+				observer.observe(document.body, {
+					childList: true,
+					subtree: true
+				});
+			} else {
+				document.addEventListener('DOMContentLoaded', function() {
+					observer.observe(document.body, {
+						childList: true,
+						subtree: true
+					});
+				});
 			}
