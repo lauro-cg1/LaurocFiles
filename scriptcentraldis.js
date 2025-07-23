@@ -1,4 +1,4 @@
-			console.log("V1.05");
+	console.log("V1.06");
 			
 			function debounce(func, wait) {
 				let timeout;
@@ -180,9 +180,35 @@
 			}
 			
 			function togglePrimeiraSegunda() {
+				const tipoFuncao = document.getElementById("tipo_funcao_fiscalizador")?.value;
+				const opcoes = document.getElementById("fiscalizacao_listagem_opcoes");
+				
+				if (opcoes) {
+					if (tipoFuncao === "Fiscalização de Listagem") {
+						opcoes.classList.remove('hidden');
+						document.getElementById("primeira_segunda_funcao").required = true;
+					} else {
+						opcoes.classList.add('hidden');
+						document.getElementById("primeira_segunda_funcao").required = false;
+						document.getElementById("primeira_segunda_funcao").value = "";
+					}
+				}
 			}
 			
 			function togglePrimeiraSegundaJustificativa() {
+				const tipoFuncao = document.getElementById("tipo_funcao_fiscalizador_justificativa")?.value;
+				const opcoes = document.getElementById("fiscalizacao_listagem_opcoes_justificativa");
+				
+				if (opcoes) {
+					if (tipoFuncao === "Fiscalização de Listagem") {
+						opcoes.classList.remove('hidden');
+						document.getElementById("primeira_segunda_funcao_justificativa").required = true;
+					} else {
+						opcoes.classList.add('hidden');
+						document.getElementById("primeira_segunda_funcao_justificativa").required = false;
+						document.getElementById("primeira_segunda_funcao_justificativa").value = "";
+					}
+				}
 			}
 			
 			function setRequiredAttributes() {
@@ -201,6 +227,11 @@
 				if (fiscalizadorConclusao && !fiscalizadorConclusao.classList.contains('hidden')) {
 					document.getElementById("tipo_funcao_fiscalizador").required = true;
 					document.getElementById("comprovacao_conclusao").required = true;
+					
+					const tipoFuncaoFiscalizador = document.getElementById("tipo_funcao_fiscalizador").value;
+					if (tipoFuncaoFiscalizador === "Fiscalização de Listagem") {
+						document.getElementById("primeira_segunda_funcao").required = true;
+					}
 				}
 				
 				if (peritoConclusao && !peritoConclusao.classList.contains('hidden')) {
@@ -211,6 +242,11 @@
 				if (fiscalizadorJustificativa && !fiscalizadorJustificativa.classList.contains('hidden')) {
 					document.getElementById("tipo_funcao_fiscalizador_justificativa").required = true;
 					document.getElementById("motivo_justificativa_fiscalizador").required = true;
+					
+					const tipoFuncaoFiscalizadorJustificativa = document.getElementById("tipo_funcao_fiscalizador_justificativa").value;
+					if (tipoFuncaoFiscalizadorJustificativa === "Fiscalização de Listagem") {
+						document.getElementById("primeira_segunda_funcao_justificativa").required = true;
+					}
 				}
 				
 				if (peritoJustificativa && !peritoJustificativa.classList.contains('hidden')) {
