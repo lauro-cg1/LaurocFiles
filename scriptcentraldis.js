@@ -1,4 +1,4 @@
-			console.log("V1.05");
+			console.log("V1.06");
 			
 			function debounce(func, wait) {
 				let timeout;
@@ -1640,7 +1640,7 @@ ${camposHtml}
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Fechamento da Infração</div>
-								<p>Ao enviar a mensagem privada, é necessário FECHAR A INFRAÇÃO para que o link da mensagem privada enviada apareça na central de casos, e assim, evitar de que haja o reenvio acidental por outro agente. Portanto, acesse a <a href="https://docs.google.com/spreadsheets/d/1ooPcYuXntzbW-Yj2bgCYGd_3S_xNAbwgk6D1opsVgXs/edit?resourcekey=&gid=618835355" target="_blank">[DIS] Central de Acessos</a>, vá até a aba Registros de casos e selecione Fechamento de Infração, coloque a ordem (coluna B da planilha) do seu caso, e anexe o print da MP no campo de Comprovação.</p>
+								<p>Ao enviar a mensagem privada, é necessário FECHAR A INFRAÇÃO para que o link da mensagem privada enviada apareça na central de casos, e assim, evitar de que haja o reenvio acidental por outro agente. Portanto, acesse a <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos#" target="_blank">[DIS] Central de Acessos</a>, vá até a aba Registros de casos e selecione Fechamento de Infração, coloque a ordem (coluna B da planilha) do seu caso, e anexe o print da MP no campo de Comprovação.</p>
 							</div>
 							
 							<div class="observacao">
