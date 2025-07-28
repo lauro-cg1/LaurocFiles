@@ -1,4 +1,4 @@
-console.log("V2.00");
+console.log("V2.01");
 function openEscalaModal() {
 				const modal = document.createElement('div');
 				modal.className = 'escala-modal';
@@ -655,9 +655,10 @@ function openEscalaModal() {
 					body: formData2
 				}).then(() => {
 					setTimeout(() => {
-						fetch('https://script.google.com/macros/s/AKfycbyHUYQV3Yu7XEhNnwGvpK_fpjFwv_G0Vg2zBX9RuKCJl8VIdl_VHvoIb4bIymBNXqpx/exec', {
-							method: 'GET'
-						}).then(() => {
+						const scriptGet = document.createElement('script');
+						scriptGet.src = 'https://script.google.com/macros/s/AKfycbyHUYQV3Yu7XEhNnwGvpK_fpjFwv_G0Vg2zBX9RuKCJl8VIdl_VHvoIb4bIymBNXqpx/exec';
+						scriptGet.async = true;
+						scriptGet.onload = function() {
 							const popup = document.createElement('div');
 							popup.innerHTML = `
 							<div style="
@@ -726,9 +727,11 @@ function openEscalaModal() {
 								popup.remove();
 								setButtonLoading(submitButton2, false);
 							});
-						}).catch(() => {
+						};
+						scriptGet.onerror = function() {
 							alert('Erro ao executar script GET.');
-						});
+						};
+						document.body.appendChild(scriptGet);
 					}, 3000);
 				}).catch(error => {
 					showError("Erro ao enviar: " + error.message, form2);
