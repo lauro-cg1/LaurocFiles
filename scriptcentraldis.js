@@ -1,4 +1,4 @@
-console.log("V2.01");
+console.log("V2.00");
 function openEscalaModal() {
 				const modal = document.createElement('div');
 				modal.className = 'escala-modal';
@@ -654,81 +654,82 @@ function openEscalaModal() {
 					method: 'POST',
 					body: formData2
 				}).then(() => {
-					const popup = document.createElement('div');
-					popup.innerHTML = `
-					<div style="
-						position: fixed;
-						top: 0;
-						left: 0;
-						width: 100vw;
-						height: 100vh;
-						background: rgba(0, 0, 0, 0.6);
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						z-index: 9999;
-					">
-						<div style="
-							background: white;
-							color: black;
-							padding: 30px;
-							border-radius: 12px;
-							text-align: center;
-							max-width: 90%;
-							width: 400px;
-						">
-							<h2 style="margin-top: 0;">Conclusão de função enviada</h2>
-							<p>Deseja verificar a postagem?</p>
-							<div style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;">
-								<button id="btnSim" style="
-									padding: 10px 20px;
-									background-color: #33ff88;
-									border: none;
-									border-radius: 8px;
-									cursor: pointer;
-									font-weight: bold;
-								">Sim</button>
-								<button id="btnNao" style="
-									padding: 10px 20px;
-									background-color: #ff6666;
-									border: none;
-									border-radius: 8px;
-									cursor: pointer;
-									font-weight: bold;
-								">Não</button>
+					setTimeout(() => {
+						fetch('https://script.google.com/macros/s/AKfycbyHUYQV3Yu7XEhNnwGvpK_fpjFwv_G0Vg2zBX9RuKCJl8VIdl_VHvoIb4bIymBNXqpx/exec', {
+							method: 'GET'
+						}).then(() => {
+							const popup = document.createElement('div');
+							popup.innerHTML = `
+							<div style="
+								position: fixed;
+								top: 0;
+								left: 0;
+								width: 100vw;
+								height: 100vh;
+								background: rgba(0, 0, 0, 0.6);
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								z-index: 9999;
+							">
+								<div style="
+									background: white;
+									color: black;
+									padding: 30px;
+									border-radius: 12px;
+									text-align: center;
+									max-width: 90%;
+									width: 400px;
+								">
+									<h2 style="margin-top: 0;">Conclusão de função enviada</h2>
+									<p>Deseja verificar a postagem?</p>
+									<div style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;">
+										<button id="btnSim" style="
+											padding: 10px 20px;
+											background-color: #33ff88;
+											border: none;
+											border-radius: 8px;
+											cursor: pointer;
+											font-weight: bold;
+										">Sim</button>
+										<button id="btnNao" style="
+											padding: 10px 20px;
+											background-color: #ff6666;
+											border: none;
+											border-radius: 8px;
+											cursor: pointer;
+											font-weight: bold;
+										">Não</button>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
-					`;
-					
-					document.body.appendChild(popup);
-					
-					document.getElementById('btnSim').addEventListener('click', () => {
-						abrirMetasModal();
-					});
-					
-					document.getElementById('btnNao').addEventListener('click', () => {
-						form.reset();
-						
-						const choicesElements = form2.querySelectorAll('select');
-						choicesElements.forEach(select => {
-							if (select.choicesInstance) {
-								select.choicesInstance.removeActiveItems();
-								select.choicesInstance.setChoiceByValue('');
-							}
+							`;
+							document.body.appendChild(popup);
+							document.getElementById('btnSim').addEventListener('click', () => {
+								abrirMetasModal();
+							});
+							document.getElementById('btnNao').addEventListener('click', () => {
+								form.reset();
+								const choicesElements = form2.querySelectorAll('select');
+								choicesElements.forEach(select => {
+									if (select.choicesInstance) {
+										select.choicesInstance.removeActiveItems();
+										select.choicesInstance.setChoiceByValue('');
+									}
+								});
+								const sections = ['fiscalizador_conclusao', 'perito_conclusao', 'fiscalizador_justificativa', 'perito_justificativa'];
+								sections.forEach(id => {
+									const element = document.getElementById(id);
+									if (element) element.classList.add('hidden');
+								});
+								formContainer2.classList.add('hidden');
+								popup.remove();
+								setButtonLoading(submitButton2, false);
+							});
+						}).catch(() => {
+							alert('Erro ao executar script GET.');
 						});
-						
-						const sections = ['fiscalizador_conclusao', 'perito_conclusao', 'fiscalizador_justificativa', 'perito_justificativa'];
-						sections.forEach(id => {
-							const element = document.getElementById(id);
-							if (element) element.classList.add('hidden');
-						});
-						
-						formContainer2.classList.add('hidden');
-						
-						popup.remove();
-						setButtonLoading(submitButton2, false);
-					});	
+					}, 3000);
 				}).catch(error => {
 					showError("Erro ao enviar: " + error.message, form2);
 					setButtonLoading(submitButton2, false);
