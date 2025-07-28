@@ -240,8 +240,6 @@ function openEscalaModal() {
 	   function fecharMetasModal() {
 		   document.getElementById('modal-metas').classList.add('hidden');
 	   }
-			console.log("V1.05");
-			
 			function debounce(func, wait) {
 				let timeout;
 				return function executedFunction(...args) {
