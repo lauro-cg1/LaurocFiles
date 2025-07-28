@@ -1,4 +1,4 @@
-console.log("V2.01");
+console.log("V2.00");
 function openEscalaModal() {
 				const modal = document.createElement('div');
 				modal.className = 'escala-modal';
@@ -657,9 +657,7 @@ function openEscalaModal() {
         return response.text(); 
     })
     .then(postResult => {
-        console.log('POST realizado com sucesso:', postResult);
-
-        return new Promise(resolve => setTimeout(resolve, 5000)); 
+        return new Promise(resolve => setTimeout(resolve, 3000)); 
     })
     .then(() => {
         return fetch('https://script.google.com/macros/s/AKfycbyHUYQV3Yu7XEhNnwGvpK_fpjFwv_G0Vg2zBX9RuKCJl8VIdl_VHvoIb4bIymBNXqpx/exec', {
@@ -676,8 +674,6 @@ function openEscalaModal() {
         return response.json();
     })
     .then(data => {
-        console.log('GET realizado com sucesso:', data);
-        
         const popup = document.createElement('div');
         popup.innerHTML = `
         <div style="
