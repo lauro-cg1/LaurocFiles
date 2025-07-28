@@ -1,4 +1,4 @@
-console.log("V2.00");
+console.log("V2.01");
 function openEscalaModal() {
 				const modal = document.createElement('div');
 				modal.className = 'escala-modal';
@@ -726,7 +726,7 @@ function openEscalaModal() {
         document.getElementById('btnSim').addEventListener('click', () => {
             abrirMetasModal();
             popup.remove();
-			form.reset();
+			form2.reset();
             
             const choicesElements = form2.querySelectorAll('select');
             choicesElements.forEach(select => {
@@ -748,7 +748,7 @@ function openEscalaModal() {
         });
         
         document.getElementById('btnNao').addEventListener('click', () => {
-            form.reset();
+            form2.reset();
             
             const choicesElements = form2.querySelectorAll('select');
             choicesElements.forEach(select => {
