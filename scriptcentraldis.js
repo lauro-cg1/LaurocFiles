@@ -1,4 +1,246 @@
-	console.log("V1.05");
+	console.log("V2.00");
+function openEscalaModal() {
+				const modal = document.createElement('div');
+				modal.className = 'escala-modal';
+				modal.innerHTML = `
+					<div class="modal-overlay" onclick="closeEscalaModal()">
+						<div class="modal-content escala-content" onclick="event.stopPropagation()">
+							<div class="modal-header">
+								<h2><i class="fas fa-calendar-alt"></i> Escala Semanal</h2>
+								<button class="modal-close" onclick="closeEscalaModal()" aria-label="Fechar modal">
+									<i class="fas fa-times"></i>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="iframe-container">
+									<iframe 
+										src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTkkbzfjBvqccwhF7iuQ5SMojs17G1BdJxvSUZw7cb4iIVue9mAVAMlBNWpK6wyvFvL0-V0iee3ACbZ/pubhtml"
+										frameborder="0"
+										allowfullscreen="true"
+										title="Escala Semanal DIS">
+									</iframe>
+								</div>
+							</div>
+						</div>
+					</div>
+				`;
+				
+				const style = document.createElement('style');
+				style.textContent = `
+					.escala-modal .modal-overlay {
+						position: fixed;
+						top: 0;
+						left: 0;
+						width: 100vw;
+						height: 100vh;
+						background: rgba(0, 0, 0, 0.8);
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						z-index: 9999;
+						backdrop-filter: blur(5px);
+					}
+					.escala-modal .modal-content {
+						background: var(--bg-card);
+						color: var(--text-primary);
+						border-radius: 16px;
+						max-width: 95vw;
+						max-height: 95vh;
+						width: 1500px;
+						height: 1000px;
+						box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+						border: 1px solid var(--border-color);
+						display: flex;
+						flex-direction: column;
+						overflow: hidden;
+					}
+					.escala-modal .modal-header {
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						padding: 20px 25px;
+						border-bottom: 1px solid var(--border-color);
+						background: var(--bg-secondary);
+					}
+					.escala-modal .modal-header h2 {
+						margin: 0;
+						font-size: 1.4rem;
+						color: var(--primary-green);
+						display: flex;
+						align-items: center;
+						gap: 10px;
+					}
+					.escala-modal .modal-close {
+						background: none;
+						border: none;
+						color: var(--text-secondary);
+						font-size: 1.5rem;
+						cursor: pointer;
+						padding: 8px;
+						border-radius: 50%;
+						transition: all 0.3s ease;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 40px;
+						height: 40px;
+					}
+					.escala-modal .modal-close:hover {
+						background: rgba(255, 255, 255, 0.1);
+						color: var(--primary-green);
+						transform: scale(1.1);
+					}
+					.escala-modal .modal-body {
+						flex: 1;
+						padding: 0;
+						overflow: hidden;
+					}
+					.escala-modal .iframe-container {
+						width: 100%;
+						height: 100%;
+						position: relative;
+					}
+					.escala-modal .iframe-container iframe {
+						width: 100%;
+						height: 100%;
+						border: none;
+						border-radius: 0 0 16px 16px;
+					}
+					
+					@media (max-width: 768px) {
+						.escala-modal .modal-content {
+							width: 95vw;
+							height: 90vh;
+							margin: 20px;
+						}
+						.escala-modal .modal-header {
+							padding: 15px 20px;
+						}
+						.escala-modal .modal-header h2 {
+							font-size: 1.2rem;
+						}
+					}
+				`;
+				document.head.appendChild(style);
+				document.body.appendChild(modal);
+				
+				const closeOnEsc = (e) => {
+					if (e.key === 'Escape') {
+						closeEscalaModal();
+						document.removeEventListener('keydown', closeOnEsc);
+					}
+				};
+				document.addEventListener('keydown', closeOnEsc);
+				
+				modal.style.display = 'flex';
+				window.currentEscalaModal = modal;
+				window.currentEscalaStyle = style;
+			}
+			
+			function closeEscalaModal() {
+				if (window.currentEscalaModal) {
+					document.body.removeChild(window.currentEscalaModal);
+					window.currentEscalaModal = null;
+				}
+				if (window.currentEscalaStyle) {
+					document.head.removeChild(window.currentEscalaStyle);
+					window.currentEscalaStyle = null;
+				}
+			}
+			
+			function showSuccessModal({ title, message, onConfirm, onCancel }) {
+				const modal = document.createElement('div');
+				modal.className = 'success-modal';
+				modal.innerHTML = `
+					<div class="modal-overlay">
+						<div class="modal-content">
+							<h2>${title}</h2>
+							<p>${message}</p>
+							<div class="modal-buttons">
+								<button class="modal-btn modal-btn-confirm">Sim</button>
+								<button class="modal-btn modal-btn-cancel">Não</button>
+							</div>
+						</div>
+					</div>
+				`;
+				
+				const style = document.createElement('style');
+				style.textContent = `
+					.success-modal .modal-overlay {
+						position: fixed;
+						top: 0;
+						left: 0;
+						width: 100vw;
+						height: 100vh;
+						background: rgba(0, 0, 0, 0.6);
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						z-index: 9999;
+					}
+					.success-modal .modal-content {
+						background: white;
+						color: black;
+						padding: 30px;
+						border-radius: 12px;
+						text-align: center;
+						max-width: 90%;
+						width: 400px;
+						box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+					}
+					.success-modal .modal-buttons {
+						margin-top: 20px;
+						display: flex;
+						justify-content: center;
+						gap: 20px;
+					}
+					.success-modal .modal-btn {
+						padding: 10px 20px;
+						border: none;
+						border-radius: 8px;
+						cursor: pointer;
+						font-weight: bold;
+						transition: all 0.3s ease;
+					}
+					.success-modal .modal-btn-confirm {
+						background-color: #33ff88;
+						color: white;
+					}
+					.success-modal .modal-btn-cancel {
+						background-color: #ff6666;
+						color: white;
+					}
+					.success-modal .modal-btn:hover {
+						transform: translateY(-2px);
+						box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+					}
+				`;
+				document.head.appendChild(style);
+				
+				document.body.appendChild(modal);
+				
+				modal.querySelector('.modal-btn-confirm').addEventListener('click', () => {
+					document.body.removeChild(modal);
+					document.head.removeChild(style);
+					if (onConfirm) onConfirm();
+				});
+				
+				modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
+					document.body.removeChild(modal);
+					document.head.removeChild(style);
+					if (onCancel) onCancel();
+				});
+			}
+	   function abrirMetasModal() {
+		   hideAllForms();
+		   document.getElementById('modal-metas').classList.remove('hidden');
+		   const content = document.getElementById('metas-content');
+		   content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQdAjvgpQj7aB08XHEn2EfaswpH04RFA5JWjZmar6EeNt2m53Xd4WYu2em1kELH9nt9qAKGTF4DV4n3/pubhtml?gid=618835355&single=true" width="100%" height="1000" style="border:none;"></iframe>`;
+	   }
+	   function fecharMetasModal() {
+		   document.getElementById('modal-metas').classList.add('hidden');
+	   }
+			console.log("V1.05");
 			
 			function debounce(func, wait) {
 				let timeout;
@@ -39,7 +281,6 @@
 					'postagem_funcao_forms', 
 					'enviar_Mp',
 					'container-manuais',
-					'container-planilhas',
 					'container-uteis',
 					'requerimentos_container'
 				];
@@ -63,16 +304,6 @@
 				const container = document.getElementById('container-manuais');
 				if (container.classList.contains('hidden')) {
 					showElement('container-manuais');
-				} else {
-					container.classList.add('hidden');
-				}
-			}
-			
-			function toggleSubmenuplan() {
-				hideAllForms();
-				const container = document.getElementById('container-planilhas');
-				if (container.classList.contains('hidden')) {
-					showElement('container-planilhas');
 				} else {
 					container.classList.add('hidden');
 				}
@@ -308,7 +539,6 @@
 							mode: 'no-cors'
 						})
 						.then(response => {
-							console.log('Additional script executed for Fechamento de Infração');
 							return response;
 						})
 						.catch(error => {
@@ -383,239 +613,6 @@
 					button.disabled = false;
 					button.innerHTML = button.dataset.originalText || button.innerHTML;
 				}
-			}
-			
-			function openEscalaModal() {
-				const modal = document.createElement('div');
-				modal.className = 'escala-modal';
-				modal.innerHTML = `
-					<div class="modal-overlay" onclick="closeEscalaModal()">
-						<div class="modal-content escala-content" onclick="event.stopPropagation()">
-							<div class="modal-header">
-								<h2><i class="fas fa-calendar-alt"></i> Escala Semanal</h2>
-								<button class="modal-close" onclick="closeEscalaModal()" aria-label="Fechar modal">
-									<i class="fas fa-times"></i>
-								</button>
-							</div>
-							<div class="modal-body">
-								<div class="iframe-container">
-									<iframe 
-										src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTkkbzfjBvqccwhF7iuQ5SMojs17G1BdJxvSUZw7cb4iIVue9mAVAMlBNWpK6wyvFvL0-V0iee3ACbZ/pubhtml?gid=1427731203&single=true&widget=true&headers=false"
-										frameborder="0"
-										allowfullscreen="true"
-										title="Escala Semanal DIS">
-									</iframe>
-								</div>
-							</div>
-						</div>
-					</div>
-				`;
-				
-				const style = document.createElement('style');
-				style.textContent = `
-					.escala-modal .modal-overlay {
-						position: fixed;
-						top: 0;
-						left: 0;
-						width: 100vw;
-						height: 100vh;
-						background: rgba(0, 0, 0, 0.8);
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						z-index: 9999;
-						backdrop-filter: blur(5px);
-					}
-					.escala-modal .modal-content {
-						background: var(--bg-card);
-						color: var(--text-primary);
-						border-radius: 16px;
-						max-width: 95vw;
-						max-height: 95vh;
-						width: 1200px;
-						height: 800px;
-						box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
-						border: 1px solid var(--border-color);
-						display: flex;
-						flex-direction: column;
-						overflow: hidden;
-					}
-					.escala-modal .modal-header {
-						display: flex;
-						justify-content: space-between;
-						align-items: center;
-						padding: 20px 25px;
-						border-bottom: 1px solid var(--border-color);
-						background: var(--bg-secondary);
-					}
-					.escala-modal .modal-header h2 {
-						margin: 0;
-						font-size: 1.4rem;
-						color: var(--primary-green);
-						display: flex;
-						align-items: center;
-						gap: 10px;
-					}
-					.escala-modal .modal-close {
-						background: none;
-						border: none;
-						color: var(--text-secondary);
-						font-size: 1.5rem;
-						cursor: pointer;
-						padding: 8px;
-						border-radius: 50%;
-						transition: all 0.3s ease;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						width: 40px;
-						height: 40px;
-					}
-					.escala-modal .modal-close:hover {
-						background: rgba(255, 255, 255, 0.1);
-						color: var(--primary-green);
-						transform: scale(1.1);
-					}
-					.escala-modal .modal-body {
-						flex: 1;
-						padding: 0;
-						overflow: hidden;
-					}
-					.escala-modal .iframe-container {
-						width: 100%;
-						height: 100%;
-						position: relative;
-					}
-					.escala-modal .iframe-container iframe {
-						width: 100%;
-						height: 100%;
-						border: none;
-						border-radius: 0 0 16px 16px;
-					}
-					
-					@media (max-width: 768px) {
-						.escala-modal .modal-content {
-							width: 95vw;
-							height: 90vh;
-							margin: 20px;
-						}
-						.escala-modal .modal-header {
-							padding: 15px 20px;
-						}
-						.escala-modal .modal-header h2 {
-							font-size: 1.2rem;
-						}
-					}
-				`;
-				document.head.appendChild(style);
-				document.body.appendChild(modal);
-				
-				const closeOnEsc = (e) => {
-					if (e.key === 'Escape') {
-						closeEscalaModal();
-						document.removeEventListener('keydown', closeOnEsc);
-					}
-				};
-				document.addEventListener('keydown', closeOnEsc);
-				
-				modal.style.display = 'flex';
-				window.currentEscalaModal = modal;
-				window.currentEscalaStyle = style;
-			}
-			
-			function closeEscalaModal() {
-				if (window.currentEscalaModal) {
-					document.body.removeChild(window.currentEscalaModal);
-					window.currentEscalaModal = null;
-				}
-				if (window.currentEscalaStyle) {
-					document.head.removeChild(window.currentEscalaStyle);
-					window.currentEscalaStyle = null;
-				}
-			}
-			
-			function showSuccessModal({ title, message, onConfirm, onCancel }) {
-				const modal = document.createElement('div');
-				modal.className = 'success-modal';
-				modal.innerHTML = `
-					<div class="modal-overlay">
-						<div class="modal-content">
-							<h2>${title}</h2>
-							<p>${message}</p>
-							<div class="modal-buttons">
-								<button class="modal-btn modal-btn-confirm">Sim</button>
-								<button class="modal-btn modal-btn-cancel">Não</button>
-							</div>
-						</div>
-					</div>
-				`;
-				
-				const style = document.createElement('style');
-				style.textContent = `
-					.success-modal .modal-overlay {
-						position: fixed;
-						top: 0;
-						left: 0;
-						width: 100vw;
-						height: 100vh;
-						background: rgba(0, 0, 0, 0.6);
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						z-index: 9999;
-					}
-					.success-modal .modal-content {
-						background: white;
-						color: black;
-						padding: 30px;
-						border-radius: 12px;
-						text-align: center;
-						max-width: 90%;
-						width: 400px;
-						box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-					}
-					.success-modal .modal-buttons {
-						margin-top: 20px;
-						display: flex;
-						justify-content: center;
-						gap: 20px;
-					}
-					.success-modal .modal-btn {
-						padding: 10px 20px;
-						border: none;
-						border-radius: 8px;
-						cursor: pointer;
-						font-weight: bold;
-						transition: all 0.3s ease;
-					}
-					.success-modal .modal-btn-confirm {
-						background-color: #33ff88;
-						color: white;
-					}
-					.success-modal .modal-btn-cancel {
-						background-color: #ff6666;
-						color: white;
-					}
-					.success-modal .modal-btn:hover {
-						transform: translateY(-2px);
-						box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-					}
-				`;
-				document.head.appendChild(style);
-				
-				document.body.appendChild(modal);
-				
-				modal.querySelector('.modal-btn-confirm').addEventListener('click', () => {
-					document.body.removeChild(modal);
-					document.head.removeChild(style);
-					if (onConfirm) onConfirm();
-				});
-				
-				modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
-					document.body.removeChild(modal);
-					document.head.removeChild(style);
-					if (onCancel) onCancel();
-				});
 			}
 			
 			function resetForm(form, container) {
@@ -772,10 +769,10 @@
 					dados.consideracoes = document.querySelector('[name="consideracoes_adv"]').value;
 					dados.provas = document.querySelector('[name="provas_adv"]').value;
 					
-					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
+					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
+					[img(50px,50px)]https:
 					[b][size=18][color=white]NOTIFICAÇÃO DE INFRAÇÃO[/color][/size][/b]
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -785,9 +782,9 @@
 					[b]Infração:[/b] ${dados.infracao}
 					[b]Considerações:[/b] ${dados.consideracoes}
 					
-					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]Caso cometa novamente este erro, você será punido com [b]10 medalhas efetivas negativas[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPpOjvA7M2VafDm8loCfggSJX5uCkskY6YA5Hu9CwVDhPYCSyAsc7A6b6QKTS75wpdPaHdKejD8dZkMmMJOW0OjpLb0HHu4tUZ7lypNSJjA6q8kD8VZ1G5Nd4oE_FF78jY8qmSgAufBmEJ/s1600/ES59E.gif[/img][/right][/url][/td][td style="border: none!important; overflow: hidden"][left][b][size=14][url=${dados.provas}][font=Poppins][color=white]COMPROVAÇÃO[/color][/size][/b]
+					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]Caso cometa novamente este erro, você será punido com [b]10 medalhas efetivas negativas[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https:
 					[size=10][color=white]Clique aqui para ver a comprovação.[/color][/size][/font][/url][/left][/td][/tr][/table][/center][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
+					[size=11][color=white]BBCode por [url=https:
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;
 					
@@ -799,10 +796,10 @@
 					dados.provas = document.querySelector('[name="provas_50"]').value;
 					
 					titulo = `[DIS] ${dados.tipo}`;
-					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
+					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
+					[img(50px,50px)]https:
 					[b][size=18][color=white]NOTIFICAÇÃO DE INFRAÇÃO[/color][/size][/b]
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -812,9 +809,9 @@
 					[b]Infração:[/b] ${dados.infracao}
 					[b]Considerações:[/b] ${dados.consideracoes}
 					
-					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em [b]50 medalhas efetivas negativas[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPpOjvA7M2VafDm8loCfggSJX5uCkskY6YA5Hu9CwVDhPYCSyAsc7A6b6QKTS75wpdPaHdKejD8dZkMmMJOW0OjpLb0HHu4tUZ7lypNSJjA6q8kD8VZ1G5Nd4oE_FF78jY8qmSgAufBmEJ/s1600/ES59E.gif[/img][/right][/url][/td][td style="border: none!important; overflow: hidden"][left][b][size=14][url=${dados.provas}][font=Poppins][color=white]COMPROVAÇÃO[/color][/size][/b]
+					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em [b]50 medalhas efetivas negativas[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https:
 					[size=10][color=white]Clique aqui para ver a comprovação.[/color][/size][/font][/url][/left][/td][/tr][/table][/center][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
+					[size=11][color=white]BBCode por [url=https:
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;
 					
@@ -831,10 +828,10 @@
 					dados.consideracoes = consideracoes10;
 					dados.provas = `Prova 1: ${prova1_10}\nProva 2: ${prova2_10}`;
 					
-					dados.mensagem = `[font=Poppins][table  style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
+					dados.mensagem = `[font=Poppins][table  style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
 					
 					[table style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
+					[img(50px,50px)]https:
 					[b][size=18][color=white]NOTIFICAÇÃO DE REINCIDÊNCIA[/color][/size][/b]
 					
 					[table  style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"]
@@ -845,16 +842,16 @@
 					[b]Considerações adicionais:[/b] ${consideracoes10}
 					
 					Reiteramos a importância da leitura de nossos documentos internos a fim de evitar punições, sendo eles:
-					[url=https://www.policiarcc.com/t24992-sup-codigo-de-conduta-do-supervisor][color=green]⤳ [b][SUP] Código de Conduta do Supervisor[/b][/color][/url]
-					[url=https://www.policiarcc.com/t34525-sup-codigo-penal-dos-supervisores][color=green]⤳ [b][SUP] Código Penal dos Supervisores[/b][/color][/url].
+					[url=https:
+					[url=https:
 					
 					[table style="width: 100%; border: none!important; overflow: hidden; line-height: 1.2em; border-radius: 15px"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][table style="width: 100%; border: none!important; overflow: hidden; border-radius: 20px" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="width: 25%; border: none!important; overflow: hidden"][size=18][color=white][b]COMPROVAÇÃO[/b][/size]
-					[size=12]DE INFRAÇÕES[/size][/color][/td][td style="border: none!important; overflow: hidden"][table style="border: none!important; overflow: hidden; padding: 15px; border-radius: 20px" bgcolor="ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][url=${prova1_10}][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjmO5kei-QnqRX4JH8vq1iqKDZzrytl1DtqheLrZS18XOqq-hEedtVR467jd_pWJiVZZ-DF0UW1AzjNwerWx0Di-JvDZa7QHGV_jaHowcYswpJHlOpwDzUl6f7zveQebXK82xRH8IQyl5s/s1600/up-bb1756f80d.gif[/img]
+					[size=12]DE INFRAÇÕES[/size][/color][/td][td style="border: none!important; overflow: hidden"][table style="border: none!important; overflow: hidden; padding: 15px; border-radius: 20px" bgcolor="ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][url=${prova1_10}][img]https:
 					[color=black][size=14][b]PRIMEIRA INFRAÇÃO:[/size][/b]
-					[size=11]Comprovação da primeira infração[/size][/color][/url][/td][td style="border: none!important; overflow: hidden" bgcolor="f0f0f0"][url=${prova2_10}][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhF3XNSFnhoM6joIZzQjK5wEm6UU7ChJQvP89CcaWI7NmRUYIY7cSSWhep4cVzO7IekIgdleFs9UCwivcz-lzI46DnUtIgAxIvJDvXuwdaH7JcluhSDMYndmbUIylh75icYChFKFVW5Icc/s1600/up-992b28f658.gif[/img]
+					[size=11]Comprovação da primeira infração[/size][/color][/url][/td][td style="border: none!important; overflow: hidden" bgcolor="f0f0f0"][url=${prova2_10}][img]https:
 					[color=black][size=14][b]SEGUNDA INFRAÇÃO:[/size][/b]
 					[size=11]Comprovação da segunda infração[/size][/color][/url][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#E8F5E9"][size=11][center]Caso cometa novamente este erro, você será punido com uma [b]advertência escrita interna[/b].[/center][/size][/td][/tr][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
+					[size=11][color=white]BBCode por [url=https:
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;					
 					
@@ -867,10 +864,10 @@
 					
 					const hojeFalhas = new Date().toLocaleDateString("pt-BR");
 					
-					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
+					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
+					[img(50px,50px)]https:
 					[b][size=18][color=white]NOTIFICAÇÃO DE FALHA[/color][/size][/b] 
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -880,12 +877,12 @@
 					[b]Infração:[/b] ${dados.infracao}
 					[b]Considerações:[/b] ${dados.consideracoes}
 					
-					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]Caso cometa novamente este erro na próxima semana, você será punido com uma [b]Advertência Escrita Interna.[/b][/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjmO5kei-QnqRX4JH8vq1iqKDZzrytl1DtqheLrZS18XOqq-hEedtVR467jd_pWJiVZZ-DF0UW1AzjNwerWx0Di-JvDZa7QHGV_jaHowcYswpJHlOpwDzUl6f7zveQebXK82xRH8IQyl5s/s1600/up-bb1756f80d.gif[/img]
+					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]Caso cometa novamente este erro na próxima semana, você será punido com uma [b]Advertência Escrita Interna.[/b][/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][img]https:
 					[color=black][size=14][b]PRIMEIRA INFRAÇÃO:[/size][/b]
-					[size=11]Comprovação da primeira infração[/size][/color][/url][/td][td style="border: none!important; overflow: hidden" bgcolor="f0f0f0"][url=${prova2_10}][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhF3XNSFnhoM6joIZzQjK5wEm6UU7ChJQvP89CcaWI7NmRUYIY7cSSWhep4cVzO7IekIgdleFs9UCwivcz-lzI46DnUtIgAxIvJDvXuwdaH7JcluhSDMYndmbUIylh75icYChFKFVW5Icc/s1600/up-992b28f658.gif[/img]
+					[size=11]Comprovação da primeira infração[/size][/color][/url][/td][td style="border: none!important; overflow: hidden" bgcolor="f0f0f0"][url=${prova2_10}][img]https:
 					[color=black][size=14][b]SEGUNDA INFRAÇÃO:[/size][/b]
 					[size=11]Comprovação da segunda infração[/size][/color][/url][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#E8F5E9"][size=11][center]Caso cometa novamente este erro, você será punido com uma [b]advertência escrita interna[/b].[/center][/size][/td][/tr][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
+					[size=11][color=white]BBCode por [url=https:
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;					
 					
@@ -898,10 +895,10 @@
 					
 					const hojeAdv = new Date().toLocaleDateString("pt-BR");
 					
-					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
+					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
+					[img(50px,50px)]https:
 					[b][size=18][color=white]NOTIFICAÇÃO DE ADVERTÊNCIA[/color][/size][/b] 
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -911,9 +908,9 @@
 					[b]Infração:[/b] ${dados.infracao}
 					[b]Considerações:[/b] ${dados.consideracoes}
 					
-					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em uma [b]Advertência Escrita Interna.[/b][/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPpOjvA7M2VafDm8loCfggSJX5uCkskY6YA5Hu9CwVDhPYCSyAsc7A6b6QKTS75wpdPaHdKejD8dZkMmMJOW0OjpLb0HHu4tUZ7lypNSJjA6q8kD8VZ1G5Nd4oE_FF78jY8qmSgAufBmEJ/s1600/ES59E.gif[/img][/right][/url][/td][td style="border: none!important; overflow: hidden"][left][b][size=14][url=${dados.provas}][font=Poppins][color=white]COMPROVAÇÃO[/color][/size][/b] 
+					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em uma [b]Advertência Escrita Interna.[/b][/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https:
 					[size=10][color=white]Clique aqui para ver a comprovação.[/color][/size][/font][/url][/left][/td][/tr][/table][/center][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
+					[size=11][color=white]BBCode por [url=https:
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;					
 					
@@ -926,10 +923,10 @@
 					
 					const hojeReb = new Date().toLocaleDateString("pt-BR");
 					
-					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
+					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
+					[img(50px,50px)]https:
 					[b][size=18][color=white]NOTIFICAÇÃO DE REBAIXAMENTO[/color][/size][/b] 
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -939,9 +936,9 @@
 					[b]Infração:[/b] ${dados.infracao}
 					[b]Considerações:[/b] ${dados.consideracoes}
 					
-					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em um [b]rebaixamento[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPpOjvA7M2VafDm8loCfggSJX5uCkskY6YA5Hu9CwVDhPYCSyAsc7A6b6QKTS75wpdPaHdKejD8dZkMmMJOW0OjpLb0HHu4tUZ7lypNSJjA6q8kD8VZ1G5Nd4oE_FF78jY8qmSgAufBmEJ/s1600/ES59E.gif[/img][/right][/url][/td][td style="border: none!important; overflow: hidden"][left][b][size=14][url=${dados.provas}][font=Poppins][color=white]COMPROVAÇÃO[/color][/size][/b] 
+					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em um [b]rebaixamento[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https:
 					[size=10][color=white]Clique aqui para ver a comprovação.[/color][/size][/font][/url][/left][/td][/tr][/table][/center][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
+					[size=11][color=white]BBCode por [url=https:
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;
 					
@@ -954,10 +951,10 @@
 					
 					const hojeExp = new Date().toLocaleDateString("pt-BR");
 					
-					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
+					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
+					[img(50px,50px)]https:
 					[b][size=18][color=white]NOTIFICAÇÃO DE EXPULSÃO[/color][/size][/b] 
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -967,9 +964,9 @@
 					[b]Infração:[/b] ${dados.infracao}
 					[b]Considerações:[/b] ${dados.consideracoes}
 					
-					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em uma [b]expulsão[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPpOjvA7M2VafDm8loCfggSJX5uCkskY6YA5Hu9CwVDhPYCSyAsc7A6b6QKTS75wpdPaHdKejD8dZkMmMJOW0OjpLb0HHu4tUZ7lypNSJjA6q8kD8VZ1G5Nd4oE_FF78jY8qmSgAufBmEJ/s1600/ES59E.gif[/img][/right][/url][/td][td style="border: none!important; overflow: hidden"][left][b][size=14][url=${dados.provas}][font=Poppins][color=white]COMPROVAÇÃO[/color][/size][/b] 
+					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em uma [b]expulsão[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https:
 					[size=10][color=white]Clique aqui para ver a comprovação.[/color][/size][/font][/url][/left][/td][/tr][/table][/center][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
+					[size=11][color=white]BBCode por [url=https:
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;					
 					
@@ -981,10 +978,10 @@
 					
 					const hojeCanc = new Date().toLocaleDateString("pt-BR");
 					
-					dados.mensagem = `[font=Poppins][table style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img][/td][/tr]
+					dados.mensagem = `[font=Poppins][table style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
 					
 					[tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][table style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
+					[img(50px,50px)]https:
 					[b][size=18][color=white]CANCELAMENTO DE INFRAÇÃO[/color][/size][/b] 
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -995,7 +992,7 @@
 					[b]Explicativa:[/b] ${dados.consideracoes} [/td][/tr][/table][/td][/tr]
 					
 					[tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][table style="border-radius: 15px; overflow: hidden; width: 40%; margin: auto;" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden; text-align: center; vertical-align: middle;"][b][size=12][color=white]Pedimos desculpas pelo equívoco.[/size][/color][/b]
-					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/td][/tr][/table][/font]
+					[size=11][color=white]BBCode por [url=https:
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;					
 					
@@ -1004,10 +1001,10 @@
 					dados.nome = document.querySelector('[name="nome_int"]').value;
 					dados.consideracoes = document.querySelector('[name="comunicado_int"]').value;
 					
-					dados.mensagem = `[font=Poppins][table style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img][/td][/tr]
+					dados.mensagem = `[font=Poppins][table style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
 					
 					[tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][table style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
+					[img(50px,50px)]https:
 					[b][size=18][color=white]CARTA DE INTIMAÇÃO[/color][/size][/b] 
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -1017,7 +1014,7 @@
 					
 					[center][b]Ao ler esta mensagem, entre em contato com a pessoa que enviou esta mensagem.[/b][/center]  [/td][/tr][/table][/td][/tr]
 					
-					[tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][table style="border-radius: 15px; overflow: hidden; width: 40%; margin: auto;" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden; text-align: center; vertical-align: middle;"][size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/td][/tr][/table][/font]
+					[tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][table style="border-radius: 15px; overflow: hidden; width: 40%; margin: auto;" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden; text-align: center; vertical-align: middle;"][size=11][color=white]BBCode por [url=https:
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;					
 					
@@ -1408,7 +1405,7 @@
 
 				return `[font=Poppins][table style="width: 100%; border: none!important; border-radius: 10px; overflow: hidden;" bgcolor="#000000"][tr style="border: none!important;"][td style="border: none!important; padding: 0;"]
 
-[table style="width: 100%; border: none!important; background: linear-gradient(135deg, #1a1a1a 0%, #0a2a0a 50%, #1a4d1a 100%);" bgcolor="#1a1a1a"][tr style="border: none!important;"][td style="border: none!important; text-align: center; padding: 15px;"][img(80px,80px)]https://i.imgur.com/fAzB0kn.png[/img]
+[table style="width: 100%; border: none!important; background: linear-gradient(135deg, #1a1a1a 0%, #0a2a0a 50%, #1a4d1a 100%);" bgcolor="#1a1a1a"][tr style="border: none!important;"][td style="border: none!important; text-align: center; padding: 15px;"][img(80px,80px)]https:
 [size=15][b][color=#228b22]${titulo}[/color][/b][/size]
 [size=10][color=#b0b0b0]Divisão de Investigação e Segurança[/color][/size]
 
@@ -1769,8 +1766,8 @@ ${camposHtml}
 							</div>
 							
 							<div class="observacao">
-								<p><strong>OBSERVAÇÃO:</strong> No campo VEREDITO escreva Advertência Verbal, visto que o veredito já estará designado pelo perito.</p>
-								<p><strong>OBSERVAÇÃO 2:</strong> O Agente de Mensagens Diretas só irá fechar os casos em que o veredito seja Advertência Verbal; Qualquer veredito diferente o caso deverá ser fechado pelo perito.</p>
+								<p><strong>OBSERVAÇÃO:</strong> No campo Veredito escreva Advertência Verbal, visto que o Veredito já estará designado pelo perito.</p>
+								<p><strong>OBSERVAÇÃO 2:</strong> O Agente de Mensagens Diretas só irá fechar os casos em que o Veredito seja Advertência Verbal; Qualquer Veredito diferente o caso deverá ser fechado pelo perito.</p>
 							</div>
 							
 							<div class="etapa">
@@ -2091,6 +2088,670 @@ ${camposHtml}
 			
 			function fecharManual() {
 				const modal = document.getElementById('modal-manual');
+				modal.classList.add('hidden');
+			}
+
+			function mostrarQuadroInfracoes() {
+				const modal = document.getElementById('modal-quadro-infracoes');
+				const listaInfracoes = document.getElementById('lista-infracoes');
+				const detalhesInfracao = document.getElementById('detalhes-infracao');
+				
+				detalhesInfracao.classList.add('hidden');
+				listaInfracoes.classList.remove('hidden');
+				
+				const infracoes = [
+					{
+						id: 1,
+						nome: "Modificar qualquer informação contida em determinada aula.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 2,
+						nome: "Não reproduzir qualquer informação contida em determinada aula.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 3,
+						nome: "Abandono de dever/negligência.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 4,
+						nome: "Aceitar respostas incompletas no teste.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 5,
+						nome: "Aplicação da Supervisão de Soldado para mais de um soldado simultaneamente.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 6,
+						nome: "Aplicação de aulas para policiais que não possuem os requisitos para recebê-la.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 7,
+						nome: "Aplicação de aulas para policiais que já foram aprovados anteriormente.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 8,
+						nome: "Aplicação de aulas em qualquer lugar que não esteja pré-estabelecido pelo formulário de postagem.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 9,
+						nome: "Aplicação de 3 (três) vezes ou mais da mesma aula para o mesmo policial após reprovações.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 10,
+						nome: "Aplicação da Aula de Promotor (PRO) a outro supervisor.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 11,
+						nome: "Aplicação de cursos e/ou graduações em um tempo muito curto.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 12,
+						nome: "Aplicação de SUP fora do local estabelecido (Batalhão/Corredor Principal)",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 13,
+						nome: "Aplicação de aula sem estar apto à aplicá-las.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 14,
+						nome: "Aplicação de curso fora do local pré-destinado pelo Código de Conduta do Supervisor.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 15,
+						nome: "Não retirar algum militar na fiscalização de listagem que contenha os requisitos para retirada.",
+						fiscalizador: "Consultar reincidência e registrar FALHA. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Nada a fazer.",
+						perito: "Nada a fazer."
+					},
+					{
+						id: 16,
+						nome: "A negação de aplicação de cursos/graduações sem uma justificativa.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 17,
+						nome: "A negação em ceder cursos/graduações para militares que necessitem de meta.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 18,
+						nome: "Conclusão de fiscalização, sem a aprovação do CRH.",
+						fiscalizador: "Consultar reincidência e registrar FALHA. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Nada a fazer.",
+						perito: "Nada a fazer."
+					},
+					{
+						id: 19,
+						nome: "Postagem do própria aula no relatório de aplicações.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 20,
+						nome: "Reincidência de infrações idênticas.",
+						fiscalizador: "Registrar o caso com a print do primeiro e do segundo caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: 10 MEDALHAS EFETIVAS NEGATIVAS"
+					},
+					{
+						id: 21,
+						nome: "Postagem incorreta de requerimentos de aulas/graduações (fórum/system).",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Nada a fazer."
+					},
+					{
+						id: 22,
+						nome: "Aluno/Supervisor não consta no system ou não está ativo.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Nada a fazer."
+					},
+					{
+						id: 23,
+						nome: "Manipulação de Script: Gravidade I",
+						fiscalizador: "Registrar o caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: 50 MEDALHAS EFETIVAS NEGATIVAS"
+					},
+					{
+						id: 24,
+						nome: "Manipulação de Script: Gravidade II",
+						fiscalizador: "Registrar o caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: 50 MEDALHAS EFETIVAS NEGATIVAS"
+					},
+					{
+						id: 25,
+						nome: "Manipulação de Script: Gravidade III",
+						fiscalizador: "Registrar o caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: ADVERTÊNCIA ESCRITA INTERNA"
+					},
+					{
+						id: 26,
+						nome: "Manipulação de Script: Gravidade IV",
+						fiscalizador: "Registrar o caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: REBAIXAMENTO E EXPULSÃO"
+					},
+					{
+						id: 27,
+						nome: "Duas falhas em duas semanas consecutivas.",
+						fiscalizador: "Registrar o caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: ADVERTÊNCIA ESCRITA INTERNA"
+					},
+					{
+						id: 28,
+						nome: "Aplicação de SEG ou PRO nos batalhões principais.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Nada a fazer."
+					},
+					{
+						id: 29,
+						nome: "Acúmulo de 3 Advertências Verbais.",
+						fiscalizador: "Registrar o caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: ADVERTÊNCIA ESCRITA INTERNA"
+					},
+					{
+						id: 30,
+						nome: "Ausência completa de comprovações ou links inacessíveis.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 31,
+						nome: "Comprovações incoerentes com a aula.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 32,
+						nome: "Capturas de tela sem data e hora.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 33,
+						nome: "Capturas de tela com cortes ou rasuras não permitidas.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 34,
+						nome: "Comprovação de queda sem o perfil do aluno aberto.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 35,
+						nome: "Preenchimento incorreto das informações solicitadas pelo formulário, como o horário, nickname do ministrante ou do aluno.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 36,
+						nome: "Não postagem nos requerimentos (fórum/system), por parte do supervisor, da aprovação na respectiva aula/graduação em 15 minutos após a aplicação.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 37,
+						nome: "Falsificação de informações (data, horário ou nick).",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: ADVERTÊNCIA INTERNA"
+					},
+					{
+						id: 38,
+						nome: "Reutilização de atividades realizadas anteriormente visando o autobenefício.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: ADVERTÊNCIA INTERNA"
+					}
+				];
+				
+				listaInfracoes.innerHTML = `
+					<table class="infracoes-table">
+						<thead>
+							<tr>
+								<th style="width: 60px;">#</th>
+								<th>Infração</th>
+								<th style="width: 150px;">Ação</th>
+							</tr>
+						</thead>
+						<tbody>
+							${infracoes.map(infracao => `
+								<tr onclick="mostrarDetalhesInfracao(${infracao.id})">
+									<td><strong>${infracao.id}</strong></td>
+									<td class="infracao-item">${infracao.nome}</td>
+									<td>
+										<span class="status-badge status-aprovacao">Ver Detalhes</span>
+									</td>
+								</tr>
+							`).join('')}
+						</tbody>
+					</table>
+				`;
+				
+				modal.classList.remove('hidden');
+				
+				const closeOnEsc = (e) => {
+					if (e.key === 'Escape') {
+						fecharQuadroInfracoes();
+						document.removeEventListener('keydown', closeOnEsc);
+					}
+				};
+				document.addEventListener('keydown', closeOnEsc);
+			}
+
+			function mostrarDetalhesInfracao(infracaoId) {
+				const listaInfracoes = document.getElementById('lista-infracoes');
+				const detalhesInfracao = document.getElementById('detalhes-infracao');
+				
+				const infracoes = [
+					{
+						id: 1,
+						nome: "Modificar qualquer informação contida em determinada aula.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 2,
+						nome: "Não reproduzir qualquer informação contida em determinada aula.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 3,
+						nome: "Abandono de dever/negligência.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 4,
+						nome: "Aceitar respostas incompletas no teste.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 5,
+						nome: "Aplicação da Supervisão de Soldado para mais de um soldado simultaneamente.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 6,
+						nome: "Aplicação de aulas para policiais que não possuem os requisitos para recebê-la.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 7,
+						nome: "Aplicação de aulas para policiais que já foram aprovados anteriormente.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 8,
+						nome: "Aplicação de aulas em qualquer lugar que não esteja pré-estabelecido pelo formulário de postagem.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 9,
+						nome: "Aplicação de 3 (três) vezes ou mais da mesma aula para o mesmo policial após reprovações.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 10,
+						nome: "Aplicação da Aula de Promotor (PRO) a outro supervisor.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 11,
+						nome: "Aplicação de cursos e/ou graduações em um tempo muito curto.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 12,
+						nome: "Aplicação de SUP fora do local estabelecido (Batalhão/Corredor Principal)",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 13,
+						nome: "Aplicação de aula sem estar apto à aplicá-las.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 14,
+						nome: "Aplicação de curso fora do local pré-destinado pelo Código de Conduta do Supervisor.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 15,
+						nome: "Não retirar algum militar na fiscalização de listagem que contenha os requisitos para retirada.",
+						fiscalizador: "Consultar reincidência e registrar FALHA. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Nada a fazer.",
+						perito: "Nada a fazer."
+					},
+					{
+						id: 16,
+						nome: "A negação de aplicação de cursos/graduações sem uma justificativa.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 17,
+						nome: "A negação em ceder cursos/graduações para militares que necessitem de meta.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 18,
+						nome: "Conclusão de fiscalização, sem a aprovação do CRH.",
+						fiscalizador: "Consultar reincidência e registrar FALHA. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Nada a fazer.",
+						perito: "Nada a fazer."
+					},
+					{
+						id: 19,
+						nome: "Postagem do própria aula no relatório de aplicações.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 20,
+						nome: "Reincidência de infrações idênticas.",
+						fiscalizador: "Registrar o caso com a print do primeiro e do segundo caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: 10 MEDALHAS EFETIVAS NEGATIVAS"
+					},
+					{
+						id: 21,
+						nome: "Postagem incorreta de requerimentos de aulas/graduações (fórum/system).",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Nada a fazer."
+					},
+					{
+						id: 22,
+						nome: "Aluno/Supervisor não consta no system ou não está ativo.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Nada a fazer."
+					},
+					{
+						id: 23,
+						nome: "Manipulação de Script: Gravidade I",
+						fiscalizador: "Registrar o caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: 50 MEDALHAS EFETIVAS NEGATIVAS"
+					},
+					{
+						id: 24,
+						nome: "Manipulação de Script: Gravidade II",
+						fiscalizador: "Registrar o caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: 50 MEDALHAS EFETIVAS NEGATIVAS"
+					},
+					{
+						id: 25,
+						nome: "Manipulação de Script: Gravidade III",
+						fiscalizador: "Registrar o caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: ADVERTÊNCIA ESCRITA INTERNA"
+					},
+					{
+						id: 26,
+						nome: "Manipulação de Script: Gravidade IV",
+						fiscalizador: "Registrar o caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: REBAIXAMENTO E EXPULSÃO"
+					},
+					{
+						id: 27,
+						nome: "Duas falhas em duas semanas consecutivas.",
+						fiscalizador: "Registrar o caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: ADVERTÊNCIA ESCRITA INTERNA"
+					},
+					{
+						id: 28,
+						nome: "Aplicação de SEG ou PRO nos batalhões principais.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Nada a fazer."
+					},
+					{
+						id: 29,
+						nome: "Acúmulo de 3 Advertências Verbais.",
+						fiscalizador: "Registrar o caso.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: ADVERTÊNCIA ESCRITA INTERNA"
+					},
+					{
+						id: 30,
+						nome: "Ausência completa de comprovações ou links inacessíveis.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 31,
+						nome: "Comprovações incoerentes com a aula.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 32,
+						nome: "Capturas de tela sem data e hora.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 33,
+						nome: "Capturas de tela com cortes ou rasuras não permitidas.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 34,
+						nome: "Comprovação de queda sem o perfil do aluno aberto.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 35,
+						nome: "Preenchimento incorreto das informações solicitadas pelo formulário, como o horário, nickname do ministrante ou do aluno.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 36,
+						nome: "Não postagem nos requerimentos (fórum/system), por parte do supervisor, da aprovação na respectiva aula/graduação em 15 minutos após a aplicação.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Enviar a mensagem privada, caso o Veredito seja Advertência Verbal.",
+						perito: "Aprovar e dar o Veredito ou Reprovar o caso."
+					},
+					{
+						id: 37,
+						nome: "Falsificação de informações (data, horário ou nick).",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: ADVERTÊNCIA INTERNA"
+					},
+					{
+						id: 38,
+						nome: "Reutilização de atividades realizadas anteriormente visando o autobenefício.",
+						fiscalizador: "Consultar reincidência e registrar o caso. Caso encontre reincidência, registrar como reincidência de infrações idênticas.",
+						agente: "Nada a fazer.",
+						perito: "EM CASO DE APROVAÇÃO > Veredito: ADVERTÊNCIA INTERNA"
+					}
+				];
+				
+				const infracao = infracoes.find(i => i.id === infracaoId);
+				if (!infracao) return;
+				
+				listaInfracoes.classList.add('hidden');
+				detalhesInfracao.classList.remove('hidden');
+				
+				function getStatusClass(texto) {
+					if (texto.toLowerCase().includes('nada a fazer')) return 'status-nada';
+					if (texto.toLowerCase().includes('aprovar ou reprovar')) return 'status-reprovacao';
+					return 'status-aprovacao';
+				}
+				
+				detalhesInfracao.innerHTML = `
+					<div class="detalhes-header">
+						<h3>Infração #${infracao.id}</h3>
+						<button class="btn-voltar" onclick="voltarParaLista()">
+							<i class="fas fa-arrow-left"></i> Voltar
+						</button>
+					</div>
+					
+					<div class="detalhes-infracao">
+						<h4 style="color: var(--primary-green); margin-bottom: 15px;">
+							<i class="fas fa-exclamation-triangle"></i> Descrição da Infração
+						</h4>
+						<p style="color: var(--text-primary); font-size: 1.1rem; line-height: 1.6; background: var(--bg-secondary); padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary-green);">
+							${infracao.nome}
+						</p>
+					</div>
+					
+					<div class="acoes-grid">
+						<div class="acao-card">
+							<h4>
+								<i class="fas fa-search"></i>
+								Ação do Fiscalizador
+								<span class="status-badge ${getStatusClass(infracao.fiscalizador)}">
+									${infracao.fiscalizador.toLowerCase().includes('nada a fazer') ? 'Sem Ação' : 'Ação Requerida'}
+								</span>
+							</h4>
+							<p>${infracao.fiscalizador}</p>
+						</div>
+						
+						<div class="acao-card">
+							<h4>
+								<i class="fas fa-envelope"></i>
+								Ação do Agente de Mensagens
+								<span class="status-badge ${getStatusClass(infracao.agente)}">
+									${infracao.agente.toLowerCase().includes('nada a fazer') ? 'Sem Ação' : 'Ação Requerida'}
+								</span>
+							</h4>
+							<p>${infracao.agente}</p>
+						</div>
+						
+						<div class="acao-card">
+							<h4>
+								<i class="fas fa-gavel"></i>
+								Ação do Perito
+								<span class="status-badge ${getStatusClass(infracao.perito)}">
+									${infracao.perito.toLowerCase().includes('nada a fazer') ? 'Sem Ação' : 
+									  infracao.perito.toLowerCase().includes('aprovar ou reprovar') ? 'Análise' : 'Veredito'}
+								</span>
+							</h4>
+							<p>${infracao.perito}</p>
+						</div>
+					</div>
+				`;
+			}
+
+			function voltarParaLista() {
+				const listaInfracoes = document.getElementById('lista-infracoes');
+				const detalhesInfracao = document.getElementById('detalhes-infracao');
+				
+				detalhesInfracao.classList.add('hidden');
+				listaInfracoes.classList.remove('hidden');
+			}
+
+			function fecharQuadroInfracoes() {
+				const modal = document.getElementById('modal-quadro-infracoes');
 				modal.classList.add('hidden');
 			}
 
