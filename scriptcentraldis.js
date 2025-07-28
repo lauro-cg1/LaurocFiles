@@ -1,4 +1,4 @@
-console.log("V2.02");
+console.log("V2.00");
 function openEscalaModal() {
 				const modal = document.createElement('div');
 				modal.className = 'escala-modal';
@@ -654,40 +654,40 @@ function openEscalaModal() {
 					method: 'POST',
 					body: formData2
 				}).then(() => {
-					setTimeout(() => {
-						const scriptGet = document.createElement('script');
-						scriptGet.src = 'https://script.google.com/macros/s/AKfycbyHUYQV3Yu7XEhNnwGvpK_fpjFwv_G0Vg2zBX9RuKCJl8VIdl_VHvoIb4bIymBNXqpx/exec';
-						scriptGet.async = true;
-						scriptGet.onload = function() {
-							const popup = document.createElement('div');
-							popup.innerHTML = `
+				setTimeout(() => {
+					fetch('https://script.google.com/macros/s/AKfycbyHUYQV3Yu7XEhNnwGvpK_fpjFwv_G0Vg2zBX9RuKCJl8VIdl_VHvoIb4bIymBNXqpx/exec', {
+						method: 'GET'
+					})
+					.then(data => {
+						const popup = document.createElement('div');
+						popup.innerHTML = `
+						<div style="
+							position: fixed;
+							top: 0;
+							left: 0;
+							width: 100vw;
+							height: 100vh;
+							background: rgba(0, 0, 0, 0.6);
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							z-index: 9999;
+						">
 							<div style="
-								position: fixed;
-								top: 0;
-								left: 0;
-								width: 100vw;
-								height: 100vh;
-								background: rgba(0, 0, 0, 0.6);
-								display: flex;
-								align-items: center;
-								justify-content: center;
-								z-index: 9999;
+								background: white;
+								color: black;
+								padding: 30px;
+								border-radius: 12px;
+								text-align: center;
+								max-width: 90%;
+								width: 400px;
 							">
-								<div style="
-									background: white;
-									color: black;
-									padding: 30px;
-									border-radius: 12px;
-									text-align: center;
-									max-width: 90%;
-									width: 400px;
-								">
-									<h2 style="margin-top: 0;">Conclusão de função enviada</h2>
-									<p>Deseja verificar a postagem?</p>
-									<div style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;">
-										<button id="btnSim" style="
-											padding: 10px 20px;
-											background-color: #33ff88;
+								<h2 style="margin-top: 0;">Conclusão de função enviada</h2>
+								<p>Deseja verificar a postagem?</p>
+								<div style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;">
+									<button id="btnSim" style="
+										padding: 10px 20px;
+										background-color: #33ff88;
 											border: none;
 											border-radius: 8px;
 											cursor: pointer;
@@ -727,17 +727,14 @@ function openEscalaModal() {
 								popup.remove();
 								setButtonLoading(submitButton2, false);
 							});
-						};
-						scriptGet.onerror = function() {
-							alert('Erro ao executar script GET.');
-						};
-						document.body.appendChild(scriptGet);
-					}, 3000);
-				}).catch(error => {
-					showError("Erro ao enviar: " + error.message, form2);
-					setButtonLoading(submitButton2, false);
-				});
-			}
+
+					})
+					.catch(error => {
+						showError("Erro ao executar script GET: " + error.message, form2);
+						setButtonLoading(submitButton2, false);
+					});
+				}, 3000);
+			})}
 			
 			function enviarMp(event) {
 				event.preventDefault();
