@@ -1,4 +1,4 @@
-console.log("V2.01");
+console.log("V2.02");
 function openEscalaModal() {
 				const modal = document.createElement('div');
 				modal.className = 'escala-modal';
