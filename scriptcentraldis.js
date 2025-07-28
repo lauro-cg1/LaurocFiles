@@ -1,4 +1,4 @@
-console.log("V2.00");
+console.log("V2.01");
 function openEscalaModal() {
 				const modal = document.createElement('div');
 				modal.className = 'escala-modal';
@@ -1648,95 +1648,94 @@ ${camposHtml}
 			});
 			
 			function initializeChoices() {
-				if (typeof Choices === 'undefined') {
-					console.warn('Choices.js não foi carregado ainda. Tentando novamente...');
-					setTimeout(initializeChoices, 200);
-					return;
-				}
+	if (typeof Choices === 'undefined') {
+		console.warn('Choices.js não foi carregado ainda. Tentando novamente...');
+		setTimeout(initializeChoices, 200);
+		return;
+	}
 
-				console.log('Inicializando Choices.js para dropdowns...');
-				
-				document.querySelectorAll('select.form-select').forEach(function(selectElement) {
-					if (!selectElement.choicesInstance && !selectElement.classList.contains('choices__input')) {
-						try {
-							selectElement.choicesInstance = new Choices(selectElement, {
-								searchEnabled: false,
-								itemSelectText: '',
-								shouldSort: false,
-								placeholder: true,
-								placeholderValue: 'Selecione uma opção...',
-								allowHTML: true,
-								removeItemButton: true,
-								duplicateItemsAllowed: false,
-								paste: false,
-								addItems: true,
-								editItems: false,
-								maxItemCount: 1,
-								classNames: {
-									containerOuter: 'choices',
-									containerInner: 'choices__inner',
-									input: 'choices__input',
-									inputCloned: 'choices__input--cloned',
-									list: 'choices__list',
-									listItems: 'choices__list--multiple',
-									listSingle: 'choices__list--single',
-									listDropdown: 'choices__list--dropdown',
-									item: 'choices__item',
-									itemSelectable: 'choices__item--selectable',
-									itemDisabled: 'choices__item--disabled',
-									itemChoice: 'choices__item--choice',
-									placeholder: 'choices__placeholder',
-									group: 'choices__group',
-									groupHeading: 'choices__heading',
-									button: 'choices__button',
-									activeState: 'is-active',
-									focusState: 'is-focused',
-									openState: 'is-open',
-									disabledState: 'is-disabled',
-									highlightedState: 'is-highlighted',
-									selectedState: 'is-selected',
-									flippedState: 'is-flipped',
-									loadingState: 'is-loading',
-									noResults: 'has-no-results',
-									noChoices: 'has-no-choices'
-								}
-							});
-
-							setTimeout(() => {
-								const choicesContainer = selectElement.parentElement.querySelector('.choices');
-								if (choicesContainer) {
-									choicesContainer.style.width = '100%';
-									choicesContainer.style.maxWidth = '100%';
-									
-									const inner = choicesContainer.querySelector('.choices__inner');
-									if (inner) {
-										inner.style.cssText += '; width: 100% !important; max-width: 100% !important;';
-									}
-								}
-								forceChoicesStyles();
-							}, 10);
-
-							selectElement.choicesInstance.passedElement.element.addEventListener('choice', function(event) {
-								setTimeout(() => {
-									const choicesContainer = selectElement.parentElement.querySelector('.choices');
-									if (choicesContainer) {
-										choicesContainer.style.width = '100%';
-										choicesContainer.style.maxWidth = '100%';
-									}
-								}, 10);
-							});
-
-							console.log('Choices.js inicializado para:', selectElement.id);
-						} catch (error) {
-							console.error('Erro ao inicializar Choices para', selectElement.id, ':', error);
-						}
+	console.log('Inicializando Choices.js para dropdowns...');
+	
+	document.querySelectorAll('select.form-select').forEach(function(selectElement) {
+		if (!selectElement.choicesInstance && !selectElement.classList.contains('choices__input')) {
+			try {
+				selectElement.choicesInstance = new Choices(selectElement, {
+					searchEnabled: false,
+					itemSelectText: '',
+					shouldSort: false,
+					placeholder: true,
+					placeholderValue: 'Selecione uma opção...',
+					allowHTML: true,
+					removeItemButton: false,
+					duplicateItemsAllowed: false,
+					paste: false,
+					addItems: true,
+					editItems: false,
+					classNames: {
+						containerOuter: 'choices',
+						containerInner: 'choices__inner',
+						input: 'choices__input',
+						inputCloned: 'choices__input--cloned',
+						list: 'choices__list',
+						listItems: 'choices__list--multiple',
+						listSingle: 'choices__list--single',
+						listDropdown: 'choices__list--dropdown',
+						item: 'choices__item',
+						itemSelectable: 'choices__item--selectable',
+						itemDisabled: 'choices__item--disabled',
+						itemChoice: 'choices__item--choice',
+						placeholder: 'choices__placeholder',
+						group: 'choices__group',
+						groupHeading: 'choices__heading',
+						button: 'choices__button',
+						activeState: 'is-active',
+						focusState: 'is-focused',
+						openState: 'is-open',
+						disabledState: 'is-disabled',
+						highlightedState: 'is-highlighted',
+						selectedState: 'is-selected',
+						flippedState: 'is-flipped',
+						loadingState: 'is-loading',
+						noResults: 'has-no-results',
+						noChoices: 'has-no-choices'
 					}
 				});
-				
-				console.log('Inicialização do Choices.js concluída.');
-				
-				setTimeout(forceChoicesStyles, 200);
+
+				setTimeout(() => {
+					const choicesContainer = selectElement.parentElement.querySelector('.choices');
+					if (choicesContainer) {
+						choicesContainer.style.width = '100%';
+						choicesContainer.style.maxWidth = '100%';
+						
+						const inner = choicesContainer.querySelector('.choices__inner');
+						if (inner) {
+							inner.style.cssText += '; width: 100% !important; max-width: 100% !important;';
+						}
+					}
+					forceChoicesStyles();
+				}, 10);
+
+				selectElement.choicesInstance.passedElement.element.addEventListener('choice', function(event) {
+					setTimeout(() => {
+						const choicesContainer = selectElement.parentElement.querySelector('.choices');
+						if (choicesContainer) {
+							choicesContainer.style.width = '100%';
+							choicesContainer.style.maxWidth = '100%';
+						}
+					}, 10);
+				});
+
+				console.log('Choices.js inicializado para:', selectElement.id);
+			} catch (error) {
+				console.error('Erro ao inicializar Choices para', selectElement.id, ':', error);
 			}
+		}
+	});
+	
+	console.log('Inicialização do Choices.js concluída.');
+	
+	setTimeout(forceChoicesStyles, 200);
+}
 			
 			function enhanceFormValidation() {
 				const forms = document.querySelectorAll('form');
