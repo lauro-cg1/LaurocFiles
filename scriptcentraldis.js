@@ -726,6 +726,25 @@ function openEscalaModal() {
         document.getElementById('btnSim').addEventListener('click', () => {
             abrirMetasModal();
             popup.remove();
+			form.reset();
+            
+            const choicesElements = form2.querySelectorAll('select');
+            choicesElements.forEach(select => {
+                if (select.choicesInstance) {
+                    select.choicesInstance.removeActiveItems();
+                    select.choicesInstance.setChoiceByValue('');
+                }
+            });
+            
+            const sections = ['fiscalizador_conclusao', 'perito_conclusao', 'fiscalizador_justificativa', 'perito_justificativa'];
+            sections.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.classList.add('hidden');
+            });
+            
+            formContainer2.classList.add('hidden');
+            popup.remove();
+            setButtonLoading(submitButton2, false);
         });
         
         document.getElementById('btnNao').addEventListener('click', () => {
