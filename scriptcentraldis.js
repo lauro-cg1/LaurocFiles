@@ -1,4 +1,4 @@
-	console.log("V2.00");
+console.log("V2.01");
 function openEscalaModal() {
 				const modal = document.createElement('div');
 				modal.className = 'escala-modal';
@@ -240,6 +240,8 @@ function openEscalaModal() {
 	   function fecharMetasModal() {
 		   document.getElementById('modal-metas').classList.add('hidden');
 	   }
+			console.log("V1.05");
+			
 			function debounce(func, wait) {
 				let timeout;
 				return function executedFunction(...args) {
@@ -704,7 +706,7 @@ function openEscalaModal() {
 					document.body.appendChild(popup);
 					
 					document.getElementById('btnSim').addEventListener('click', () => {
-						window.location.href = 'https://docs.google.com/spreadsheets/d/1ooPcYuXntzbW-Yj2bgCYGd_3S_xNAbwgk6D1opsVgXs/edit?resourcekey=&gid=618835355';
+						abrirMetasModal();
 					});
 					
 					document.getElementById('btnNao').addEventListener('click', () => {
