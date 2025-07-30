@@ -698,7 +698,7 @@ function openEscalaModal() {
 				width: 400px;
 			">
 				<h2 style="margin-top: 0;">Conclusão de função enviada</h2>
-				<p>Deseja verificar a postagem?</p>
+				<p>Deseja verificar a meta?</p>
 				<div style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;">
 					<button id="btnSim" style="
 						padding: 10px 20px;
