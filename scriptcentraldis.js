@@ -549,7 +549,7 @@ function openEscalaModal() {
 						title: 'Caso enviado',
 						message: 'Deseja ir para a central de casos?',
 						onConfirm: () => {
-							window.location.href = 'https://docs.google.com/spreadsheets/d/1RRd7a8-1EoWZpPUqz5D-vm9JazqOi9vdV5DjySxZFQE/edit?gid=205896872';
+							window.location.href = 'https://centraldecasos-dis.rf.gd/';
 						},
 						onCancel: () => {
 							resetForm(form, formContainer);
