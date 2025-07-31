@@ -1,4 +1,4 @@
-console.log("V2.1");
+console.log("V2.11");
 function openEscalaModal() {
 				const modal = document.createElement('div');
 				modal.className = 'escala-modal';
@@ -798,6 +798,8 @@ function openEscalaModal() {
 					return;
 				}
 				
+				setButtonLoading(mpSubmitButton, true);
+				
 				let dados = { tipo: "", nome: "", infracao: "", consideracoes: "", provas: "", extra: "" };
 				let mensagem = "";
 				let hoje = new Date().toLocaleDateString("pt-BR");
@@ -1060,14 +1062,13 @@ function openEscalaModal() {
 					break;					
 					
 					default:
+					setButtonLoading(mpSubmitButton, false);
 					alert("Tipo de MP não reconhecido.");
 					return;
 				}
 				
 				const tituloMP = `[DIS] ${dados.tipo}`;
 				const mensagemMP = dados.mensagem;
-				
-				setButtonLoading(mpSubmitButton, true);
 				
 				send_MP(tituloMP, dados.nome, mensagemMP);
 				
