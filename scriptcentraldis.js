@@ -1,4 +1,4 @@
-console.log("V2.01");
+console.log("V2.1");
 function openEscalaModal() {
 				const modal = document.createElement('div');
 				modal.className = 'escala-modal';
@@ -810,10 +810,10 @@ function openEscalaModal() {
 					dados.consideracoes = document.querySelector('[name="consideracoes_adv"]').value;
 					dados.provas = document.querySelector('[name="provas_adv"]').value;
 					
-					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
+					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https:
+					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
 					[b][size=18][color=white]NOTIFICAÇÃO DE INFRAÇÃO[/color][/size][/b]
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -823,9 +823,9 @@ function openEscalaModal() {
 					[b]Infração:[/b] ${dados.infracao}
 					[b]Considerações:[/b] ${dados.consideracoes}
 					
-					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]Caso cometa novamente este erro, você será punido com [b]10 medalhas efetivas negativas[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https:
+					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]Caso cometa novamente este erro, você será punido com [b]10 medalhas efetivas negativas[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPpOjvA7M2VafDm8loCfggSJX5uCkskY6YA5Hu9CwVDhPYCSyAsc7A6b6QKTS75wpdPaHdKejD8dZkMmMJOW0OjpLb0HHu4tUZ7lypNSJjA6q8kD8VZ1G5Nd4oE_FF78jY8qmSgAufBmEJ/s1600/ES59E.gif[/img][/right][/url][/td][td style="border: none!important; overflow: hidden"][left][b][size=14][url=${dados.provas}][font=Poppins][color=white]COMPROVAÇÃO[/color][/size][/b]
 					[size=10][color=white]Clique aqui para ver a comprovação.[/color][/size][/font][/url][/left][/td][/tr][/table][/center][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https:
+					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;
 					
@@ -837,10 +837,10 @@ function openEscalaModal() {
 					dados.provas = document.querySelector('[name="provas_50"]').value;
 					
 					titulo = `[DIS] ${dados.tipo}`;
-					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
+					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https:
+					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
 					[b][size=18][color=white]NOTIFICAÇÃO DE INFRAÇÃO[/color][/size][/b]
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -850,9 +850,9 @@ function openEscalaModal() {
 					[b]Infração:[/b] ${dados.infracao}
 					[b]Considerações:[/b] ${dados.consideracoes}
 					
-					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em [b]50 medalhas efetivas negativas[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https:
+					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em [b]50 medalhas efetivas negativas[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPpOjvA7M2VafDm8loCfggSJX5uCkskY6YA5Hu9CwVDhPYCSyAsc7A6b6QKTS75wpdPaHdKejD8dZkMmMJOW0OjpLb0HHu4tUZ7lypNSJjA6q8kD8VZ1G5Nd4oE_FF78jY8qmSgAufBmEJ/s1600/ES59E.gif[/img][/right][/url][/td][td style="border: none!important; overflow: hidden"][left][b][size=14][url=${dados.provas}][font=Poppins][color=white]COMPROVAÇÃO[/color][/size][/b]
 					[size=10][color=white]Clique aqui para ver a comprovação.[/color][/size][/font][/url][/left][/td][/tr][/table][/center][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https:
+					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;
 					
@@ -869,10 +869,10 @@ function openEscalaModal() {
 					dados.consideracoes = consideracoes10;
 					dados.provas = `Prova 1: ${prova1_10}\nProva 2: ${prova2_10}`;
 					
-					dados.mensagem = `[font=Poppins][table  style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
+					dados.mensagem = `[font=Poppins][table  style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
 					
 					[table style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https:
+					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
 					[b][size=18][color=white]NOTIFICAÇÃO DE REINCIDÊNCIA[/color][/size][/b]
 					
 					[table  style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"]
@@ -883,16 +883,16 @@ function openEscalaModal() {
 					[b]Considerações adicionais:[/b] ${consideracoes10}
 					
 					Reiteramos a importância da leitura de nossos documentos internos a fim de evitar punições, sendo eles:
-					[url=https:
-					[url=https:
+					[url=https://www.policiarcc.com/t24992-sup-codigo-de-conduta-do-supervisor][color=green]⤳ [b][SUP] Código de Conduta do Supervisor[/b][/color][/url]
+					[url=https://www.policiarcc.com/t34525-sup-codigo-penal-dos-supervisores][color=green]⤳ [b][SUP] Código Penal dos Supervisores[/b][/color][/url].
 					
 					[table style="width: 100%; border: none!important; overflow: hidden; line-height: 1.2em; border-radius: 15px"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][table style="width: 100%; border: none!important; overflow: hidden; border-radius: 20px" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="width: 25%; border: none!important; overflow: hidden"][size=18][color=white][b]COMPROVAÇÃO[/b][/size]
-					[size=12]DE INFRAÇÕES[/size][/color][/td][td style="border: none!important; overflow: hidden"][table style="border: none!important; overflow: hidden; padding: 15px; border-radius: 20px" bgcolor="ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][url=${prova1_10}][img]https:
+					[size=12]DE INFRAÇÕES[/size][/color][/td][td style="border: none!important; overflow: hidden"][table style="border: none!important; overflow: hidden; padding: 15px; border-radius: 20px" bgcolor="ffffff"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][url=${prova1_10}][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjmO5kei-QnqRX4JH8vq1iqKDZzrytl1DtqheLrZS18XOqq-hEedtVR467jd_pWJiVZZ-DF0UW1AzjNwerWx0Di-JvDZa7QHGV_jaHowcYswpJHlOpwDzUl6f7zveQebXK82xRH8IQyl5s/s1600/up-bb1756f80d.gif[/img]
 					[color=black][size=14][b]PRIMEIRA INFRAÇÃO:[/size][/b]
-					[size=11]Comprovação da primeira infração[/size][/color][/url][/td][td style="border: none!important; overflow: hidden" bgcolor="f0f0f0"][url=${prova2_10}][img]https:
+					[size=11]Comprovação da primeira infração[/size][/color][/url][/td][td style="border: none!important; overflow: hidden" bgcolor="f0f0f0"][url=${prova2_10}][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhF3XNSFnhoM6joIZzQjK5wEm6UU7ChJQvP89CcaWI7NmRUYIY7cSSWhep4cVzO7IekIgdleFs9UCwivcz-lzI46DnUtIgAxIvJDvXuwdaH7JcluhSDMYndmbUIylh75icYChFKFVW5Icc/s1600/up-992b28f658.gif[/img]
 					[color=black][size=14][b]SEGUNDA INFRAÇÃO:[/size][/b]
 					[size=11]Comprovação da segunda infração[/size][/color][/url][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#E8F5E9"][size=11][center]Caso cometa novamente este erro, você será punido com uma [b]advertência escrita interna[/b].[/center][/size][/td][/tr][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https:
+					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;					
 					
@@ -905,10 +905,10 @@ function openEscalaModal() {
 					
 					const hojeFalhas = new Date().toLocaleDateString("pt-BR");
 					
-					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
+					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https:
+					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
 					[b][size=18][color=white]NOTIFICAÇÃO DE FALHA[/color][/size][/b] 
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -918,12 +918,12 @@ function openEscalaModal() {
 					[b]Infração:[/b] ${dados.infracao}
 					[b]Considerações:[/b] ${dados.consideracoes}
 					
-					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]Caso cometa novamente este erro na próxima semana, você será punido com uma [b]Advertência Escrita Interna.[/b][/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][img]https:
+					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]Caso cometa novamente este erro na próxima semana, você será punido com uma [b]Advertência Escrita Interna.[/b][/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjmO5kei-QnqRX4JH8vq1iqKDZzrytl1DtqheLrZS18XOqq-hEedtVR467jd_pWJiVZZ-DF0UW1AzjNwerWx0Di-JvDZa7QHGV_jaHowcYswpJHlOpwDzUl6f7zveQebXK82xRH8IQyl5s/s1600/up-bb1756f80d.gif[/img]
 					[color=black][size=14][b]PRIMEIRA INFRAÇÃO:[/size][/b]
-					[size=11]Comprovação da primeira infração[/size][/color][/url][/td][td style="border: none!important; overflow: hidden" bgcolor="f0f0f0"][url=${prova2_10}][img]https:
+					[size=11]Comprovação da primeira infração[/size][/color][/url][/td][td style="border: none!important; overflow: hidden" bgcolor="f0f0f0"][url=${prova2_10}][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhF3XNSFnhoM6joIZzQjK5wEm6UU7ChJQvP89CcaWI7NmRUYIY7cSSWhep4cVzO7IekIgdleFs9UCwivcz-lzI46DnUtIgAxIvJDvXuwdaH7JcluhSDMYndmbUIylh75icYChFKFVW5Icc/s1600/up-992b28f658.gif[/img]
 					[color=black][size=14][b]SEGUNDA INFRAÇÃO:[/size][/b]
 					[size=11]Comprovação da segunda infração[/size][/color][/url][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#E8F5E9"][size=11][center]Caso cometa novamente este erro, você será punido com uma [b]advertência escrita interna[/b].[/center][/size][/td][/tr][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https:
+					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;					
 					
@@ -936,10 +936,10 @@ function openEscalaModal() {
 					
 					const hojeAdv = new Date().toLocaleDateString("pt-BR");
 					
-					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
+					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https:
+					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
 					[b][size=18][color=white]NOTIFICAÇÃO DE ADVERTÊNCIA[/color][/size][/b] 
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -949,9 +949,9 @@ function openEscalaModal() {
 					[b]Infração:[/b] ${dados.infracao}
 					[b]Considerações:[/b] ${dados.consideracoes}
 					
-					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em uma [b]Advertência Escrita Interna.[/b][/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https:
+					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em uma [b]Advertência Escrita Interna.[/b][/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPpOjvA7M2VafDm8loCfggSJX5uCkskY6YA5Hu9CwVDhPYCSyAsc7A6b6QKTS75wpdPaHdKejD8dZkMmMJOW0OjpLb0HHu4tUZ7lypNSJjA6q8kD8VZ1G5Nd4oE_FF78jY8qmSgAufBmEJ/s1600/ES59E.gif[/img][/right][/url][/td][td style="border: none!important; overflow: hidden"][left][b][size=14][url=${dados.provas}][font=Poppins][color=white]COMPROVAÇÃO[/color][/size][/b] 
 					[size=10][color=white]Clique aqui para ver a comprovação.[/color][/size][/font][/url][/left][/td][/tr][/table][/center][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https:
+					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;					
 					
@@ -964,10 +964,10 @@ function openEscalaModal() {
 					
 					const hojeReb = new Date().toLocaleDateString("pt-BR");
 					
-					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
+					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https:
+					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
 					[b][size=18][color=white]NOTIFICAÇÃO DE REBAIXAMENTO[/color][/size][/b] 
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -977,9 +977,9 @@ function openEscalaModal() {
 					[b]Infração:[/b] ${dados.infracao}
 					[b]Considerações:[/b] ${dados.consideracoes}
 					
-					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em um [b]rebaixamento[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https:
+					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em um [b]rebaixamento[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPpOjvA7M2VafDm8loCfggSJX5uCkskY6YA5Hu9CwVDhPYCSyAsc7A6b6QKTS75wpdPaHdKejD8dZkMmMJOW0OjpLb0HHu4tUZ7lypNSJjA6q8kD8VZ1G5Nd4oE_FF78jY8qmSgAufBmEJ/s1600/ES59E.gif[/img][/right][/url][/td][td style="border: none!important; overflow: hidden"][left][b][size=14][url=${dados.provas}][font=Poppins][color=white]COMPROVAÇÃO[/color][/size][/b] 
 					[size=10][color=white]Clique aqui para ver a comprovação.[/color][/size][/font][/url][/left][/td][/tr][/table][/center][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https:
+					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;
 					
@@ -992,10 +992,10 @@ function openEscalaModal() {
 					
 					const hojeExp = new Date().toLocaleDateString("pt-BR");
 					
-					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
+					dados.mensagem = `[font=Poppins][table       style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img]
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https:
+					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
 					[b][size=18][color=white]NOTIFICAÇÃO DE EXPULSÃO[/color][/size][/b] 
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -1005,9 +1005,9 @@ function openEscalaModal() {
 					[b]Infração:[/b] ${dados.infracao}
 					[b]Considerações:[/b] ${dados.consideracoes}
 					
-					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em uma [b]expulsão[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https:
+					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]O erro será punido conforme os regulamentos da companhia, resultando em uma [b]expulsão[/b].[/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPpOjvA7M2VafDm8loCfggSJX5uCkskY6YA5Hu9CwVDhPYCSyAsc7A6b6QKTS75wpdPaHdKejD8dZkMmMJOW0OjpLb0HHu4tUZ7lypNSJjA6q8kD8VZ1G5Nd4oE_FF78jY8qmSgAufBmEJ/s1600/ES59E.gif[/img][/right][/url][/td][td style="border: none!important; overflow: hidden"][left][b][size=14][url=${dados.provas}][font=Poppins][color=white]COMPROVAÇÃO[/color][/size][/b] 
 					[size=10][color=white]Clique aqui para ver a comprovação.[/color][/size][/font][/url][/left][/td][/tr][/table][/center][/td][/tr][/table][/td][/tr][/table]
-					[size=11][color=white]BBCode por [url=https:
+					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;					
 					
@@ -1019,10 +1019,10 @@ function openEscalaModal() {
 					
 					const hojeCanc = new Date().toLocaleDateString("pt-BR");
 					
-					dados.mensagem = `[font=Poppins][table style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
+					dados.mensagem = `[font=Poppins][table style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img][/td][/tr]
 					
 					[tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][table style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https:
+					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
 					[b][size=18][color=white]CANCELAMENTO DE INFRAÇÃO[/color][/size][/b] 
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -1033,7 +1033,7 @@ function openEscalaModal() {
 					[b]Explicativa:[/b] ${dados.consideracoes} [/td][/tr][/table][/td][/tr]
 					
 					[tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][table style="border-radius: 15px; overflow: hidden; width: 40%; margin: auto;" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden; text-align: center; vertical-align: middle;"][b][size=12][color=white]Pedimos desculpas pelo equívoco.[/size][/color][/b]
-					[size=11][color=white]BBCode por [url=https:
+					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/td][/tr][/table][/font]
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;					
 					
@@ -1042,10 +1042,10 @@ function openEscalaModal() {
 					dados.nome = document.querySelector('[name="nome_int"]').value;
 					dados.consideracoes = document.querySelector('[name="comunicado_int"]').value;
 					
-					dados.mensagem = `[font=Poppins][table style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https:
+					dados.mensagem = `[font=Poppins][table style="width: 100%; border: none!important; overflow: hidden; border-radius: 15px; line-height: 0.6em" bgcolor="#044906"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][img]https://i.imgur.com/VgblWsZ.gif[/img][/td][/tr]
 					
 					[tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden"][table style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#033b05"]
-					[img(50px,50px)]https:
+					[img(50px,50px)]https://i.imgur.com/HbZjO3l.png[/img]
 					[b][size=18][color=white]CARTA DE INTIMAÇÃO[/color][/size][/b] 
 					
 					[table       style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${dados.nome}[/b][/color].[/center]
@@ -1055,7 +1055,7 @@ function openEscalaModal() {
 					
 					[center][b]Ao ler esta mensagem, entre em contato com a pessoa que enviou esta mensagem.[/b][/center]  [/td][/tr][/table][/td][/tr]
 					
-					[tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][table style="border-radius: 15px; overflow: hidden; width: 40%; margin: auto;" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden; text-align: center; vertical-align: middle;"][size=11][color=white]BBCode por [url=https:
+					[tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][table style="border-radius: 15px; overflow: hidden; width: 40%; margin: auto;" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden; text-align: center; vertical-align: middle;"][size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/td][/tr][/table][/font]
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;					
 					
@@ -1446,7 +1446,7 @@ function openEscalaModal() {
 
 				return `[font=Poppins][table style="width: 100%; border: none!important; border-radius: 10px; overflow: hidden;" bgcolor="#000000"][tr style="border: none!important;"][td style="border: none!important; padding: 0;"]
 
-[table style="width: 100%; border: none!important; background: linear-gradient(135deg, #1a1a1a 0%, #0a2a0a 50%, #1a4d1a 100%);" bgcolor="#1a1a1a"][tr style="border: none!important;"][td style="border: none!important; text-align: center; padding: 15px;"][img(80px,80px)]https:
+[table style="width: 100%; border: none!important; background: linear-gradient(135deg, #1a1a1a 0%, #0a2a0a 50%, #1a4d1a 100%);" bgcolor="#1a1a1a"][tr style="border: none!important;"][td style="border: none!important; text-align: center; padding: 15px;"][img(80px,80px)]https://i.imgur.com/fAzB0kn.png[/img]
 [size=15][b][color=#228b22]${titulo}[/color][/b][/size]
 [size=10][color=#b0b0b0]Divisão de Investigação e Segurança[/color][/size]
 
