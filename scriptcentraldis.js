@@ -1,4 +1,4 @@
-console.log("V2.11");
+console.log("V2.1");
 function openEscalaModal() {
 				const modal = document.createElement('div');
 				modal.className = 'escala-modal';
@@ -1071,15 +1071,6 @@ function openEscalaModal() {
 				const mensagemMP = dados.mensagem;
 				
 				send_MP(tituloMP, dados.nome, mensagemMP);
-				
-				
-				const mpFormContainer2 = document.getElementById("enviar_Mp");
-				const mpForm2 = mpFormContainer2.querySelector('form');
-				mpForm2.reset();
-				mpFormContainer2.classList.add('hidden');
-				
-				const blocos = document.querySelectorAll('.form-mp');
-				blocos.forEach(div => div.classList.add('hidden'));
 			}
 			
 			function send_MP(title, user, message) {
@@ -1148,7 +1139,8 @@ function openEscalaModal() {
 					document.body.appendChild(popup);
 					
 					document.getElementById('btnSimMP').addEventListener('click', () => {
-						const form = document.querySelector('#enviar_Mp form');
+						const mpFormContainer = document.getElementById("enviar_Mp");
+						const form = mpFormContainer.querySelector('form');
 						if (form) {
 							form.reset();
 							
@@ -1171,6 +1163,13 @@ function openEscalaModal() {
 					});
 					
 					document.getElementById('btnNaoMP').addEventListener('click', () => {
+						const mpFormContainer = document.getElementById("enviar_Mp");
+						mpFormContainer.classList.add('hidden');
+						
+						const blocos = document.querySelectorAll('.form-mp');
+						blocos.forEach(div => div.classList.add('hidden'));
+						
+						popup.remove();
 						window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox';
 					});
 				})
