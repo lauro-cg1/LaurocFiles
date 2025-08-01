@@ -1,4 +1,4 @@
-		console.log("V2.1");
+		console.log("V2.11");
 
 		document.addEventListener('DOMContentLoaded', function() {
 			const infracaoSelect = document.getElementById('infracao_cometida');
