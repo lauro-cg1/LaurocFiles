@@ -1,4 +1,21 @@
-console.log("V2.1");
+		console.log("V2.1");
+
+		document.addEventListener('DOMContentLoaded', function() {
+			const infracaoSelect = document.getElementById('infracao_cometida');
+			if (infracaoSelect) {
+				const novaOpcao = document.createElement('option');
+				novaOpcao.value = 'Ausência parcial de comprovações (sem histórico ou sem print do perfil do aluno)';
+				novaOpcao.textContent = 'Ausência parcial de comprovações (sem histórico ou sem print do perfil do aluno)';
+				
+				const opcaoCompleta = infracaoSelect.querySelector('option[value="Ausência completa de comprovações ou links inacessíveis"]');
+				if (opcaoCompleta) {
+					opcaoCompleta.parentNode.insertBefore(novaOpcao, opcaoCompleta.nextSibling);
+				} else {
+					infracaoSelect.insertBefore(novaOpcao, infracaoSelect.children[2]);
+				}
+			}
+		});
+
 function openEscalaModal() {
 				const modal = document.createElement('div');
 				modal.className = 'escala-modal';
