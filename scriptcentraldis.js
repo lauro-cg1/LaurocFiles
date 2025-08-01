@@ -1,4 +1,4 @@
-		console.log("V2.1.0");
+		console.log("V2.1.1");
 
 		function aplicarCustomizacoesRobustas() {
 			let tentativas = 0;
@@ -7,6 +7,21 @@
 			function tentar() {
 				const infracaoSelect = document.getElementById('infracao_cometida');
 				const comprovacaoAbertura = document.getElementById('comprovacao_abertura');
+				
+				const camposObrigatorios = [
+					'nickname_infrator',
+					'linha_infracao', 
+					'infracao_cometida',
+					'comprovacao_abertura',
+					
+					'ordem_infracao',
+					'Veredito',
+					'mp_fechamento',
+					
+					'nick_infrator_falha',
+					'falha_encontrada',
+					'comprovacoes_falhas'
+				];
 				
 				if (infracaoSelect && comprovacaoAbertura) {
 					const opcaoExistente = infracaoSelect.querySelector('option[value="Ausência parcial de comprovações (sem histórico ou sem print do perfil do aluno)"]');
@@ -28,9 +43,22 @@
 						console.log('✓ Nova opção de infração adicionada com sucesso!');
 					}
 
-					if (!comprovacaoAbertura.hasAttribute('required')) {
-						comprovacaoAbertura.setAttribute('required', 'required');
-						console.log('✓ Campo de comprovação definido como obrigatório!');
+					let camposAplicados = 0;
+					camposObrigatorios.forEach(function(campoId) {
+						const campo = document.getElementById(campoId);
+						if (campo && !campo.hasAttribute('required')) {
+							campo.setAttribute('required', 'required');
+							camposAplicados++;
+						}
+					});
+
+					if (!infracaoSelect.hasAttribute('required')) {
+						infracaoSelect.setAttribute('required', 'required');
+						camposAplicados++;
+					}
+
+					if (camposAplicados > 0) {
+						console.log('✓ ' + camposAplicados + ' campos definidos como obrigatórios!');
 					}
 					
 					return true;
