@@ -1,25 +1,91 @@
-	console.log("V2.1.1");
+		console.log("V2.1.0");
 
-		document.addEventListener('DOMContentLoaded', function() {
-			const infracaoSelect = document.getElementById('infracao_cometida');
-			if (infracaoSelect) {
-				const novaOpcao = document.createElement('option');
-				novaOpcao.value = 'Ausência parcial de comprovações (sem histórico ou sem print do perfil do aluno)';
-				novaOpcao.textContent = 'Ausência parcial de comprovações (sem histórico ou sem print do perfil do aluno)';
+		function aplicarCustomizacoesRobustas() {
+			let tentativas = 0;
+			const maxTentativas = 50;
+			
+			function tentar() {
+				const infracaoSelect = document.getElementById('infracao_cometida');
+				const comprovacaoAbertura = document.getElementById('comprovacao_abertura');
 				
-				const opcaoCompleta = infracaoSelect.querySelector('option[value="Ausência completa de comprovações ou links inacessíveis"]');
-				if (opcaoCompleta) {
-					opcaoCompleta.parentNode.insertBefore(novaOpcao, opcaoCompleta.nextSibling);
+				if (infracaoSelect && comprovacaoAbertura) {
+					const opcaoExistente = infracaoSelect.querySelector('option[value="Ausência parcial de comprovações (sem histórico ou sem print do perfil do aluno)"]');
+					if (!opcaoExistente) {
+						const novaOpcao = document.createElement('option');
+						novaOpcao.value = 'Ausência parcial de comprovações (sem histórico ou sem print do perfil do aluno)';
+						novaOpcao.textContent = 'Ausência parcial de comprovações (sem histórico ou sem print do perfil do aluno)';
+						
+						const opcaoCompleta = infracaoSelect.querySelector('option[value="Ausência completa de comprovações ou links inacessíveis"]');
+						if (opcaoCompleta) {
+							opcaoCompleta.parentNode.insertBefore(novaOpcao, opcaoCompleta.nextSibling);
+						} else {
+							if (infracaoSelect.children.length > 1) {
+								infracaoSelect.insertBefore(novaOpcao, infracaoSelect.children[1]);
+							} else {
+								infracaoSelect.appendChild(novaOpcao);
+							}
+						}
+						console.log('✓ Nova opção de infração adicionada com sucesso!');
+					}
+
+					if (!comprovacaoAbertura.hasAttribute('required')) {
+						comprovacaoAbertura.setAttribute('required', 'required');
+						console.log('✓ Campo de comprovação definido como obrigatório!');
+					}
+					
+					return true;
+				}
+				
+				tentativas++;
+				if (tentativas < maxTentativas) {
+					setTimeout(tentar, 100);
 				} else {
-					infracaoSelect.insertBefore(novaOpcao, infracaoSelect.children[2]);
+					console.log('⚠️ Não foi possível aplicar todas as customizações após', maxTentativas * 100, 'ms');
 				}
 			}
+			
+			tentar();
+		}
 
-			const comprovacaoAbertura = document.getElementById('comprovacao_abertura');
-			if (comprovacaoAbertura) {
-				comprovacaoAbertura.setAttribute('required', 'required');
-			}
+		document.addEventListener('DOMContentLoaded', function() {
+			aplicarCustomizacoesRobustas();
 		});
+
+		setTimeout(aplicarCustomizacoesRobustas, 1000);
+		setTimeout(aplicarCustomizacoesRobustas, 3000);
+
+		if (typeof MutationObserver !== 'undefined') {
+			const observer = new MutationObserver(function(mutations) {
+				let shouldReapply = false;
+				mutations.forEach(function(mutation) {
+					if (mutation.type === 'childList') {
+						mutation.addedNodes.forEach(function(node) {
+							if (node.nodeType === 1 && (node.id === 'infracao_cometida' || node.id === 'comprovacao_abertura')) {
+								shouldReapply = true;
+							}
+						});
+					}
+				});
+				
+				if (shouldReapply) {
+					setTimeout(aplicarCustomizacoesRobustas, 100);
+				}
+			});
+
+			if (document.body) {
+				observer.observe(document.body, {
+					childList: true,
+					subtree: true
+				});
+			} else {
+				document.addEventListener('DOMContentLoaded', function() {
+					observer.observe(document.body, {
+						childList: true,
+						subtree: true
+					});
+				});
+			}
+		}
 
 function openEscalaModal() {
 				const modal = document.createElement('div');
