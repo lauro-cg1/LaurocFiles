@@ -40,7 +40,6 @@
 								infracaoSelect.appendChild(novaOpcao);
 							}
 						}
-						console.log('✓ Nova opção de infração adicionada com sucesso!');
 					}
 
 					let camposAplicados = 0;
@@ -58,7 +57,6 @@
 					}
 
 					if (camposAplicados > 0) {
-						console.log('✓ ' + camposAplicados + ' campos definidos como obrigatórios!');
 					}
 					
 					return true;
