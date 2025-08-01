@@ -1,4 +1,4 @@
-		console.log("V2.11");
+	console.log("V2.1.1");
 
 		document.addEventListener('DOMContentLoaded', function() {
 			const infracaoSelect = document.getElementById('infracao_cometida');
@@ -13,6 +13,11 @@
 				} else {
 					infracaoSelect.insertBefore(novaOpcao, infracaoSelect.children[2]);
 				}
+			}
+
+			const comprovacaoAbertura = document.getElementById('comprovacao_abertura');
+			if (comprovacaoAbertura) {
+				comprovacaoAbertura.setAttribute('required', 'required');
 			}
 		});
 
