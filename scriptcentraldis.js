@@ -1,4 +1,4 @@
-		console.log("V2.1.1");
+	console.log("V2.1.2");
 
 		function aplicarCustomizacoesRobustas() {
 			let tentativas = 0;
@@ -1034,11 +1034,8 @@ function openEscalaModal() {
 					[b]Infração:[/b] ${dados.infracao}
 					[b]Considerações:[/b] ${dados.consideracoes}
 					
-					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]Caso cometa novamente este erro na próxima semana, você será punido com uma [b]Advertência Escrita Interna.[/b][/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjmO5kei-QnqRX4JH8vq1iqKDZzrytl1DtqheLrZS18XOqq-hEedtVR467jd_pWJiVZZ-DF0UW1AzjNwerWx0Di-JvDZa7QHGV_jaHowcYswpJHlOpwDzUl6f7zveQebXK82xRH8IQyl5s/s1600/up-bb1756f80d.gif[/img]
-					[color=black][size=14][b]PRIMEIRA INFRAÇÃO:[/size][/b]
-					[size=11]Comprovação da primeira infração[/size][/color][/url][/td][td style="border: none!important; overflow: hidden" bgcolor="f0f0f0"][url=${prova2_10}][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhF3XNSFnhoM6joIZzQjK5wEm6UU7ChJQvP89CcaWI7NmRUYIY7cSSWhep4cVzO7IekIgdleFs9UCwivcz-lzI46DnUtIgAxIvJDvXuwdaH7JcluhSDMYndmbUIylh75icYChFKFVW5Icc/s1600/up-992b28f658.gif[/img]
-					[color=black][size=14][b]SEGUNDA INFRAÇÃO:[/size][/b]
-					[size=11]Comprovação da segunda infração[/size][/color][/url][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#E8F5E9"][size=11][center]Caso cometa novamente este erro, você será punido com uma [b]advertência escrita interna[/b].[/center][/size][/td][/tr][/td][/tr][/table][/td][/tr][/table]
+					[/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="E8F5E9"][center]aso cometa novamente este erro na próxima semana, você será punido com uma [b]Advertência Escrita Interna.[/b][/center][/td][/tr][tr style="border: none!important; overflow: hidden"][td style="border: none!important; overflow: hidden" bgcolor="#044906"][center][table  style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#033b05"][tr style="border: none!important; overflow: hidden"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#033b05"][url=${dados.provas}][right][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPpOjvA7M2VafDm8loCfggSJX5uCkskY6YA5Hu9CwVDhPYCSyAsc7A6b6QKTS75wpdPaHdKejD8dZkMmMJOW0OjpLb0HHu4tUZ7lypNSJjA6q8kD8VZ1G5Nd4oE_FF78jY8qmSgAufBmEJ/s1600/ES59E.gif[/img][/right][/url][/td][td style="border: none!important; overflow: hidden"][left][b][size=14][url=${dados.provas}][font=Poppins][color=white]COMPROVAÇÃO[/color][/size][/b] 
+					[size=10][color=white]Clique aqui para ver a comprovação.[/color][/size][/font][/url][/left][/td][/tr][/table][/center][/td][/tr][/table][/td][/tr][/table]
 					[size=11][color=white]BBCode por [url=https://system.policercc.com.br/membros/.Brendon][color=white][b].Brendon[/b][/color][/url][/color][/size][/td][/tr][/table][/font]
 					[scroll][b]Em casos de dúvidas, procure um membro da Divisão de Investigação e Segurança[/b][/scroll]`;
 					break;					
