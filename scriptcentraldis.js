@@ -2957,6 +2957,20 @@ ${camposHtml}
 			}
 
 			function forceManualIcons() {
+				let disableBeforeStyle = document.getElementById('disable-before-icons');
+				if (!disableBeforeStyle) {
+					disableBeforeStyle = document.createElement('style');
+					disableBeforeStyle.id = 'disable-before-icons';
+					disableBeforeStyle.textContent = `
+						.manual-content .observacao.icon-fixed::before,
+						.manual-content .destaque.icon-fixed::before {
+							content: none !important;
+							display: none !important;
+						}
+					`;
+					document.head.appendChild(disableBeforeStyle);
+				}
+
 				const observacaoElements = document.querySelectorAll('.manual-content .observacao');
 				observacaoElements.forEach(el => {
 					if (!el.dataset.iconFixed) {
@@ -2974,11 +2988,12 @@ ${camposHtml}
 								z-index: 1;
 								font-weight: bold;
 							`;
-							iconElement.textContent = '📋';
+							iconElement.textContent = '�';
 							el.insertBefore(iconElement, el.firstChild);
 						}
 						
 						el.style.paddingLeft = '45px';
+						el.classList.add('icon-fixed');
 						el.dataset.iconFixed = 'true';
 					}
 				});
@@ -3005,32 +3020,7 @@ ${camposHtml}
 						}
 						
 						el.style.paddingLeft = '45px';
-						el.dataset.iconFixed = 'true';
-					}
-				});
-
-				const atencaoElements = document.querySelectorAll('.manual-content .atencao');
-				atencaoElements.forEach(el => {
-					if (!el.dataset.iconFixed) {
-						el.style.position = 'relative';
-						
-						let iconElement = el.querySelector('.manual-icon-atencao');
-						if (!iconElement) {
-							iconElement = document.createElement('span');
-							iconElement.className = 'manual-icon-atencao';
-							iconElement.style.cssText = `
-								position: absolute;
-								left: 15px;
-								top: 15px;
-								font-size: 1.2rem;
-								z-index: 1;
-								font-weight: bold;
-							`;
-							iconElement.textContent = '⚠️';
-							el.insertBefore(iconElement, el.firstChild);
-						}
-						
-						el.style.paddingLeft = '45px';
+						el.classList.add('icon-fixed');
 						el.dataset.iconFixed = 'true';
 					}
 				});
