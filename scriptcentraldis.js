@@ -1,4 +1,4 @@
-	console.log("V2.1.2");
+console.log("V2.2");
 
 		function aplicarCustomizacoesRobustas() {
 			let tentativas = 0;
@@ -1894,16 +1894,16 @@ ${camposHtml}
 						conteudo: `
 							<h1>MANUAL DO AGENTE DE MENSAGENS DIRETAS</h1>
 							
-							<p>O Agente de Mensagens Diretas tem por função fechar os casos e enviar as mensagens privadas aos supervisores infratores, garantindo que estes sejam notificados devidamente sobre suas infrações e como corrigi-las. Para certificar-se em qual função foi escalado, acesse o tópico [DIS] Escala Semanal e verifique a escala semanal.</p>
+							<p>O Agente de Mensagens Diretas tem por função fechar os casos e enviar as mensagens privadas aos supervisores infratores, garantindo que estes sejam notificados devidamente sobre suas infrações e como corrigi-las. Para certificar-se em qual função foi escalado, acesse a <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a> e verifique a escala semanal.</p>
 							
 							<div class="etapa">
-								<div class="etapa-titulo">• Execução da Função</div>
-								<p>Ao realizar a função dos dias a qual foi designado, acesse a planilha [DIS] Central de Casos.</p>
+								<div class="etapa-titulo">• Verificação dos Dias Designados</div>
+								<p>Ao verificar na escala os dias a qual foi designado, acesse a <a href="https://centraldecasos-dis.rf.gd" target="_blank">Central de Casos</a>.</p>
 							</div>
 							
 							<div class="observacao">
 								<p><strong>OBSERVAÇÃO:</strong> Se houver mensagens privadas não enviadas nos dias anteriores ao seu, é seu dever enviá-las também.</p>
-								<p>➜ Utilize a ferramenta de Envios de MP's diretamente na página.</p>
+								<p>➜ Acesse a aba de envios de MP's na <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a>.</p>
 							</div>
 							
 							<div class="etapa">
@@ -1913,17 +1913,17 @@ ${camposHtml}
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Fechamento da Infração</div>
-								<p>Ao enviar a mensagem privada, é necessário FECHAR A INFRAÇÃO para que o link da mensagem privada enviada apareça na central de casos, e assim, evitar de que haja o reenvio acidental por outro agente. Portanto, acesse a <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos#" target="_blank">[DIS] Central de Acessos</a>, vá até a aba Registros de casos e selecione Fechamento de Infração, coloque a ordem (coluna B da planilha) do seu caso, e anexe o print da MP no campo de Comprovação.</p>
+								<p>Ao enviar a mensagem privada, é necessário FECHAR A INFRAÇÃO para que o link da mensagem privada enviada apareça na central de casos, e assim, evitar de que haja o reenvio acidental por outro agente. Portanto, acesse a <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a>, vá até a aba Registros de casos e selecione Fechamento de Infração, coloque a ordem (por exemplo: F122) do seu caso, e anexe o print da MP no campo de Comprovação.</p>
 							</div>
 							
 							<div class="observacao">
-								<p><strong>OBSERVAÇÃO:</strong> No campo Veredito escreva Advertência Verbal, visto que o Veredito já estará designado pelo perito.</p>
-								<p><strong>OBSERVAÇÃO 2:</strong> O Agente de Mensagens Diretas só irá fechar os casos em que o Veredito seja Advertência Verbal; Qualquer Veredito diferente o caso deverá ser fechado pelo perito.</p>
+								<p><strong>OBSERVAÇÃO:</strong> No campo VEREDITO escreva Advertência Verbal , visto que o veredito já estará designado pelo perito.</p>
+								<p><strong>OBSERVAÇÃO 2:</strong> O Agente de Mensagens Diretas só irá fechar os casos em que o veredito seja Advertência Verbal; Qualquer veredito diferente o caso deverá ser fechado pelo perito.</p>
 							</div>
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Envio de Mensagem Privada</div>
-								<p>Na ferramenta de envio de MP, selecione a opção Advertência Verbal, coloque o nome do supervisor infrator, a infração cometida (de acordo com a central de casos), as considerações (detalhamento e explicações do erro e como evitá-lo) e por fim, as provas, que já estarão anexadas na central de caso, bastando copiar e colar o link enviado pelo fiscalizador.</p>
+								<p>Na parte de envio de MP, selecione a opção Advertência Verbal, coloque o nome do supervisor infrator, a infração cometida (de acordo com a central de casos), as considerações (detalhamento e explicações do erro e como evitá-lo) e por fim, as provas, que já estarão anexadas na central de caso, bastando copiar e colar o link enviado pelo fiscalizador.</p>
 							</div>
 							
 							<h2>QUADRO DE ADVERTÊNCIAS</h2>
@@ -1944,11 +1944,11 @@ ${camposHtml}
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Conclusão da Função</div>
-								<p>Ao finalizar a sua função, você deve postar a conclusão de sua função, para isso, acesse a Central de Acessos e utilize a aba de Conclusão de Funções.</p>
+								<p>Ao finalizar a sua função, você deve postar a conclusão de sua função, para isso, acesse a <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a> e utilize a aba de Conclusão de Funções.</p>
 							</div>
 							
 							<div class="atencao">
-								<p><strong>ATENÇÃO:</strong> Caso não realize sua função a tempo, terá 24h após o fim dela para justificar. As justificativas são para casos de extrema necessidade, o que demanda bom senso para utilizar este recurso, que é limitado a dois por quinzena.</p>
+								<p><strong>ATENÇÃO:</strong> Caso não realize sua função a tempo, terá 24h após o fim dela para justificar. As justificativas são para casos de extrema necessidade, o que demanda bom senso para utilizar este recurso, que é limitado a duas por quinzena.</p>
 							</div>
 						`
 					},
@@ -2035,17 +2035,16 @@ ${camposHtml}
 						conteudo: `
 							<h1>MANUAL DE FISCALIZAÇÃO DE FALHAS</h1>
 							
-							<p>A fiscalização de falhas trata-se de analisar as funções realizadas pelos tutores e fiscalizadores dos Supervisores. A função é dividida em duas partes: uma de fiscalização de segunda a quarta-feira e outra de quinta-feira a sábado, devendo ser concluída 24h após o dia escalado, ou seja, até às 23h59 das quintas e domingos. Para certificar-se em qual função foi escalado, use a Central de Acessos e verifique a escala semanal.</p>
+							<p>A fiscalização de falhas trata-se de analisar as funções realizadas pelos tutores e fiscalizadores dos Supervisores. A função é dividida em duas partes: uma de fiscalização de segunda a quarta-feira e outra de quinta-feira a sábado, devendo ser concluída 24h após o dia escalado, ou seja, até às 23h59 das quintas e domingos. Para certificar-se em qual função foi escalado, use a <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a> e verifique a escala semanal.</p>
 							
 							<div class="etapa">
-								<div class="etapa-titulo">• Acesso às Planilhas</div>
-								<p>Ao realizar a fiscalização do dia a qual foi designado, acesse a planilha <a href="https://docs.google.com/spreadsheets/d/1CCppNkbcAYZVCpTTPkVRcC59CZEQy-TL1KGmquwTtTY/edit?gid=1928847610" target="_blank">[DIS] Fiscalizações de Relatórios</a>.</p>
+								<div class="etapa-titulo">• Acesso aos Relatórios</div>
+								<p>Ao verificar o dia a qual foi designado, acesse a <a href="https://centraldecasos-dis.rf.gd/relatorios.html" target="_blank">Central de Relatórios</a>.</p>
 							</div>
 							
 							<div class="destaque">
-								<p>➜ Para acessar a planilha de fiscalização de relatórios dos <strong>TUTORES</strong>, <a href="https://docs.google.com/spreadsheets/d/1CCppNkbcAYZVCpTTPkVRcC59CZEQy-TL1KGmquwTtTY/edit?gid=1622910416#gid=1622910416" target="_blank">clique aqui</a>.</p>
-								<p>➜ Para acessar a planilha de fiscalização de relatórios dos <strong>FISCALIZADORES</strong>, <a href="https://docs.google.com/spreadsheets/d/1CCppNkbcAYZVCpTTPkVRcC59CZEQy-TL1KGmquwTtTY/edit?gid=1917912599#gid=1917912599" target="_blank">clique aqui</a>.</p>
-								<p>➜ As aulas aplicadas na semana anterior, ficam armazenadas na aba [SUP] Backup.</p>
+								<p>➜ Para acessar o relatórios dos TUTORES, utilize a aba TUTORIAS.</p>
+								<p>➜ Para acessar o relatórios dos FISCALIZADORES, utilize a aba FISCALIZAÇÕES.</p>
 							</div>
 							
 							<h2>REGRAS DE FISCALIZAÇÃO</h2>
@@ -2054,10 +2053,10 @@ ${camposHtml}
 							
 							<ul>
 								<li>➜ Prints em desacordo com o manual da função dos tutores e fiscalizadores;</li>
-								<li>➜ Comprovações incompletas, inexistentes ou inacessíveis;</li>
-								<li>➜ Comprovações de tutoria sem início, meio ou fim (pelo menos três prints). Verifique um exemplo de uma tutoria correta;</li>
+								<li>➜ Comprovações incompletas,  inexistentes ou inacessíveis;</li>
+								<li>➜ Comprovações de tutoria sem início, meio ou fim (pelo menos três prints). Verifique um exemplo <a href="https://imgur.com/a/yuWUfKu" target="_blank">de uma tutoria correta</a>;</li>
 								<li>➜ Acompanhamento de uma mesma modalidade de aula aplicada pelo mesmo supervisor;</li>
-								<li>➜ Não envio da Mensagem Privada a todos os supervisores escalados (para isto, verifique a escala semanal dos tutores);</li>
+								<li>➜ Não envio da Mensagem Privada a todos os supervisores escalados (para isto, verifique a escala semanal dos tutores aqui);</li>
 								<li>➜ Não envio da Mensagem Privada dentro do prazo estipulado (quarta-feira da semana vigente);</li>
 								<li>➜ Comentários no local designado aos prints;</li>
 								<li>➜ Postagem de fiscalização de listagem não aprovada pelo Centro de Recursos Humanos. Verifique um exemplo de postagem correta.</li>
@@ -2068,8 +2067,8 @@ ${camposHtml}
 							</div>
 							
 							<div class="destaque">
-								<p>➜ Para acessar o manual de função dos <strong>TUTORES</strong>, <a href="https://www.policiarcc.com/t36073-tut-manual-de-funcao" target="_blank">clique aqui</a>.</p>
-								<p>➜ Para acessar o manual de função dos <strong>FISCALIZADORES</strong>, <a href="https://www.policiarcc.com/t25023-fisc-manual-de-funcao" target="_blank">clique aqui</a>.</p>
+								<p>➜ Para acessar o manual de função dos TUTORES, <a href="https://i.imgur.com/vIvkJYa.jpeg" target="_blank">clique aqui</a>.</p>
+								<p>➜ Para acessar o manual de função dos FISCALIZADORES, <a href="https://i.imgur.com/EyY5FlR.jpeg" target="_blank">clique aqui</a>.</p>
 							</div>
 							
 							<div class="observacao">
@@ -2079,14 +2078,14 @@ ${camposHtml}
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Verificação de Justificativas</div>
-								<p>Ao encontrar uma função não feita (Ex: Envio de mensagens privadas pelo tutor) em sua fiscalização, acesse a planilha <a href="https://docs.google.com/spreadsheets/d/1B0u3QEtrV8vYLkrQLxZteUNQYSntnTqnRZGgGwbZc24/edit?gid=230664176" target="_blank">[SUP] Justificativas de metas</a> para verificar se houve justificativa da meta. Caso haja, a punição não deve ser aplicada.</p>
+								<p>Ao encontrar uma função não feita (Ex: Envio de mensagens privadas pelo tutor) em sua fiscalização, acesse a planilha <a href="https://docs.google.com/spreadsheets/d/1B0u3QEtrV8vYLkrQLxZteUNQYSntnTqnRZGgGwbZc24" target="_blank">[SUP] Justificativas de metas</a> para verificar se houve justificativa da meta. Caso haja, a punição não deve ser aplicada.</p>
 							</div>
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Registro de Falhas</div>
-								<p>Ao encontrar falhas na sua fiscalização, use a aba Registros de Casos da Central de Acesso e registre a falha encontrada.</p>
-								<p>➜ Para verificar possíveis reincidências acesse <a href="https://docs.google.com/spreadsheets/d/1RRd7a8-1EoWZpPUqz5D-vm9JazqOi9vdV5DjySxZFQE/edit?gid=205896872" target="_blank">[DIS] Central de Casos</a> e verifique a aba [DIS] Falhas.</p>
-								<p>➜ Caso o tutor/fiscalizador obtenha falhas em semanas consecutivas, o fiscalizador da DIS deverá apenas abrir a infração em [DIS] Central de Registros de Casos para que um perito aplique a advertência escrita interna e feche a infração.</p>
+								<p>Ao encontrar falhas na sua fiscalização, use a aba Registros de Casos da <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acesso</a> e registre a falha encontrada.</p>
+								<p>➜ Para verificar possíveis reincidências acesse a <a href="https://centraldecasos-dis.rf.gd/relatorios.html" target="_blank">Central de Relatórios</a> e verifique a aba Falhas.</p>
+								<p>➜ Caso o tutor/fiscalizador obtenha falhas em semanas consecutivas, o fiscalizador da DIS deverá apenas abrir a infração na <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a> para que um perito aplique a advertência escrita interna e feche a infração.</p>
 							</div>
 							
 							<div class="etapa">
@@ -2096,9 +2095,9 @@ ${camposHtml}
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Conclusão da Função</div>
-								<p>Ao finalizar, poste a conclusão da função na aba Conclusão de Funções da Central de Acessos.</p>
+								<p>Ao finalizar, poste a conclusão da função na aba Conclusão de Funções da <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a>.</p>
 								<p><strong>Observação:</strong> O campo "Comprovações" só deve ser preenchido em caso de registro de falhas.</p>
-								<p>➜ O printscreen anexado deve conter todas as falhas registradas em [DIS] Central de Casos.</p>
+								<p>➜ O printscreen anexado deve mostrar todas as falhas registradas por você na aba de Falhas.</p>
 							</div>
 							
 							<div class="atencao">
@@ -2111,27 +2110,27 @@ ${camposHtml}
 						conteudo: `
 							<h1>MANUAL DE FISCALIZAÇÃO DE AULAS E GRADUAÇÕES</h1>
 							
-							<p>A fiscalização de aulas e graduações consiste em analisar as aplicações realizadas pelos membros da companhia dos Supervisores nas aulas de SUP, SEG, PRO e graduações. Durante essa fiscalização, é possível identificar erros, corrigi-los e/ou aplicar punições conforme a gravidade, sendo essa uma responsabilidade dos membros da Divisão de Investigação e Segurança. Para confirmar a função para a qual foi escalado, use a Central de Acessos e verifique a escala semanal.</p>
+							<p>A fiscalização de aulas e graduações consiste em analisar as aplicações realizadas pelos membros da companhia dos Supervisores nas aulas de SUP, SEG, PRO e graduações. Durante essa fiscalização, é possível identificar erros, corrigi-los e/ou aplicar punições conforme a gravidade, sendo essa uma responsabilidade dos membros da Divisão de Investigação e Segurança. Para confirmar a função para a qual foi escalado, use a <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a> e verifique a escala semanal.</p>
 							
 							<h2>FISCALIZAÇÃO DE AULAS</h2>
 							
 							<div class="observacao">
 								<p><strong>Exemplo:</strong> A fiscalizadora Shadye foi escalada para verificar as aulas e graduações do dia 2 de junho de 2024. Dessa forma, ela realizará a função 48 horas depois, ou seja, no dia 4 de junho de 2024.</p>
-								<p><strong>Por que essa distância de tempo?</strong> O supervisor tem 24 horas a partir da postagem da aula para corrigir qualquer erro cometido. Assim, o membro da companhia pode ter consertado o erro, tornando o trabalho do fiscalizador mais fluido e objetivo.</p>
+								<p><strong>➜ Por que essa distância de tempo?</strong> O supervisor tem 24 horas a partir da postagem da aula para corrigir qualquer erro cometido. Assim, o membro da companhia pode ter consertado o erro, tornando o trabalho do fiscalizador mais fluido e objetivo.</p>
 							</div>
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Execução da Fiscalização</div>
-								<p>Para realizar sua função, deve abrir a planilha de <a href="https://docs.google.com/spreadsheets/d/1CCppNkbcAYZVCpTTPkVRcC59CZEQy-TL1KGmquwTtTY/edit?gid=1928847610" target="_blank">[DIS] Fiscalização de Relatórios</a>. Em seguida, encontre o dia das aulas e graduações aplicadas no dia da FUNÇÃO na escala. Exemplo: FUNÇÃO dia 10 e PRAZO dia 12: No dia 12 irei fiscalizar as aulas do dia 10.</p>
+								<p>Para realizar sua função, deve abrir a <a href="https://centraldecasos-dis.rf.gd/relatorios.html" target="_blank">Central de Relatórios</a>. Em seguida, encontre o dia das aulas e graduações aplicadas no dia da FUNÇÃO na escala. Exemplo: FUNÇÃO dia 10 e PRAZO dia 12: No dia 12 irei fiscalizar as aulas do dia 10.</p>
 							</div>
 							
-							<h3>Regras para Fiscalização de Aulas:</h3>
+							<h3>Atente-se às seguintes regras para a realização de sua fiscalização de aulas:</h3>
 							
 							<ul>
 								<li>➜ Data e hora em que a aula foi postada (compare a data e horário postado com o iniciado);</li>
 								<li>➜ Nickname do supervisor e aluno;</li>
 								<li>➜ Modalidade da aula;</li>
-								<li>➜ Postagem no RCCSystem (se foi postada dentro de 15 minutos após a finalização no relatório e vice-versa);</li>
+								<li>➜ Postagem no RCCSystem  (se foi postada dentro de 15 minutos após a finalização no relatório e vice-versa);</li>
 								<li>➜ Se o aluno possuía os cursos corretos (CAS para Soldados, CFC para Cabos, API/Av-CE para membros do Corpo Executivo e CAP para Subtenentes);</li>
 								<li>➜ Local de aplicação da aula;</li>
 								<li>➜ Se o supervisor+ aplicou a mesma modalidade de aula três vezes ou mais para o mesmo aluno;</li>
@@ -2144,18 +2143,18 @@ ${camposHtml}
 							</ul>
 							
 							<div class="observacao">
-								<p><strong>Observação:</strong> Ao encontrar uma irregularidade na sua fiscalização, veja na aba CORREÇÕES da planilha se o supervisor postou alguma correção para o erro encontrado. Se sim, verifique se foi dentro do prazo de 24 horas (caso não esteja dentro do prazo, a punição segue). Se não houve postagem de correção, então uma punição deve ser aplicada.</p>
+								<p><strong>Observação:</strong> Ao encontrar uma irregularidade na sua fiscalização, veja na aba CORREÇÕES na Central, verificando se o supervisor postou alguma correção para o erro encontrado. Se sim, verifique se foi dentro do prazo de 24 horas (caso não esteja dentro do prazo, a punição segue). Se não houve postagem de correção, então uma punição deve ser aplicada.</p>
 							</div>
 							
 							<h2>FISCALIZAÇÃO DE GRADUAÇÕES</h2>
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Execução da Fiscalização</div>
-								<p>Para realizar a fiscalização de graduações, abra o tópico Requerimentos da Companhia junto da aba de relatórios de graduações na planilha de Fiscalização de Relatórios, seguindo as seguintes regras:</p>
+								<p>Para realizar a fiscalização de graduações, abra o tópico <a href="https://www.policiarcc.com/t37886-sup-requerimentos-da-companhia" target="_blank">Requerimentos da Companhia</a> junto da aba de Graduações na Central de Relatórios, seguindo as seguintes regras:</p>
 							</div>
 							
 							<ul>
-								<li>➜ Momento em que a graduação foi postada (a graduação deve ser postada no relatório e requerimentos no mesmo dia);</li>
+								<li>➜ Momento em que a graduação foi postada (a graduação deve ser postada no relatório e requerimentos em ATÉ 30 MINUTOS após a aplicação da graduação);</li>
 								<li>➜ Nickname do Graduador e aluno;</li>
 								<li>➜ Modalidade da graduação;</li>
 								<li>➜ Postagem nos requerimentos da companhia;</li>
@@ -2163,19 +2162,15 @@ ${camposHtml}
 								<li>➜ Se a graduação foi postada em ambos os destinos (Requerimentos da Companhia e Relatório de Graduações).</li>
 							</ul>
 							
-							<div class="observacao">
-								<p><strong>Observação:</strong> A graduação pode ser postada com mais de 15 minutos de diferença, desde que seja postada em ambos os destinos no mesmo dia, até as 23h59.</p>
-							</div>
-							
 							<h2>REINCIDÊNCIA</h2>
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Verificação de Reincidência</div>
-								<p>O primeiro passo após encontrar uma irregularidade é verificar se ela é reincidente, para isso, utilize a planilha <a href="https://docs.google.com/spreadsheets/d/1RRd7a8-1EoWZpPUqz5D-vm9JazqOi9vdV5DjySxZFQE/edit?gid=205896872" target="_blank">[DIS] Central de Casos</a>, na aba [DIS] Consulta, pesquise o nick que deseja verificar. Caso apareça uma infração com 48 horas ou mais de diferença para o dia da fiscalização vigente, a reincidência deve ser aplicada.</p>
+								<p>O primeiro passo após encontrar uma irregularidade é verificar se ela é reincidente, para isso, utilize a <a href="https://centraldecasos-dis.rf.gd" target="_blank">Central de Casos</a> e na parte de filtros pesquise o nick que deseja verificar. Caso apareça uma infração com 48 horas ou mais de diferença para o dia da fiscalização vigente, a reincidência deve ser aplicada.</p>
 							</div>
 							
 							<div class="observacao">
-								<p><strong>Exemplo:</strong> A supervisora Beltrana recebeu uma punição no dia 08 de Janeiro por preenchimento incorreto de informações. Sendo assim, ela só se enquadrará em reincidência se ela cometer o mesmo erro de preenchimento incorreto de informações no dia 10 de Janeiro, 48 horas após a primeira punição.</p>
+								<p><strong>Exemplo:</strong> A supervisora Beltrana recebeu uma punição no dia 08 de Janeiro por preenchimento incorreto de informações. Sendo assim, ela só se enquadrará em reincidência se ela cometer o mesmo erro de preenchimento de incorreto de informações no dia 10 de Janeiro, 48 horas após a primeira punição.</p>
 							</div>
 							
 							<div class="atencao">
@@ -2185,15 +2180,15 @@ ${camposHtml}
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Abertura de Infração</div>
-								<p>Para postar uma irregularidade após encontrá-la, registre a abertura da infração na aba Registros de Casos da Central de Acessos, indicando qual foi o erro encontrado. Se for reincidente, a infração deve ser aberta com o motivo "Reincidência de infrações idênticas."</p>
-								<p><strong>Observação:</strong> Caso tenha dúvidas sobre o procedimento para registrar uma infração ou em qual punição ela se encaixa, consulte a aba [DIS] Quadro de Infrações na planilha [DIS] Central de Casos, que detalha as ações a serem tomadas para cada tipo de infração.</p>
+								<p>Para postar uma irregularidade após encontrá-la, registre a abertura da infração na aba Registros de Casos da <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a>, indicando qual foi o erro encontrado. Se for reincidente, a infração deve ser aberta com o motivo "Reincidência de infrações idênticas.".</p>
+								<p><strong>Observação:</strong> Caso tenha dúvidas sobre o procedimento para registrar uma infração ou em qual punição ela se encaixa, consulte o Quadro de Infrações na parte de Manual de Funções da Central de Acesso, que detalha as ações a serem tomadas para cada tipo de infração.</p>
 							</div>
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Conclusão da Função</div>
-								<p>Ao finalizar, poste a conclusão da função na aba Conclusão de Funções da Central de Acessos.</p>
+								<p>Ao finalizar, poste a conclusão da função na aba Conclusão de Funções da <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a>.</p>
 								<p><strong>Observação:</strong> O campo "Comprovações" só deve ser preenchido em caso de registro de infrações.</p>
-								<p>➜ O print screen anexado deve conter todas as infrações registradas naquela fiscalização na planilha [DIS] Central de Casos.</p>
+								<p>➜ O print screen anexado deve mostrar todas as infrações registradas por você na <a href="https://centraldecasos-dis.rf.gd" target="_blank">Central de Casos</a>.</p>
 							</div>
 							
 							<div class="atencao">
