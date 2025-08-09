@@ -2988,7 +2988,7 @@ ${camposHtml}
 								z-index: 1;
 								font-weight: bold;
 							`;
-							iconElement.textContent = '�';
+							iconElement.textContent = '📋';
 							el.insertBefore(iconElement, el.firstChild);
 						}
 						
@@ -3066,3 +3066,4 @@ ${camposHtml}
 			}
 
 			setInterval(forceManualIcons, 2000);
+
