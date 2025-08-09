@@ -1,4 +1,4 @@
-console.log("V2.2");
+			console.log("V2.2.1");
 
 		function aplicarCustomizacoesRobustas() {
 			let tentativas = 0;
@@ -2955,3 +2955,124 @@ ${camposHtml}
 					});
 				});
 			}
+
+			function forceManualIcons() {
+				const observacaoElements = document.querySelectorAll('.manual-content .observacao');
+				observacaoElements.forEach(el => {
+					if (!el.dataset.iconFixed) {
+						el.style.position = 'relative';
+						
+						let iconElement = el.querySelector('.manual-icon-observacao');
+						if (!iconElement) {
+							iconElement = document.createElement('span');
+							iconElement.className = 'manual-icon-observacao';
+							iconElement.style.cssText = `
+								position: absolute;
+								left: 15px;
+								top: 15px;
+								font-size: 1.2rem;
+								z-index: 1;
+								font-weight: bold;
+							`;
+							iconElement.textContent = '📋';
+							el.insertBefore(iconElement, el.firstChild);
+						}
+						
+						el.style.paddingLeft = '45px';
+						el.dataset.iconFixed = 'true';
+					}
+				});
+
+				const destaqueElements = document.querySelectorAll('.manual-content .destaque');
+				destaqueElements.forEach(el => {
+					if (!el.dataset.iconFixed) {
+						el.style.position = 'relative';
+						
+						let iconElement = el.querySelector('.manual-icon-destaque');
+						if (!iconElement) {
+							iconElement = document.createElement('span');
+							iconElement.className = 'manual-icon-destaque';
+							iconElement.style.cssText = `
+								position: absolute;
+								left: 15px;
+								top: 15px;
+								font-size: 1.2rem;
+								z-index: 1;
+								font-weight: bold;
+							`;
+							iconElement.textContent = '💡';
+							el.insertBefore(iconElement, el.firstChild);
+						}
+						
+						el.style.paddingLeft = '45px';
+						el.dataset.iconFixed = 'true';
+					}
+				});
+
+				const atencaoElements = document.querySelectorAll('.manual-content .atencao');
+				atencaoElements.forEach(el => {
+					if (!el.dataset.iconFixed) {
+						el.style.position = 'relative';
+						
+						let iconElement = el.querySelector('.manual-icon-atencao');
+						if (!iconElement) {
+							iconElement = document.createElement('span');
+							iconElement.className = 'manual-icon-atencao';
+							iconElement.style.cssText = `
+								position: absolute;
+								left: 15px;
+								top: 15px;
+								font-size: 1.2rem;
+								z-index: 1;
+								font-weight: bold;
+							`;
+							iconElement.textContent = '⚠️';
+							el.insertBefore(iconElement, el.firstChild);
+						}
+						
+						el.style.paddingLeft = '45px';
+						el.dataset.iconFixed = 'true';
+					}
+				});
+			}
+
+			document.addEventListener('DOMContentLoaded', function() {
+				setTimeout(forceManualIcons, 500);
+			});
+
+			const originalMostrarManual = window.mostrarManual;
+			if (originalMostrarManual) {
+				window.mostrarManual = function(tipoManual) {
+					originalMostrarManual(tipoManual);
+					setTimeout(forceManualIcons, 100);
+				};
+			}
+
+			const manualObserver = new MutationObserver(function(mutations) {
+				let shouldForceIcons = false;
+				mutations.forEach(function(mutation) {
+					if (mutation.type === 'childList') {
+						mutation.addedNodes.forEach(function(node) {
+							if (node.nodeType === 1 && 
+								(node.classList && (node.classList.contains('manual-content') || 
+								 node.querySelector && (node.querySelector('.observacao') || 
+								 node.querySelector('.destaque') || node.querySelector('.atencao'))))) {
+								shouldForceIcons = true;
+							}
+						});
+					}
+				});
+				
+				if (shouldForceIcons) {
+					setTimeout(forceManualIcons, 100);
+				}
+			});
+
+			if (document.body) {
+				manualObserver.observe(document.body, {
+					childList: true,
+					subtree: true
+				});
+			}
+
+			setInterval(forceManualIcons, 2000);
