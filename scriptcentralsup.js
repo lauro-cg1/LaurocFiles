@@ -1,4 +1,4 @@
-console.log("V1.1.1");
+console.log("V1.1.2");
 const opcoesPorMinisterio = {
 				"Ministério da Administração": [
 				"Atualização de aulas",
@@ -1276,7 +1276,7 @@ const opcoesPorMinisterio = {
 						
 						É imprescindível que você mantenha uma leitura regular das documentações da companhia, visando compartilhar o máximo de conhecimento com os supervisores. Para progredir para o cargo de graduador, é essencial alcançar suas metas com excelência e estar alinhado com as informações mencionadas anteriormente. Além disso, enviar projetos e sugestões bem elaborados, assim como participar ativamente dos subgrupos da companhia, pode destacá-lo entre os demais membros.
 						
-						Caso você seja oficial do corpo militar ou oficial do corpo executivo portador da especialização intermediária, você tem um prazo de 48 horas para realizar sua atualização de tarefas no system da Polícia RCC. A identificação do seu novo cargo é [b][color=#008400]{Grad.SUP}[/color][/b].[/justify]
+						Caso você seja oficial do corpo militar ou oficial do corpo executivo portador da especialização intermediária, você tem um prazo de 48 horas para realizar sua atualização de tarefas no system da Polícia RCC. A identificação do seu novo cargo é [b][color=#008400]{Fisc.SUP}[/color][/b].[/justify]
 						
 						[center][b][color=#008400]#TudoVerde[/color][/b][/center][/td][/tr][/table]
 						[size=11][color=white]BBCode modificado por [b]laurocg2[/b] com base no original de .Brendon.[/color][/size][/font][/td][/tr][/table][/td][/tr][/table]`;
@@ -1460,3 +1460,4 @@ const opcoesPorMinisterio = {
 				});
 				});
 				}
+
