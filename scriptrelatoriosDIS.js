@@ -1,4 +1,4 @@
- console.log("V1.0");
+ console.log("V1.01");
   document.addEventListener('DOMContentLoaded', function() {
             const btn = document.getElementById('btnAdvertencias');
             if (btn) {
@@ -96,8 +96,8 @@ function renderAdvertenciasTable(csvText) {
         
         const SPREADSHEET_ID = '1vSMZhcsyhDINjmQHSsuz4bPWeKFCFEDMBfTDjlDFlTZKFiOd6ZlmVjznD1fiRoj9kkRfmfNcMnlKArz';
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVxUjRL-eNgQ08Auo1LrECLWD3bgb5vdTLKeqJ1ApC1UQNFdza_aCo04S4CPyVvujp/exec';
-        const LOG_URL = './logs.txt';
-        const LOG_PHP_URL = './salvarlog.php';
+        const LOG_URL = 'https://centraldecasosdis.cloud/logs.txt';
+        const LOG_PHP_URL = 'https://centraldecasosdis.cloud/salvarlog.php';
         
         
         const COLUMN_MAPPING = {
