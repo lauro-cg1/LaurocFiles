@@ -1,4 +1,4 @@
- console.log("V1.01");
+    console.log("V1.0");
   document.addEventListener('DOMContentLoaded', function() {
             const btn = document.getElementById('btnAdvertencias');
             if (btn) {
@@ -958,20 +958,32 @@ function renderAdvertenciasTable(csvText) {
 
         function parseLogFile(logText) {
             const logs = [];
+            if (!logText || typeof logText !== 'string') {
+                console.warn('Texto de log inválido');
+                return logs;
+            }
+            
             const lines = logText.split('\n').filter(line => line.trim());
+            console.log('Total de linhas para processar:', lines.length);
 
-            lines.forEach(line => {
+            lines.forEach((line, index) => {
                 try {
+                    if (!line.includes(' | ')) {
+                        console.warn('Linha sem separador correto:', line);
+                        return;
+                    }
+                    
                     const parts = line.split(' | ');
                     if (parts.length >= 5) {
-                        const timestamp = parts[0];
-                        const userPart = parts[1];
+                        const timestamp = parts[0].trim();
+                        const userPart = parts[1].trim();
+                        const column = parts[2].trim();
+                        const valuePart = parts[3].trim();
+                        const rowPart = parts[4].trim();
+
                         const userMatch = userPart.match(/^(.+?) \((.+?)\)$/);
                         const user = userMatch ? userMatch[1] : userPart;
                         const userLevel = userMatch ? userMatch[2] : 'unknown';
-                        const column = parts[2];
-                        const valuePart = parts[3];
-                        const rowPart = parts[4];
 
                         const valueMatch = valuePart.match(/^"(.+?)" → "(.+?)"$/);
                         const oldValue = valueMatch ? valueMatch[1] : '';
@@ -985,7 +997,14 @@ function renderAdvertenciasTable(csvText) {
                             if (timestamp.includes('/') && timestamp.includes(',')) {
                                 const [datePart, timePart] = timestamp.split(', ');
                                 const [day, month, year] = datePart.split('/');
-                                const isoDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T${timePart}`;
+                                
+                                if (!day || !month || !year || !timePart) {
+                                    throw new Error('Componentes da data faltando');
+                                }
+                                
+                                const paddedMonth = month.padStart(2, '0');
+                                const paddedDay = day.padStart(2, '0');
+                                const isoDate = year + '-' + paddedMonth + '-' + paddedDay + 'T' + timePart;
                                 dateObj = new Date(isoDate);
                             } else {
                                 dateObj = new Date(timestamp);
@@ -995,7 +1014,7 @@ function renderAdvertenciasTable(csvText) {
                                 throw new Error('Data inválida');
                             }
                         } catch (dateError) {
-                            console.warn('Erro ao processar data:', timestamp, dateError);
+                            console.warn('Erro ao processar data na linha', index + 1, ':', timestamp, 'Erro:', dateError.message);
                             dateObj = new Date();
                         }
 
@@ -1009,12 +1028,15 @@ function renderAdvertenciasTable(csvText) {
                             rowIndex,
                             date: dateObj.toISOString().split('T')[0]
                         });
+                    } else {
+                        console.warn('Linha com partes insuficientes:', parts.length, 'partes na linha:', line);
                     }
                 } catch (error) {
-                    console.warn('Erro ao processar linha do log:', line, error);
+                    console.error('Erro ao processar linha', index + 1, ':', line, 'Erro:', error.message);
                 }
             });
 
+            console.log('Logs processados com sucesso:', logs.length);
             return logs;
         }
 
