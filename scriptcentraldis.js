@@ -2039,7 +2039,7 @@ ${camposHtml}
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Acesso aos Relatórios</div>
-								<p>Ao verificar o dia a qual foi designado, acesse a <a href="https://centraldecasos-dis.rf.gd/relatorios.html" target="_blank">Central de Relatórios</a>.</p>
+								<p>Ao verificar o dia a qual foi designado, acesse a <a href="https://centraldecasosdis.cloud/relatorios" target="_blank">Central de Relatórios</a>.</p>
 							</div>
 							
 							<div class="destaque">
@@ -2084,7 +2084,7 @@ ${camposHtml}
 							<div class="etapa">
 								<div class="etapa-titulo">• Registro de Falhas</div>
 								<p>Ao encontrar falhas na sua fiscalização, use a aba Registros de Casos da <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acesso</a> e registre a falha encontrada.</p>
-								<p>➜ Para verificar possíveis reincidências acesse a <a href="https://centraldecasos-dis.rf.gd/relatorios.html" target="_blank">Central de Relatórios</a> e verifique a aba Falhas.</p>
+								<p>➜ Para verificar possíveis reincidências acesse a <a href="https://centraldecasosdis.cloud/relatorios" target="_blank">Central de Relatórios</a> e verifique a aba Falhas.</p>
 								<p>➜ Caso o tutor/fiscalizador obtenha falhas em semanas consecutivas, o fiscalizador da DIS deverá apenas abrir a infração na <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a> para que um perito aplique a advertência escrita interna e feche a infração.</p>
 							</div>
 							
@@ -2121,7 +2121,7 @@ ${camposHtml}
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Execução da Fiscalização</div>
-								<p>Para realizar sua função, deve abrir a <a href="https://centraldecasos-dis.rf.gd/relatorios.html" target="_blank">Central de Relatórios</a>. Em seguida, encontre o dia das aulas e graduações aplicadas no dia da FUNÇÃO na escala. Exemplo: FUNÇÃO dia 10 e PRAZO dia 12: No dia 12 irei fiscalizar as aulas do dia 10.</p>
+								<p>Para realizar sua função, deve abrir a <a href="https://centraldecasosdis.cloud/relatorios" target="_blank">Central de Relatórios</a>. Em seguida, encontre o dia das aulas e graduações aplicadas no dia da FUNÇÃO na escala. Exemplo: FUNÇÃO dia 10 e PRAZO dia 12: No dia 12 irei fiscalizar as aulas do dia 10.</p>
 							</div>
 							
 							<h3>Atente-se às seguintes regras para a realização de sua fiscalização de aulas:</h3>
@@ -3066,4 +3066,5 @@ ${camposHtml}
 			}
 
 			setInterval(forceManualIcons, 2000);
+
 
