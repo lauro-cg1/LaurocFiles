@@ -96,7 +96,7 @@ function renderAdvertenciasTable(csvText) {
         
         const SPREADSHEET_ID = '1vSMZhcsyhDINjmQHSsuz4bPWeKFCFEDMBfTDjlDFlTZKFiOd6ZlmVjznD1fiRoj9kkRfmfNcMnlKArz';
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw-h_j6GZLklojmAhSJGsLXkEow6ZQKNy5oivYJXpHqS2KYbdTh_JLkjOVPVFvtJw15/exec';
-        const LOG_URL = 'https://centraldecasosdis.cloud/logs.txt';
+        const LOG_URL = 'https://centraldecasos-dis.rf.gd/logs.txt';
         const LOG_PHP_URL = './salvarlog.php';
         
         
