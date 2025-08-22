@@ -1,4 +1,4 @@
-    console.log("V1.0");
+    console.log("V1.01");
   document.addEventListener('DOMContentLoaded', function() {
             const btn = document.getElementById('btnAdvertencias');
             if (btn) {
