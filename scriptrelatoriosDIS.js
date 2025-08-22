@@ -1,5 +1,5 @@
-console.log("V1.01");    
-document.addEventListener('DOMContentLoaded', function() {
+ console.log("V1.01");
+ document.addEventListener('DOMContentLoaded', function() {
             const btn = document.getElementById('btnAdvertencias');
             if (btn) {
                 btn.addEventListener('click', openAdvertenciasModal);
@@ -95,7 +95,7 @@ function renderAdvertenciasTable(csvText) {
         let changeLog = [];
         
         const SPREADSHEET_ID = '1vSMZhcsyhDINjmQHSsuz4bPWeKFCFEDMBfTDjlDFlTZKFiOd6ZlmVjznD1fiRoj9kkRfmfNcMnlKArz';
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWsCHAQTJD1sGN-RrObNscDgRNe2otCLzUgvY2Rhe4A1719jB5eC3vo0mxzYrR10lQ/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx5v-TGdSkpdoumICDEX7penEnh9WbcmoMjDzIzwHGWlGbKzJMmXPT2bNS4XujrFVjo/exec';
         const LOG_URL = 'https://centraldecasos-dis.rf.gd/logs.txt';
         const LOG_PHP_URL = './salvarlog.php';
         
