@@ -24,7 +24,7 @@ let allData = {
     correcoes: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQogrITfkeF-n1FXG4lyJx-cwtxYaZOiWvU3Uq1107SnIhcGKUUTnJQY_JA2jwHrzC9dKRBU_YyeKxg/pub?gid=412995245&single=true&output=csv',
     falhas: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSMZhcsyhDINjmQHSsuz4bPWeKFCFEDMBfTDjlDFlTZKFiOd6ZlmVjznD1fiRoj9kkRfmfNcMnlKArz/pub?gid=1855111519&single=true&output=csv'
         };
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw-h_j6GZLklojmAhSJGsLXkEow6ZQKNy5oivYJXpHqS2KYbdTh_JLkjOVPVFvtJw15/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVxUjRL-eNgQ08Auo1LrECLWD3bgb5vdTLKeqJ1ApC1UQNFdza_aCo04S4CPyVvujp/exec';
         const APPS_SCRIPT_URL2 = 'https://script.google.com/macros/s/AKfycbwp_M4x6Q_p9MTQp3Gi0_X1wSJC00WxDn9OAYjFNOAfX60l367F2W2GCp0FFdaLr0YT/exec';
         const FISCALIZADOR_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQogrITfkeF-n1FXG4lyJx-cwtxYaZOiWvU3Uq1107SnIhcGKUUTnJQY_JA2jwHrzC9dKRBU_YyeKxg/pub?gid=1492085091&single=true&output=csv';
         
