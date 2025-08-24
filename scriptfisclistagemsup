@@ -1,0 +1,283 @@
+console.log("V1.0");
+   let processedUsers = [];
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        function updateProgress(message) {
+            document.getElementById('progress').textContent = message;
+        }
+
+        function parseUserList(input) {
+            const lines = input.trim().split('\n');
+            const users = [];
+            
+            for (let line of lines) {
+                line = line.trim();
+                if (!line) continue;
+                
+                const match = line.match(/^\d+\.\s*([^\[\s]+)/);
+                if (match) {
+                    const username = match[1].trim();
+                    if (username && !users.includes(username)) {
+                        users.push(username);
+                    }
+                }
+                
+                if (users.length >= 100) break;
+            }
+            
+            return users;
+        }
+
+        async function fetchUserData(username) {
+            try {
+                updateProgress(`Buscando dados de ${username}...`);
+                
+                const userResponse = await fetch(`https://www.habbo.com.br/api/public/users?name=${encodeURIComponent(username)}`);
+                if (!userResponse.ok) {
+                    if (userResponse.status === 404) {
+                        return { notFound: true, username: username };
+                    }
+                    throw new Error(`Erro ao buscar usuário ${username}`);
+                }
+                
+                const userData = await userResponse.json();
+                
+                if (!userData.uniqueId) {
+                    return { notFound: true, username: username };
+                }
+
+                const groupsResponse = await fetch(`https://www.habbo.com.br/api/public/users/${userData.uniqueId}/groups`);
+                let rccGroups = [];
+                
+                if (groupsResponse.ok) {
+                    const groupsData = await groupsResponse.json();
+                    rccGroups = groupsData
+                        .filter(group => group.name && group.name.startsWith('[RCC]'))
+                        .map(group => group.name);
+                }
+
+                return {
+                    uniqueId: userData.uniqueId,
+                    name: userData.name,
+                    motto: userData.motto || '>MISSÃO VAZIA<',
+                    lastAccessTime: userData.lastAccessTime,
+                    profileVisible: userData.profileVisible,
+                    rccGroups: rccGroups
+                };
+            } catch (error) {
+                console.error(`Erro ao processar ${username}:`, error);
+                return { notFound: true, username: username, error: error.message };
+            }
+        }
+
+        function formatLastAccess(timestamp) {
+            if (!timestamp) return { text: 'Nunca', isOld: false };
+            
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diffInMinutes = Math.floor((now - date) / (1000 * 60));
+            const diffInHours = Math.floor(diffInMinutes / 60);
+            const diffInDays = Math.floor(diffInMinutes / 1440);
+            
+            let text = '';
+            let isOld = false;
+            
+            if (diffInMinutes < 60) {
+                text = `${diffInMinutes} min atrás`;
+            } else if (diffInHours < 24) {
+                text = `${diffInHours}h atrás`;
+            } else if (diffInDays === 1) {
+                text = `1 dia atrás`;
+            } else if (diffInDays < 31) {
+                const remainingHours = Math.floor((diffInMinutes % 1440) / 60);
+                if (remainingHours > 0) {
+                    text = `${diffInDays} dias e ${remainingHours}h atrás`;
+                } else {
+                    text = `${diffInDays} dias atrás`;
+                }
+            } else {
+                const remainingHours = Math.floor((diffInMinutes % 1440) / 60);
+                if (remainingHours > 0) {
+                    text = `${diffInDays} dias e ${remainingHours}h atrás`;
+                } else {
+                    text = `${diffInDays} dias atrás`;
+                }
+                isOld = true;
+            }
+            
+            return { text, isOld };
+        }
+
+        function createUserCard(user) {
+            const isProfileHidden = !user.profileVisible;
+            const lastAccessInfo = formatLastAccess(user.lastAccessTime);
+            
+            if (isProfileHidden) {
+                return `
+                    <div class="user-card profile-hidden">
+                        <div class="user-avatar">
+                            <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?&user=${encodeURIComponent(user.name)}&action=std&direction=3&head_direction=3&img_format=png&gesture=std&headonly=0&size=b" 
+                                 alt="${user.name}" 
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgODAgMTIwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRUNGMEYxIi8+CjxjaXJjbGUgY3g9IjQwIiBjeT0iMzAiIHI9IjE1IiBmaWxsPSIjQkRDM0M3Ii8+CjxyZWN0IHg9IjI1IiB5PSI1MCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjQkRDM0M3Ii8+Cjx0ZXh0IHg9IjQwIiB5PSIxMTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzk1QTVBNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Tm8gSW1hZ2U8L3RleHQ+Cjwvc3ZnPg=='">
+                        </div>
+                        <div class="user-name">${user.name}</div>
+                        <div class="private-profile">🔒 Privado</div>
+                        <div class="user-info" style="margin-top: 15px; font-style: italic; color: #95a5a6;">
+                            Perfil privado - Informações não disponíveis
+                        </div>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="user-card">
+                    <div class="user-avatar">
+                        <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?&user=${encodeURIComponent(user.name)}&action=std&direction=3&head_direction=3&img_format=png&gesture=std&headonly=0&size=b" 
+                             alt="${user.name}" 
+                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgODAgMTIwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRUNGMEYxIi8+CjxjaXJjbGUgY3g9IjQwIiBjeT0iMzAiIHI9IjE1IiBmaWxsPSIjQkRDM0M3Ii8+CjxyZWN0IHg9IjI1IiB5PSI1MCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjQkRDM0M3Ii8+Cjx0ZXh0IHg9IjQwIiB5PSIxMTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzk1QTVBNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Tm8gSW1hZ2U8L3RleHQ+Cjwvc3ZnPg=='">
+                    </div>
+                    <div class="user-name">${user.name}</div>
+                    <div class="user-motto">${user.motto}</div>
+                    <div class="user-info ${lastAccessInfo.isOld ? 'time-old' : ''}">
+                        🕒 ${lastAccessInfo.text}
+                    </div>
+                    <div class="user-info">👁️ Público</div>
+                    <div class="user-groups">
+                        ${user.rccGroups.length > 0 
+                            ? user.rccGroups.map(group => `<span class="group-tag">${group}</span>`).join('')
+                            : '<span class="no-rcc-groups">Não há grupos da RCC</span>'
+                        }
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayResults(notFoundUsers = []) {
+            const resultsDiv = document.getElementById('results');
+            const cardsContainer = document.getElementById('cardsContainer');
+            const notFoundSection = document.getElementById('notFoundSection');
+            const notFoundList = document.getElementById('notFoundList');
+            
+            cardsContainer.innerHTML = processedUsers
+                .map(user => createUserCard(user))
+                .join('');
+            
+            if (notFoundUsers.length > 0) {
+                notFoundList.innerHTML = notFoundUsers
+                    .map(user => `
+                        <li class="not-found-item">
+                            <strong>${user.username}</strong> - 
+                            ${user.error ? 'Erro de conexão' : 'Usuário não encontrado (possível mudança de nome)'}
+                        </li>
+                    `)
+                    .join('');
+                notFoundSection.style.display = 'block';
+            } else {
+                notFoundSection.style.display = 'none';
+            }
+            
+            resultsDiv.style.display = 'block';
+        }
+
+        async function processUsers() {
+            const input = document.getElementById('userList').value;
+            
+            if (!input.trim()) {
+                showError('Por favor, cole a listagem de usuários.');
+                return;
+            }
+            
+            const usernames = parseUserList(input);
+            
+            if (usernames.length === 0) {
+                showError('Nenhum usuário válido encontrado na listagem. Siga o formato mostrado.');
+                return;
+            }
+            
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            const processBtn = document.querySelector('.process-btn');
+            const processBtnIcon = document.querySelector('.process-btn-icon');
+            processBtn.disabled = true;
+            processBtn.classList.add('processing');
+            
+            processBtnIcon.classList.add('searching');
+            
+            processedUsers = [];
+            let notFoundUsers = [];
+            updateProgress(`Encontrados ${usernames.length} usuários. Iniciando processamento...`);
+            
+            try {
+                const batchSize = 5;
+                for (let i = 0; i < usernames.length; i += batchSize) {
+                    const batch = usernames.slice(i, i + batchSize);
+                    updateProgress(`Processando usuários ${i + 1}-${Math.min(i + batchSize, usernames.length)} de ${usernames.length}...`);
+                    
+                    const batchPromises = batch.map(username => fetchUserData(username));
+                    const batchResults = await Promise.all(batchPromises);
+                    
+                    batchResults.forEach(result => {
+                        if (result && result.notFound) {
+                            notFoundUsers.push(result);
+                        } else if (result && result.uniqueId) {
+                            processedUsers.push(result);
+                        }
+                    });
+                    
+                    if (i + batchSize < usernames.length) {
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                    }
+                }
+                
+                updateProgress('Finalizando processamento...');
+                
+                const totalFound = processedUsers.length;
+                const totalNotFound = notFoundUsers.length;
+                
+                if (totalFound === 0 && totalNotFound === 0) {
+                    showError('Nenhum usuário foi processado com sucesso.');
+                } else {
+                    let message = `${totalFound} usuários processados com sucesso!`;
+                    if (totalNotFound > 0) {
+                        message += ` ${totalNotFound} usuários não foram encontrados.`;
+                    }
+                    showSuccess(message);
+                    displayResults(notFoundUsers);
+                }
+                
+            } catch (error) {
+                console.error('Erro durante o processamento:', error);
+                showError('Erro durante o processamento. Tente novamente.');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                const processBtn = document.querySelector('.process-btn');
+                const processBtnIcon = document.querySelector('.process-btn-icon');
+                processBtn.disabled = false;
+                processBtn.classList.remove('processing');
+                
+                processBtnIcon.classList.remove('searching');
+            }
+        }
+
+        document.getElementById('userList').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                processUsers();
+            }
+        });
