@@ -1,4 +1,4 @@
-    console.log("V1.01");
+           console.log("V1.01");
   document.addEventListener('DOMContentLoaded', function() {
             const btn = document.getElementById('btnAdvertencias');
             if (btn) {
@@ -96,8 +96,20 @@ function renderAdvertenciasTable(csvText) {
         
         const SPREADSHEET_ID = '1vSMZhcsyhDINjmQHSsuz4bPWeKFCFEDMBfTDjlDFlTZKFiOd6ZlmVjznD1fiRoj9kkRfmfNcMnlKArz';
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVxUjRL-eNgQ08Auo1LrECLWD3bgb5vdTLKeqJ1ApC1UQNFdza_aCo04S4CPyVvujp/exec';
+        const LOG_WORKER_URL = 'https://logs-dis.laurocg2.workers.dev';
         const LOG_URL = 'https://centraldecasosdis.cloud/logs.txt';
         const LOG_PHP_URL = 'https://centraldecasosdis.cloud/salvarlog.php';
+        
+        let logClient = null;
+        
+        function initializeLogClient() {
+            if (typeof LogClient !== 'undefined') {
+                logClient = new LogClient(LOG_WORKER_URL);
+                console.log('LogClient inicializado com sucesso');
+                return true;
+            }
+            return false;
+        }
         
         
         const COLUMN_MAPPING = {
@@ -611,6 +623,10 @@ function renderAdvertenciasTable(csvText) {
 
         async function logChange(columnName, oldValue, newValue, rowIndex) {
             try {
+                if (!logClient && typeof LogClient !== 'undefined') {
+                    logClient = new LogClient(LOG_WORKER_URL);
+                }
+
                 const now = new Date();
                 const timestamp = now.toLocaleString('pt-BR', {
                     timeZone: 'America/Sao_Paulo',
@@ -634,15 +650,43 @@ function renderAdvertenciasTable(csvText) {
                 };
 
                 changeLog.unshift(logEntry);
-                await saveLogToFile(logEntry);
+                
+                if (logClient) {
+                    try {
+                        const result = await logClient.salvarLog(logEntry);
+                        console.log('Log salvo com sucesso no Worker:', result.message);
+                    } catch (workerError) {
+                        console.warn('Erro ao salvar no Worker:', workerError);
+                        logClient.salvarLogLocal(logEntry);
+                    }
+                } else {
+                    console.warn('LogClient não disponível, salvando localmente');
+                    try {
+                        let logs = JSON.parse(localStorage.getItem('logs_backup') || '[]');
+                        logs.push({
+                            ...logEntry,
+                            savedLocally: true,
+                            localTimestamp: new Date().toISOString()
+                        });
+                        
+                        if (logs.length > 100) {
+                            logs = logs.slice(-100);
+                        }
+                        
+                        localStorage.setItem('logs_backup', JSON.stringify(logs));
+                        console.log('Log salvo localmente como backup');
+                    } catch (e) {
+                        console.error('Erro ao salvar log localmente:', e);
+                    }
+                }
             } catch (error) {
                 console.error('Erro ao registrar log:', error);
             }
         }
 
-        async function saveLogToFile(logEntry) {
+        async function saveLogToWorker(logEntry) {
             try {
-                const response = await fetch(LOG_PHP_URL, {
+                const response = await fetch(LOG_WORKER_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -653,21 +697,18 @@ function renderAdvertenciasTable(csvText) {
                 if (response.ok) {
                     const result = await response.json();
                     if (result.success) {
-                        console.log('Log salvo com sucesso:', result.message);
-                        if (result.remote_saved) {
-                            console.log('✅ Salvo no arquivo remoto');
-                        }
-                        return;
+                        console.log('Log salvo com sucesso no Worker:', result.message);
+                        return result;
                     } else {
-                        throw new Error(result.error || 'Erro desconhecido do servidor PHP');
+                        throw new Error(result.error || 'Erro desconhecido do Worker');
                     }
                 } else {
                     throw new Error(`Erro HTTP: ${response.status}`);
                 }
 
             } catch (error) {
-                console.warn('Erro ao salvar via PHP:', error);
-                console.error('Log não foi salvo devido ao erro no servidor');
+                console.warn('Erro ao salvar no Worker:', error);
+                throw error;
             }
         }
 
@@ -898,20 +939,45 @@ function renderAdvertenciasTable(csvText) {
                 let logs = [];
                 
                 try {
-                    const response = await fetch(LOG_URL + '?t=' + Date.now(), {
-                        method: 'GET',
-                        cache: 'no-cache'
-                    });
-                    
-                    if (response.ok) {
-                        const logText = await response.text();
+                    if (logClient) {
+                        const logText = await logClient.carregarLogs();
                         if (logText.trim()) {
                             logs = parseLogFile(logText);
-                            console.log('Logs carregados via PHP:', logs.length);
+                            console.log('Logs carregados via Worker:', logs.length);
+                        }
+                    } else {
+                        const response = await fetch(LOG_WORKER_URL + '?t=' + Date.now(), {
+                            method: 'GET',
+                            cache: 'no-cache'
+                        });
+                        
+                        if (response.ok) {
+                            const logText = await response.text();
+                            if (logText.trim()) {
+                                logs = parseLogFile(logText);
+                                console.log('Logs carregados via Worker (fallback):', logs.length);
+                            }
                         }
                     }
-                } catch (fetchError) {
-                    console.warn('Não foi possível carregar via PHP:', fetchError);
+                } catch (workerError) {
+                    console.warn('Não foi possível carregar via Worker:', workerError);
+                    
+                    try {
+                        const localLogs = JSON.parse(localStorage.getItem('logs_backup') || '[]');
+                        logs = localLogs.filter(log => log.savedLocally).map(log => ({
+                            timestamp: log.timestamp,
+                            user: log.user,
+                            userLevel: log.userLevel,
+                            column: log.column,
+                            oldValue: log.oldValue,
+                            newValue: log.newValue,
+                            rowIndex: log.rowIndex,
+                            date: log.date
+                        }));
+                        console.log('Logs carregados do localStorage:', logs.length);
+                    } catch (localError) {
+                        console.warn('Erro ao carregar logs locais:', localError);
+                    }
                 }
 
                 const allLogs = [...changeLog, ...logs];
@@ -1643,6 +1709,17 @@ function renderAdvertenciasTable(csvText) {
         window.addEventListener('load', () => {
             checkAPIConfiguration();
             loadAuthorizedUsers();
+            
+            setTimeout(() => {
+                if (initializeLogClient()) {
+                 
+                    logClient.sincronizarLogsLocais().catch(error => {
+                        console.warn('Erro ao sincronizar logs locais:', error);
+                    });
+                } else {
+                    console.warn('LogClient não pôde ser inicializado');
+                }
+            }, 1000); 
             
             initializeFilters();
         });
