@@ -1,4 +1,4 @@
-                 console.log("V1.01");
+   console.log("V1.01");
   document.addEventListener('DOMContentLoaded', function() {
             const btn = document.getElementById('btnAdvertencias');
             if (btn) {
@@ -863,18 +863,6 @@ function renderAdvertenciasTable(csvText) {
             
         } catch (fetchError) {
             console.warn('Falha ao carregar via Worker:', fetchError);
-            
-            console.log('Tentando fallback para URL CSV pública...');
-            const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMZhcsyhDINjmQHSsuz4bPWeKFCFEDMBfTDjlDFlTZKFiOd6ZlmVjznD1fiRoj9kkRfmfNcMnlKArz/pub?gid=205896872&single=true&output=csv";
-            
-            response = await fetch(fallbackUrl);
-            
-            if (!response.ok) {
-                throw new Error(`Erro HTTP no fallback: ${response.status}`);
-            }
-            
-            csvText = await response.text();
-            console.log('⚠️ Dados carregados via fallback CSV');
         }
         
         const data = parseCSV(csvText);
