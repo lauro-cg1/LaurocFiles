@@ -1,4 +1,3 @@
-console.log("V1.0");
 let allData = {
     aulas: [],
     tutorias: [],
@@ -12,21 +11,9 @@ let allData = {
         let currentUser = '';
         let currentSection = 'aulas';
         
-        const SPREADSHEET_URLS = {
-    aulas_current: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQogrITfkeF-n1FXG4lyJx-cwtxYaZOiWvU3Uq1107SnIhcGKUUTnJQY_JA2jwHrzC9dKRBU_YyeKxg/pub?gid=1928847610&single=true&output=csv',
-    aulas_backup: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQogrITfkeF-n1FXG4lyJx-cwtxYaZOiWvU3Uq1107SnIhcGKUUTnJQY_JA2jwHrzC9dKRBU_YyeKxg/pub?gid=1828279979&single=true&output=csv',
-    tutorias_current: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQogrITfkeF-n1FXG4lyJx-cwtxYaZOiWvU3Uq1107SnIhcGKUUTnJQY_JA2jwHrzC9dKRBU_YyeKxg/pub?gid=1622910416&single=true&output=csv',
-    tutorias_backup: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQogrITfkeF-n1FXG4lyJx-cwtxYaZOiWvU3Uq1107SnIhcGKUUTnJQY_JA2jwHrzC9dKRBU_YyeKxg/pub?gid=1938707811&single=true&output=csv',
-    fiscalizacoes_current: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQogrITfkeF-n1FXG4lyJx-cwtxYaZOiWvU3Uq1107SnIhcGKUUTnJQY_JA2jwHrzC9dKRBU_YyeKxg/pub?gid=1917912599&single=true&output=csv',
-    fiscalizacoes_backup: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQogrITfkeF-n1FXG4lyJx-cwtxYaZOiWvU3Uq1107SnIhcGKUUTnJQY_JA2jwHrzC9dKRBU_YyeKxg/pub?gid=662910779&single=true&output=csv',
-    graduacoes_current: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQogrITfkeF-n1FXG4lyJx-cwtxYaZOiWvU3Uq1107SnIhcGKUUTnJQY_JA2jwHrzC9dKRBU_YyeKxg/pub?gid=798747714&single=true&output=csv',
-    graduacoes_backup: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQogrITfkeF-n1FXG4lyJx-cwtxYaZOiWvU3Uq1107SnIhcGKUUTnJQY_JA2jwHrzC9dKRBU_YyeKxg/pub?gid=1348045301&single=true&output=csv',
-    correcoes: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQogrITfkeF-n1FXG4lyJx-cwtxYaZOiWvU3Uq1107SnIhcGKUUTnJQY_JA2jwHrzC9dKRBU_YyeKxg/pub?gid=412995245&single=true&output=csv',
-    falhas: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSMZhcsyhDINjmQHSsuz4bPWeKFCFEDMBfTDjlDFlTZKFiOd6ZlmVjznD1fiRoj9kkRfmfNcMnlKArz/pub?gid=1855111519&single=true&output=csv'
-        };
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVxUjRL-eNgQ08Auo1LrECLWD3bgb5vdTLKeqJ1ApC1UQNFdza_aCo04S4CPyVvujp/exec';
-        const APPS_SCRIPT_URL2 = 'https://script.google.com/macros/s/AKfycbwp_M4x6Q_p9MTQp3Gi0_X1wSJC00WxDn9OAYjFNOAfX60l367F2W2GCp0FFdaLr0YT/exec';
-        const FISCALIZADOR_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQogrITfkeF-n1FXG4lyJx-cwtxYaZOiWvU3Uq1107SnIhcGKUUTnJQY_JA2jwHrzC9dKRBU_YyeKxg/pub?gid=1492085091&single=true&output=csv';
+        const WORKER_URL = 'https://central-de-casos-dis.laurocg2.workers.dev';
+        
+        const API_URL = WORKER_URL;
         
         let fiscalizadorData = [];
         let countdownInterval = null;
@@ -66,8 +53,8 @@ let allData = {
 
         
         function checkAPIConfiguration() {
-            if (APPS_SCRIPT_URL === 'SUA_URL_DO_SCRIPT_AQUI' || !APPS_SCRIPT_URL.includes('script.google.com/macros/s/')) {
-                showStatus('⚠️ Sistema de acesso não configurado.', 'error');
+            if (WORKER_URL.includes('SEU-USUARIO')) {
+                showStatus('⚠️ Configure a URL do Worker em WORKER_URL (substitua SEU-USUARIO)', 'error');
                 return false;
             }
             return true;
@@ -111,7 +98,7 @@ let allData = {
                 let result;
                 
                 try {
-                    const response = await fetch(`${APPS_SCRIPT_URL}?${params.toString()}`, {
+                    const response = await fetch(`${API_URL}?${params.toString()}`, {
                         method: 'GET',
                         mode: 'cors'
                     });
@@ -182,7 +169,7 @@ let allData = {
                     callback: callbackName
                 });
                 
-                script.src = `${APPS_SCRIPT_URL}?${params.toString()}`;
+                script.src = `${API_URL}?${params.toString()}`;
                 document.head.appendChild(script);
             });
         }
@@ -307,13 +294,6 @@ let allData = {
                     
                     return 0;
                 });
-                
-                if (data.length > 0) {
-                    data.slice(0, 3).forEach((row, index) => {
-                        const dateField = row['DATA E HORA'] || row['CARIMBO'] || '';
-                        const parsedDate = parseDate(dateField);
-                    });
-                }
             }
             
             displayTable(data, section);
@@ -375,8 +355,7 @@ let allData = {
                     dateObj = new Date(dateString);
                 }
                 
-                const result = isNaN(dateObj.getTime()) ? null : dateObj;
-                return result;
+                return isNaN(dateObj.getTime()) ? null : dateObj;
             } catch (error) {
                 return null;
             }
@@ -432,7 +411,6 @@ let allData = {
         displaySectionData(currentSection);
         showStatus(`✅ Dados carregados com sucesso! ${totalRecords} registros encontrados.`, 'success');
     } catch (error) {
-        console.error('Erro detalhado:', error);
         showStatus('❌ Erro ao carregar dados. Verifique sua conexão.', 'error');
     }
     showLoading(false);
@@ -494,19 +472,28 @@ let allData = {
         }
 
         async function loadSectionData(urlKey, section, weekType) {
-            const url = SPREADSHEET_URLS[urlKey];
-            if (!url) {
-                throw new Error(`URL não encontrada para ${urlKey}`);
-            }
-            
             try {
-                const response = await fetch(url);
+                const params = new URLSearchParams({
+                    action: 'getRelatorioCsvData',
+                    section: urlKey
+                });
+                
+                const response = await fetch(`${API_URL}?${params.toString()}`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
-                const csvText = await response.text();
-                const data = parseSectionCSV(csvText, section, weekType);
+                const result = await response.json();
+                
+                if (!result.success) {
+                    throw new Error(result.error || 'Erro ao buscar dados');
+                }
+                
+                const data = parseSectionCSV(result.data, section, weekType);
                 
                 return { section, data, weekType };
             } catch (error) {
@@ -527,10 +514,6 @@ let allData = {
             
             const csvHeaders = (section === 'correcoes' || section === 'falhas') ? 
                 headers : headers.filter(header => header !== 'LINHA');
-            
-            lines.slice(0, 3).forEach((line, index) => {
-                const cols = parseCSVLine(line);
-            });
             
             for (let i = dataStartRow - 1; i < lines.length; i++) {
                 const line = lines[i];
@@ -858,13 +841,27 @@ let allData = {
         async function loadFiscalizadorData() {
             showFiscalizadorLoading(true);
             try {
-                const response = await fetch(FISCALIZADOR_CSV_URL);
+                const params = new URLSearchParams({
+                    action: 'getRelatorioCsvData',
+                    section: 'fiscalizador'
+                });
+                
+                const response = await fetch(`${API_URL}?${params.toString()}`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
-                const csvText = await response.text();
-                fiscalizadorData = parseFiscalizadorCSV(csvText);
+                const result = await response.json();
+                
+                if (!result.success) {
+                    throw new Error(result.error || 'Erro ao buscar dados do fiscalizador');
+                }
+                
+                fiscalizadorData = parseFiscalizadorCSV(result.data);
                 
                 displayFiscalizadorTable(fiscalizadorData);
                 showFiscalizadorStatus('✅ Dados do fiscalizador carregados com sucesso!', 'success');
@@ -1004,7 +1001,7 @@ let allData = {
             });
             
             try {
-                const response = await fetch(`${APPS_SCRIPT_URL2}?${params.toString()}`, {
+                const response = await fetch(`${API_URL}?${params.toString()}`, {
                     method: 'GET',
                     mode: 'cors'
                 });
@@ -1051,14 +1048,13 @@ let allData = {
                         reject(new Error('Erro ao carregar script'));
                     };
                     
-                                       
                     const paramsWithCallback = new URLSearchParams({
                         action: 'updateFiscalizadorDate',
                         date: date,
                         callback: callbackName
                     });
                     
-                    script.src = `${APPS_SCRIPT_URL2}?${paramsWithCallback.toString()}`;
+                    script.src = `${API_URL}?${paramsWithCallback.toString()}`;
                     document.head.appendChild(script);
                 });
             }
@@ -1097,28 +1093,44 @@ let allData = {
         async function executeRegistro() {
             const registrarBtn = document.getElementById('registrarBtn');
             const registrandoMsg = document.getElementById('registrandoMsg');
+            
+            if (!registrarBtn) {
+                return;
+            }
+            
             registrarBtn.disabled = true;
             registrarBtn.textContent = 'Registrando...';
-            registrandoMsg.style.display = 'inline-block';
+            if (registrandoMsg) registrandoMsg.style.display = 'inline-block';
+            
             try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycbyko7Hf4AmdlJdz42RmDsmQkOo2vGHUPZIt6Y03g-SwlCVDpToz0falkTxoudT06X9D/exec', {
-                    method: 'GET',
-                    mode: 'cors'
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'executeRegistro',
+                        user: currentUser,
+                        userLevel: userLevel
+                    })
                 });
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.success) {
-                        showFiscalizadorStatus('✅ Registro dos casos feito com sucesso!', 'success');
-                    } else {
-                        showFiscalizadorStatus(result.error || '❌ Erro ao registrar casos.', 'error');
-                    }
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showFiscalizadorStatus('✅ Registro dos casos feito com sucesso!', 'success');
                 } else {
-                    showFiscalizadorStatus('❌ Erro ao registrar casos.', 'error');
+                    showFiscalizadorStatus(result.error || '❌ Erro ao registrar casos.', 'error');
                 }
             } catch (error) {
                 showFiscalizadorStatus('❌ Erro ao registrar casos.', 'error');
             }
+            
             registrarBtn.disabled = false;
             registrarBtn.textContent = 'Registrar';
-            registrandoMsg.style.display = 'none';
+            if (registrandoMsg) registrandoMsg.style.display = 'none';
         }
