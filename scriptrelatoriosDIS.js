@@ -1,4 +1,4 @@
-           console.log("V1.01");
+                 console.log("V1.01");
   document.addEventListener('DOMContentLoaded', function() {
             const btn = document.getElementById('btnAdvertencias');
             if (btn) {
@@ -18,14 +18,31 @@
         }
 
         async function fetchAdvertenciasCSV() {
-            const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSMZhcsyhDINjmQHSsuz4bPWeKFCFEDMBfTDjlDFlTZKFiOd6ZlmVjznD1fiRoj9kkRfmfNcMnlKArz/pub?gid=304601229&single=true&output=csv';
             try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('Erro ao buscar CSV');
+                console.log('Carregando dados de advertências via Cloudflare Worker...');
+                const params = new URLSearchParams({
+                    action: 'getAdvertenciasData'
+                });
+                
+                const response = await fetch(`${API_URL}?${params.toString()}`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status}`);
+                }
+                
                 const text = await response.text();
+                
+                if (text.startsWith('error,')) {
+                    throw new Error(text.substring(6));
+                }
+                
                 renderAdvertenciasTable(text);
             } catch (e) {
-                document.getElementById('advertenciasTableWrapper').innerHTML = '<div style="color:#ff4757; text-align:center;">Erro ao carregar dados.</div>';
+                console.error('Erro ao carregar advertências:', e);
+                document.getElementById('advertenciasTableWrapper').innerHTML = '<div style="color:#ff4757; text-align:center;">Erro ao carregar dados: ' + e.message + '</div>';
             } finally {
                 document.getElementById('advertenciasLoading').style.display = 'none';
             }
@@ -95,21 +112,10 @@ function renderAdvertenciasTable(csvText) {
         let changeLog = [];
         
         const SPREADSHEET_ID = '1vSMZhcsyhDINjmQHSsuz4bPWeKFCFEDMBfTDjlDFlTZKFiOd6ZlmVjznD1fiRoj9kkRfmfNcMnlKArz';
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVxUjRL-eNgQ08Auo1LrECLWD3bgb5vdTLKeqJ1ApC1UQNFdza_aCo04S4CPyVvujp/exec';
-        const LOG_WORKER_URL = 'https://logs-dis.laurocg2.workers.dev';
-        const LOG_URL = 'https://centraldecasosdis.cloud/logs.txt';
-        const LOG_PHP_URL = 'https://centraldecasosdis.cloud/salvarlog.php';
         
-        let logClient = null;
+        const WORKER_URL = 'https://central-de-casos-dis.laurocg2.workers.dev';
         
-        function initializeLogClient() {
-            if (typeof LogClient !== 'undefined') {
-                logClient = new LogClient(LOG_WORKER_URL);
-                console.log('LogClient inicializado com sucesso');
-                return true;
-            }
-            return false;
-        }
+        const API_URL = WORKER_URL;
         
         
         const COLUMN_MAPPING = {
@@ -128,8 +134,8 @@ function renderAdvertenciasTable(csvText) {
         };
 
         function checkAPIConfiguration() {
-            if (APPS_SCRIPT_URL === 'SUA_URL_DO_SCRIPT_AQUI' || !APPS_SCRIPT_URL.includes('script.google.com/macros/s/')) {
-                showStatus('⚠️ Sistema de edição não configurado. Edições funcionarão apenas localmente.', 'error');
+            if (WORKER_URL.includes('SEU-USUARIO')) {
+                showStatus('⚠️ Configure a URL do Worker em WORKER_URL (substitua SEU-USUARIO)', 'error');
                 return false;
             }
             return true;
@@ -176,7 +182,7 @@ function renderAdvertenciasTable(csvText) {
                 let result;
                 
                 try {
-                    const response = await fetch(`${APPS_SCRIPT_URL}?${params.toString()}`, {
+                    const response = await fetch(`${API_URL}?${params.toString()}`, {
                         method: 'GET',
                         mode: 'cors'
                     });
@@ -281,7 +287,7 @@ function renderAdvertenciasTable(csvText) {
                     callback: callbackName
                 });
                 
-                script.src = `${APPS_SCRIPT_URL}?${params.toString()}`;
+                script.src = `${API_URL}?${params.toString()}`;
                 document.head.appendChild(script);
             });
         }
@@ -311,10 +317,6 @@ function renderAdvertenciasTable(csvText) {
             document.getElementById('tableContainer').innerHTML = '';
             
             showStatus('Logout realizado com sucesso. Faça login novamente.', 'success');
-        }
-
-        async function testAppsScript() {
-            return;
         }
 
         function canEditColumn(columnName) {
@@ -466,7 +468,7 @@ function renderAdvertenciasTable(csvText) {
 
         async function updateGoogleSheet(rowIndex, columnName, newValue) {
             if (!checkAPIConfiguration()) {
-                throw new Error('Google Apps Script não configurado');
+                throw new Error('Cloudflare Worker não configurado');
             }
             
             try {
@@ -484,29 +486,21 @@ function renderAdvertenciasTable(csvText) {
                     value: newValue
                 });
                 
-                const getUrl = `${APPS_SCRIPT_URL}?${params.toString()}`;
+                const workerUrl = `${WORKER_URL}?${params.toString()}`;
                 
-                let result;
+                const response = await fetch(workerUrl, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
                 
-                try {
-                    const response = await fetch(getUrl, {
-                        method: 'GET',
-                        mode: 'cors'
-                    });
-                    
-                    if (response.ok) {
-                        result = await response.json();
-                    } else {
-                        throw new Error('Fetch failed');
-                    }
-                } catch (fetchError) {
-                    console.log('Fetch falhou para atualização, tentando JSONP...', fetchError);
-                    
-                    result = await updateCellWithJSONP(realRow, columnLetter, newValue);
+                if (!response.ok) {
+                    throw new Error(`Worker respondeu com status ${response.status}`);
                 }
                 
+                const result = await response.json();
+                
                 if (!result || !result.success) {
-                    throw new Error(result?.error || 'Erro desconhecido do Apps Script');
+                    throw new Error(result?.error || 'Erro desconhecido do Worker');
                 }
                 
                 return result;
@@ -553,7 +547,7 @@ function renderAdvertenciasTable(csvText) {
                     callback: callbackName
                 });
                 
-                script.src = `${APPS_SCRIPT_URL}?${params.toString()}`;
+                script.src = `${API_URL}?${params.toString()}`;
                 document.head.appendChild(script);
             });
         }
@@ -592,19 +586,19 @@ function renderAdvertenciasTable(csvText) {
         let errorMessage = '❌ Erro ao salvar na planilha. ';
         
         if (error.message.includes('Failed to fetch') || error.message.includes('conectividade')) {
-            errorMessage += 'Problema de conexão com o Google Apps Script. Verifique se está implantado corretamente.';
+            errorMessage += 'Problema de conexão com o Cloudflare Worker. Verifique se está implantado corretamente.';
         } else if (error.message.includes('não configurado')) {
-            errorMessage += 'Apps Script não configurado.';
+            errorMessage += 'Worker não configurado.';
         } else if (error.message.includes('permission') || error.message.includes('não autorizado')) {
             errorMessage += 'Sem permissão para editar.';
         } else if (error.message.includes('not found') || error.message.includes('não encontrada')) {
-            errorMessage += 'Planilha não encontrada.';
+            errorMessage += 'Recurso não encontrado.';
         } else if (error.message.includes('HTTP 4')) {
-            errorMessage += 'Erro de autorização. Verifique as permissões do Apps Script.';
+            errorMessage += 'Erro de autorização. Verifique as permissões do Worker.';
         } else if (error.message.includes('HTTP 5')) {
             errorMessage += 'Erro interno do servidor. Tente novamente em alguns minutos.';
         } else if (error.message.includes('CORS')) {
-            errorMessage += 'Problema de CORS. Verifique se o Apps Script permite requisições externas.';
+            errorMessage += 'Problema de CORS. Verifique se o Worker permite requisições externas.';
         } else {
             errorMessage += `${error.message || 'Tente novamente.'}`;
         }
@@ -623,10 +617,6 @@ function renderAdvertenciasTable(csvText) {
 
         async function logChange(columnName, oldValue, newValue, rowIndex) {
             try {
-                if (!logClient && typeof LogClient !== 'undefined') {
-                    logClient = new LogClient(LOG_WORKER_URL);
-                }
-
                 const now = new Date();
                 const timestamp = now.toLocaleString('pt-BR', {
                     timeZone: 'America/Sao_Paulo',
@@ -651,16 +641,12 @@ function renderAdvertenciasTable(csvText) {
 
                 changeLog.unshift(logEntry);
                 
-                if (logClient) {
-                    try {
-                        const result = await logClient.salvarLog(logEntry);
-                        console.log('Log salvo com sucesso no Worker:', result.message);
-                    } catch (workerError) {
-                        console.warn('Erro ao salvar no Worker:', workerError);
-                        logClient.salvarLogLocal(logEntry);
-                    }
-                } else {
-                    console.warn('LogClient não disponível, salvando localmente');
+                try {
+                    await saveLogToWorker(logEntry);
+                    console.log('✅ Log salvo com sucesso no Worker');
+                } catch (workerError) {
+                    console.warn('❌ Erro ao salvar log no Worker:', workerError);
+                    
                     try {
                         let logs = JSON.parse(localStorage.getItem('logs_backup') || '[]');
                         logs.push({
@@ -674,19 +660,19 @@ function renderAdvertenciasTable(csvText) {
                         }
                         
                         localStorage.setItem('logs_backup', JSON.stringify(logs));
-                        console.log('Log salvo localmente como backup');
+                        console.log('💾 Log salvo localmente como backup');
                     } catch (e) {
-                        console.error('Erro ao salvar log localmente:', e);
+                        console.error('❌ Erro ao salvar log localmente:', e);
                     }
                 }
             } catch (error) {
-                console.error('Erro ao registrar log:', error);
+                console.error('❌ Erro ao registrar log:', error);
             }
         }
 
         async function saveLogToWorker(logEntry) {
             try {
-                const response = await fetch(LOG_WORKER_URL, {
+                const response = await fetch(`${API_URL}?action=saveLog`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -697,17 +683,18 @@ function renderAdvertenciasTable(csvText) {
                 if (response.ok) {
                     const result = await response.json();
                     if (result.success) {
-                        console.log('Log salvo com sucesso no Worker:', result.message);
+                        console.log('✅ Log salvo com sucesso no Worker:', result.message);
                         return result;
                     } else {
                         throw new Error(result.error || 'Erro desconhecido do Worker');
                     }
                 } else {
-                    throw new Error(`Erro HTTP: ${response.status}`);
+                    const errorText = await response.text();
+                    throw new Error(`Erro HTTP ${response.status}: ${errorText}`);
                 }
 
             } catch (error) {
-                console.warn('Erro ao salvar no Worker:', error);
+                console.error('❌ Erro ao salvar log no Worker:', error);
                 throw error;
             }
         }
@@ -841,8 +828,6 @@ function renderAdvertenciasTable(csvText) {
 
        async function loadData(silent = false) {
     localStorage.removeItem('changeLogs');
-    
-    const APPS_SCRIPT_CSV_URL = 'https://script.google.com/macros/s/AKfycbyko7Hf4AmdlJdz42RmDsmQkOo2vGHUPZIt6Y03g-SwlCVDpToz0falkTxoudT06X9D/exec';
 
     if (!silent) {
         showLoading(true);
@@ -854,12 +839,12 @@ function renderAdvertenciasTable(csvText) {
         let response;
         
         try {
-            console.log('Tentando carregar dados via Apps Script...');
+            console.log('Carregando dados via Cloudflare Worker...');
             const params = new URLSearchParams({
                 action: 'getCsvData'
             });
             
-            response = await fetch(`${APPS_SCRIPT_CSV_URL}?${params.toString()}`, {
+            response = await fetch(`${API_URL}?${params.toString()}`, {
                 method: 'GET',
                 mode: 'cors'
             });
@@ -874,10 +859,10 @@ function renderAdvertenciasTable(csvText) {
                 throw new Error(csvText.substring(6));
             }
             
-            console.log('✅ Dados carregados via Apps Script com sucesso');
+            console.log('✅ Dados carregados via Cloudflare Worker com sucesso');
             
         } catch (fetchError) {
-            console.warn('Falha ao carregar via Apps Script:', fetchError);
+            console.warn('Falha ao carregar via Worker:', fetchError);
             
             console.log('Tentando fallback para URL CSV pública...');
             const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMZhcsyhDINjmQHSsuz4bPWeKFCFEDMBfTDjlDFlTZKFiOd6ZlmVjznD1fiRoj9kkRfmfNcMnlKArz/pub?gid=205896872&single=true&output=csv";
@@ -939,44 +924,39 @@ function renderAdvertenciasTable(csvText) {
                 let logs = [];
                 
                 try {
-                    if (logClient) {
-                        const logText = await logClient.carregarLogs();
+                    const response = await fetch(`${API_URL}?action=getLogsText`, {
+                        method: 'GET',
+                        cache: 'no-cache'
+                    });
+                    
+                    if (response.ok) {
+                        const logText = await response.text();
                         if (logText.trim()) {
                             logs = parseLogFile(logText);
-                            console.log('Logs carregados via Worker:', logs.length);
+                            console.log('✅ Logs carregados via Worker:', logs.length);
                         }
                     } else {
-                        const response = await fetch(LOG_WORKER_URL + '?t=' + Date.now(), {
-                            method: 'GET',
-                            cache: 'no-cache'
-                        });
-                        
-                        if (response.ok) {
-                            const logText = await response.text();
-                            if (logText.trim()) {
-                                logs = parseLogFile(logText);
-                                console.log('Logs carregados via Worker (fallback):', logs.length);
-                            }
-                        }
+                        throw new Error(`Erro HTTP: ${response.status}`);
                     }
                 } catch (workerError) {
-                    console.warn('Não foi possível carregar via Worker:', workerError);
+                    console.warn('❌ Não foi possível carregar via Worker:', workerError);
                     
                     try {
                         const localLogs = JSON.parse(localStorage.getItem('logs_backup') || '[]');
                         logs = localLogs.filter(log => log.savedLocally).map(log => ({
-                            timestamp: log.timestamp,
+                            date: log.date || new Date(log.localTimestamp).toISOString().split('T')[0],
+                            time: log.timestamp || new Date(log.localTimestamp).toLocaleTimeString('pt-BR'),
                             user: log.user,
                             userLevel: log.userLevel,
                             column: log.column,
                             oldValue: log.oldValue,
                             newValue: log.newValue,
                             rowIndex: log.rowIndex,
-                            date: log.date
+                            source: 'local'
                         }));
-                        console.log('Logs carregados do localStorage:', logs.length);
+                        console.log('📂 Usando logs locais:', logs.length);
                     } catch (localError) {
-                        console.warn('Erro ao carregar logs locais:', localError);
+                        console.error('❌ Erro ao carregar logs locais:', localError);
                     }
                 }
 
@@ -1711,14 +1691,7 @@ function renderAdvertenciasTable(csvText) {
             loadAuthorizedUsers();
             
             setTimeout(() => {
-                if (initializeLogClient()) {
-                 
-                    logClient.sincronizarLogsLocais().catch(error => {
-                        console.warn('Erro ao sincronizar logs locais:', error);
-                    });
-                } else {
-                    console.warn('LogClient não pôde ser inicializado');
-                }
+                console.log('Sistema de logs inicializado e pronto para uso');
             }, 1000); 
             
             initializeFilters();
