@@ -1,4 +1,4 @@
-			console.log("V2.2.1");
+					console.log("V2.2.2");
 
 		function aplicarCustomizacoesRobustas() {
 			let tentativas = 0;
@@ -3067,4 +3067,42 @@ ${camposHtml}
 
 			setInterval(forceManualIcons, 2000);
 
+			document.addEventListener('DOMContentLoaded', function() {
+				const centralCasosButton = document.querySelector('[aria-label="Acessar Casos e Relatórios"]');
+				if (centralCasosButton) {
+					centralCasosButton.removeAttribute('onclick');
+					centralCasosButton.addEventListener('click', function(e) {
+						e.preventDefault();
+						window.open('https://centraldecasosdis.cloud/', '_blank');
+					});
+				}
 
+				const linksCentralCasos = document.querySelectorAll('a[href*="centraldecasos-dis.rf.gd"]');
+				linksCentralCasos.forEach(function(link) {
+					link.addEventListener('click', function(e) {
+						e.preventDefault();
+						window.open('https://centraldecasosdis.cloud/', '_blank');
+					});
+				});
+			});
+
+			const originalWindowOpen = window.open;
+			window.open = function(url, target, features) {
+				if (url && url.includes('centraldecasos-dis.rf.gd')) {
+					url = 'https://centraldecasosdis.cloud/';
+				}
+				return originalWindowOpen.call(this, url, target, features);
+			};
+
+			const originalLocationHref = Object.getOwnPropertyDescriptor(Location.prototype, 'href').set;
+			Object.defineProperty(Location.prototype, 'href', {
+				set: function(value) {
+					if (value && value.includes('centraldecasos-dis.rf.gd')) {
+						value = 'https://centraldecasosdis.cloud/';
+					}
+					originalLocationHref.call(this, value);
+				},
+				get: function() {
+					return window.location.href;
+				}
+			});
