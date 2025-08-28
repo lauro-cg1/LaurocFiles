@@ -1,4 +1,4 @@
-					console.log("V2.2.2");
+			console.log("V2.3");
 
 		function aplicarCustomizacoesRobustas() {
 			let tentativas = 0;
@@ -1957,7 +1957,7 @@ ${camposHtml}
 						conteudo: `
 							<h1>MANUAL DE FISCALIZAÇÃO DE LISTAGEM</h1>
 							
-							<p>A fiscalização de listagem envolve a análise do trabalho realizado pelos fiscalizadores (Fisc.SUP) da companhia dos Supervisores em suas respectivas funções. Durante essa fiscalização, é possível identificar erros, corrigi-los e/ou aplicar punições conforme a gravidade, sendo essa uma responsabilidade dos membros da Divisão de Investigação e Segurança. A função da fiscalização de listagem é dividida em duas etapas: a primeira função ocorre na quarta-feira e a segunda função no domingo da semana vigente. Para confirmar a função para a qual foi escalado, acesse o tópico [DIS] Escala Semanal e consulte a escala semanal.</p>
+							<p>A fiscalização de listagem envolve a análise do trabalho realizado pelos fiscalizadores (Fisc.SUP) da companhia dos Supervisores em suas respectivas funções. Durante essa fiscalização, é possível identificar erros, corrigi-los e/ou aplicar punições conforme a gravidade, sendo essa uma responsabilidade dos membros da Divisão de Investigação e Segurança. A função da fiscalização de listagem é dividida em duas etapas: a primeira função ocorre na quarta-feira e a segunda função no domingo da semana vigente. Para confirmar a função para a qual foi escalado, acesse a Central de Acessos (<a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos#" target="_blank">https://www.policiarcc.com/h179-sup-dis-central-de-acessos#</a>) e consulte a escala semanal.</p>
 							
 							<h2>PRIMEIRA FUNÇÃO</h2>
 							
@@ -1972,10 +1972,10 @@ ${camposHtml}
 							</div>
 							
 							<div class="observacao">
-								<p><strong>Exemplo:</strong> A fiscalizadora da DIS Shadye foi escalada para verificar o cargo Assessor de 1 a 50, então ela acessará a listagem e pesquisará no console do Habbo (aba de Procurar Habbos) os primeiros 50 nicks que aparecem na listagem do respectivo cargo e verificará se eles infringem alguma regra estabelecida pelo manual.</p>
+								<p><strong>Exemplo:</strong> O membro da DIS Almeida foi escalada para verificar o cargo Assessor de 1 a 50, então ela acessará a listagem, copiará os nomes de 1 até o 50, e irá colar no Fiscalizador Automático (<a href="https://centraldecasosdis.cloud/listagem" target="_blank">https://centraldecasosdis.cloud/listagem</a>) e irá clicar em Processar Usuários. Ao carregar, o fiscalizador irá verificará se eles infringem alguma regra estabelecida pelo manual.</p>
 							</div>
 							
-							<h3>Regras para Verificação e Remoção:</h3>
+							<h3>Para realizar a função, atente-se às regras estabelecidas para verificação e remoção de cada militar:</h3>
 							
 							<ul>
 								<li>➤ Não possuem mais vínculo com a RCC;</li>
@@ -1987,18 +1987,14 @@ ${camposHtml}
 								<li>➤ Executivos com mais de 89 dias offline.</li>
 							</ul>
 							
-							<div class="observacao">
-								<p><strong>Observação:</strong> Caso seja mobile, sugerimos o Contador de Dias para certificar-se corretamente dos dias offline do militar.</p>
-							</div>
-							
 							<div class="etapa">
 								<div class="etapa-titulo">• Registro de Irregularidades</div>
-								<p>Caso encontre um militar que deva ser retirado na fiscalização, registre-o na planilha <a href="https://docs.google.com/spreadsheets/d/1vueKsH92BbWkLx-t2YRTJjtXnUyB78DJTB1BdLeoU_8/edit#gid=1213688892" target="_blank">[DIS] Fiscalização de Listagem</a>, com o nick, motivo pelo qual deve ser removido e link do print screen hospedado comprovando a irregularidade.</p>
+								<p>Caso encontre um militar que deva ser retirado na fiscalização, clique no X ao lado do quadrado dele, e insira o seu nick, motivo pelo qual deve ser removido e link do printscreen hospedado comprovando a irregularidade.</p>
 							</div>
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Conclusão da Primeira Função</div>
-								<p>Ao finalizar a fiscalização da primeira função, poste a conclusão da função com a opção "Primeira função" na aba Conclusão de Funções da Central de Acessos.</p>
+								<p>Ao finalizar a fiscalização da primeira função, poste a conclusão da função com a opção "Primeira função" na aba Conclusão de Funções da Central de Acessos (<a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">https://www.policiarcc.com/h179-sup-dis-central-de-acessos</a>).</p>
 							</div>
 							
 							<h2>SEGUNDA FUNÇÃO</h2>
@@ -2009,20 +2005,20 @@ ${camposHtml}
 							</div>
 							
 							<div class="observacao">
-								<p><strong>Exemplo:</strong> A fiscalizadora Shadye registrou na planilha o nick do Assessor Joãozinho, pois ele estava offline há mais de 89 dias com a devida comprovação. No entanto, ele não foi removido na fiscalização de listagem realizada pelo Fisc.SUP responsável por aquele cargo, portanto, o fiscalizador será punido.</p>
+								<p><strong>Exemplo:</strong> O membro da DIS rexhars registrou na planilha o nick do Assessor Joãozinho, pois ele estava offline há mais de 89 dias com a devida comprovação. No entanto, ele não foi removido na fiscalização de listagem realizada pelo Fisc.SUP responsável por aquele cargo, portanto, o fiscalizador será punido.</p>
 							</div>
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Abertura de Infração</div>
-								<p>Para postar uma irregularidade após encontrá-la, registre a abertura da infração na aba Registros de Casos da Central de Acessos, indicando qual foi o erro encontrado, neste caso, o motivo é "Não retirar algum militar na fiscalização de listagem que contenha os requisitos para retirada.". Se for reincidente, a infração deve ser aberta com o motivo "Reincidência de infrações idênticas."</p>
+								<p>Para postar uma irregularidade após encontrá-la, registre a abertura da infração na aba Registros de Casos da Central de Acessos (<a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">https://www.policiarcc.com/h179-sup-dis-central-de-acessos</a>), indicando qual foi o erro encontrado, neste caso, o motivo é "Não retirar algum militar na fiscalização de listagem que contenha os requisitos para retirada.". Se for reincidente, a infração deve ser aberta com o motivo "Reincidência de infrações idênticas."</p>
 								<p><strong>Lembre-se:</strong> O Agente de Mensagens Diretas é quem irá fechar a infração e enviar a mensagem privada.</p>
 							</div>
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Conclusão da Segunda Função</div>
-								<p>Ao finalizar a fiscalização da segunda função, poste a conclusão da função com a opção "Segunda Função" na aba Conclusão de Funções da Central de Acessos.</p>
-								<p><strong>Observação:</strong> O campo "Comprovações" só deve ser preenchido em caso de registro de infrações.</p>
-								<p>➜ O print screen anexado deve conter todas as infrações registradas naquela fiscalização na planilha [DIS] Central de Casos.</p>
+								<p>Ao finalizar a fiscalização da primeira função, poste a conclusão da função com a opção "Segunda Função" na aba Conclusão de Funções da Central de Acessos (<a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">https://www.policiarcc.com/h179-sup-dis-central-de-acessos</a>).</p>
+								<p><strong>Observação:</strong> O campo "Comprovações" da Segunda Função só deve ser preenchido em caso de registro de infrações.</p>
+								<p>➜ O printscreen anexado deve mostrar todas as infrações registradas na Central de Casos (<a href="https://centraldecasosdis.cloud/" target="_blank">https://centraldecasosdis.cloud/</a>).</p>
 							</div>
 							
 							<div class="atencao">
