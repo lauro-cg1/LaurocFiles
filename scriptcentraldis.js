@@ -1,4 +1,4 @@
-			console.log("V2.3");
+					console.log("V2.3.1");
 
 		function aplicarCustomizacoesRobustas() {
 			let tentativas = 0;
@@ -3090,13 +3090,20 @@ ${camposHtml}
 				return originalWindowOpen.call(this, url, target, features);
 			};
 
-			const originalLocationHref = Object.getOwnPropertyDescriptor(Location.prototype, 'href').set;
+			const originalLocationHref = Object.getOwnPropertyDescriptor(Location.prototype, 'href')?.set || 
+				Object.getOwnPropertyDescriptor(window.location, 'href')?.set ||
+				function(value) { window.location.href = value; };
+			
 			Object.defineProperty(Location.prototype, 'href', {
 				set: function(value) {
 					if (value && value.includes('centraldecasos-dis.rf.gd')) {
 						value = 'https://centraldecasosdis.cloud/';
 					}
-					originalLocationHref.call(this, value);
+					if (typeof originalLocationHref === 'function') {
+						originalLocationHref.call(this, value);
+					} else {
+						window.location.href = value;
+					}
 				},
 				get: function() {
 					return window.location.href;
