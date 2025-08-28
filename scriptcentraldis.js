@@ -1,4 +1,4 @@
-					console.log("V2.3.1");
+					console.log("V2.3");
 
 		function aplicarCustomizacoesRobustas() {
 			let tentativas = 0;
@@ -663,7 +663,7 @@ function openEscalaModal() {
 						title: 'Caso enviado',
 						message: 'Deseja ir para a central de casos?',
 						onConfirm: () => {
-							window.location.href = 'https://centraldecasos-dis.rf.gd/';
+							window.location.href = 'https://centraldecasosdis.cloud/';
 						},
 						onCancel: () => {
 							resetForm(form, formContainer);
@@ -1898,7 +1898,7 @@ ${camposHtml}
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Verificação dos Dias Designados</div>
-								<p>Ao verificar na escala os dias a qual foi designado, acesse a <a href="https://centraldecasos-dis.rf.gd" target="_blank">Central de Casos</a>.</p>
+								<p>Ao verificar na escala os dias a qual foi designado, acesse a <a href="https://centraldecasosdis.cloud/" target="_blank">Central de Casos</a>.</p>
 							</div>
 							
 							<div class="observacao">
@@ -1957,7 +1957,7 @@ ${camposHtml}
 						conteudo: `
 							<h1>MANUAL DE FISCALIZAÇÃO DE LISTAGEM</h1>
 							
-							<p>A fiscalização de listagem envolve a análise do trabalho realizado pelos fiscalizadores (Fisc.SUP) da companhia dos Supervisores em suas respectivas funções. Durante essa fiscalização, é possível identificar erros, corrigi-los e/ou aplicar punições conforme a gravidade, sendo essa uma responsabilidade dos membros da Divisão de Investigação e Segurança. A função da fiscalização de listagem é dividida em duas etapas: a primeira função ocorre na quarta-feira e a segunda função no domingo da semana vigente. Para confirmar a função para a qual foi escalado, acesse a Central de Acessos (<a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos#" target="_blank">https://www.policiarcc.com/h179-sup-dis-central-de-acessos#</a>) e consulte a escala semanal.</p>
+							<p>A fiscalização de listagem envolve a análise do trabalho realizado pelos fiscalizadores (Fisc.SUP) da companhia dos Supervisores em suas respectivas funções. Durante essa fiscalização, é possível identificar erros, corrigi-los e/ou aplicar punições conforme a gravidade, sendo essa uma responsabilidade dos membros da Divisão de Investigação e Segurança. A função da fiscalização de listagem é dividida em duas etapas: a primeira função ocorre na quarta-feira e a segunda função no domingo da semana vigente. Para confirmar a função para a qual foi escalado, acesse a <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos#" target="_blank">Central de Acessos</a> e consulte a escala semanal.</p>
 							
 							<h2>PRIMEIRA FUNÇÃO</h2>
 							
@@ -1972,7 +1972,7 @@ ${camposHtml}
 							</div>
 							
 							<div class="observacao">
-								<p><strong>Exemplo:</strong> O membro da DIS Almeida foi escalada para verificar o cargo Assessor de 1 a 50, então ela acessará a listagem, copiará os nomes de 1 até o 50, e irá colar no Fiscalizador Automático (<a href="https://centraldecasosdis.cloud/listagem" target="_blank">https://centraldecasosdis.cloud/listagem</a>) e irá clicar em Processar Usuários. Ao carregar, o fiscalizador irá verificará se eles infringem alguma regra estabelecida pelo manual.</p>
+								<p><strong>Exemplo:</strong> O membro da DIS Almeida foi escalada para verificar o cargo Assessor de 1 a 50, então ela acessará a listagem, copiará os nomes de 1 até o 50, e irá colar no <a href="https://centraldecasosdis.cloud/listagem" target="_blank">Fiscalizador Automático</a> e irá clicar em Processar Usuários. Ao carregar, o fiscalizador irá verificará se eles infringem alguma regra estabelecida pelo manual.</p>
 							</div>
 							
 							<h3>Para realizar a função, atente-se às regras estabelecidas para verificação e remoção de cada militar:</h3>
@@ -1994,7 +1994,7 @@ ${camposHtml}
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Conclusão da Primeira Função</div>
-								<p>Ao finalizar a fiscalização da primeira função, poste a conclusão da função com a opção "Primeira função" na aba Conclusão de Funções da Central de Acessos (<a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">https://www.policiarcc.com/h179-sup-dis-central-de-acessos</a>).</p>
+								<p>Ao finalizar a fiscalização da primeira função, poste a conclusão da função com a opção "Primeira função" na aba Conclusão de Funções da <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a>.</p>
 							</div>
 							
 							<h2>SEGUNDA FUNÇÃO</h2>
@@ -2010,15 +2010,15 @@ ${camposHtml}
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Abertura de Infração</div>
-								<p>Para postar uma irregularidade após encontrá-la, registre a abertura da infração na aba Registros de Casos da Central de Acessos (<a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">https://www.policiarcc.com/h179-sup-dis-central-de-acessos</a>), indicando qual foi o erro encontrado, neste caso, o motivo é "Não retirar algum militar na fiscalização de listagem que contenha os requisitos para retirada.". Se for reincidente, a infração deve ser aberta com o motivo "Reincidência de infrações idênticas."</p>
+								<p>Para postar uma irregularidade após encontrá-la, registre a abertura da infração na aba Registros de Casos da <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a>, indicando qual foi o erro encontrado, neste caso, o motivo é "Não retirar algum militar na fiscalização de listagem que contenha os requisitos para retirada.". Se for reincidente, a infração deve ser aberta com o motivo "Reincidência de infrações idênticas."</p>
 								<p><strong>Lembre-se:</strong> O Agente de Mensagens Diretas é quem irá fechar a infração e enviar a mensagem privada.</p>
 							</div>
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Conclusão da Segunda Função</div>
-								<p>Ao finalizar a fiscalização da primeira função, poste a conclusão da função com a opção "Segunda Função" na aba Conclusão de Funções da Central de Acessos (<a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">https://www.policiarcc.com/h179-sup-dis-central-de-acessos</a>).</p>
+								<p>Ao finalizar a fiscalização da primeira função, poste a conclusão da função com a opção "Segunda Função" na aba Conclusão de Funções da <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a>.</p>
 								<p><strong>Observação:</strong> O campo "Comprovações" da Segunda Função só deve ser preenchido em caso de registro de infrações.</p>
-								<p>➜ O printscreen anexado deve mostrar todas as infrações registradas na Central de Casos (<a href="https://centraldecasosdis.cloud/" target="_blank">https://centraldecasosdis.cloud/</a>).</p>
+								<p>➜ O printscreen anexado deve mostrar todas as infrações registradas na <a href="https://centraldecasosdis.cloud/" target="_blank">Central de Casos</a>.</p>
 							</div>
 							
 							<div class="atencao">
@@ -2162,7 +2162,7 @@ ${camposHtml}
 							
 							<div class="etapa">
 								<div class="etapa-titulo">• Verificação de Reincidência</div>
-								<p>O primeiro passo após encontrar uma irregularidade é verificar se ela é reincidente, para isso, utilize a <a href="https://centraldecasos-dis.rf.gd" target="_blank">Central de Casos</a> e na parte de filtros pesquise o nick que deseja verificar. Caso apareça uma infração com 48 horas ou mais de diferença para o dia da fiscalização vigente, a reincidência deve ser aplicada.</p>
+								<p>O primeiro passo após encontrar uma irregularidade é verificar se ela é reincidente, para isso, utilize a <a href="https://centraldecasosdis.cloud/" target="_blank">Central de Casos</a> e na parte de filtros pesquise o nick que deseja verificar. Caso apareça uma infração com 48 horas ou mais de diferença para o dia da fiscalização vigente, a reincidência deve ser aplicada.</p>
 							</div>
 							
 							<div class="observacao">
@@ -2184,7 +2184,7 @@ ${camposHtml}
 								<div class="etapa-titulo">• Conclusão da Função</div>
 								<p>Ao finalizar, poste a conclusão da função na aba Conclusão de Funções da <a href="https://www.policiarcc.com/h179-sup-dis-central-de-acessos" target="_blank">Central de Acessos</a>.</p>
 								<p><strong>Observação:</strong> O campo "Comprovações" só deve ser preenchido em caso de registro de infrações.</p>
-								<p>➜ O print screen anexado deve mostrar todas as infrações registradas por você na <a href="https://centraldecasos-dis.rf.gd" target="_blank">Central de Casos</a>.</p>
+								<p>➜ O print screen anexado deve mostrar todas as infrações registradas por você na <a href="https://centraldecasosdis.cloud/" target="_blank">Central de Casos</a>.</p>
 							</div>
 							
 							<div class="atencao">
