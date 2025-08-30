@@ -428,7 +428,18 @@ let allData = {
                         );
                     });
                     
-                    const sortedData = validData.sort((a, b) => {
+                    const currentWeekData = validData.filter(item => item._weekType === 'current');
+                    const lastWeekData = validData.filter(item => item._weekType === 'last');
+                    
+                    const createItemId = (item) => {
+                        const keyFields = ['DATA E HORA', 'SUPERVISOR', 'TUTOR', 'FISCALIZADOR', 'GRADUADOR'];
+                        const key = keyFields.map(field => item[field] || '').join('|');
+                        return key;
+                    };
+                    
+                    const lineNumberMap = new Map();
+                    
+                    const sortedCurrentWeek = currentWeekData.sort((a, b) => {
                         const dateFieldA = a['DATA E HORA'] || '';
                         const dateFieldB = b['DATA E HORA'] || '';
                         
@@ -445,14 +456,29 @@ let allData = {
                         return 0;
                     });
                     
-                    const createItemId = (item) => {
-                        const keyFields = ['DATA E HORA', 'SUPERVISOR', 'TUTOR', 'FISCALIZADOR', 'GRADUADOR'];
-                        const key = keyFields.map(field => item[field] || '').join('|');
-                        return key;
-                    };
+                    sortedCurrentWeek.forEach((item, index) => {
+                        const itemId = createItemId(item);
+                        lineNumberMap.set(itemId, index + 1);
+                    });
                     
-                    const lineNumberMap = new Map();
-                    sortedData.forEach((item, index) => {
+                    const sortedLastWeek = lastWeekData.sort((a, b) => {
+                        const dateFieldA = a['DATA E HORA'] || '';
+                        const dateFieldB = b['DATA E HORA'] || '';
+                        
+                        const dateA = parseDate(dateFieldA);
+                        const dateB = parseDate(dateFieldB);
+                        
+                        if (dateA && dateB) {
+                            return dateA.getTime() - dateB.getTime();
+                        }
+                        
+                        if (dateA && !dateB) return -1;
+                        if (!dateA && dateB) return 1;
+                        
+                        return 0;
+                    });
+                    
+                    sortedLastWeek.forEach((item, index) => {
                         const itemId = createItemId(item);
                         lineNumberMap.set(itemId, index + 1);
                     });
