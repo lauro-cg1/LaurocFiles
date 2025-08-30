@@ -458,7 +458,7 @@ let allData = {
                     
                     sortedCurrentWeek.forEach((item, index) => {
                         const itemId = createItemId(item);
-                        lineNumberMap.set(itemId, index + 1);
+                        lineNumberMap.set(itemId, index + 4);
                     });
                     
                     const sortedLastWeek = lastWeekData.sort((a, b) => {
@@ -480,7 +480,7 @@ let allData = {
                     
                     sortedLastWeek.forEach((item, index) => {
                         const itemId = createItemId(item);
-                        lineNumberMap.set(itemId, index + 1);
+                        lineNumberMap.set(itemId, index + 4);
                     });
                     
                     allData[section].forEach(item => {
