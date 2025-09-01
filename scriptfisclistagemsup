@@ -1,7 +1,93 @@
-  console.log("V2.0");
+  console.log("V2.1");
    let processedUsers = [];
    let removedUsers = [];
    let currentUserToRemove = null;
+
+        function fixIconsForForum() {
+            setTimeout(() => {
+                document.querySelectorAll('*').forEach(element => {
+                    if (element.nodeType === Node.TEXT_NODE) return;
+                    
+                    if (element.innerHTML) {
+                        let html = element.innerHTML;
+                        
+                        html = html.replace(/📋/g, '&#128203;');
+                        html = html.replace(/📖/g, '&#128214;');
+                        html = html.replace(/🗑️/g, '&#128465;&#65039;');
+                        html = html.replace(/📊/g, '&#128202;');
+                        html = html.replace(/📝/g, '&#128221;');
+                        html = html.replace(/💡/g, '&#128161;');
+                        html = html.replace(/⚡/g, '&#9889;');
+                        html = html.replace(/⚠️/g, '&#9888;&#65039;');
+                        html = html.replace(/✓/g, '&#10003;');
+                        html = html.replace(/×/g, '&#215;');
+                        html = html.replace(/🔒/g, '&#128274;');
+                        html = html.replace(/➝/g, '&#10141;');
+                        
+                        if (html !== element.innerHTML) {
+                            element.innerHTML = html;
+                        }
+                    }
+                });
+                
+                updateSpecificElements();
+            }, 100);
+        }
+
+        function updateSpecificElements() {
+            const tutorialBtn = document.querySelector('.tutorial-btn');
+            if (tutorialBtn && tutorialBtn.innerHTML.includes('📖')) {
+                tutorialBtn.innerHTML = tutorialBtn.innerHTML.replace(/📖/g, '&#128214;');
+            }
+            
+            const generatePostBtn = document.querySelector('.generate-post-btn');
+            if (generatePostBtn && generatePostBtn.innerHTML.includes('📝')) {
+                generatePostBtn.innerHTML = generatePostBtn.innerHTML.replace(/📝/g, '&#128221;');
+            }
+            
+            const modalHeaders = document.querySelectorAll('.modal-header h3');
+            modalHeaders.forEach(header => {
+                if (header.innerHTML) {
+                    let html = header.innerHTML;
+                    html = html.replace(/🗑️/g, '&#128465;&#65039;');
+                    html = html.replace(/📖/g, '&#128214;');
+                    html = html.replace(/📋/g, '&#128203;');
+                    header.innerHTML = html;
+                }
+            });
+            
+            const resultsHeader = document.querySelector('.results-header h2');
+            if (resultsHeader && resultsHeader.innerHTML.includes('📊')) {
+                resultsHeader.innerHTML = resultsHeader.innerHTML.replace(/📊/g, '&#128202;');
+            }
+            
+            const copyBtns = document.querySelectorAll('.copy-btn');
+            copyBtns.forEach(btn => {
+                if (btn.innerHTML.includes('📋')) {
+                    btn.innerHTML = btn.innerHTML.replace(/📋/g, '&#128203;');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', fixIconsForForum);
+        
+        window.addEventListener('load', fixIconsForForum);
+        
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                    setTimeout(updateSpecificElements, 50);
+                }
+            });
+        });
+        
+        if (document.body) {
+            observer.observe(document.body, { childList: true, subtree: true });
+        } else {
+            document.addEventListener('DOMContentLoaded', () => {
+                observer.observe(document.body, { childList: true, subtree: true });
+            });
+        }
 
         function showError(message) {
             const errorDiv = document.getElementById('errorMessage');
@@ -228,25 +314,25 @@
             if (isProfileHidden) {
                 return `
                     <div class="user-card profile-hidden ${isRemoved ? 'removed' : ''}" data-username="${user.name}">
-                        <button class="remove-btn" onclick="openRemoveModal('${user.name}')" ${isRemoved ? 'disabled' : ''}>×</button>
+                        <button class="remove-btn" onclick="openRemoveModal('${user.name}')" ${isRemoved ? 'disabled' : ''}>&times;</button>
                         <div class="user-avatar">
                             <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?&user=${encodeURIComponent(user.name)}&action=std&direction=3&head_direction=3&img_format=png&gesture=std&headonly=0&size=b" 
                                  alt="${user.name}" 
                                  onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgODAgMTIwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRUNGMEYxIi8+CjxjaXJjbGUgY3g9IjQwIiBjeT0iMzAiIHI9IjE1IiBmaWxsPSIjQkRDM0M3Ii8+CjxyZWN0IHg9IjI1IiB5PSI1MCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjQkRDM0M3Ii8+Cjx0ZXh0IHg9IjQwIiB5PSIxMTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzk1QTVBNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Tm8gSW1hZ2U8L3RleHQ+Cjwvc3ZnPg=='">
                         </div>
                         <div class="user-name">${user.name}</div>
-                        <div class="private-profile">🔒 Privado</div>
+                        <div class="private-profile">&#128274; Privado</div>
                         <div class="user-info" style="margin-top: 15px; font-style: italic; color: #95a5a6;">
                             Perfil privado - Informações não disponíveis
                         </div>
-                        ${isRemoved ? `<div style="color: #e74c3c; font-weight: bold; margin-top: 10px;">✓ Removido</div>` : ''}
+                        ${isRemoved ? `<div style="color: #e74c3c; font-weight: bold; margin-top: 10px;">&#10003; Removido</div>` : ''}
                     </div>
                 `;
             }
             
             return `
                 <div class="user-card ${isRemoved ? 'removed' : ''}" data-username="${user.name}">
-                    <button class="remove-btn" onclick="openRemoveModal('${user.name}')" ${isRemoved ? 'disabled' : ''}>×</button>
+                    <button class="remove-btn" onclick="openRemoveModal('${user.name}')" ${isRemoved ? 'disabled' : ''}>&times;</button>
                     <div class="user-avatar">
                         <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?&user=${encodeURIComponent(user.name)}&action=std&direction=3&head_direction=3&img_format=png&gesture=std&headonly=0&size=b" 
                              alt="${user.name}" 
@@ -264,7 +350,7 @@
                             : '<span class="no-rcc-groups">Não há grupos da RCC</span>'
                         }
                     </div>
-                    ${isRemoved ? `<div style="color: #e74c3c; font-weight: bold; margin-top: 10px;">✓ Removido</div>` : ''}
+                    ${isRemoved ? `<div style="color: #e74c3c; font-weight: bold; margin-top: 10px;">&#10003; Removido</div>` : ''}
                 </div>
             `;
         }
@@ -428,6 +514,8 @@
             });
             
             document.getElementById('removeModal').style.display = 'flex';
+            
+            setTimeout(updateSpecificElements, 10);
         }
 
         function closeRemoveModal() {
@@ -479,6 +567,8 @@
             
             generateRemovedUsersContent();
             document.getElementById('generatePostModal').style.display = 'flex';
+            
+            setTimeout(updateSpecificElements, 10);
         }
 
         function closeGeneratePostModal() {
@@ -517,7 +607,7 @@
                                     <td>${usersList}</td>
                                     <td>
                                         <button class="copy-btn" onclick="copyToClipboard('${usersList}')">
-                                            📋 Copiar
+                                            &#128203; Copiar
                                         </button>
                                     </td>
                                 </tr>
