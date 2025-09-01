@@ -1,5 +1,7 @@
-console.log("V1.0");
+  console.log("V2.0");
    let processedUsers = [];
+   let removedUsers = [];
+   let currentUserToRemove = null;
 
         function showError(message) {
             const errorDiv = document.getElementById('errorMessage');
@@ -27,34 +29,71 @@ console.log("V1.0");
             const lines = input.trim().split('\n');
             const users = [];
             
-            for (let line of lines) {
-                line = line.trim();
-                if (!line) continue;
+            const hasNumberedList = lines.some(line => /^\d+\.\s*/.test(line.trim()));
+            
+            if (hasNumberedList) {
+                for (let line of lines) {
+                    line = line.trim();
+                    if (!line) continue;
+                    
+                    const match = line.match(/^\d+\.\s*([^\[\s]+)/);
+                    if (match) {
+                        const username = match[1].trim();
+                        if (username && !users.includes(username)) {
+                            users.push(username);
+                        }
+                    }
+                    
+                    if (users.length >= 100) break;
+                }
+            } else {
+                const allText = lines.join(' ');
+                const words = allText.split(/\s+/).filter(word => word.trim() !== '');
                 
-                const match = line.match(/^\d+\.\s*([^\[\s]+)/);
-                if (match) {
-                    const username = match[1].trim();
-                    if (username && !users.includes(username)) {
+                for (let word of words) {
+                    const username = word.trim();
+                    if (username && 
+                        username.length >= 1 &&
+                        username.length <= 15 &&
+                        !username.startsWith('[') && 
+                        !username.endsWith(']') &&
+                        !username.includes('[') &&
+                        !username.includes(']') &&
+                        !username.match(/^\d+$/) &&
+                        !username.match(/^\d{1,2}\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i) &&
+                        !username.match(/^(janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)$/i) &&
+                        !username.match(/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)$/i) &&
+                        !username.match(/^(manhã|tarde|noite|madrugada)$/i) &&
+                        !username.match(/^(domingo|segunda|terça|quarta|quinta|sexta|sábado)$/i) &&
+                        !username.match(/^(dom|seg|ter|qua|qui|sex|sab)$/i) &&
+                        !username.match(/^(2019|2020|2021|2022|2023|2024|2025|2026)$/i) &&
+                        !users.includes(username)) {
                         users.push(username);
                     }
+                    
+                    if (users.length >= 100) break;
                 }
-                
-                if (users.length >= 100) break;
             }
             
             return users;
         }
 
-        async function fetchUserData(username) {
+        async function fetchUserData(username, retryCount = 0) {
+            const maxRetries = 3;
+            
             try {
-                updateProgress(`Buscando dados de ${username}...`);
+                if (retryCount === 0) {
+                    updateProgress(`Buscando dados de ${username}...`);
+                } else {
+                    updateProgress(`Buscando dados de ${username}... (tentativa ${retryCount + 1}/${maxRetries})`);
+                }
                 
                 const userResponse = await fetch(`https://www.habbo.com.br/api/public/users?name=${encodeURIComponent(username)}`);
                 if (!userResponse.ok) {
                     if (userResponse.status === 404) {
                         return { notFound: true, username: username };
                     }
-                    throw new Error(`Erro ao buscar usuário ${username}`);
+                    throw new Error(`Erro HTTP ${userResponse.status}: ${userResponse.statusText}`);
                 }
                 
                 const userData = await userResponse.json();
@@ -63,15 +102,7 @@ console.log("V1.0");
                     return { notFound: true, username: username };
                 }
 
-                const groupsResponse = await fetch(`https://www.habbo.com.br/api/public/users/${userData.uniqueId}/groups`);
-                let rccGroups = [];
-                
-                if (groupsResponse.ok) {
-                    const groupsData = await groupsResponse.json();
-                    rccGroups = groupsData
-                        .filter(group => group.name && group.name.startsWith('[RCC]'))
-                        .map(group => group.name);
-                }
+                const rccGroups = await fetchUserGroups(userData.uniqueId, username);
 
                 return {
                     uniqueId: userData.uniqueId,
@@ -82,8 +113,72 @@ console.log("V1.0");
                     rccGroups: rccGroups
                 };
             } catch (error) {
-                console.error(`Erro ao processar ${username}:`, error);
+                console.error(`Erro ao processar ${username} (tentativa ${retryCount + 1}):`, error);
+                
+                if (retryCount < maxRetries - 1 && isConnectionError(error)) {
+                    console.log(`Tentando novamente para ${username} em 2 segundos...`);
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    return fetchUserData(username, retryCount + 1);
+                }
+                
                 return { notFound: true, username: username, error: error.message };
+            }
+        }
+
+        function isConnectionError(error) {
+            const connectionErrors = [
+                'fetch',
+                'network',
+                'timeout',
+                'connection',
+                'ECONNRESET',
+                'ENOTFOUND',
+                'ECONNREFUSED',
+                'TypeError: Failed to fetch',
+                '503',
+                '502',
+                '504'
+            ];
+            
+            const errorMessage = error.message.toLowerCase();
+            return connectionErrors.some(keyword => errorMessage.includes(keyword)) || 
+                   error.name === 'TypeError' ||
+                   error.code === 'NETWORK_ERROR';
+        }
+
+        async function fetchUserGroups(uniqueId, username, retryCount = 0) {
+            const maxRetries = 3;
+            
+            try {
+                const groupsResponse = await fetch(`https://www.habbo.com.br/api/public/users/${uniqueId}/groups`);
+                
+                if (!groupsResponse.ok) {
+                    if (groupsResponse.status === 503) {
+                        throw new Error(`Erro 503: Serviço temporariamente indisponível`);
+                    }
+                    if (groupsResponse.status >= 500) {
+                        throw new Error(`Erro do servidor: ${groupsResponse.status}`);
+                    }
+                    console.warn(`Erro ${groupsResponse.status} ao buscar grupos de ${username}, continuando sem grupos`);
+                    return [];
+                }
+                
+                const groupsData = await groupsResponse.json();
+                return groupsData
+                    .filter(group => group.name && group.name.startsWith('[RCC]'))
+                    .map(group => group.name);
+                    
+            } catch (error) {
+                console.error(`Erro ao buscar grupos de ${username} (tentativa ${retryCount + 1}):`, error);
+                
+                if (retryCount < maxRetries - 1 && (error.message.includes('503') || isConnectionError(error))) {
+                    console.log(`Tentando buscar grupos de ${username} novamente em 1 segundo...`);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    return fetchUserGroups(uniqueId, username, retryCount + 1);
+                }
+                
+                console.warn(`Não foi possível buscar grupos de ${username} após ${maxRetries} tentativas, continuando sem grupos`);
+                return [];
             }
         }
 
@@ -128,10 +223,12 @@ console.log("V1.0");
         function createUserCard(user) {
             const isProfileHidden = !user.profileVisible;
             const lastAccessInfo = formatLastAccess(user.lastAccessTime);
+            const isRemoved = removedUsers.some(removed => removed.username === user.name);
             
             if (isProfileHidden) {
                 return `
-                    <div class="user-card profile-hidden">
+                    <div class="user-card profile-hidden ${isRemoved ? 'removed' : ''}" data-username="${user.name}">
+                        <button class="remove-btn" onclick="openRemoveModal('${user.name}')" ${isRemoved ? 'disabled' : ''}>×</button>
                         <div class="user-avatar">
                             <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?&user=${encodeURIComponent(user.name)}&action=std&direction=3&head_direction=3&img_format=png&gesture=std&headonly=0&size=b" 
                                  alt="${user.name}" 
@@ -142,12 +239,14 @@ console.log("V1.0");
                         <div class="user-info" style="margin-top: 15px; font-style: italic; color: #95a5a6;">
                             Perfil privado - Informações não disponíveis
                         </div>
+                        ${isRemoved ? `<div style="color: #e74c3c; font-weight: bold; margin-top: 10px;">✓ Removido</div>` : ''}
                     </div>
                 `;
             }
             
             return `
-                <div class="user-card">
+                <div class="user-card ${isRemoved ? 'removed' : ''}" data-username="${user.name}">
+                    <button class="remove-btn" onclick="openRemoveModal('${user.name}')" ${isRemoved ? 'disabled' : ''}>×</button>
                     <div class="user-avatar">
                         <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?&user=${encodeURIComponent(user.name)}&action=std&direction=3&head_direction=3&img_format=png&gesture=std&headonly=0&size=b" 
                              alt="${user.name}" 
@@ -165,6 +264,7 @@ console.log("V1.0");
                             : '<span class="no-rcc-groups">Não há grupos da RCC</span>'
                         }
                     </div>
+                    ${isRemoved ? `<div style="color: #e74c3c; font-weight: bold; margin-top: 10px;">✓ Removido</div>` : ''}
                 </div>
             `;
         }
@@ -181,12 +281,24 @@ console.log("V1.0");
             
             if (notFoundUsers.length > 0) {
                 notFoundList.innerHTML = notFoundUsers
-                    .map(user => `
-                        <li class="not-found-item">
-                            <strong>${user.username}</strong> - 
-                            ${user.error ? 'Erro de conexão' : 'Usuário não encontrado (possível mudança de nome)'}
-                        </li>
-                    `)
+                    .map(user => {
+                        let errorMessage;
+                        if (user.error) {
+                            if (isConnectionError({ message: user.error })) {
+                                errorMessage = 'Erro de conexão após 3 tentativas';
+                            } else {
+                                errorMessage = 'Erro de conexão';
+                            }
+                        } else {
+                            errorMessage = 'Usuário não encontrado (possível mudança de nome)';
+                        }
+                        
+                        return `
+                            <li class="not-found-item">
+                                <strong>${user.username}</strong> - ${errorMessage}
+                            </li>
+                        `;
+                    })
                     .join('');
                 notFoundSection.style.display = 'block';
             } else {
@@ -194,6 +306,13 @@ console.log("V1.0");
             }
             
             resultsDiv.style.display = 'block';
+            
+            const generatePostBtn = document.getElementById('generatePostBtn');
+            if (processedUsers.length > 0) {
+                generatePostBtn.style.display = 'block';
+            } else {
+                generatePostBtn.style.display = 'none';
+            }
         }
 
         async function processUsers() {
@@ -207,9 +326,12 @@ console.log("V1.0");
             const usernames = parseUserList(input);
             
             if (usernames.length === 0) {
-                showError('Nenhum usuário válido encontrado na listagem. Siga o formato mostrado.');
+                showError('Nenhum usuário válido encontrado. Use um dos formatos aceitos: listagem numerada completa ou apenas nomes separados por espaços.');
                 return;
             }
+            
+            const hasNumberedList = input.trim().split('\n').some(line => /^\d+\.\s*/.test(line.trim()));
+            const formatType = hasNumberedList ? 'listagem completa' : 'apenas nomes';
             
             document.getElementById('loading').style.display = 'block';
             document.getElementById('results').style.display = 'none';
@@ -221,8 +343,9 @@ console.log("V1.0");
             processBtnIcon.classList.add('searching');
             
             processedUsers = [];
+            removedUsers = [];
             let notFoundUsers = [];
-            updateProgress(`Encontrados ${usernames.length} usuários. Iniciando processamento...`);
+            updateProgress(`Formato detectado: ${formatType}. Encontrados ${usernames.length} usuários. Iniciando processamento...`);
             
             try {
                 const batchSize = 5;
@@ -279,5 +402,151 @@ console.log("V1.0");
         document.getElementById('userList').addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.key === 'Enter') {
                 processUsers();
+            }
+        });
+
+        function handleCheckboxChange(event) {
+            if (event.target.checked) {
+                const checkboxes = document.querySelectorAll('input[name="removeReason"]');
+                checkboxes.forEach(checkbox => {
+                    if (checkbox !== event.target) {
+                        checkbox.checked = false;
+                    }
+                });
+            }
+        }
+
+        function openRemoveModal(username) {
+            currentUserToRemove = username;
+            document.getElementById('removeUserName').textContent = username;
+            
+            const checkboxes = document.querySelectorAll('input[name="removeReason"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+                checkbox.removeEventListener('change', handleCheckboxChange);
+                checkbox.addEventListener('change', handleCheckboxChange);
+            });
+            
+            document.getElementById('removeModal').style.display = 'flex';
+        }
+
+        function closeRemoveModal() {
+            document.getElementById('removeModal').style.display = 'none';
+            currentUserToRemove = null;
+        }
+
+        function openTutorial() {
+            document.getElementById('tutorialModal').style.display = 'flex';
+        }
+
+        function closeTutorial() {
+            document.getElementById('tutorialModal').style.display = 'none';
+        }
+
+        function confirmRemoval() {
+            const selectedReason = document.querySelector('input[name="removeReason"]:checked');
+            
+            if (!selectedReason) {
+                alert('Por favor, selecione um motivo para a remoção.');
+                return;
+            }
+            
+            if (!currentUserToRemove) {
+                alert('Erro: Nenhum usuário selecionado para remoção.');
+                closeRemoveModal();
+                return;
+            }
+            
+            const removedUsername = currentUserToRemove;
+            
+            removedUsers.push({
+                username: currentUserToRemove,
+                reason: selectedReason.value
+            });
+            
+            displayResults();
+            
+            showSuccess(`Usuário ${removedUsername} removido com sucesso!`);
+            
+            closeRemoveModal();
+        }
+
+        function openGeneratePostModal() {
+            if (removedUsers.length === 0) {
+                showError('Nenhum usuário foi removido ainda.');
+                return;
+            }
+            
+            generateRemovedUsersContent();
+            document.getElementById('generatePostModal').style.display = 'flex';
+        }
+
+        function closeGeneratePostModal() {
+            document.getElementById('generatePostModal').style.display = 'none';
+        }
+
+        function generateRemovedUsersContent() {
+            const contentDiv = document.getElementById('removedUsersContent');
+            
+            const groupedByReason = {};
+            removedUsers.forEach(user => {
+                if (!groupedByReason[user.reason]) {
+                    groupedByReason[user.reason] = [];
+                }
+                groupedByReason[user.reason].push(user.username);
+            });
+            
+            let contentHTML = '';
+            
+            Object.keys(groupedByReason).forEach(reason => {
+                const users = groupedByReason[reason];
+                const usersList = users.join(' / ');
+                
+                contentHTML += `
+                    <div class="reason-container">
+                        <div class="reason-title">${reason}</div>
+                        <table class="reason-table">
+                            <thead>
+                                <tr>
+                                    <th>Removidos</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>${usersList}</td>
+                                    <td>
+                                        <button class="copy-btn" onclick="copyToClipboard('${usersList}')">
+                                            📋 Copiar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            });
+            
+            contentDiv.innerHTML = contentHTML;
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showSuccess('Nomes copiados para a área de transferência!');
+            }).catch(err => {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showSuccess('Nomes copiados para a área de transferência!');
+            });
+        }
+
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeRemoveModal();
+                closeGeneratePostModal();
             }
         });
