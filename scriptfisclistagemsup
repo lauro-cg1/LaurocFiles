@@ -1,7 +1,43 @@
-  console.log("V2.0");
+  console.log("V2.1");
    let processedUsers = [];
    let removedUsers = [];
    let currentUserToRemove = null;
+
+        function replaceProblematicIcons() {
+            const iconReplacements = {
+                '📋': '📄',
+                '📖': '📚',
+                '🗑️': '🚮',
+                '📊': '📈',
+                '📝': '✏️',
+                '💡': '🔆',
+                '⚠️': '⚠',
+            };
+            
+            if (document.body) {
+                let html = document.body.innerHTML;
+                let changed = false;
+                
+                Object.keys(iconReplacements).forEach(original => {
+                    const replacement = iconReplacements[original];
+                    if (html.includes(original)) {
+                        html = html.replace(new RegExp(original, 'g'), replacement);
+                        changed = true;
+                    }
+                });
+                
+                if (changed) {
+                    document.body.innerHTML = html;
+                    console.log('Ícones problemáticos substituídos por ícones compatíveis');
+                }
+            }
+        }
+
+        replaceProblematicIcons();
+        setTimeout(replaceProblematicIcons, 100);
+        setTimeout(replaceProblematicIcons, 500);
+        setTimeout(replaceProblematicIcons, 1000);
+        setTimeout(replaceProblematicIcons, 2000);
 
         function fixIconsForForum() {
             function replaceAllIcons(attempts = 0) {
@@ -585,6 +621,7 @@
             document.getElementById('removeModal').style.display = 'flex';
             
             setTimeout(() => {
+                replaceProblematicIcons();
                 updateSpecificElements();
                 fixIconsForForum();
             }, 10);
@@ -598,6 +635,7 @@
         function openTutorial() {
             document.getElementById('tutorialModal').style.display = 'flex';
             setTimeout(() => {
+                replaceProblematicIcons();
                 updateSpecificElements();
                 fixIconsForForum();
             }, 10);
@@ -645,6 +683,7 @@
             document.getElementById('generatePostModal').style.display = 'flex';
             
             setTimeout(() => {
+                replaceProblematicIcons();
                 updateSpecificElements();
                 fixIconsForForum();
             }, 10);
