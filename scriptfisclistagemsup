@@ -1,195 +1,71 @@
-  console.log("V2.1");
+  console.log("V2.0");
    let processedUsers = [];
    let removedUsers = [];
    let currentUserToRemove = null;
 
-        function replaceProblematicIcons() {
-            const iconReplacements = {
-                '📋': '📄',
-                '📖': '📚',
-                '🗑️': '🚮',
-                '📊': '📈',
-                '📝': '✏️',
-                '💡': '🔆',
-                '⚠️': '⚠',
-            };
+        function replaceQuestionMarks() {
+            const contextReplacements = [
+                { search: '???? Resultados da Análise', replace: '📊 Resultados da Análise' },
+                { search: '???? Gerar Postagem System', replace: '📝 Gerar Postagem System' },
+                { search: '???? Tutorial de Uso', replace: '📖 Tutorial de Uso' },
+                { search: '???? Policiais Retirados', replace: '📋 Policiais Retirados' },
+                { search: '???? Remover Usuário', replace: '🗑️ Remover Usuário' },
+                { search: '???? Formatos aceitos:', replace: '💡 Formatos aceitos:' },
+                { search: '???? Usuários Não Encontrados', replace: '⚠️ Usuários Não Encontrados' },
+                
+                { search: '???? Copiar', replace: '📋 Copiar' },
+                
+                { search: /????(?=\s*Resultados)/g, replace: '📊' },
+                { search: /????(?=\s*Gerar)/g, replace: '📝' },
+                { search: /????(?=\s*Tutorial)/g, replace: '📖' },
+                { search: /????(?=\s*Policiais)/g, replace: '📋' },
+                { search: /????(?=\s*Remover)/g, replace: '🗑️' },
+                { search: /????(?=\s*Formatos)/g, replace: '💡' },
+                { search: /????(?=\s*Usuários)/g, replace: '⚠️' },
+                { search: /????(?=\s*Copiar)/g, replace: '📋' },
+            ];
+            
+            let replacedSomething = false;
             
             if (document.body) {
                 let html = document.body.innerHTML;
-                let changed = false;
+                let originalHtml = html;
                 
-                Object.keys(iconReplacements).forEach(original => {
-                    const replacement = iconReplacements[original];
-                    if (html.includes(original)) {
-                        html = html.replace(new RegExp(original, 'g'), replacement);
-                        changed = true;
-                    }
-                });
-                
-                if (changed) {
-                    document.body.innerHTML = html;
-                    console.log('Ícones problemáticos substituídos por ícones compatíveis');
-                }
-            }
-        }
-
-        replaceProblematicIcons();
-        setTimeout(replaceProblematicIcons, 100);
-        setTimeout(replaceProblematicIcons, 500);
-        setTimeout(replaceProblematicIcons, 1000);
-        setTimeout(replaceProblematicIcons, 2000);
-
-        function fixIconsForForum() {
-            function replaceAllIcons(attempts = 0) {
-                const maxAttempts = 10;
-                let replacedSomething = false;
-                
-                const iconMap = {
-                    '📋': '&#128203;',
-                    '📖': '&#128214;', 
-                    '🗑️': '&#128465;&#65039;',
-                    '📊': '&#128202;',
-                    '📝': '&#128221;',
-                    '💡': '&#128161;',
-                    '⚡': '&#9889;',
-                    '⚠️': '&#9888;&#65039;',
-                    '✓': '&#10003;',
-                    '×': '&times;',
-                    '🔒': '&#128274;',
-                    '➝': '&#10141;'
-                };
-                
-                if (document.body && document.body.innerHTML) {
-                    let bodyHTML = document.body.innerHTML;
-                    let originalHTML = bodyHTML;
-                    
-                    Object.keys(iconMap).forEach(icon => {
-                        const regex = new RegExp(icon.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-                        bodyHTML = bodyHTML.replace(regex, iconMap[icon]);
-                    });
-                    
-                    if (bodyHTML !== originalHTML) {
-                        document.body.innerHTML = bodyHTML;
-                        replacedSomething = true;
-                    }
-                }
-                
-                document.querySelectorAll('*').forEach(element => {
-                    if (element.nodeType === Node.ELEMENT_NODE && element.innerHTML && element !== document.body) {
-                        let html = element.innerHTML;
-                        let originalHTML = html;
-                        
-                        Object.keys(iconMap).forEach(icon => {
-                            const regex = new RegExp(icon.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-                            html = html.replace(regex, iconMap[icon]);
-                        });
-                        
-                        if (html !== originalHTML) {
-                            element.innerHTML = html;
+                contextReplacements.forEach(replacement => {
+                    if (typeof replacement.search === 'string') {
+                        if (html.includes(replacement.search)) {
+                            html = html.replace(new RegExp(replacement.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), replacement.replace);
+                            replacedSomething = true;
+                        }
+                    } else {
+                        if (replacement.search.test(html)) {
+                            html = html.replace(replacement.search, replacement.replace);
                             replacedSomething = true;
                         }
                     }
                 });
                 
-                if (attempts < maxAttempts && (replacedSomething || attempts < 3)) {
-                    setTimeout(() => replaceAllIcons(attempts + 1), 200);
+                if (replacedSomething) {
+                    document.body.innerHTML = html;
                 }
             }
             
-            replaceAllIcons();
+            return replacedSomething;
         }
 
-        function updateSpecificElements() {
-            const selectors = [
-                '.tutorial-btn',
-                '.generate-post-btn', 
-                '.modal-header h3',
-                '.results-header h2',
-                '.copy-btn',
-                '.format-tip strong',
-                '.not-found-title'
-            ];
-            
-            const iconMap = {
-                '📋': '&#128203;',
-                '📖': '&#128214;', 
-                '🗑️': '&#128465;&#65039;',
-                '📊': '&#128202;',
-                '�': '&#128221;',
-                '💡': '&#128161;',
-                '⚡': '&#9889;',
-                '⚠️': '&#9888;&#65039;',
-                '✓': '&#10003;',
-                '×': '&times;',
-                '🔒': '&#128274;',
-                '➝': '&#10141;'
-            };
-            
-            selectors.forEach(selector => {
-                document.querySelectorAll(selector).forEach(element => {
-                    if (element.innerHTML) {
-                        let html = element.innerHTML;
-                        Object.keys(iconMap).forEach(icon => {
-                            const regex = new RegExp(icon.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-                            html = html.replace(regex, iconMap[icon]);
-                        });
-                        element.innerHTML = html;
-                    }
-                });
-            });
-        }
-
-        fixIconsForForum();
-        
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', fixIconsForForum);
-        } else {
-            setTimeout(fixIconsForForum, 100);
-        }
-        
-        if (document.readyState !== 'complete') {
-            window.addEventListener('load', fixIconsForForum);
-        } else {
-            setTimeout(fixIconsForForum, 200);
-        }
-        
-        setTimeout(fixIconsForForum, 500);
-        setTimeout(fixIconsForForum, 1000);
-        setTimeout(fixIconsForForum, 2000);
-        
-        const observer = new MutationObserver(function(mutations) {
-            let shouldUpdate = false;
-            mutations.forEach(function(mutation) {
-                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                    shouldUpdate = true;
-                }
-                if (mutation.type === 'characterData') {
-                    shouldUpdate = true;
-                }
-            });
-            
-            if (shouldUpdate) {
-                setTimeout(() => {
-                    updateSpecificElements();
-                    fixIconsForForum();
-                }, 50);
-            }
-        });
-        
-        function startObserver() {
-            if (document.body) {
-                observer.observe(document.body, { 
-                    childList: true, 
-                    subtree: true, 
-                    characterData: true,
-                    attributes: true 
-                });
-            } else {
-                setTimeout(startObserver, 100);
-            }
-        }
-        startObserver();
-
+        replaceQuestionMarks();
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 100);
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 500);
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 1000);
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 2000);
         function showError(message) {
             const errorDiv = document.getElementById('errorMessage');
             errorDiv.textContent = message;
@@ -571,8 +447,7 @@
                     showSuccess(message);
                     displayResults(notFoundUsers);
                     setTimeout(() => {
-                        updateSpecificElements();
-                        fixIconsForForum();
+                        replaceQuestionMarks();
                     }, 100);
                 }
                 
@@ -621,9 +496,7 @@
             document.getElementById('removeModal').style.display = 'flex';
             
             setTimeout(() => {
-                replaceProblematicIcons();
-                updateSpecificElements();
-                fixIconsForForum();
+                replaceQuestionMarks();
             }, 10);
         }
 
@@ -635,9 +508,7 @@
         function openTutorial() {
             document.getElementById('tutorialModal').style.display = 'flex';
             setTimeout(() => {
-                replaceProblematicIcons();
-                updateSpecificElements();
-                fixIconsForForum();
+                replaceQuestionMarks();
             }, 10);
         }
 
@@ -683,9 +554,7 @@
             document.getElementById('generatePostModal').style.display = 'flex';
             
             setTimeout(() => {
-                replaceProblematicIcons();
-                updateSpecificElements();
-                fixIconsForForum();
+                replaceQuestionMarks();
             }, 10);
         }
 
