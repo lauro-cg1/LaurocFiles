@@ -1,4 +1,4 @@
-  console.log("V2.0");
+  console.log("V2.1");
    let processedUsers = [];
    let removedUsers = [];
    let currentUserToRemove = null;
@@ -15,14 +15,14 @@
                 
                 { search: '???? Copiar', replace: '📋 Copiar' },
                 
-                { search: /????(?=\s*Resultados)/g, replace: '📊' },
-                { search: /????(?=\s*Gerar)/g, replace: '📝' },
-                { search: /????(?=\s*Tutorial)/g, replace: '📖' },
-                { search: /????(?=\s*Policiais)/g, replace: '📋' },
-                { search: /????(?=\s*Remover)/g, replace: '🗑️' },
-                { search: /????(?=\s*Formatos)/g, replace: '💡' },
-                { search: /????(?=\s*Usuários)/g, replace: '⚠️' },
-                { search: /????(?=\s*Copiar)/g, replace: '📋' },
+                { search: /\?\?\?\?(?=\s*Resultados)/g, replace: '📊' },
+                { search: /\?\?\?\?(?=\s*Gerar)/g, replace: '📝' },
+                { search: /\?\?\?\?(?=\s*Tutorial)/g, replace: '📖' },
+                { search: /\?\?\?\?(?=\s*Policiais)/g, replace: '📋' },
+                { search: /\?\?\?\?(?=\s*Remover)/g, replace: '🗑️' },
+                { search: /\?\?\?\?(?=\s*Formatos)/g, replace: '💡' },
+                { search: /\?\?\?\?(?=\s*Usuários)/g, replace: '⚠️' },
+                { search: /\?\?\?\?(?=\s*Copiar)/g, replace: '📋' },
             ];
             
             let replacedSomething = false;
