@@ -1,4 +1,4 @@
-  console.log("V2.0");
+ console.log("V2.1");
    let processedUsers = [];
    let removedUsers = [];
    let currentUserToRemove = null;
@@ -51,6 +51,30 @@
                     document.body.innerHTML = html;
                 }
             }
+            
+            const styleTags = document.querySelectorAll('style');
+            styleTags.forEach(styleTag => {
+                let cssContent = styleTag.innerHTML;
+                let originalCss = cssContent;
+                
+                contextReplacements.forEach(replacement => {
+                    if (typeof replacement.search === 'string') {
+                        if (cssContent.includes(replacement.search)) {
+                            cssContent = cssContent.replace(new RegExp(replacement.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), replacement.replace);
+                            replacedSomething = true;
+                        }
+                    } else {
+                        if (replacement.search.test(cssContent)) {
+                            cssContent = cssContent.replace(replacement.search, replacement.replace);
+                            replacedSomething = true;
+                        }
+                    }
+                });
+                
+                if (cssContent !== originalCss) {
+                    styleTag.innerHTML = cssContent;
+                }
+            });
             
             return replacedSomething;
         }
