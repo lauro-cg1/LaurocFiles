@@ -1,93 +1,158 @@
-  console.log("V2.1");
+  console.log("V2.0");
    let processedUsers = [];
    let removedUsers = [];
    let currentUserToRemove = null;
 
         function fixIconsForForum() {
-            setTimeout(() => {
-                document.querySelectorAll('*').forEach(element => {
-                    if (element.nodeType === Node.TEXT_NODE) return;
+            function replaceAllIcons(attempts = 0) {
+                const maxAttempts = 10;
+                let replacedSomething = false;
+                
+                const iconMap = {
+                    '📋': '&#128203;',
+                    '📖': '&#128214;', 
+                    '🗑️': '&#128465;&#65039;',
+                    '📊': '&#128202;',
+                    '📝': '&#128221;',
+                    '💡': '&#128161;',
+                    '⚡': '&#9889;',
+                    '⚠️': '&#9888;&#65039;',
+                    '✓': '&#10003;',
+                    '×': '&times;',
+                    '🔒': '&#128274;',
+                    '➝': '&#10141;'
+                };
+                
+                if (document.body && document.body.innerHTML) {
+                    let bodyHTML = document.body.innerHTML;
+                    let originalHTML = bodyHTML;
                     
-                    if (element.innerHTML) {
+                    Object.keys(iconMap).forEach(icon => {
+                        const regex = new RegExp(icon.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+                        bodyHTML = bodyHTML.replace(regex, iconMap[icon]);
+                    });
+                    
+                    if (bodyHTML !== originalHTML) {
+                        document.body.innerHTML = bodyHTML;
+                        replacedSomething = true;
+                    }
+                }
+                
+                document.querySelectorAll('*').forEach(element => {
+                    if (element.nodeType === Node.ELEMENT_NODE && element.innerHTML && element !== document.body) {
                         let html = element.innerHTML;
+                        let originalHTML = html;
                         
-                        html = html.replace(/📋/g, '&#128203;');
-                        html = html.replace(/📖/g, '&#128214;');
-                        html = html.replace(/🗑️/g, '&#128465;&#65039;');
-                        html = html.replace(/📊/g, '&#128202;');
-                        html = html.replace(/📝/g, '&#128221;');
-                        html = html.replace(/💡/g, '&#128161;');
-                        html = html.replace(/⚡/g, '&#9889;');
-                        html = html.replace(/⚠️/g, '&#9888;&#65039;');
-                        html = html.replace(/✓/g, '&#10003;');
-                        html = html.replace(/×/g, '&#215;');
-                        html = html.replace(/🔒/g, '&#128274;');
-                        html = html.replace(/➝/g, '&#10141;');
+                        Object.keys(iconMap).forEach(icon => {
+                            const regex = new RegExp(icon.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+                            html = html.replace(regex, iconMap[icon]);
+                        });
                         
-                        if (html !== element.innerHTML) {
+                        if (html !== originalHTML) {
                             element.innerHTML = html;
+                            replacedSomething = true;
                         }
                     }
                 });
                 
-                updateSpecificElements();
-            }, 100);
+                if (attempts < maxAttempts && (replacedSomething || attempts < 3)) {
+                    setTimeout(() => replaceAllIcons(attempts + 1), 200);
+                }
+            }
+            
+            replaceAllIcons();
         }
 
         function updateSpecificElements() {
-            const tutorialBtn = document.querySelector('.tutorial-btn');
-            if (tutorialBtn && tutorialBtn.innerHTML.includes('📖')) {
-                tutorialBtn.innerHTML = tutorialBtn.innerHTML.replace(/📖/g, '&#128214;');
-            }
+            const selectors = [
+                '.tutorial-btn',
+                '.generate-post-btn', 
+                '.modal-header h3',
+                '.results-header h2',
+                '.copy-btn',
+                '.format-tip strong',
+                '.not-found-title'
+            ];
             
-            const generatePostBtn = document.querySelector('.generate-post-btn');
-            if (generatePostBtn && generatePostBtn.innerHTML.includes('📝')) {
-                generatePostBtn.innerHTML = generatePostBtn.innerHTML.replace(/📝/g, '&#128221;');
-            }
+            const iconMap = {
+                '📋': '&#128203;',
+                '📖': '&#128214;', 
+                '🗑️': '&#128465;&#65039;',
+                '📊': '&#128202;',
+                '�': '&#128221;',
+                '💡': '&#128161;',
+                '⚡': '&#9889;',
+                '⚠️': '&#9888;&#65039;',
+                '✓': '&#10003;',
+                '×': '&times;',
+                '🔒': '&#128274;',
+                '➝': '&#10141;'
+            };
             
-            const modalHeaders = document.querySelectorAll('.modal-header h3');
-            modalHeaders.forEach(header => {
-                if (header.innerHTML) {
-                    let html = header.innerHTML;
-                    html = html.replace(/🗑️/g, '&#128465;&#65039;');
-                    html = html.replace(/📖/g, '&#128214;');
-                    html = html.replace(/📋/g, '&#128203;');
-                    header.innerHTML = html;
-                }
-            });
-            
-            const resultsHeader = document.querySelector('.results-header h2');
-            if (resultsHeader && resultsHeader.innerHTML.includes('📊')) {
-                resultsHeader.innerHTML = resultsHeader.innerHTML.replace(/📊/g, '&#128202;');
-            }
-            
-            const copyBtns = document.querySelectorAll('.copy-btn');
-            copyBtns.forEach(btn => {
-                if (btn.innerHTML.includes('📋')) {
-                    btn.innerHTML = btn.innerHTML.replace(/📋/g, '&#128203;');
-                }
+            selectors.forEach(selector => {
+                document.querySelectorAll(selector).forEach(element => {
+                    if (element.innerHTML) {
+                        let html = element.innerHTML;
+                        Object.keys(iconMap).forEach(icon => {
+                            const regex = new RegExp(icon.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+                            html = html.replace(regex, iconMap[icon]);
+                        });
+                        element.innerHTML = html;
+                    }
+                });
             });
         }
 
-        document.addEventListener('DOMContentLoaded', fixIconsForForum);
+        fixIconsForForum();
         
-        window.addEventListener('load', fixIconsForForum);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fixIconsForForum);
+        } else {
+            setTimeout(fixIconsForForum, 100);
+        }
+        
+        if (document.readyState !== 'complete') {
+            window.addEventListener('load', fixIconsForForum);
+        } else {
+            setTimeout(fixIconsForForum, 200);
+        }
+        
+        setTimeout(fixIconsForForum, 500);
+        setTimeout(fixIconsForForum, 1000);
+        setTimeout(fixIconsForForum, 2000);
         
         const observer = new MutationObserver(function(mutations) {
+            let shouldUpdate = false;
             mutations.forEach(function(mutation) {
                 if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                    setTimeout(updateSpecificElements, 50);
+                    shouldUpdate = true;
+                }
+                if (mutation.type === 'characterData') {
+                    shouldUpdate = true;
                 }
             });
+            
+            if (shouldUpdate) {
+                setTimeout(() => {
+                    updateSpecificElements();
+                    fixIconsForForum();
+                }, 50);
+            }
         });
         
-        if (document.body) {
-            observer.observe(document.body, { childList: true, subtree: true });
-        } else {
-            document.addEventListener('DOMContentLoaded', () => {
-                observer.observe(document.body, { childList: true, subtree: true });
-            });
+        function startObserver() {
+            if (document.body) {
+                observer.observe(document.body, { 
+                    childList: true, 
+                    subtree: true, 
+                    characterData: true,
+                    attributes: true 
+                });
+            } else {
+                setTimeout(startObserver, 100);
+            }
         }
+        startObserver();
 
         function showError(message) {
             const errorDiv = document.getElementById('errorMessage');
@@ -469,6 +534,10 @@
                     }
                     showSuccess(message);
                     displayResults(notFoundUsers);
+                    setTimeout(() => {
+                        updateSpecificElements();
+                        fixIconsForForum();
+                    }, 100);
                 }
                 
             } catch (error) {
@@ -515,7 +584,10 @@
             
             document.getElementById('removeModal').style.display = 'flex';
             
-            setTimeout(updateSpecificElements, 10);
+            setTimeout(() => {
+                updateSpecificElements();
+                fixIconsForForum();
+            }, 10);
         }
 
         function closeRemoveModal() {
@@ -525,6 +597,10 @@
 
         function openTutorial() {
             document.getElementById('tutorialModal').style.display = 'flex';
+            setTimeout(() => {
+                updateSpecificElements();
+                fixIconsForForum();
+            }, 10);
         }
 
         function closeTutorial() {
@@ -568,7 +644,10 @@
             generateRemovedUsersContent();
             document.getElementById('generatePostModal').style.display = 'flex';
             
-            setTimeout(updateSpecificElements, 10);
+            setTimeout(() => {
+                updateSpecificElements();
+                fixIconsForForum();
+            }, 10);
         }
 
         function closeGeneratePostModal() {
