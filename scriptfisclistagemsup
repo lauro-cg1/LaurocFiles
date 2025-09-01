@@ -1,4 +1,4 @@
-  console.log("V2.1");
+  console.log("V2.0");
    let processedUsers = [];
    let removedUsers = [];
    let currentUserToRemove = null;
@@ -10,8 +10,10 @@
                 { search: '???? Tutorial de Uso', replace: '📖 Tutorial de Uso' },
                 { search: '???? Policiais Retirados', replace: '📋 Policiais Retirados' },
                 { search: '???? Remover Usuário', replace: '🗑️ Remover Usuário' },
+                { search: '????️ Remover Usuário', replace: '🗑️ Remover Usuário' },
                 { search: '???? Formatos aceitos:', replace: '💡 Formatos aceitos:' },
                 { search: '???? Usuários Não Encontrados', replace: '⚠️ Usuários Não Encontrados' },
+                { search: "content: '????';", replace: "content: '💡';" },
                 
                 { search: '???? Copiar', replace: '📋 Copiar' },
                 
