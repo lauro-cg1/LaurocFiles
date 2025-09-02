@@ -1,0 +1,1177 @@
+console.log("V1.0");
+    function replaceQuestionMarks() {
+            const contextReplacements = [
+                { search: '???? SEMANA', replace: '📅 SEMANA' },
+                { search: '???? Atualizar Dados', replace: '🔄 Atualizar Dados' },
+                { search: '???? Atualizando dados...', replace: '🔄 Atualizando dados...' },
+                { search: '???? Recarregando dados...', replace: '🔄 Recarregando dados...' },
+                { search: '???? Tentar Novamente', replace: '🔄 Tentar Novamente' },
+                { search: '???? Limpar Cache', replace: '🗑️ Limpar Cache' },
+                { search: '???? Erro ao carregar os dados', replace: '❌ Erro ao carregar os dados' },
+                { search: '???? Acessar Planilha da Escala', replace: '📋 Acessar Planilha da Escala' },
+                { search: '???? Aguarde', replace: '⏳ Aguarde' },
+                
+                { search: /\?\?\?\?(?=\s*SEMANA)/g, replace: '📅' },
+                { search: /\?\?\?\?(?=\s*Atualizar)/g, replace: '🔄' },
+                { search: /\?\?\?\?(?=\s*Atualizando)/g, replace: '🔄' },
+                { search: /\?\?\?\?(?=\s*Recarregando)/g, replace: '🔄' },
+                { search: /\?\?\?\?(?=\s*Tentar)/g, replace: '🔄' },
+                { search: /\?\?\?\?(?=\s*Limpar)/g, replace: '🗑️' },
+                { search: /\?\?\?\?(?=\s*Erro)/g, replace: '❌' },
+                { search: /\?\?\?\?(?=\s*Acessar)/g, replace: '📋' },
+                { search: /\?\?\?\?(?=\s*Aguarde)/g, replace: '⏳' },
+                
+                { search: "return '????';", replace: "return '✅';" },
+                { search: "return '????';", replace: "return '⏳';" },
+                { search: "return '????';", replace: "return '❌';" },
+                { search: "return '????';", replace: "return '📝';" },
+                { search: "return '????';", replace: "return '❓';" },
+            ];
+            
+            let replacedSomething = false;
+            
+            if (document.body) {
+                let html = document.body.innerHTML;
+                let originalHtml = html;
+                
+                contextReplacements.forEach(replacement => {
+                    if (typeof replacement.search === 'string') {
+                        if (html.includes(replacement.search)) {
+                            html = html.replace(new RegExp(replacement.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), replacement.replace);
+                            replacedSomething = true;
+                        }
+                    } else {
+                        if (replacement.search.test(html)) {
+                            html = html.replace(replacement.search, replacement.replace);
+                            replacedSomething = true;
+                        }
+                    }
+                });
+                
+                if (replacedSomething) {
+                    document.body.innerHTML = html;
+                }
+            }
+            
+            const styleTags = document.querySelectorAll('style');
+            styleTags.forEach(styleTag => {
+                let cssContent = styleTag.innerHTML;
+                let originalCss = cssContent;
+                
+                contextReplacements.forEach(replacement => {
+                    if (typeof replacement.search === 'string') {
+                        if (cssContent.includes(replacement.search)) {
+                            cssContent = cssContent.replace(new RegExp(replacement.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), replacement.replace);
+                            replacedSomething = true;
+                        }
+                    } else {
+                        if (replacement.search.test(cssContent)) {
+                            cssContent = cssContent.replace(replacement.search, replacement.replace);
+                            replacedSomething = true;
+                        }
+                    }
+                });
+                
+                if (cssContent !== originalCss) {
+                    styleTag.innerHTML = cssContent;
+                }
+            });
+            
+            return replacedSomething;
+        }
+
+        replaceQuestionMarks();
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 100);
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 500);
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 1000);
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 2000);
+
+        function clearBrowserCache() {
+            try {
+                if (typeof(Storage) !== "undefined") {
+                    localStorage.clear();
+                    sessionStorage.clear();
+                }
+                
+                if ('caches' in window) {
+                    caches.keys().then(function(names) {
+                        names.forEach(function(name) {
+                            caches.delete(name);
+                        });
+                    });
+                }
+                
+                document.querySelectorAll('script[id*="script_"]').forEach(script => {
+                    if (script.parentNode) {
+                        script.parentNode.removeChild(script);
+                    }
+                });
+                
+                Object.keys(window).forEach(key => {
+                    if (key.startsWith('callback_') || 
+                        key.startsWith('test_callback_') || 
+                        key.startsWith('alldata_callback_')) {
+                        delete window[key];
+                    }
+                });
+                
+                console.log('Cache do navegador limpo completamente');
+            } catch (error) {
+                console.error('Erro ao limpar cache:', error);
+            }
+        }
+        
+        function forcePageReload() {
+            clearBrowserCache();
+            
+            setTimeout(() => {
+                const url = new URL(window.location);
+                url.searchParams.set('_t', Date.now());
+                url.searchParams.set('_r', Math.random().toString(36).substr(2, 15));
+                url.searchParams.set('_nocache', 'true');
+                window.location.href = url.toString();
+            }, 500);
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (!urlParams.has('_nocache')) {
+                clearBrowserCache();
+            }
+        });
+        
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxABbkQ_YlHOk1r1rDdOxxkp69tu3pu2v4QZdsuIcDxCIra7xWTPglLLLC-ExSDQHQJ/exec';
+        
+        function validateScriptUrl() {
+            try {
+                const url = new URL(SCRIPT_URL);
+                if (!url.hostname.includes('script.google.com')) {
+                    console.error('URL do script inválido');
+                    return false;
+                }
+                return true;
+            } catch (error) {
+                console.error('Erro ao validar URL:', error);
+                return false;
+            }
+        }
+        
+        const MINISTRIES = {
+            'administracao': {
+                name: 'Administração',
+                icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 20H22V22H2V20ZM4 18H20V6L12 1L4 6V18ZM6 7V16H8V7H6ZM10 7V16H12V7H10ZM14 7V16H16V7H14Z" fill="currentColor"/></svg>'
+            },
+            'atualizacao': {
+                name: 'Atualização',
+                icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C9.25 4 6.82 5.38 5.38 7.5L7 9H2V4L3.62 5.62C5.51 3.27 8.57 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12H4Z" fill="currentColor"/></svg>'
+            },
+            'assistencia': {
+                name: 'Assistência',
+                icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 4C10.2091 4 12 5.79086 12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4ZM8 14C12.4183 14 16 15.7909 16 18V20H0V18C0 15.7909 3.58172 14 8 14ZM16 4C18.2091 4 20 5.79086 20 8C20 10.2091 18.2091 12 16 12C15.4 12 14.84 11.88 14.34 11.66C15.22 10.5 15.22 9.5 14.34 8.34C14.84 8.12 15.4 8 16 8C16.84 8 17.6 8.36 18.14 8.9C18.68 9.44 19.04 10.2 19.04 11C19.04 11.8 18.68 12.56 18.14 13.1C17.6 13.64 16.84 14 16 14H15.82C17.14 14.6 18.16 15.38 18.82 16.28C19.52 15.44 20 14.28 20 13V12C20 10.9 19.1 10 18 10H17.82C17.4 9.68 16.92 9.44 16.4 9.3C16.8 8.84 17 8.24 17 7.6C17 6.16 15.84 5 14.4 5C13.96 5 13.56 5.12 13.22 5.34C13.08 5.22 12.92 5.12 12.74 5.04C13.18 4.38 13.92 4 14.74 4H16Z" fill="currentColor"/></svg>'
+            },
+            'contabilidade': {
+                name: 'Contabilidade',
+                icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 15H9C9 16.08 10.37 17 12 17C13.63 17 15 16.08 15 15C15 13.9 13.96 13.5 11.76 12.97C9.64 12.44 7 11.78 7 9C7 7.21 8.47 5.69 10.5 5.18V3H13.5V5.18C15.53 5.69 17 7.21 17 9H15C15 7.92 13.63 7 12 7C10.37 7 9 7.92 9 9C9 10.1 10.04 10.5 12.24 11.03C14.36 11.56 17 12.22 17 15C17 16.79 15.53 18.31 13.5 18.82V21H10.5V18.82C8.47 18.31 7 16.79 7 15Z" fill="currentColor"/></svg>'
+            },
+            'financas': {
+                name: 'Finanças',
+                icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4C2.89 4 2 4.89 2 6V18C2 19.11 2.89 20 4 20H20C21.11 20 22 19.11 22 18V6C22 4.89 21.11 4 20 4ZM20 18H4V8H20V18ZM4 6V8H20V6H4ZM14 10H20V12H14V10ZM14 14H17V16H14V14Z" fill="currentColor"/></svg>'
+            },
+            'documentacao': {
+                name: 'Documentação',
+                icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6C4.89 2 4 2.9 4 4V20C4 21.1 4.89 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20ZM8 12V14H16V12H8ZM8 16V18H13V16H8Z" fill="currentColor"/></svg>'
+            },
+            'seguranca': {
+                name: 'Segurança',
+                icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 7C13.1 7 14 7.9 14 9C14 10.1 13.1 11 12 11C10.9 11 10 10.1 10 9C10 7.9 10.9 7 12 7ZM12 17C10.33 17 8.9 16.2 8.17 15.01C8.24 13.8 10.5 13.2 12 13.2C13.5 13.2 15.76 13.8 15.83 15.01C15.1 16.2 13.67 17 12 17Z" fill="currentColor"/></svg>'
+            }
+        };
+
+        let currentTab = 'administracao';
+        let dataCache = {};
+        let errorCache = {};
+        let connectionErrors = 0;
+        let lastSuccessfulRequest = Date.now();
+        let globalRefreshTimeout = false;
+        let timeoutInterval = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            createTabs();
+            loadAllMinistries();
+            
+            setInterval(cleanupOrphanedScripts, 2 * 60 * 1000);
+            
+            setInterval(checkConnectionHealth, 15 * 1000);
+            
+            setInterval(() => {
+                if (!globalRefreshTimeout) {
+                    clearBrowserCache();
+                    console.log('Cache automático limpo');
+                }
+            }, 10 * 60 * 1000);
+            
+            window.addEventListener('beforeunload', function() {
+                clearBrowserCache();
+            });
+        });
+
+        function cleanupOrphanedScripts() {
+            const now = Date.now();
+            
+            document.querySelectorAll('script[id*="script_callback"], script[id*="script_alldata"]').forEach(script => {
+                try {
+                    const scriptId = script.id;
+                    const timestampMatch = scriptId.match(/_(\d+)_/);
+                    if (timestampMatch) {
+                        const timestamp = parseInt(timestampMatch[1]);
+                        if (now - timestamp > 30000) {
+                            if (script.parentNode) {
+                                script.parentNode.removeChild(script);
+                            }
+                        }
+                    } else {
+                        if (script.parentNode) {
+                            script.parentNode.removeChild(script);
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Erro ao remover script órfão:', error);
+                }
+            });
+
+            Object.keys(window).forEach(key => {
+                try {
+                    if (key.startsWith('callback_') || 
+                        key.startsWith('test_callback_') || 
+                        key.startsWith('alldata_callback_')) {
+                        const timestampMatch = key.match(/_(\d+)(_|$)/);
+                        if (timestampMatch) {
+                            const timestamp = parseInt(timestampMatch[1]);
+                            if (now - timestamp > 30000) {
+                                delete window[key];
+                            }
+                        } else {
+                            delete window[key];
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Erro ao remover callback órfão:', error);
+                }
+            });
+            
+            console.log('Limpeza de scripts órfãos concluída');
+        }
+
+        function checkConnectionHealth() {
+            const now = Date.now();
+            const timeSinceLastSuccess = now - lastSuccessfulRequest;
+            
+            if (timeSinceLastSuccess > 10 * 60 * 1000) {
+                cleanupOrphanedScripts();
+                connectionErrors = 0;
+            }
+            
+            const activeScripts = document.querySelectorAll('script[id*="script_"]');
+            if (activeScripts.length > 10) {
+                console.warn('Muitos scripts JSONP ativos, fazendo limpeza preventiva');
+                cleanupOrphanedScripts();
+            }
+            
+            const callbackCount = Object.keys(window).filter(key => 
+                key.startsWith('callback_') || 
+                key.startsWith('test_callback_') || 
+                key.startsWith('alldata_callback_')
+            ).length;
+            
+            if (callbackCount > 20) {
+                console.warn('Muitos callbacks órfãos detectados, fazendo limpeza');
+                cleanupOrphanedScripts();
+            }
+        }
+
+        function createTabs() {
+            const tabsContainer = document.getElementById('tabs');
+            const contentContainer = document.getElementById('tab-contents');
+
+            Object.keys(MINISTRIES).forEach((key, index) => {
+                const ministry = MINISTRIES[key];
+                
+                const tab = document.createElement('button');
+                tab.className = `tab ${index === 0 ? 'active' : ''}`;
+                tab.id = `tab-${key}`;
+                tab.innerHTML = `${ministry.icon}<span>${ministry.name}</span>`;
+                tab.onclick = () => switchTab(key);
+                tabsContainer.appendChild(tab);
+
+                const content = document.createElement('div');
+                content.className = `tab-content ${index === 0 ? 'active' : ''}`;
+                content.id = `content-${key}`;
+                content.innerHTML = `
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <p>Carregando dados...</p>
+                    </div>
+                `;
+                contentContainer.appendChild(content);
+            });
+        }
+
+        function loadMinistryDataSilent(ministryKey, onComplete, retryCount = 0) {
+            const maxRetries = 3;
+
+            const callbackName = `callback_${ministryKey}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            let timeoutId;
+            let scriptElement;
+            
+            const cleanup = () => {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                if (window[callbackName]) {
+                    delete window[callbackName];
+                }
+                if (scriptElement) {
+                    setTimeout(() => {
+                        if (scriptElement && scriptElement.parentNode) {
+                            scriptElement.parentNode.removeChild(scriptElement);
+                        }
+                    }, 100);
+                }
+            };
+
+            window[callbackName] = function(data) {
+                cleanup();
+                
+                if (typeof data === 'string') {
+                    dataCache[ministryKey] = data;
+                    delete errorCache[ministryKey];
+                    lastSuccessfulRequest = Date.now();
+                    connectionErrors = 0;
+                } else {
+                    errorCache[ministryKey] = 'Erro no formato dos dados recebidos';
+                    delete dataCache[ministryKey];
+                }
+                
+                if (onComplete) onComplete();
+            };
+
+            const handleError = (errorMessage) => {
+                cleanup();
+                
+                if (retryCount < maxRetries) {
+                    setTimeout(() => {
+                        loadMinistryDataSilent(ministryKey, onComplete, retryCount + 1);
+                    }, (retryCount + 1) * 1000);
+                } else {
+                    errorCache[ministryKey] = errorMessage;
+                    delete dataCache[ministryKey];
+                    if (onComplete) onComplete();
+                }
+            };
+
+            scriptElement = document.createElement('script');
+            scriptElement.id = `script_${callbackName}`;
+            
+            scriptElement.setAttribute('crossorigin', 'anonymous');
+            scriptElement.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+            
+            const timestamp = Date.now();
+            const randomParam = Math.random().toString(36).substr(2, 15);
+            scriptElement.src = `${SCRIPT_URL}?aba=${ministryKey}&callback=${callbackName}&_t=${timestamp}&_r=${randomParam}&_cache=${Date.now()}`;
+            
+            scriptElement.onerror = function() {
+                handleError('Erro de conexão com o servidor');
+            };
+            
+            scriptElement.onload = function() {
+                setTimeout(() => {
+                    if (window[callbackName]) {
+                        handleError('Erro no formato da resposta do servidor');
+                    }
+                }, 1000);
+            };
+            
+            document.head.appendChild(scriptElement);
+
+            timeoutId = setTimeout(() => {
+                if (window[callbackName]) {
+                    handleError('Timeout na requisição');
+                }
+            }, 10000);
+        }
+
+        function switchTab(ministryKey) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            document.getElementById(`tab-${ministryKey}`).classList.add('active');
+            document.getElementById(`content-${ministryKey}`).classList.add('active');
+
+            currentTab = ministryKey;
+
+            if (errorCache[ministryKey]) {
+                handleDataError(ministryKey, errorCache[ministryKey]);
+            } else if (dataCache[ministryKey]) {
+                displayMinistryData(ministryKey);
+            } else {
+                const contentDiv = document.getElementById(`content-${ministryKey}`);
+                contentDiv.innerHTML = '<div class="loading"><div class="loading-spinner"></div><p>Carregando dados...</p></div>';
+            }
+            
+            setTimeout(() => {
+                replaceQuestionMarks();
+            }, 10);
+        }
+
+        function displayMinistryData(ministryKey) {
+            const contentDiv = document.getElementById(`content-${ministryKey}`);
+            const ministry = MINISTRIES[ministryKey];
+            
+            if (dataCache[ministryKey]) {
+                const tableHTML = parseCSVToTable(dataCache[ministryKey]);
+                
+                contentDiv.innerHTML = `
+                    <div class="refresh-container">
+                        <button class="refresh-btn" onclick="refreshMinistry('${ministryKey}')" ${globalRefreshTimeout ? 'disabled' : ''}>
+                            ${globalRefreshTimeout ? getButtonText() : '🔄 Atualizar Dados'}
+                        </button>
+                    </div>
+                    ${tableHTML}
+                    <div class="last-update">
+                        Última atualização: ${new Date().toLocaleString('pt-BR')}
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    replaceQuestionMarks();
+                }, 10);
+            } else {
+                handleDataError(ministryKey, 'Dados não carregados ainda');
+            }
+        }
+
+        function loadAllMinistries() {
+            
+            const contentDiv = document.getElementById(`content-${currentTab}`);
+            
+            contentDiv.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Carregando escalas...</p>
+                </div>
+            `;
+
+            const callbackName = `alldata_callback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            let timeoutId;
+            let scriptElement;
+            
+            const cleanup = () => {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                if (window[callbackName]) {
+                    delete window[callbackName];
+                }
+                if (scriptElement) {
+                    setTimeout(() => {
+                        if (scriptElement && scriptElement.parentNode) {
+                            scriptElement.parentNode.removeChild(scriptElement);
+                        }
+                    }, 100);
+                }
+            };
+
+            window[callbackName] = function(response) {
+                cleanup();
+                
+                try {
+                    if (response.status === 'success' || response.status === 'partial_success') {
+                        Object.keys(response.data).forEach(ministryKey => {
+                            dataCache[ministryKey] = response.data[ministryKey];
+                            delete errorCache[ministryKey];
+                        });
+                        
+                        lastSuccessfulRequest = Date.now();
+                        connectionErrors = 0;
+                        
+                        if (dataCache[currentTab]) {
+                            displayMinistryData(currentTab);
+                        } else if (errorCache[currentTab]) {
+                            handleDataError(currentTab, errorCache[currentTab]);
+                        }
+                        
+                        if (response.errors) {
+                        }
+                        
+                    } else if (response.erro) {
+                        handleDataError(currentTab, response.mensagem || 'Erro ao carregar todos os ministérios');
+                    } else {
+                        handleDataError(currentTab, 'Formato de resposta inesperado do servidor');
+                    }
+                    
+                } catch (error) {
+                    handleDataError(currentTab, 'Erro ao processar dados recebidos: ' + error.message);
+                }
+            };
+
+            const handleError = (errorMessage) => {
+                cleanup();
+                
+                loadAllMinistriesIndividually();
+            };
+
+            scriptElement = document.createElement('script');
+            scriptElement.id = `script_${callbackName}`;
+            
+            scriptElement.setAttribute('crossorigin', 'anonymous');
+            scriptElement.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+            
+            const timestamp = Date.now();
+            const randomParam = Math.random().toString(36).substr(2, 15);
+            scriptElement.src = `${SCRIPT_URL}?todos=true&callback=${callbackName}&_t=${timestamp}&_r=${randomParam}&_cache=${Date.now()}`;
+            
+            scriptElement.onerror = function() {
+                handleError('Erro de conexão com o servidor');
+            };
+            
+            scriptElement.onload = function() {
+                setTimeout(() => {
+                    if (window[callbackName]) {
+                        handleError('Erro no formato da resposta do servidor');
+                    }
+                }, 2000);
+            };
+            
+            document.head.appendChild(scriptElement);
+
+            timeoutId = setTimeout(() => {
+                if (window[callbackName]) {
+                    handleError('Timeout na requisição - servidor não respondeu');
+                }
+            }, 30000);
+        }
+
+        function loadAllMinistriesIndividually() {
+            const ministryKeys = Object.keys(MINISTRIES);
+            let loadedCount = 0;
+            
+            const onMinistryLoaded = () => {
+                loadedCount++;
+                
+                if (loadedCount === ministryKeys.length) {
+                    if (currentTab) {
+                        if (dataCache[currentTab]) {
+                            displayMinistryData(currentTab);
+                        } else if (errorCache[currentTab]) {
+                            handleDataError(currentTab, errorCache[currentTab]);
+                        }
+                    }
+                }
+            };
+            
+            ministryKeys.forEach((key, index) => {
+                setTimeout(() => {
+                    loadMinistryDataSilent(key, onMinistryLoaded);
+                }, index * 500);
+            });
+        }
+
+        function refreshMinistry(ministryKey) {
+            if (globalRefreshTimeout) {
+                return;
+            }
+
+            globalRefreshTimeout = true;
+            
+            updateAllButtons();
+            
+            let secondsLeft = 15;
+            timeoutInterval = setInterval(() => {
+                if (secondsLeft > 0) {
+                    secondsLeft--;
+                    updateAllButtons(secondsLeft);
+                } else {
+                    clearInterval(timeoutInterval);
+                    globalRefreshTimeout = false;
+                    updateAllButtons();
+                }
+            }, 1000);
+            
+            const contentDiv = document.getElementById(`content-${ministryKey}`);
+            contentDiv.innerHTML = '<div class="loading"><div class="loading-spinner"></div><p>🔄 Atualizando dados...</p></div>';
+            
+            delete dataCache[ministryKey];
+            delete errorCache[ministryKey];
+            loadMinistryData(ministryKey);
+        }
+
+        function getButtonText(secondsLeft = null) {
+            if (!globalRefreshTimeout) {
+                return '🔄 Atualizar Dados';
+            }
+            
+            if (secondsLeft !== null && secondsLeft > 0) {
+                return `⏳ Aguarde (${secondsLeft}s)`;
+            }
+            
+            return '⏳ Aguarde...';
+        }
+
+        function updateAllButtons(secondsLeft = null) {
+            Object.keys(MINISTRIES).forEach(ministryKey => {
+                const btn = document.querySelector(`#content-${ministryKey} .refresh-btn`);
+                if (btn) {
+                    btn.disabled = globalRefreshTimeout;
+                    btn.innerHTML = getButtonText(secondsLeft);
+                }
+            });
+        }
+
+        function refreshAllMinistries() {
+            
+            dataCache = {};
+            errorCache = {};
+            
+            if (currentTab) {
+                const contentDiv = document.getElementById(`content-${currentTab}`);
+                contentDiv.innerHTML = `
+                    <div class="ministry-info">
+                        <h3>${MINISTRIES[currentTab].icon} ${MINISTRIES[currentTab].name}</h3>
+                        <p>Atualizando dados...</p>
+                    </div>
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <p>🔄 Recarregando dados...</p>
+                    </div>
+                `;
+            }
+            
+            loadAllMinistries();
+        }
+
+        function loadMinistryData(ministryKey, retryCount = 0) {
+            const contentDiv = document.getElementById(`content-${ministryKey}`);
+            const ministry = MINISTRIES[ministryKey];
+            const maxRetries = 3;
+
+            const loadingHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Carregando dados... ${retryCount > 0 ? `(Tentativa ${retryCount + 1}/${maxRetries + 1})` : ''}</p>
+                </div>
+            `;
+            contentDiv.innerHTML = loadingHTML;
+
+            const callbackName = `callback_${ministryKey}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            let timeoutId;
+            let scriptElement;
+            
+            const cleanup = () => {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                if (window[callbackName]) {
+                    delete window[callbackName];
+                }
+                if (scriptElement && scriptElement.parentNode) {
+                    scriptElement.parentNode.removeChild(scriptElement);
+                }
+            };
+
+            window[callbackName] = function(data) {
+                cleanup();
+                handleDataResponse(ministryKey, data);
+            };
+
+            const handleError = (errorMessage) => {
+                cleanup();
+                
+                if (retryCount < maxRetries) {
+                    setTimeout(() => {
+                        loadMinistryData(ministryKey, retryCount + 1);
+                    }, (retryCount + 1) * 2000);
+                } else {
+                    handleDataError(ministryKey, errorMessage);
+                }
+            };
+
+            scriptElement = document.createElement('script');
+            scriptElement.id = `script_${callbackName}`;
+            
+            const timestamp = Date.now();
+            const randomParam = Math.random().toString(36).substr(2, 15);
+            scriptElement.src = `${SCRIPT_URL}?aba=${ministryKey}&callback=${callbackName}&_t=${timestamp}&_r=${randomParam}&_cache=${Date.now()}`;
+            
+            scriptElement.onerror = function() {
+                handleError('Erro de conexão com o servidor');
+            };
+            
+            scriptElement.onload = function() {
+                setTimeout(() => {
+                    if (window[callbackName]) {
+                        handleError('Erro no formato da resposta do servidor');
+                    }
+                }, 1000);
+            };
+            
+            document.head.appendChild(scriptElement);
+
+            timeoutId = setTimeout(() => {
+                if (window[callbackName]) {
+                    handleError('Timeout na requisição - servidor não respondeu');
+                }
+            }, 15000);
+        }
+
+        function handleDataResponse(ministryKey, data) {
+            const contentDiv = document.getElementById(`content-${ministryKey}`);
+            const ministry = MINISTRIES[ministryKey];
+
+            lastSuccessfulRequest = Date.now();
+            connectionErrors = 0;
+
+            try {
+                if (typeof data === 'string') {
+                    const tableHTML = parseCSVToTable(data);
+                    dataCache[ministryKey] = data;
+                    delete errorCache[ministryKey];
+                    
+                    contentDiv.innerHTML = `
+                        <div class="refresh-container">
+                            <button class="refresh-btn" onclick="refreshMinistry('${ministryKey}')" ${globalRefreshTimeout ? 'disabled' : ''}>
+                                ${globalRefreshTimeout ? getButtonText() : '🔄 Atualizar Dados'}
+                            </button>
+                            <button class="clear-cache-btn" onclick="clearCacheAndForceReload()" ${globalRefreshTimeout ? 'disabled' : ''}>
+                                🗑️ Limpar Cache
+                            </button>
+                        </div>
+                        ${tableHTML}
+                        <div class="last-update">
+                            Última atualização: ${new Date().toLocaleString('pt-BR')}
+                        </div>
+                    `;
+                } else if (data.erro) {
+                    handleDataError(ministryKey, data.mensagem || 'Erro desconhecido');
+                } else {
+                    handleDataError(ministryKey, 'Formato de dados inesperado');
+                }
+            } catch (error) {
+                handleDataError(ministryKey, 'Erro ao processar dados recebidos');
+            }
+        }
+
+        function handleDataError(ministryKey, errorMessage) {
+            const contentDiv = document.getElementById(`content-${ministryKey}`);
+            const ministry = MINISTRIES[ministryKey];
+
+            contentDiv.innerHTML = `
+                <div class="error">
+                    <h4>❌ Erro ao carregar os dados</h4>
+                    <p>Atualize a página ou acesse a planilha da escala:</p>
+                    <p><a href="https://docs.google.com/spreadsheets/d/1zJucf_FTkqRSIrB9iWs_GvJc2xxh2qB0_L8khn6TJuA/edit?gid=0#gid=0" target="_blank" style="color: #3d7c23; font-weight: bold; text-decoration: none;">📋 Acessar Planilha da Escala</a></p>
+                    <button class="refresh-btn" onclick="refreshMinistry('${ministryKey}')" style="margin-top: 15px;">
+                        🔄 Tentar Novamente
+                    </button>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                replaceQuestionMarks();
+            }, 10);
+        }
+
+        function clearCacheAndReload(ministryKey) {
+            delete dataCache[ministryKey];
+            delete errorCache[ministryKey];
+            
+            Object.keys(window).forEach(key => {
+                if (key.includes('callback_') && key.includes(ministryKey)) {
+                    delete window[key];
+                }
+            });
+            
+            document.querySelectorAll('script[id*="script_callback"]').forEach(script => {
+                if (script.id.includes(ministryKey)) {
+                    script.remove();
+                }
+            });
+            
+            loadMinistryData(ministryKey);
+        }
+
+        function parseCSVToTable(csvData) {
+            if (!csvData || csvData.trim() === '') {
+                return `
+                    <div class="empty-state">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">📋</div>
+                        <h3>Nenhum dado encontrado</h3>
+                        <p>Não há escalas disponíveis para este ministério no momento.</p>
+                    </div>
+                `;
+            }
+
+            const lines = csvData.trim().split('\n');
+            if (lines.length === 0) {
+                return `
+                    <div class="empty-state">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">📋</div>
+                        <h3>Nenhum dado encontrado</h3>
+                        <p>Não há escalas válidas para este ministério no momento.</p>
+                    </div>
+                `;
+            }
+
+            const allData = [];
+            
+            lines.forEach((line, index) => {
+                if (index === 0 || line.trim() === '') return;
+                
+                const cells = parseCSVLine(line);
+                if (cells.length < 6) return;
+                
+                let ordem = '';
+                let dataRaw = '';
+                let diaSemana = '';
+                let funcao = '';
+                let responsavel = '';
+                let conclusao = '';
+                
+                for (let i = 0; i < cells.length; i++) {
+                    const cell = cells[i];
+                    if (cell && cell.match(/^[A-Z]\d+$/)) {
+                        ordem = cell;
+                        dataRaw = cells[i + 1] || '';
+                        diaSemana = cells[i + 2] || '';
+                        funcao = cells[i + 3] || '';
+                        responsavel = cells[i + 4] || '';
+                        conclusao = cells[i + 5] || 'PENDENTE';
+                        break;
+                    }
+                }
+                
+                if (!ordem) {
+                    ordem = cells[1] || '';
+                    dataRaw = cells[2] || '';
+                    diaSemana = cells[3] || '';
+                    funcao = cells[4] || '';
+                    responsavel = cells[5] || '';
+                    conclusao = cells[6] || 'PENDENTE';
+                }
+                
+                const isValidOrder = ordem && ordem.match(/^[A-Z]\d+$/);
+                const isValidData = dataRaw && (
+                    dataRaw.includes('GMT') || 
+                    dataRaw.includes('ago') || 
+                    dataRaw.includes('set') || 
+                    dataRaw.includes('out') || 
+                    dataRaw.includes('nov') || 
+                    dataRaw.includes('dez') || 
+                    dataRaw.includes('jan') || 
+                    dataRaw.includes('fev') || 
+                    dataRaw.includes('mar') || 
+                    dataRaw.includes('abr') || 
+                    dataRaw.includes('mai') || 
+                    dataRaw.includes('jun') || 
+                    dataRaw.includes('jul') || 
+                    dataRaw.match(/^\d{1,2}\/\d{1,2}\/\d{4}$/) ||
+                    dataRaw.match(/^\d{4}-\d{2}-\d{2}$/)
+                );
+                const isValidDay = diaSemana && (
+                    diaSemana.includes('feira') || 
+                    diaSemana.includes('sábado') || 
+                    diaSemana.includes('domingo') ||
+                    diaSemana.includes('GMT') ||
+                    diaSemana.toLowerCase().includes('segunda') ||
+                    diaSemana.toLowerCase().includes('terça') ||
+                    diaSemana.toLowerCase().includes('quarta') ||
+                    diaSemana.toLowerCase().includes('quinta') ||
+                    diaSemana.toLowerCase().includes('sexta')
+                );
+                const isNotNumericDay = !diaSemana.match(/^\d+$/);
+                const isNotFunctionAsData = dataRaw !== 'Atualização de aulas' && dataRaw !== funcao;
+                
+                if (isValidOrder && isValidData && isValidDay && isNotNumericDay && isNotFunctionAsData) {
+                    allData.push({
+                        ordem,
+                        data: formatDate(dataRaw),
+                        diaSemana: formatDayOfWeek(diaSemana),
+                        funcao,
+                        responsavel,
+                        conclusao
+                    });
+                }
+            });
+
+            if (allData.length === 0) {
+                return `
+                    <div class="empty-state">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">📋</div>
+                        <h3>Nenhum dado encontrado</h3>
+                        <p>Não há escalas válidas para este ministério no momento.</p>
+                    </div>
+                `;
+            }
+
+            const weeks = {};
+            allData.forEach(item => {
+                let weekNum = '1';
+                if (item.ordem) {
+                    const letter = item.ordem.charAt(0).toUpperCase();
+                    switch(letter) {
+                        case 'A': weekNum = '1'; break;
+                        case 'B': weekNum = '2'; break;
+                        case 'C': weekNum = '3'; break;
+                        case 'D': weekNum = '4'; break;
+                        case 'E': weekNum = '5'; break;
+                        case 'F': weekNum = '6'; break;
+                        case 'G': weekNum = '7'; break;
+                        default: weekNum = '1'; break;
+                    }
+                }
+                
+                if (!weeks[weekNum]) {
+                    weeks[weekNum] = [];
+                }
+                
+                weeks[weekNum].push(item);
+            });
+
+            let html = '';
+            Object.keys(weeks).sort().forEach(weekNum => {
+                const weekData = weeks[weekNum];
+                
+                html += `
+                    <div class="week-section">
+                        <div class="week-header">
+                            <h3>📅 SEMANA ${weekNum}</h3>
+                        </div>
+                        <div class="table-container">
+                            <table class="week-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 8%;">ORDEM</th>
+                                        <th style="width: 15%;">DATA</th>
+                                        <th style="width: 12%;">DIA</th>
+                                        <th style="width: 35%;">FUNÇÃO</th>
+                                        <th style="width: 15%;">RESPONSÁVEL</th>
+                                        <th style="width: 15%;">CONCLUSÃO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                `;
+                
+                weekData.sort((a, b) => {
+                    const aNum = parseInt(a.ordem.substring(1)) || 0;
+                    const bNum = parseInt(b.ordem.substring(1)) || 0;
+                    return aNum - bNum;
+                });
+                
+                weekData.forEach(item => {
+                    const statusClass = getStatusClass(item.conclusao);
+                    const statusIcon = getStatusIcon(item.conclusao);
+                    
+                    html += `
+                        <tr>
+                            <td class="order-cell"><strong>${escapeHtml(item.ordem)}</strong></td>
+                            <td class="date-cell">${escapeHtml(item.data)}</td>
+                            <td class="day-cell">${escapeHtml(item.diaSemana)}</td>
+                            <td class="function-cell">${escapeHtml(item.funcao)}</td>
+                            <td class="responsible-cell">${escapeHtml(item.responsavel)}</td>
+                            <td class="status-cell ${statusClass}">
+                                ${statusIcon} <span class="status-text">${escapeHtml(item.conclusao)}</span>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            });
+
+            return html;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString || dateString.trim() === '') return '';
+            
+            try {
+                if (dateString.includes('GMT')) {
+                    const date = new Date(dateString);
+                    return date.toLocaleDateString('pt-BR', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric'
+                    });
+                }
+                
+                return dateString;
+            } catch (error) {
+                return dateString;
+            }
+        }
+
+        function formatDayOfWeek(dayString) {
+            if (!dayString || dayString.trim() === '') return '';
+            
+            if (dayString.includes('feira') || dayString.includes('sábado') || dayString.includes('domingo')) {
+                return dayString;
+            }
+            
+            if (dayString.includes('GMT')) {
+                try {
+                    const date = new Date(dayString);
+                    return date.toLocaleDateString('pt-BR', { weekday: 'long' });
+                } catch (error) {
+                    return dayString;
+                }
+            }
+            
+            return dayString;
+        }
+
+        function getStatusClass(status) {
+            const statusLower = status.toLowerCase();
+            if (statusLower.includes('concluída') || statusLower.includes('concluida')) {
+                return 'status-completed';
+            } else if (statusLower.includes('pendente')) {
+                return 'status-pending';
+            } else if (statusLower.includes('não realizada') || statusLower.includes('nao realizada')) {
+                return 'status-not-done';
+            } else if (statusLower.includes('justificada')) {
+                return 'status-justified';
+            }
+            return 'status-unknown';
+        }
+
+        function getStatusIcon(status) {
+            const statusLower = status.toLowerCase();
+            if (statusLower.includes('concluída') || statusLower.includes('concluida')) {
+                return '✅';
+            } else if (statusLower.includes('pendente')) {
+                return '⏳';
+            } else if (statusLower.includes('não realizada') || statusLower.includes('nao realizada')) {
+                return '❌';
+            } else if (statusLower.includes('justificada')) {
+                return '📝';
+            }
+            return '❓';
+        }
+
+        function parseCSVLine(line) {
+            const cells = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                
+                if (char === '"') {
+                    if (inQuotes && line[i + 1] === '"') {
+                        current += '"';
+                        i++;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (char === ',' && !inQuotes) {
+                    cells.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            
+            cells.push(current);
+            return cells;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function refreshAll() {
+            dataCache = {};
+            Object.keys(MINISTRIES).forEach(key => {
+                if (document.getElementById(`content-${key}`).classList.contains('active')) {
+                    loadMinistryData(key);
+                }
+            });
+        }
+        
+        function clearCacheAndForceReload() {
+            if (!confirm('Isso irá limpar todo o cache e recarregar a página. Deseja continuar?')) {
+                return;
+            }
+            
+            clearBrowserCache();
+            
+            dataCache = {};
+            errorCache = {};
+            connectionErrors = 0;
+            
+            if (timeoutInterval) {
+                clearInterval(timeoutInterval);
+                timeoutInterval = null;
+            }
+            globalRefreshTimeout = false;
+            
+            document.querySelectorAll('script[id*="script_"]').forEach(script => {
+                try {
+                    if (script.parentNode) {
+                        script.parentNode.removeChild(script);
+                    }
+                } catch (error) {
+                    console.warn('Erro ao remover script:', error);
+                }
+            });
+            
+            Object.keys(window).forEach(key => {
+                if (key.startsWith('callback_') || 
+                    key.startsWith('test_callback_') || 
+                    key.startsWith('alldata_callback_')) {
+                    try {
+                        delete window[key];
+                    } catch (error) {
+                        console.warn('Erro ao limpar callback:', error);
+                    }
+                }
+            });
+            
+            const currentContent = document.getElementById(`content-${currentTab}`);
+            if (currentContent) {
+                currentContent.innerHTML = `
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <p>🗑️ Limpando cache e recarregando...</p>
+                    </div>
+                `;
+            }
+            
+            setTimeout(() => {
+                forcePageReload();
+            }, 1500);
+        }
+
+        window.displayMinistryData = displayMinistryData;
+        window.handleDataError = handleDataError;
+        window.parseCSVToTable = parseCSVToTable;
+        window.refreshMinistry = refreshMinistry;
+        window.refreshAllMinistries = refreshAllMinistries;
+        window.clearCacheAndReload = clearCacheAndReload;
+        window.clearCacheAndForceReload = clearCacheAndForceReload;
