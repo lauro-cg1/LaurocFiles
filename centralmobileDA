@@ -1,0 +1,63 @@
+console.log("V1.0");    
+function selectOption(option) {
+            document.getElementById('sala-btn').classList.remove('active');
+            document.getElementById('ci-btn').classList.remove('active');
+            
+            document.getElementById('script-sala').style.display = 'none';
+            document.getElementById('script-ci').style.display = 'none';
+            
+            if (option === 'sala') {
+                document.getElementById('sala-btn').classList.add('active');
+                document.getElementById('script-sala').style.display = 'block';
+            } else if (option === 'ci') {
+                document.getElementById('ci-btn').classList.add('active');
+                document.getElementById('script-ci').style.display = 'block';
+            }
+        }
+
+        function copyText(button, text) {
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = text;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+            
+            button.classList.add('copied');
+            button.textContent = '✅ Copiado!';
+            
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                button.classList.remove('copied');
+                button.textContent = 'Copiar';
+            }, 2000);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            function copyText(button, text) {
+                navigator.clipboard.writeText(text).then(() => {
+                    button.classList.add('copied');
+                    button.textContent = '✅ Copiado!';
+                    
+                    const toast = document.getElementById('toast');
+                    toast.classList.add('show');
+                    
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        button.textContent = 'Copiar';
+                    }, 2000);
+                    
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 3000);
+                }).catch(err => {
+                    console.error('Erro ao copiar texto: ', err);
+                });
+            }
+        }
