@@ -1,5 +1,89 @@
 console.log("V1.0");    
-function selectOption(option) {
+    function replaceQuestionMarks() {
+            const contextReplacements = [
+                { search: '???? Orientações Iniciais', replace: '📋 Orientações Iniciais' },
+                { search: '???? Script de Admissão - Sala', replace: '📝 Script de Admissão - Sala' },
+                { search: '???? Script de Admissão - CI', replace: '📝 Script de Admissão - CI' },
+                { search: '???? Links de Acesso Rápido', replace: '🔗 Links de Acesso Rápido' },
+                { search: '???? Postar no Formulário DA', replace: '📋 Postar no Formulário DA' },
+                { search: '???? Conferir Postagem', replace: '📊 Conferir Postagem' },
+                { search: '???? Enviar Carta de Boas-Vindas', replace: '💌 Enviar Carta de Boas-Vindas' },
+                
+                { search: /\?\?\?\?(?=\s*Orientações)/g, replace: '📋' },
+                { search: /\?\?\?\?(?=\s*Script)/g, replace: '📝' },
+                { search: /\?\?\?\?(?=\s*Links)/g, replace: '🔗' },
+                { search: /\?\?\?\?(?=\s*Postar)/g, replace: '📋' },
+                { search: /\?\?\?\?(?=\s*Conferir)/g, replace: '📊' },
+                { search: /\?\?\?\?(?=\s*Enviar)/g, replace: '💌' },
+            ];
+            
+            let replacedSomething = false;
+            
+            if (document.body) {
+                let html = document.body.innerHTML;
+                let originalHtml = html;
+                
+                contextReplacements.forEach(replacement => {
+                    if (typeof replacement.search === 'string') {
+                        if (html.includes(replacement.search)) {
+                            html = html.replace(new RegExp(replacement.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), replacement.replace);
+                            replacedSomething = true;
+                        }
+                    } else {
+                        if (replacement.search.test(html)) {
+                            html = html.replace(replacement.search, replacement.replace);
+                            replacedSomething = true;
+                        }
+                    }
+                });
+                
+                if (replacedSomething) {
+                    document.body.innerHTML = html;
+                }
+            }
+            
+            const styleTags = document.querySelectorAll('style');
+            styleTags.forEach(styleTag => {
+                let cssContent = styleTag.innerHTML;
+                let originalCss = cssContent;
+                
+                contextReplacements.forEach(replacement => {
+                    if (typeof replacement.search === 'string') {
+                        if (cssContent.includes(replacement.search)) {
+                            cssContent = cssContent.replace(new RegExp(replacement.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), replacement.replace);
+                            replacedSomething = true;
+                        }
+                    } else {
+                        if (replacement.search.test(cssContent)) {
+                            cssContent = cssContent.replace(replacement.search, replacement.replace);
+                            replacedSomething = true;
+                        }
+                    }
+                });
+                
+                if (cssContent !== originalCss) {
+                    styleTag.innerHTML = cssContent;
+                }
+            });
+            
+            return replacedSomething;
+        }
+
+        replaceQuestionMarks();
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 100);
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 500);
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 1000);
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 2000);
+
+        function selectOption(option) {
             document.getElementById('sala-btn').classList.remove('active');
             document.getElementById('ci-btn').classList.remove('active');
             
@@ -13,6 +97,10 @@ function selectOption(option) {
                 document.getElementById('ci-btn').classList.add('active');
                 document.getElementById('script-ci').style.display = 'block';
             }
+            
+            setTimeout(() => {
+                replaceQuestionMarks();
+            }, 10);
         }
 
         function copyText(button, text) {
