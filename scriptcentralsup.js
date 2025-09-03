@@ -1,9 +1,12 @@
-console.log("V1.2");
+console.log("V1.2.1");
 
-document.addEventListener('DOMContentLoaded', function() {
+function overrideEscalaMinisterial() {
 	const links = document.querySelectorAll('a');
+	let found = false;
+	
 	links.forEach(link => {
 		if (link.textContent.trim() === 'Escala Ministerial') {
+			found = true;
 			link.removeAttribute('href');
 			link.style.cursor = 'pointer';
 			link.addEventListener('click', function(e) {
@@ -12,6 +15,21 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 		}
 	});
+	
+	if (!found) {
+		setTimeout(overrideEscalaMinisterial, 500);
+	}
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+	overrideEscalaMinisterial();
+	
+	setTimeout(overrideEscalaMinisterial, 1000);
+	setTimeout(overrideEscalaMinisterial, 2000);
+});
+
+window.addEventListener('load', function() {
+	setTimeout(overrideEscalaMinisterial, 500);
 });
 
 const opcoesPorMinisterio = {
