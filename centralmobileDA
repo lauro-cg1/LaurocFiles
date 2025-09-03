@@ -1,5 +1,5 @@
-console.log("V1.0");    
-    function replaceQuestionMarks() {
+console.log("V1.1");    
+     function replaceQuestionMarks() {
             const contextReplacements = [
                 { search: '???? Orientações Iniciais', replace: '📋 Orientações Iniciais' },
                 { search: '???? Script de Admissão - Sala', replace: '📝 Script de Admissão - Sala' },
@@ -69,19 +69,52 @@ console.log("V1.0");
             return replacedSomething;
         }
 
-        replaceQuestionMarks();
-        setTimeout(() => {
+        function waitForDOMAndExecute() {
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', executeReplacements);
+            } else {
+                executeReplacements();
+            }
+        }
+
+        function executeReplacements() {
             replaceQuestionMarks();
-        }, 100);
-        setTimeout(() => {
-            replaceQuestionMarks();
-        }, 500);
-        setTimeout(() => {
-            replaceQuestionMarks();
-        }, 1000);
-        setTimeout(() => {
-            replaceQuestionMarks();
-        }, 2000);
+            
+            setTimeout(() => {
+                replaceQuestionMarks();
+            }, 100);
+            
+            setTimeout(() => {
+                replaceQuestionMarks();
+            }, 500);
+            
+            setTimeout(() => {
+                replaceQuestionMarks();
+            }, 1000);
+            
+            setTimeout(() => {
+                replaceQuestionMarks();
+            }, 2000);
+            
+            setTimeout(() => {
+                replaceQuestionMarks();
+            }, 3000);
+            
+            setTimeout(() => {
+                replaceQuestionMarks();
+            }, 5000);
+        }
+
+        waitForDOMAndExecute();
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                replaceQuestionMarks();
+            }, 100);
+            setTimeout(() => {
+                replaceQuestionMarks();
+            }, 1000);
+        });
 
         function selectOption(option) {
             document.getElementById('sala-btn').classList.remove('active');
