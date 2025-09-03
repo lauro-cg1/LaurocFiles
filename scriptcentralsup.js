@@ -1,4 +1,4 @@
-console.log("V1.1.2");
+console.log("V1.2");
 const opcoesPorMinisterio = {
 				"Ministério da Administração": [
 				"Atualização de aulas",
@@ -535,12 +535,15 @@ const opcoesPorMinisterio = {
 								<p class="popup-subtitle">Acesse ferramentas e recursos importantes</p>
 							</div>
 							<div class="popup-links-grid">
+                                <a href="https://docs.google.com/spreadsheets/d/1sbaXmIhv0RLJInS3KWTrxWJkTYar9R4sxM-gaDD54ac/edit?gid=202936049" target="_blank" class="popup-link-item">📝 Avaliação de Promoções</a>
+                                <a href="https://docs.google.com/spreadsheets/d/1r5nFyw_LrLo3AVd6W49RrYyiD5mxlgFTaHc5-ItQ48c/edit?gid=506185383" target="_blank" class="popup-link-item">✍ Avaliações de Projetos</a>
 								<a href="https://www.policiarcc.com/t35859-sup-quadro-de-advertencias" target="_blank" class="popup-link-item">⚠️ Quadro de Advertências</a>
 								<a href="https://docs.google.com/forms/d/e/1FAIpQLScEahjIb8dBbbY11Ca4jJUS1LdPAdiMTSRT85vbpRp8IHHjFA/viewform" target="_blank" class="popup-link-item">📊 Formulário Ranking Interno</a>
 								<a href="https://docs.google.com/spreadsheets/d/1NmIyqCqBQtiUlkMC8U_utD2OBG7nlsss8utVQblz0eM/edit?gid=1269532343#gid=1269532343" target="_blank" class="popup-link-item">🏆 Consulta Ranking Interno</a>
 								<a href="https://docs.google.com/spreadsheets/d/1KT7-35Oktt0vl7yx2pLVKWlI9QVs8dQ2wupkxID9Uos/edit?gid=893367164#gid=893367164" target="_blank" class="popup-link-item">📋 Consulta de Advertências</a>
 								<a href="https://www.policiarcc.com/f894-sup-desempenhos" target="_blank" class="popup-link-item">📈 Consulta de Eficiência</a>
 								<a href="https://www.policiarcc.com/t36744-af-supervisores" target="_blank" class="popup-link-item">🏅 Cofre de Medalhas</a>
+
 							</div>
 						</div>
 					</div>
@@ -866,7 +869,7 @@ const opcoesPorMinisterio = {
 				.then(() => {
 					fecharLoadingEnvio();
 					fecharPopup('popup-conclusao');
-					mostrarSucessoEnvio('Conclusão de função enviada com sucesso!', 'https://docs.google.com/spreadsheets/d/1zJucf_FTkqRSIrB9iWs_GvJc2xxh2qB0_L8khn6TJuA/edit?gid=0');
+					mostrarSucessoEnvio('Conclusão de função enviada com sucesso!', 'https://www.policiarcc.com/h262-sup-escala-ministerial');
 				})
 				.catch(error => {
 					fecharLoadingEnvio();
@@ -888,7 +891,7 @@ const opcoesPorMinisterio = {
 				.then(() => {
 					fecharLoadingEnvio();
 					fecharPopup('popup-justificativa');
-					mostrarSucessoEnvio('Justificativa de função enviada com sucesso!', 'https://docs.google.com/spreadsheets/d/1zJucf_FTkqRSIrB9iWs_GvJc2xxh2qB0_L8khn6TJuA/edit?gid=0');
+					mostrarSucessoEnvio('Justificativa de função enviada com sucesso!', 'https://www.policiarcc.com/h262-sup-escala-ministerial');
 				})
 				.catch(error => {
 					fecharLoadingEnvio();
@@ -1460,4 +1463,5 @@ const opcoesPorMinisterio = {
 				});
 				});
 				}
+
 
