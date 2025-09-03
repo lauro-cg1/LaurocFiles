@@ -1,8 +1,6 @@
 console.log("V1.1");
 
 function initializeScript() {
-    console.log("Inicializando script...");
-    
     const tabsContainer = document.getElementById('tabs');
     const contentContainer = document.getElementById('tab-contents');
     
@@ -11,11 +9,7 @@ function initializeScript() {
         setTimeout(initializeScript, 100);
         return;
     }
-    
-    console.log("Elementos encontrados, criando tabs...");
     createTabs();
-    
-    console.log("Carregando ministérios...");
     loadAllMinistries();
     
     setInterval(cleanupOrphanedScripts, 2 * 60 * 1000);
@@ -23,15 +17,12 @@ function initializeScript() {
     setInterval(() => {
         if (!globalRefreshTimeout) {
             clearBrowserCache();
-            console.log('Cache automático limpo');
         }
     }, 10 * 60 * 1000);
     
     window.addEventListener('beforeunload', function() {
         clearBrowserCache();
     });
-    
-    console.log("Script inicializado com sucesso!");
 }
 
 function replaceQuestionMarks() {
@@ -157,8 +148,6 @@ function replaceQuestionMarks() {
                         delete window[key];
                     }
                 });
-                
-                console.log('Cache do navegador limpo completamente');
             } catch (error) {
                 console.error('Erro ao limpar cache:', error);
             }
@@ -287,8 +276,6 @@ function replaceQuestionMarks() {
                     console.warn('Erro ao remover callback órfão:', error);
                 }
             });
-            
-            console.log('Limpeza de scripts órfãos concluída');
         }
 
         function checkConnectionHealth() {
@@ -319,7 +306,6 @@ function replaceQuestionMarks() {
         }
 
         function createTabs() {
-            console.log("Criando tabs...");
             const tabsContainer = document.getElementById('tabs');
             const contentContainer = document.getElementById('tab-contents');
 
@@ -333,8 +319,6 @@ function replaceQuestionMarks() {
 
             Object.keys(MINISTRIES).forEach((key, index) => {
                 const ministry = MINISTRIES[key];
-                console.log(`Criando tab para: ${ministry.name}`);
-                
                 const tab = document.createElement('button');
                 tab.className = `tab ${index === 0 ? 'active' : ''}`;
                 tab.id = `tab-${key}`;
@@ -353,8 +337,6 @@ function replaceQuestionMarks() {
                 `;
                 contentContainer.appendChild(content);
             });
-            
-            console.log("Tabs criadas com sucesso!");
         }
 
         function loadMinistryDataSilent(ministryKey, onComplete, retryCount = 0) {
@@ -493,8 +475,6 @@ function replaceQuestionMarks() {
         }
 
         function loadAllMinistries() {
-            console.log("Carregando todos os ministérios...");
-            
             const contentDiv = document.getElementById(`content-${currentTab}`);
             
             if (!contentDiv) {
@@ -512,9 +492,6 @@ function replaceQuestionMarks() {
             const callbackName = `alldata_callback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
             let timeoutId;
             let scriptElement;
-            
-            console.log("Callback criado:", callbackName);
-            
             const cleanup = () => {
                 if (timeoutId) {
                     clearTimeout(timeoutId);
@@ -533,7 +510,6 @@ function replaceQuestionMarks() {
             };
 
             window[callbackName] = function(response) {
-                console.log("Resposta recebida:", response);
                 cleanup();
                 
                 try {
@@ -573,8 +549,6 @@ function replaceQuestionMarks() {
             const handleError = (errorMessage) => {
                 console.error("Erro no carregamento:", errorMessage);
                 cleanup();
-                
-                console.log("Tentando carregar ministérios individualmente...");
                 loadAllMinistriesIndividually();
             };
 
@@ -587,8 +561,6 @@ function replaceQuestionMarks() {
             const timestamp = Date.now();
             const randomParam = Math.random().toString(36).substr(2, 15);
             const scriptUrl = `${SCRIPT_URL}?todos=true&callback=${callbackName}&_t=${timestamp}&_r=${randomParam}&_cache=${Date.now()}`;
-            
-            console.log("Carregando script:", scriptUrl);
             scriptElement.src = scriptUrl;
             
             scriptElement.onerror = function() {
@@ -597,7 +569,6 @@ function replaceQuestionMarks() {
             };
             
             scriptElement.onload = function() {
-                console.log("Script carregado, aguardando callback...");
                 setTimeout(() => {
                     if (window[callbackName]) {
                         console.warn("Callback não foi executado, possível erro no servidor");
@@ -1256,5 +1227,3 @@ function replaceQuestionMarks() {
         window.refreshAllMinistries = refreshAllMinistries;
         window.clearCacheAndReload = clearCacheAndReload;
         window.clearCacheAndForceReload = clearCacheAndForceReload;
-
-        console.log("Script finalizado - funções disponíveis globalmente");
