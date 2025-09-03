@@ -1,5 +1,40 @@
-console.log("V1.0");
-    function replaceQuestionMarks() {
+console.log("V1.1");
+
+function initializeScript() {
+    console.log("Inicializando script...");
+    
+    const tabsContainer = document.getElementById('tabs');
+    const contentContainer = document.getElementById('tab-contents');
+    
+    if (!tabsContainer || !contentContainer) {
+        console.error("Elementos necessários não encontrados no DOM");
+        setTimeout(initializeScript, 100);
+        return;
+    }
+    
+    console.log("Elementos encontrados, criando tabs...");
+    createTabs();
+    
+    console.log("Carregando ministérios...");
+    loadAllMinistries();
+    
+    setInterval(cleanupOrphanedScripts, 2 * 60 * 1000);
+    setInterval(checkConnectionHealth, 15 * 1000);
+    setInterval(() => {
+        if (!globalRefreshTimeout) {
+            clearBrowserCache();
+            console.log('Cache automático limpo');
+        }
+    }, 10 * 60 * 1000);
+    
+    window.addEventListener('beforeunload', function() {
+        clearBrowserCache();
+    });
+    
+    console.log("Script inicializado com sucesso!");
+}
+
+function replaceQuestionMarks() {
             const contextReplacements = [
                 { search: '???? SEMANA', replace: '📅 SEMANA' },
                 { search: '???? Atualizar Dados', replace: '🔄 Atualizar Dados' },
@@ -203,25 +238,11 @@ console.log("V1.0");
         let globalRefreshTimeout = false;
         let timeoutInterval = null;
 
-        document.addEventListener('DOMContentLoaded', function() {
-            createTabs();
-            loadAllMinistries();
-            
-            setInterval(cleanupOrphanedScripts, 2 * 60 * 1000);
-            
-            setInterval(checkConnectionHealth, 15 * 1000);
-            
-            setInterval(() => {
-                if (!globalRefreshTimeout) {
-                    clearBrowserCache();
-                    console.log('Cache automático limpo');
-                }
-            }, 10 * 60 * 1000);
-            
-            window.addEventListener('beforeunload', function() {
-                clearBrowserCache();
-            });
-        });
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeScript);
+        } else {
+            initializeScript();
+        }
 
         function cleanupOrphanedScripts() {
             const now = Date.now();
@@ -298,11 +319,21 @@ console.log("V1.0");
         }
 
         function createTabs() {
+            console.log("Criando tabs...");
             const tabsContainer = document.getElementById('tabs');
             const contentContainer = document.getElementById('tab-contents');
 
+            if (!tabsContainer || !contentContainer) {
+                console.error("Containers de tabs não encontrados");
+                return;
+            }
+
+            tabsContainer.innerHTML = '';
+            contentContainer.innerHTML = '';
+
             Object.keys(MINISTRIES).forEach((key, index) => {
                 const ministry = MINISTRIES[key];
+                console.log(`Criando tab para: ${ministry.name}`);
                 
                 const tab = document.createElement('button');
                 tab.className = `tab ${index === 0 ? 'active' : ''}`;
@@ -322,6 +353,8 @@ console.log("V1.0");
                 `;
                 contentContainer.appendChild(content);
             });
+            
+            console.log("Tabs criadas com sucesso!");
         }
 
         function loadMinistryDataSilent(ministryKey, onComplete, retryCount = 0) {
@@ -460,8 +493,14 @@ console.log("V1.0");
         }
 
         function loadAllMinistries() {
+            console.log("Carregando todos os ministérios...");
             
             const contentDiv = document.getElementById(`content-${currentTab}`);
+            
+            if (!contentDiv) {
+                console.error("Content div não encontrado para:", currentTab);
+                return;
+            }
             
             contentDiv.innerHTML = `
                 <div class="loading">
@@ -473,6 +512,8 @@ console.log("V1.0");
             const callbackName = `alldata_callback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
             let timeoutId;
             let scriptElement;
+            
+            console.log("Callback criado:", callbackName);
             
             const cleanup = () => {
                 if (timeoutId) {
@@ -492,6 +533,7 @@ console.log("V1.0");
             };
 
             window[callbackName] = function(response) {
+                console.log("Resposta recebida:", response);
                 cleanup();
                 
                 try {
@@ -511,22 +553,28 @@ console.log("V1.0");
                         }
                         
                         if (response.errors) {
+                            console.warn("Alguns erros ocorreram:", response.errors);
                         }
                         
                     } else if (response.erro) {
+                        console.error("Erro na resposta:", response.mensagem);
                         handleDataError(currentTab, response.mensagem || 'Erro ao carregar todos os ministérios');
                     } else {
+                        console.error("Formato de resposta inesperado:", response);
                         handleDataError(currentTab, 'Formato de resposta inesperado do servidor');
                     }
                     
                 } catch (error) {
+                    console.error("Erro ao processar resposta:", error);
                     handleDataError(currentTab, 'Erro ao processar dados recebidos: ' + error.message);
                 }
             };
 
             const handleError = (errorMessage) => {
+                console.error("Erro no carregamento:", errorMessage);
                 cleanup();
                 
+                console.log("Tentando carregar ministérios individualmente...");
                 loadAllMinistriesIndividually();
             };
 
@@ -538,15 +586,21 @@ console.log("V1.0");
             
             const timestamp = Date.now();
             const randomParam = Math.random().toString(36).substr(2, 15);
-            scriptElement.src = `${SCRIPT_URL}?todos=true&callback=${callbackName}&_t=${timestamp}&_r=${randomParam}&_cache=${Date.now()}`;
+            const scriptUrl = `${SCRIPT_URL}?todos=true&callback=${callbackName}&_t=${timestamp}&_r=${randomParam}&_cache=${Date.now()}`;
+            
+            console.log("Carregando script:", scriptUrl);
+            scriptElement.src = scriptUrl;
             
             scriptElement.onerror = function() {
+                console.error("Erro ao carregar script");
                 handleError('Erro de conexão com o servidor');
             };
             
             scriptElement.onload = function() {
+                console.log("Script carregado, aguardando callback...");
                 setTimeout(() => {
                     if (window[callbackName]) {
+                        console.warn("Callback não foi executado, possível erro no servidor");
                         handleError('Erro no formato da resposta do servidor');
                     }
                 }, 2000);
@@ -556,6 +610,7 @@ console.log("V1.0");
 
             timeoutId = setTimeout(() => {
                 if (window[callbackName]) {
+                    console.error("Timeout na requisição");
                     handleError('Timeout na requisição - servidor não respondeu');
                 }
             }, 30000);
@@ -1168,6 +1223,32 @@ console.log("V1.0");
             }, 1500);
         }
 
+        replaceQuestionMarks();
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 100);
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 500);
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 1000);
+        setTimeout(() => {
+            replaceQuestionMarks();
+        }, 2000);
+
+        setTimeout(() => {
+            const tabsContainer = document.getElementById('tabs');
+            if (tabsContainer && !tabsContainer.hasChildNodes()) {
+                console.warn("Tabs não foram criadas, executando fallback...");
+                initializeScript();
+            }
+        }, 3000);
+
+        window.createTabs = createTabs;
+        window.loadAllMinistries = loadAllMinistries;
+        window.initializeScript = initializeScript;
+        window.MINISTRIES = MINISTRIES;
         window.displayMinistryData = displayMinistryData;
         window.handleDataError = handleDataError;
         window.parseCSVToTable = parseCSVToTable;
@@ -1175,3 +1256,5 @@ console.log("V1.0");
         window.refreshAllMinistries = refreshAllMinistries;
         window.clearCacheAndReload = clearCacheAndReload;
         window.clearCacheAndForceReload = clearCacheAndForceReload;
+
+        console.log("Script finalizado - funções disponíveis globalmente");
