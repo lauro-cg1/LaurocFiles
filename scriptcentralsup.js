@@ -1,4 +1,19 @@
 console.log("V1.2");
+
+document.addEventListener('DOMContentLoaded', function() {
+	const links = document.querySelectorAll('a');
+	links.forEach(link => {
+		if (link.textContent.trim() === 'Escala Ministerial') {
+			link.removeAttribute('href');
+			link.style.cursor = 'pointer';
+			link.addEventListener('click', function(e) {
+				e.preventDefault();
+				window.open('https://www.policiarcc.com/h262-sup-escala-ministerial', '_blank');
+			});
+		}
+	});
+});
+
 const opcoesPorMinisterio = {
 				"Ministério da Administração": [
 				"Atualização de aulas",
@@ -1463,5 +1478,3 @@ const opcoesPorMinisterio = {
 				});
 				});
 				}
-
-
