@@ -1,5 +1,5 @@
-console.log("V1.1");    
-     function replaceQuestionMarks() {
+console.log("V1.0");    
+ function replaceQuestionMarks() {
             const contextReplacements = [
                 { search: '???? Orientações Iniciais', replace: '📋 Orientações Iniciais' },
                 { search: '???? Script de Admissão - Sala', replace: '📝 Script de Admissão - Sala' },
@@ -8,6 +8,8 @@ console.log("V1.1");
                 { search: '???? Postar no Formulário DA', replace: '📋 Postar no Formulário DA' },
                 { search: '???? Conferir Postagem', replace: '📊 Conferir Postagem' },
                 { search: '???? Enviar Carta de Boas-Vindas', replace: '💌 Enviar Carta de Boas-Vindas' },
+                { search: '???? Aplicação em Sala', replace: '🏫 Aplicação em Sala' },
+                { search: '???? Aplicação no CI', replace: '💻 Aplicação no CI' },
                 
                 { search: /\?\?\?\?(?=\s*Orientações)/g, replace: '📋' },
                 { search: /\?\?\?\?(?=\s*Script)/g, replace: '📝' },
@@ -15,6 +17,8 @@ console.log("V1.1");
                 { search: /\?\?\?\?(?=\s*Postar)/g, replace: '📋' },
                 { search: /\?\?\?\?(?=\s*Conferir)/g, replace: '📊' },
                 { search: /\?\?\?\?(?=\s*Enviar)/g, replace: '💌' },
+                { search: /\?\?\?\?(?=\s*Aplicação\s+em\s+Sala)/g, replace: '🏫' },
+                { search: /\?\?\?\?(?=\s*Aplicação\s+no\s+CI)/g, replace: '💻' },
             ];
             
             let replacedSomething = false;
