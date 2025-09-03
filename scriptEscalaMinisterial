@@ -1,4 +1,4 @@
-console.log("V1.1");
+   console.log("V1.0");
 
 function initializeScript() {
     const tabsContainer = document.getElementById('tabs');
@@ -233,6 +233,27 @@ function replaceQuestionMarks() {
             initializeScript();
         }
 
+        function cleanupMinistryResources(ministryKey) {
+            try {
+                document.querySelectorAll(`script[id*="script_callback_${ministryKey}_"]`).forEach(script => {
+                    if (script.parentNode) {
+                        script.parentNode.removeChild(script);
+                    }
+                });
+                
+                Object.keys(window).forEach(key => {
+                    if (key.includes(`callback_${ministryKey}_`)) {
+                        delete window[key];
+                    }
+                });
+                
+                delete dataCache[ministryKey];
+                delete errorCache[ministryKey];
+            } catch (error) {
+                console.warn('Erro ao limpar recursos do ministério:', error);
+            }
+        }
+
         function cleanupOrphanedScripts() {
             const now = Date.now();
             
@@ -456,7 +477,7 @@ function replaceQuestionMarks() {
                 
                 contentDiv.innerHTML = `
                     <div class="refresh-container">
-                        <button class="refresh-btn" onclick="refreshMinistry('${ministryKey}')" ${globalRefreshTimeout ? 'disabled' : ''}>
+                        <button class="refresh-btn" onclick="safeRefreshMinistry('${ministryKey}')" ${globalRefreshTimeout ? 'disabled' : ''}>
                             ${globalRefreshTimeout ? getButtonText() : '🔄 Atualizar Dados'}
                         </button>
                     </div>
@@ -617,6 +638,9 @@ function replaceQuestionMarks() {
                 return;
             }
 
+            cleanupMinistryResources(ministryKey);
+            cleanupOrphanedScripts();
+            
             globalRefreshTimeout = true;
             
             updateAllButtons();
@@ -636,9 +660,9 @@ function replaceQuestionMarks() {
             const contentDiv = document.getElementById(`content-${ministryKey}`);
             contentDiv.innerHTML = '<div class="loading"><div class="loading-spinner"></div><p>🔄 Atualizando dados...</p></div>';
             
-            delete dataCache[ministryKey];
-            delete errorCache[ministryKey];
-            loadMinistryData(ministryKey);
+            setTimeout(() => {
+                loadMinistryData(ministryKey);
+            }, 300);
         }
 
         function getButtonText(secondsLeft = null) {
@@ -690,6 +714,11 @@ function replaceQuestionMarks() {
             const ministry = MINISTRIES[ministryKey];
             const maxRetries = 3;
 
+            if (!validateScriptUrl()) {
+                handleDataError(ministryKey, 'URL do servidor inválido');
+                return;
+            }
+
             const loadingHTML = `
                 <div class="loading">
                     <div class="loading-spinner"></div>
@@ -710,8 +739,12 @@ function replaceQuestionMarks() {
                 if (window[callbackName]) {
                     delete window[callbackName];
                 }
-                if (scriptElement && scriptElement.parentNode) {
-                    scriptElement.parentNode.removeChild(scriptElement);
+                if (scriptElement) {
+                    setTimeout(() => {
+                        if (scriptElement && scriptElement.parentNode) {
+                            scriptElement.parentNode.removeChild(scriptElement);
+                        }
+                    }, 100);
                 }
             };
 
@@ -722,6 +755,15 @@ function replaceQuestionMarks() {
 
             const handleError = (errorMessage) => {
                 cleanup();
+                
+                console.warn(`Erro na tentativa ${retryCount + 1}: ${errorMessage}`);
+                
+                if (errorMessage.includes('CORB') || errorMessage.includes('cross-origin')) {
+                    setTimeout(() => {
+                        cleanupOrphanedScripts();
+                        cleanupMinistryResources(ministryKey);
+                    }, 500);
+                }
                 
                 if (retryCount < maxRetries) {
                     setTimeout(() => {
@@ -735,12 +777,24 @@ function replaceQuestionMarks() {
             scriptElement = document.createElement('script');
             scriptElement.id = `script_${callbackName}`;
             
+            scriptElement.setAttribute('crossorigin', 'anonymous');
+            scriptElement.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+            
             const timestamp = Date.now();
             const randomParam = Math.random().toString(36).substr(2, 15);
             scriptElement.src = `${SCRIPT_URL}?aba=${ministryKey}&callback=${callbackName}&_t=${timestamp}&_r=${randomParam}&_cache=${Date.now()}`;
             
-            scriptElement.onerror = function() {
-                handleError('Erro de conexão com o servidor');
+            scriptElement.onerror = function(event) {
+                console.error('Erro no script JSONP para atualização:', event);
+                
+                const errorMessage = event.message || 'Erro de conexão com o servidor';
+                if (errorMessage.includes('CORB') || 
+                    errorMessage.includes('cross-origin') ||
+                    errorMessage.includes('blocked')) {
+                    handleError('Erro CORB detectado - Cross-Origin Read Blocking');
+                } else {
+                    handleError('Erro de conexão com o servidor');
+                }
             };
             
             scriptElement.onload = function() {
@@ -775,7 +829,7 @@ function replaceQuestionMarks() {
                     
                     contentDiv.innerHTML = `
                         <div class="refresh-container">
-                            <button class="refresh-btn" onclick="refreshMinistry('${ministryKey}')" ${globalRefreshTimeout ? 'disabled' : ''}>
+                            <button class="refresh-btn" onclick="safeRefreshMinistry('${ministryKey}')" ${globalRefreshTimeout ? 'disabled' : ''}>
                                 ${globalRefreshTimeout ? getButtonText() : '🔄 Atualizar Dados'}
                             </button>
                             <button class="clear-cache-btn" onclick="clearCacheAndForceReload()" ${globalRefreshTimeout ? 'disabled' : ''}>
@@ -806,7 +860,7 @@ function replaceQuestionMarks() {
                     <h4>❌ Erro ao carregar os dados</h4>
                     <p>Atualize a página ou acesse a planilha da escala:</p>
                     <p><a href="https://docs.google.com/spreadsheets/d/1zJucf_FTkqRSIrB9iWs_GvJc2xxh2qB0_L8khn6TJuA/edit?gid=0#gid=0" target="_blank" style="color: #3d7c23; font-weight: bold; text-decoration: none;">📋 Acessar Planilha da Escala</a></p>
-                    <button class="refresh-btn" onclick="refreshMinistry('${ministryKey}')" style="margin-top: 15px;">
+                    <button class="refresh-btn" onclick="safeRefreshMinistry('${ministryKey}')" style="margin-top: 15px;">
                         🔄 Tentar Novamente
                     </button>
                 </div>
@@ -815,6 +869,23 @@ function replaceQuestionMarks() {
             setTimeout(() => {
                 replaceQuestionMarks();
             }, 10);
+        }
+
+        function safeRefreshMinistry(ministryKey) {
+            if (globalRefreshTimeout) {
+                return;
+            }
+
+            const contentDiv = document.getElementById(`content-${ministryKey}`);
+            if (contentDiv) {
+                contentDiv.innerHTML = '<div class="loading"><div class="loading-spinner"></div><p>🛡️ Preparando atualização segura...</p></div>';
+            }
+            cleanupMinistryResources(ministryKey);
+            cleanupOrphanedScripts();
+            
+            setTimeout(() => {
+                refreshMinistry(ministryKey);
+            }, 250);
         }
 
         function clearCacheAndReload(ministryKey) {
@@ -1224,6 +1295,8 @@ function replaceQuestionMarks() {
         window.handleDataError = handleDataError;
         window.parseCSVToTable = parseCSVToTable;
         window.refreshMinistry = refreshMinistry;
+        window.safeRefreshMinistry = safeRefreshMinistry;
         window.refreshAllMinistries = refreshAllMinistries;
         window.clearCacheAndReload = clearCacheAndReload;
         window.clearCacheAndForceReload = clearCacheAndForceReload;
+        window.cleanupMinistryResources = cleanupMinistryResources;
