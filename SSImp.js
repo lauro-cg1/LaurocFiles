@@ -1,7 +1,20 @@
-    console.log("SSI Ferramenta MP v1.0");
-        let selectedMessageType = null;
+ console.log("SSI Ferramenta MP v1.0");
+        
+        if (typeof selectedMessageType === 'undefined') {
+            var selectedMessageType = null;
+        }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        function initSSI() {
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', setupSSIEventListeners);
+            } else {
+                setupSSIEventListeners();
+            }
+        }
+
+        function setupSSIEventListeners() {
+            console.log('Configurando SSI Event Listeners...');
+            
             fixBrokenEmojis();
             
             document.querySelectorAll('.menu-btn').forEach(btn => {
@@ -11,6 +24,7 @@
                     this.classList.add('selected');
                     
                     selectedMessageType = this.getAttribute('data-type');
+                    console.log('Tipo selecionado:', selectedMessageType);
                     
                     generateFormFields(selectedMessageType);
                     
@@ -18,8 +32,11 @@
                 });
             });
 
-            document.getElementById('sendBtn').addEventListener('click', sendMessage);
-        });
+            const sendBtn = document.getElementById('sendBtn');
+            if (sendBtn) {
+                sendBtn.addEventListener('click', sendMessage);
+            }
+        }
 
         function fixBrokenEmojis() {
             const walker = document.createTreeWalker(
@@ -364,3 +381,13 @@ O [b][color=#00529e]Setor de Segurança dos Instrutores[/color][/b], por meio de
                 console.error('Erro ao enviar mensagem:', errorThrown);
             });
         }
+
+        (function() {
+            if (typeof window !== 'undefined' && window.document) {
+                setTimeout(function() {
+                    initSSI();
+                }, 100);
+            } else {
+                initSSI();
+            }
+        })();
