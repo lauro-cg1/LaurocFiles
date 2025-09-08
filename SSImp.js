@@ -1,4 +1,4 @@
- console.log("SSI MP v1.0");
+   console.log("SSI MP v1.0");
         
         if (typeof selectedMessageType === 'undefined') {
             var selectedMessageType = null;
@@ -182,6 +182,22 @@
                             <div class="error-message" id="userNameError"></div>
                         </div>
                     </div>
+                    
+                    <div class="form-group">
+                        <label for="dataOcorrido">Data do Ocorrido:</label>
+                        <input type="date" id="dataOcorrido">
+                        <div class="error-message-container">
+                            <div class="error-message" id="dataOcorridoError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="provas">Provas:</label>
+                        <textarea id="provas" placeholder="Inclua links ou descrições das provas"></textarea>
+                        <div class="error-message-container">
+                            <div class="error-message" id="provasError"></div>
+                        </div>
+                    </div>
                 `;
             }
             
@@ -250,6 +266,18 @@
                         clearError(fieldId);
                     }
                 });
+            } else if (selectedMessageType === 'convocacao') {
+                const requiredFields = ['dataOcorrido', 'provas'];
+                
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (!field || !field.value.trim()) {
+                        showError(fieldId, 'Este campo é obrigatório');
+                        isValid = false;
+                    } else {
+                        clearError(fieldId);
+                    }
+                });
             }
             
             return isValid;
@@ -301,15 +329,18 @@ O [b][color=#00529e]Setor de Segurança dos Instrutores[/color][/b], por meio de
 [font=Poppins][size=11][color=#f8f8ff][b][img(10px,10px)]https://i.imgur.com/GoqL8ud.png[/img] Reservam-se os direitos à Companhia dos Instrutores[/b][/size][/color][/font][/td][/tr][/table][/center]`;
                 
             } else if (selectedMessageType === 'convocacao') {
+                const dataOcorrido = formatDate(document.getElementById('dataOcorrido').value);
+                const provas = document.getElementById('provas').value.trim();
+                
                 return `[center][table bgcolor="1e2a4d" style="border-radius: 23px; overflow: hidden; width: 100%; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);"][tr][td][img]https://i.imgur.com/WVgmuES.gif[/img]
 
 [center][table bgcolor="#f8f8ff" style="border-radius: 16px; overflow: hidden; width: 100%; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);"][tr][td][font=Poppins][center][table bgcolor="1e2a4d" style="border-radius: 14px 5px; overflow: hidden; width: 100%; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);"][tr][td][color=#f8f8ff][b][size=18]CONVOCAÇÃO[/size][/b][/color][/td][/tr][/table][/center]
 
 Saudações, [b]${userName}![/b]
 
-O [b][color=#00529e]Setor de Segurança dos Instrutores[/color][/b], por meio de uma fiscalização dos formulários de aulas, observou que alguns erros foram cometidos na postagem de sua aplicação ao longo da semana.
+O [b][color=#00529e]Setor de Segurança dos Instrutores[/color][/b], por meio de uma fiscalização dos formulários de aulas, observou que alguns erros foram cometidos na postagem de sua aplicação ao longo da semana, na data de [b]${dataOcorrido}[/b].
 
-[center][table  bgcolor="#edf5fc" style="border-radius: 16px; overflow: hidden; width: 100%; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);"][tr][td][justify][b][color=#1e2a4d]➥[/color][/b][b][color=#00529e] Provas da infração:[/color][/b] Conforme fiscalização realizada pelo SSI[/justify][/td][/tr][/table][/center]
+[center][table  bgcolor="#edf5fc" style="border-radius: 16px; overflow: hidden; width: 100%; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);"][tr][td][justify][b][color=#1e2a4d]➥[/color][/b][b][color=#00529e] Provas da infração:[/color][/b] ${provas}[/justify][/td][/tr][/table][/center]
 
 [justify][b][color=#1e2a4d]➥[/color][/b] Através desta Mensagem Privada, você está sendo convocado a procurar o membro que lhe enviou essa mensagem privada, por meio do habbo hotel, em quaisquer dependências da polícia ou mesmo via console, em até 24 horas após o recebimento deste contato. Caso não o faça, será devidamente punido pelo crime cometido de acordo com o Código Penal dos Instrutores. Em caso de dúvidas, contate um [b]membro do Setor de Segurança dos Instrutores.[/b][/justify][/font][/td][/tr][/table][/center]
 
@@ -370,13 +401,13 @@ O [b][color=#00529e]Setor de Segurança dos Instrutores[/color][/b], por meio de
                 const successModal = document.createElement('div');
                 successModal.innerHTML = `
                 <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
-                <div style="background-color: black; color: white; padding: 30px 40px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid #a30010;">
+                <div style="background-color: black; color: white; padding: 30px 40px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid #002f9c;">
                 <h3 style="color: white; margin-bottom: 15px;">Sucesso!</h3>
                 <p>Mensagem Privada enviada para ${userName}.</p>
                 <p style="margin-top: 15px;">Deseja enviar outra mensagem?</p>
                 <div style="margin-top: 20px;">
                 <button onclick="this.closest('.success-modal-container').remove(); resetForm();" style="padding: 10px 20px; margin: 0 10px; border: none; border-radius: 5px; background: #00529e; color: white; cursor: pointer;">Sim</button>
-                <button onclick="window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox'; this.closest('.success-modal-container').remove();" style="padding: 10px 20px; margin: 0 10px; border: none; border-radius: 5px; background: #a30010; color: white; cursor: pointer;">Não</button>
+                <button onclick="window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox'; this.closest('.success-modal-container').remove();" style="padding: 10px 20px; margin: 0 10px; border: none; border-radius: 5px; background: #002f9c; color: white; cursor: pointer;">Não</button>
                 </div>
                 </div>
                 </div>
@@ -391,7 +422,7 @@ O [b][color=#00529e]Setor de Segurança dos Instrutores[/color][/b], por meio de
                 const errorModal = document.createElement('div');
                 errorModal.innerHTML = `
                 <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
-                <div style="background-color: black; color: white; padding: 30px 40px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid red;">
+                <div style="background-color: black; color: white; padding: 30px 40px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid #002f9c;">
                 <h3 style="color: white; margin-bottom: 15px;">Erro!</h3>
                 <p>Ocorreu um erro ao enviar a Mensagem Privada.</p>
                 <button onclick="this.parentElement.parentElement.remove();" style="padding: 10px 20px; margin-top: 15px; border: none; border-radius: 5px; background: red; color: white; cursor: pointer;">OK</button>
