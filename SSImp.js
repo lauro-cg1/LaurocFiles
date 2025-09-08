@@ -13,10 +13,7 @@
         }
 
         function setupSSIEventListeners() {
-            console.log('Configurando SSI Event Listeners...');
-            
             fixBrokenEmojis();
-            
             document.querySelectorAll('.menu-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.menu-btn').forEach(el => el.classList.remove('selected'));
