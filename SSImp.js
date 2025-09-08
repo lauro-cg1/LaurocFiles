@@ -17,12 +17,8 @@
             document.querySelectorAll('.menu-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.menu-btn').forEach(el => el.classList.remove('selected'));
-                    
-                    this.classList.add('selected');
-                    
+                    this.classList.add('selected'); 
                     selectedMessageType = this.getAttribute('data-type');
-                    console.log('Tipo selecionado:', selectedMessageType);
-                    
                     generateFormFields(selectedMessageType);
                     
                     document.getElementById('formContainer').classList.add('active');
