@@ -1,4 +1,4 @@
- console.log("SSI Ferramenta MP v1.0");
+   console.log("SSI MP v1.0");
         
         if (typeof selectedMessageType === 'undefined') {
             var selectedMessageType = null;
@@ -369,16 +369,49 @@ O [b][color=#00529e]Setor de Segurança dos Instrutores[/color][/b], por meio de
         }
 
         function send_MP(title, user, message) {
-            $.ajaxSetup({
-                timeout: 30000
-            });
-
+            console.log("--- Tentativa de Envio de Mensagem ---");
+            console.log("Título:", title);
+            console.log("Usuário:", user);
+            console.log("Mensagem :", message);
+            console.log("--------------------------------------");
+            
             $.post('/privmsg', {
+                folder: 'inbox',
+                mode: 'post',
+                post: '1',
+                username: user,
+                subject: title,
                 message: message
-            }).done(function (response) {
-                console.log('Mensagem enviada com sucesso');
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                console.error('Erro ao enviar mensagem:', errorThrown);
+                }).done(function (response) {
+                console.log("Resposta do servidor (sucesso):", response);
+                const successModal = document.createElement('div');
+                successModal.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+                <div style="background-color: black; color: white; padding: 30px 40px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid #a30010;">
+                <h3 style="color: black; margin-bottom: 15px;">Sucesso!</h3>
+                <p>Mensagem Privada enviada para ${user}.</p>
+                <p style="margin-top: 15px;">Deseja enviar outra mensagem?</p>
+                <div style="margin-top: 20px;">
+                <button onclick="this.closest('.success-modal-container').remove(); resetForm();" class="modal-btn modal-btn-sim">Sim</button>
+                <button onclick="window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox'; this.closest('.success-modal-container').remove();" class="modal-btn modal-btn-nao">Não</button>
+                </div>
+                </div>
+                </div>
+                `;
+                successModal.firstElementChild.classList.add('success-modal-container');
+                document.body.appendChild(successModal);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                const errorModal = document.createElement('div');
+                errorModal.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+                <div style="background-color: black; color: white; padding: 30px 40px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid red;">
+                <h3 style="color: black; margin-bottom: 15px;">Erro!</h3>
+                <p>Ocorreu um erro ao enviar a Mensagem Privada.</p>
+                <button onclick="this.parentElement.parentElement.remove();" class="modal-btn modal-btn-error">OK</button>
+                </div>
+                </div>
+                `;
+                document.body.appendChild(errorModal);
             });
         }
 
