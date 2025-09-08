@@ -1,4 +1,4 @@
-   console.log("SSI MP v1.0");
+ console.log("SSI MP v1.0");
         
         if (typeof selectedMessageType === 'undefined') {
             var selectedMessageType = null;
@@ -348,59 +348,53 @@ O [b][color=#00529e]Setor de Segurança dos Instrutores[/color][/b], por meio de
                 sendBtn.textContent = originalText;
             };
             
-            console.log('--- Enviando Mensagem SSI ---');
-            console.log('Usuário:', userName);
-            console.log('Tipo:', selectedMessageType);
-            console.log('Mensagem:', message);
-            console.log('-----------------------------');
+            const title = selectedMessageType === 'punicao' ? '[SSI] Carta de Infração' : '[SSI] Carta de Convocação';
             
-            setTimeout(() => {
-                alert(`Mensagem de ${selectedMessageType} enviada com sucesso para ${userName}!`);
-                resetButton();
-                resetForm();
-            }, 2000);
-        }
-
-        function send_MP(title, user, message) {
             console.log("--- Tentativa de Envio de Mensagem ---");
             console.log("Título:", title);
-            console.log("Usuário:", user);
-            console.log("Mensagem :", message);
+            console.log("Usuário:", userName);
+            console.log("Mensagem:", message);
             console.log("--------------------------------------");
             
             $.post('/privmsg', {
                 folder: 'inbox',
                 mode: 'post',
                 post: '1',
-                username: user,
+                username: userName,
                 subject: title,
                 message: message
-                }).done(function (response) {
+            }).done(function (response) {
                 console.log("Resposta do servidor (sucesso):", response);
+                resetButton();
+                
                 const successModal = document.createElement('div');
                 successModal.innerHTML = `
                 <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
                 <div style="background-color: black; color: white; padding: 30px 40px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid #a30010;">
-                <h3 style="color: black; margin-bottom: 15px;">Sucesso!</h3>
-                <p>Mensagem Privada enviada para ${user}.</p>
+                <h3 style="color: white; margin-bottom: 15px;">Sucesso!</h3>
+                <p>Mensagem Privada enviada para ${userName}.</p>
                 <p style="margin-top: 15px;">Deseja enviar outra mensagem?</p>
                 <div style="margin-top: 20px;">
-                <button onclick="this.closest('.success-modal-container').remove(); resetForm();" class="modal-btn modal-btn-sim">Sim</button>
-                <button onclick="window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox'; this.closest('.success-modal-container').remove();" class="modal-btn modal-btn-nao">Não</button>
+                <button onclick="this.closest('.success-modal-container').remove(); resetForm();" style="padding: 10px 20px; margin: 0 10px; border: none; border-radius: 5px; background: #00529e; color: white; cursor: pointer;">Sim</button>
+                <button onclick="window.location.href = 'https://www.policiarcc.com/privmsg?folder=outbox'; this.closest('.success-modal-container').remove();" style="padding: 10px 20px; margin: 0 10px; border: none; border-radius: 5px; background: #a30010; color: white; cursor: pointer;">Não</button>
                 </div>
                 </div>
                 </div>
                 `;
                 successModal.firstElementChild.classList.add('success-modal-container');
                 document.body.appendChild(successModal);
-                }).fail(function (jqXHR, textStatus, errorThrown) {
+                
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                console.error('Erro ao enviar mensagem:', textStatus, errorThrown);
+                resetButton();
+                
                 const errorModal = document.createElement('div');
                 errorModal.innerHTML = `
                 <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
                 <div style="background-color: black; color: white; padding: 30px 40px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid red;">
-                <h3 style="color: black; margin-bottom: 15px;">Erro!</h3>
+                <h3 style="color: white; margin-bottom: 15px;">Erro!</h3>
                 <p>Ocorreu um erro ao enviar a Mensagem Privada.</p>
-                <button onclick="this.parentElement.parentElement.remove();" class="modal-btn modal-btn-error">OK</button>
+                <button onclick="this.parentElement.parentElement.remove();" style="padding: 10px 20px; margin-top: 15px; border: none; border-radius: 5px; background: red; color: white; cursor: pointer;">OK</button>
                 </div>
                 </div>
                 `;
