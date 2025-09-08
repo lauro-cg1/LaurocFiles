@@ -1,4 +1,4 @@
-     console.log("SSI Ferramenta MP v1.0");
+    console.log("SSI Ferramenta MP v1.0");
         let selectedMessageType = null;
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -103,7 +103,7 @@
                     
                     <div class="form-group">
                         <label for="punicao">Punição:</label>
-                        <input type="text" id="punicao" placeholder="Ex: Advertência, Suspensão, etc.">
+                        <input type="text" id="punicao" placeholder="Ex: Advertência, Expulsão, etc.">
                         <div class="error-message-container">
                             <div class="error-message" id="punicaoError"></div>
                         </div>
