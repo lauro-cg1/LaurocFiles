@@ -1,4 +1,4 @@
-   console.log("V1.01");
+ console.log("V1.1");
   document.addEventListener('DOMContentLoaded', function() {
             const btn = document.getElementById('btnAdvertencias');
             if (btn) {
@@ -210,7 +210,7 @@ function renderAdvertenciasTable(csvText) {
                     if (userLevel === 'leader') {
                         userBadge.classList.add('leader');
                         document.getElementById('accessMessage').innerHTML = 
-                            'Você pode editar <strong>a maioria das colunas</strong> (exceto Ordem, Carimbo e Indicador). <button class="btn" onclick="openLogModal()" style="margin-left: 10px; padding: 6px 12px; font-size: 12px;">📋 Ver Logs</button>';
+                            'Você pode editar <strong>a maioria das colunas</strong> (exceto Ordem, Carimbo e Indicador). <button class="btn" onclick="openLogModal()" style="margin-left: 10px; padding: 6px 12px; font-size: 12px;">📋 Ver Logs</button> <button class="btn" onclick="openMembersModal()" style="margin-left: 10px; padding: 6px 12px; font-size: 12px;">👥 Membros</button>';
                     } else if (userLevel === 'perito') {
                         document.getElementById('accessMessage').innerHTML = 
                             'Clique nos campos de <strong>Status</strong>, <strong>Tag</strong>, <strong>Veredito</strong> ou <strong>Print MP</strong> para editar.';
@@ -902,6 +902,165 @@ function renderAdvertenciasTable(csvText) {
 
         function closeLogModal() {
             document.getElementById('logModal').style.display = 'none';
+        }
+
+        // Funções para gerenciar membros
+        async function openMembersModal() {
+            if (userLevel !== 'leader') {
+                showStatus('❌ Acesso negado. Apenas líderes podem gerenciar membros.', 'error');
+                return;
+            }
+            document.getElementById('membersModal').style.display = 'block';
+            await loadMembers();
+        }
+
+        function closeMembersModal() {
+            document.getElementById('membersModal').style.display = 'none';
+        }
+
+        async function loadMembers() {
+            const tableBody = document.getElementById('membersTableBody');
+            const loading = document.getElementById('membersLoading');
+            const empty = document.getElementById('membersEmpty');
+            
+            loading.style.display = 'block';
+            empty.style.display = 'none';
+            tableBody.innerHTML = '';
+
+            try {
+                const response = await fetch(`${API_URL}?action=getMembers`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+
+                const result = await response.json();
+
+                loading.style.display = 'none';
+
+                if (result.success && result.members && result.members.length > 0) {
+                    tableBody.innerHTML = '';
+                    result.members.forEach(member => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${member.code}</td>
+                            <td>${member.name}</td>
+                            <td>
+                                <span class="status-badge" style="background: ${getLevelColor(member.level)};">
+                                    ${member.level}
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn" onclick="editMember('${member.code}')" style="padding: 4px 8px; font-size: 12px; margin-right: 5px;">✏️ Editar</button>
+                                <button class="btn" onclick="deleteMember('${member.code}')" style="padding: 4px 8px; font-size: 12px; background: #ff4757; border-color: #ff4757;">🗑️ Excluir</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    empty.style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error('Erro ao carregar membros:', error);
+                loading.style.display = 'none';
+                empty.style.display = 'block';
+                showStatus('❌ Erro ao carregar lista de membros', 'error');
+            }
+        }
+
+        function getLevelColor(level) {
+            switch(level) {
+                case 'leader': return '#4a90e2';
+                case 'perito': return '#f39c12';
+                case 'fiscalizador': return '#27ae60';
+                default: return '#95a5a6';
+            }
+        }
+
+        async function addNewMember() {
+            const code = document.getElementById('newUserCode').value.trim();
+            const name = document.getElementById('newUserName').value.trim();
+            const level = document.getElementById('newUserLevel').value;
+
+            if (!code || !name) {
+                showStatus('❌ Preencha todos os campos obrigatórios', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}?action=addMember`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        code: code,
+                        name: name,
+                        level: level,
+                        addedBy: currentUser
+                    }),
+                    mode: 'cors'
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showStatus('✅ Membro adicionado com sucesso!', 'success');
+                    document.getElementById('newUserCode').value = '';
+                    document.getElementById('newUserName').value = '';
+                    document.getElementById('newUserLevel').value = 'fiscalizador';
+                    await loadMembers();
+                } else {
+                    showStatus(`❌ Erro ao adicionar membro: ${result.error}`, 'error');
+                }
+
+            } catch (error) {
+                console.error('Erro ao adicionar membro:', error);
+                showStatus('❌ Erro ao adicionar membro', 'error');
+            }
+        }
+
+        async function deleteMember(code) {
+            if (!confirm(`Tem certeza que deseja excluir o membro com código "${code}"?`)) {
+                return;
+            }
+
+            if (code === currentUser) {
+                showStatus('❌ Você não pode excluir sua própria conta', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}?action=deleteMember`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        code: code,
+                        deletedBy: currentUser
+                    }),
+                    mode: 'cors'
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showStatus('✅ Membro excluído com sucesso!', 'success');
+                    await loadMembers();
+                } else {
+                    showStatus(`❌ Erro ao excluir membro: ${result.error}`, 'error');
+                }
+
+            } catch (error) {
+                console.error('Erro ao excluir membro:', error);
+                showStatus('❌ Erro ao excluir membro', 'error');
+            }
+        }
+
+        async function editMember(code) {
+            // Funcionalidade de edição pode ser implementada posteriormente
+            showStatus('ℹ️ Funcionalidade de edição em desenvolvimento', 'info');
         }
 
         async function loadLogs() {
@@ -1693,7 +1852,13 @@ function renderAdvertenciasTable(csvText) {
 
         window.addEventListener('click', (event) => {
             const logModal = document.getElementById('logModal');
+            const membersModal = document.getElementById('membersModal');
+            
             if (event.target === logModal) {
                 closeLogModal();
+            }
+            
+            if (event.target === membersModal) {
+                closeMembersModal();
             }
         });
