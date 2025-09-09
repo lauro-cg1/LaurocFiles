@@ -1,4 +1,4 @@
- console.log("V1.1");
+  console.log("V1.1");
   document.addEventListener('DOMContentLoaded', function() {
             const btn = document.getElementById('btnAdvertencias');
             if (btn) {
@@ -904,7 +904,6 @@ function renderAdvertenciasTable(csvText) {
             document.getElementById('logModal').style.display = 'none';
         }
 
-        // Funções para gerenciar membros
         async function openMembersModal() {
             if (userLevel !== 'leader') {
                 showStatus('❌ Acesso negado. Apenas líderes podem gerenciar membros.', 'error');
@@ -1059,8 +1058,142 @@ function renderAdvertenciasTable(csvText) {
         }
 
         async function editMember(code) {
-            // Funcionalidade de edição pode ser implementada posteriormente
-            showStatus('ℹ️ Funcionalidade de edição em desenvolvimento', 'info');
+            try {
+                const response = await fetch(`${API_URL}?action=getMembers`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+
+                const result = await response.json();
+
+                if (result.success && result.members) {
+                    const member = result.members.find(m => m.code === code);
+                    if (member) {
+                        const codeInput = document.getElementById('editMemberCode');
+                        codeInput.value = member.code;
+                        codeInput.setAttribute('data-original-code', member.code);
+                        document.getElementById('editMemberName').value = member.name;
+                        document.getElementById('editMemberLevel').value = member.level;
+                        
+                        document.getElementById('editMemberModal').style.display = 'block';
+                    } else {
+                        showStatus('❌ Membro não encontrado', 'error');
+                    }
+                } else {
+                    showStatus('❌ Erro ao carregar dados do membro', 'error');
+                }
+
+            } catch (error) {
+                console.error('Erro ao carregar membro para edição:', error);
+                showStatus('❌ Erro ao carregar membro para edição', 'error');
+            }
+        }
+
+        function closeEditMemberModal() {
+            document.getElementById('editMemberModal').style.display = 'none';
+            const codeInput = document.getElementById('editMemberCode');
+            codeInput.value = '';
+            codeInput.removeAttribute('data-original-code');
+            document.getElementById('editMemberName').value = '';
+            document.getElementById('editMemberLevel').value = 'fiscalizador';
+        }
+
+        async function saveEditMember() {
+            const originalCode = document.getElementById('editMemberCode').getAttribute('data-original-code');
+            const newCode = document.getElementById('editMemberCode').value.trim();
+            const name = document.getElementById('editMemberName').value.trim();
+            const level = document.getElementById('editMemberLevel').value;
+
+            if (!newCode || !name) {
+                showStatus('❌ Código e nome são obrigatórios', 'error');
+                return;
+            }
+
+            if (originalCode !== newCode) {
+                if (!confirm(`⚠️ Você está alterando o código de acesso de "${originalCode}" para "${newCode}".\n\nISTO PODE IMPEDIR O ACESSO DO USUÁRIO!\n\nTem certeza que deseja continuar?`)) {
+                    return;
+                }
+            }
+
+            try {
+                let response, result;
+                
+                if (originalCode !== newCode) {
+                    const checkResponse = await fetch(`${API_URL}?action=getMembers`, {
+                        method: 'GET',
+                        mode: 'cors'
+                    });
+                    const checkResult = await checkResponse.json();
+                    
+                    if (checkResult.success && checkResult.members.some(m => m.code === newCode)) {
+                        showStatus('❌ Este código já está em uso por outro usuário', 'error');
+                        return;
+                    }
+                    
+                    response = await fetch(`${API_URL}?action=addMember`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            code: newCode,
+                            name: name,
+                            level: level,
+                            addedBy: currentUser
+                        }),
+                        mode: 'cors'
+                    });
+                    
+                    result = await response.json();
+                    
+                    if (result.success) {
+                        await fetch(`${API_URL}?action=deleteMember`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                code: originalCode,
+                                deletedBy: currentUser
+                            }),
+                            mode: 'cors'
+                        });
+                        
+                        showStatus('✅ Membro atualizado com sucesso! (Código alterado)', 'success');
+                    }
+                } else {
+                    response = await fetch(`${API_URL}?action=updateMember`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            code: newCode,
+                            name: name,
+                            level: level,
+                            updatedBy: currentUser
+                        }),
+                        mode: 'cors'
+                    });
+                    
+                    result = await response.json();
+                    
+                    if (result.success) {
+                        showStatus('✅ Membro atualizado com sucesso!', 'success');
+                    }
+                }
+
+                if (result.success) {
+                    closeEditMemberModal();
+                    await loadMembers();
+                } else {
+                    showStatus(`❌ Erro ao atualizar membro: ${result.error}`, 'error');
+                }
+
+            } catch (error) {
+                console.error('Erro ao atualizar membro:', error);
+                showStatus('❌ Erro ao atualizar membro', 'error');
+            }
         }
 
         async function loadLogs() {
@@ -1853,6 +1986,7 @@ function renderAdvertenciasTable(csvText) {
         window.addEventListener('click', (event) => {
             const logModal = document.getElementById('logModal');
             const membersModal = document.getElementById('membersModal');
+            const editMemberModal = document.getElementById('editMemberModal');
             
             if (event.target === logModal) {
                 closeLogModal();
@@ -1860,5 +1994,9 @@ function renderAdvertenciasTable(csvText) {
             
             if (event.target === membersModal) {
                 closeMembersModal();
+            }
+            
+            if (event.target === editMemberModal) {
+                closeEditMemberModal();
             }
         });
