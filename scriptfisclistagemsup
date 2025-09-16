@@ -1,4 +1,4 @@
- console.log("V2.1");
+ console.log("V2.2");
    let processedUsers = [];
    let removedUsers = [];
    let currentUserToRemove = null;
@@ -254,7 +254,7 @@
                 
                 const groupsData = await groupsResponse.json();
                 return groupsData
-                    .filter(group => group.name && (group.name.startsWith('[RCC]') || group.name.includes('Polícia RCC') || group.name.includes('Policia RCC')))
+                    .filter(group => group.name && (group.name.startsWith('[RCC]') || group.name.includes('Polícia RCC') || group.name.includes('Policia RCC') || group.name.includes('POLÍCIA RCC') || group.name.includes('POLICIA RCC')))
                     .map(group => group.name);
                     
             } catch (error) {
