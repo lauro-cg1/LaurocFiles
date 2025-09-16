@@ -254,7 +254,7 @@
                 
                 const groupsData = await groupsResponse.json();
                 return groupsData
-                    .filter(group => group.name && group.name.startsWith('[RCC]'))
+                    .filter(group => group.name && (group.name.startsWith('[RCC]') || group.name.includes('Polícia RCC') || group.name.includes('Policia RCC')))
                     .map(group => group.name);
                     
             } catch (error) {
