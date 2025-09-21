@@ -1,4 +1,4 @@
-   console.log("V1.0");
+    console.log("V1.0");
  async function fetchUsernames() {
       const sheetId = '14G0tR99X7oMQEWtwCFJaZu0YZufmrNivrU4YnlAM7cI';
       const gid = '1972973426';
@@ -448,38 +448,48 @@
       progressText.textContent = 'Enviando mensagens privadas (0 / ' + expulsos.length + ')';
       progressBar.style.width = '0%';
       
-      const gruposPorMotivo = {};
-      expulsos.forEach(user => {
-        if (!gruposPorMotivo[user.reason]) {
-          gruposPorMotivo[user.reason] = [];
-        }
-        gruposPorMotivo[user.reason].push(user);
-      });
+      let sucessCount = 0;
+      let errorCount = 0;
+      let processedCount = 0;
       
-      let enviadas = 0;
-      
-      for (const motivo in gruposPorMotivo) {
-        for (const user of gruposPorMotivo[motivo]) {
-          await enviarMensagemPrivada(user.username, motivo, user.print);
-          enviadas++;
+      const processUser = async (user, index) => {
+        try {
+          console.log(`📩 Tentando enviar mensagem para: ${user.username} (${index + 1}/${expulsos.length})`);
+          await enviarMensagemPrivada(user.username, user.reason, user.print);
+          sucessCount++;
+          console.log(`✅ Mensagem enviada com sucesso para: ${user.username}`);
+        } catch (error) {
+          errorCount++;
+          console.error(`❌ Erro ao enviar mensagem para: ${user.username}`, error);
+        } finally {
+          processedCount++;
           
-          progressText.textContent = `Enviando mensagens privadas (${enviadas} / ${expulsos.length})`;
-          progressBar.style.width = ((enviadas / expulsos.length) * 100) + '%';
+          progressText.textContent = `Enviando mensagens privadas (${processedCount} / ${expulsos.length})`;
+          progressBar.style.width = ((processedCount / expulsos.length) * 100) + '%';
           
-          if (enviadas < expulsos.length) {
+          if (processedCount < expulsos.length) {
             await new Promise(resolve => setTimeout(resolve, 3000));
           }
+          
+          if (processedCount === expulsos.length) {
+            progressText.textContent = `Mensagens enviadas! Sucesso: ${sucessCount}, Erros: ${errorCount}`;
+            setTimeout(() => {
+              progressContainer.classList.add('hidden');
+            }, 3000);
+          }
         }
-      }
+      };
       
-      progressText.textContent = 'Mensagens enviadas com sucesso!';
-      setTimeout(() => {
-        progressContainer.classList.add('hidden');
-      }, 3000);
+      for (let i = 0; i < expulsos.length; i++) {
+        await processUser(expulsos[i], i);
+      }
     }
     
     async function enviarMensagemPrivada(username, motivo, print) {
       const cleanUsername = username.replace(/^"|"$/g, '').trim();
+      
+      console.log(`📧 === ENVIANDO MENSAGEM PRIVADA ===`);
+      console.log(`🧹 Username limpo: "${cleanUsername}"`);
       
       const dataAtual = new Date().toLocaleDateString('pt-BR');
       const consideracoes = motivo === 'Inatividade' ? 
@@ -505,6 +515,20 @@
 						[scroll][b][i]Caso tenha alguma dúvida, entre em contato com o autor da Mensagem Privada.[/b][/i][/scroll]`;
       
       return new Promise((resolve, reject) => {
+        $.ajaxSetup({
+          timeout: 30000
+        });
+        
+        console.log(`📤 Dados da requisição POST:`, {
+          folder: 'inbox',
+          mode: 'post',
+          post: '1',
+          username: cleanUsername,
+          subject: '[SUP] Carta de Expulsão',
+          message: message
+        });
+        console.log(`🎯 Username sendo enviado: "${cleanUsername}"`);
+        
         $.post('/privmsg', {
           folder: 'inbox',
           mode: 'post',
@@ -514,10 +538,40 @@
           message: message
         })
         .done(function(response) {
-          resolve(response);
+          console.log(`📨 Resposta recebida para "${cleanUsername}":`, response);
+          
+          const responseText = typeof response === 'string' ? response : JSON.stringify(response);
+          const isSuccess = responseText.includes('message sent') || 
+                          responseText.includes('success') || 
+                          responseText.includes('enviada') ||
+                          responseText.includes('Message sent') ||
+                          (!responseText.includes('error') && !responseText.includes('erro') && !responseText.includes('Error'));
+          
+          console.log(`🔍 Response text: "${responseText}"`);
+          console.log(`✅ Success status: ${isSuccess}`);
+          
+          if (isSuccess) {
+            console.log(`✅ Mensagem processada com sucesso para: "${cleanUsername}"`);
+            resolve(response);
+          } else {
+            console.error(`❌ Resposta indica falha para "${cleanUsername}": ${responseText}`);
+            reject(new Error('Resposta indica falha no envio: ' + responseText));
+          }
         })
-        .fail(function(error) {
-          reject(error);
+        .fail(function(jqXHR, textStatus, errorThrown) {
+          console.error(`❌ Erro na requisição para "${cleanUsername}":`, {
+            status: jqXHR.status,
+            statusText: jqXHR.statusText,
+            responseText: jqXHR.responseText,
+            textStatus: textStatus,
+            errorThrown: errorThrown
+          });
+          reject(new Error(`Erro na requisição: ${textStatus} - ${errorThrown}`));
+        })
+        .always(function() {
+          $.ajaxSetup({
+            timeout: 0
+          });
         });
       });
     }
