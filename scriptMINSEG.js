@@ -1,4 +1,4 @@
-  console.log("V1.0");
+   console.log("V1.0");
  async function fetchUsernames() {
       const sheetId = '14G0tR99X7oMQEWtwCFJaZu0YZufmrNivrU4YnlAM7cI';
       const gid = '1972973426';
@@ -161,10 +161,6 @@
     let cargosData = [];
 
     function openRemoveModal(username) {
-      console.log(`🗑️ Abrindo modal de remoção para:`, JSON.stringify(username));
-      console.log(`📏 Username length:`, username.length);
-      console.log(`🔢 Char codes:`, [...username].map(c => c.charCodeAt(0)));
-      
       currentUserToRemove = username;
       document.getElementById('reasonModal').style.display = 'block';
     }
@@ -195,13 +191,8 @@
       } else {
       }
 
-      console.log(`➕ Adicionando usuário removido:`);
-      console.log(`👤 Username:`, JSON.stringify(currentUserToRemove));
-      console.log(`📏 Length:`, currentUserToRemove.length);
-      console.log(`🔢 Char codes:`, [...currentUserToRemove].map(c => c.charCodeAt(0)));
-
       removedUsers.push({
-        username: currentUserToRemove.trim(),
+        username: currentUserToRemove,
         reason: reason,
         cargo: cargo,
         print: ''
@@ -439,18 +430,10 @@
     }
     
     async function enviarMensagensPrivadas() {
-      console.log('🚀 Iniciando envio de mensagens privadas...');
-      console.log('📊 Total de usuários removidos:', removedUsers.length);
-      console.log('📋 Lista completa de removidos:', removedUsers);
-      
       const expulsos = removedUsers.filter(user => 
         user.reason === 'Inatividade' || 
         user.reason === 'Não realizou a graduação em até 7 dias após a entrada na companhia'
       );
-      
-      console.log('🎯 Usuários filtrados para mensagem privada:', expulsos);
-      
-      alert(`Usuários encontrados para mensagem privada: ${expulsos.length}\nUsuários: ${expulsos.map(u => u.username).join(', ')}`);
       
       if (expulsos.length === 0) {
         alert('Nenhum usuário para enviar mensagem privada');
@@ -465,33 +448,27 @@
       progressText.textContent = 'Enviando mensagens privadas (0 / ' + expulsos.length + ')';
       progressBar.style.width = '0%';
       
+      const gruposPorMotivo = {};
+      expulsos.forEach(user => {
+        if (!gruposPorMotivo[user.reason]) {
+          gruposPorMotivo[user.reason] = [];
+        }
+        gruposPorMotivo[user.reason].push(user);
+      });
+      
       let enviadas = 0;
       
-      for (let i = 0; i < expulsos.length; i++) {
-        const user = expulsos[i];
-        try {
-          console.log(`📩 Tentando enviar mensagem para: ${user.username} (${i + 1}/${expulsos.length})`);
-          console.log(`🔍 Username original:`, JSON.stringify(user.username));
-          console.log(`🔍 Length:`, user.username.length);
-          console.log(`🔍 Char codes:`, [...user.username].map(c => c.charCodeAt(0)));
-          console.log(`🔍 Trimmed:`, JSON.stringify(user.username.trim()));
-          
-          const cleanUsername = user.username.trim();
-          console.log(`🧹 Username limpo:`, JSON.stringify(cleanUsername));
-          
-          await enviarMensagemPrivada(cleanUsername, user.reason, user.print);
+      for (const motivo in gruposPorMotivo) {
+        for (const user of gruposPorMotivo[motivo]) {
+          await enviarMensagemPrivada(user.username, motivo, user.print);
           enviadas++;
-          console.log(`✅ Mensagem enviada com sucesso para: ${cleanUsername}`);
-        } catch (error) {
-          console.error(`❌ Falha ao enviar mensagem para ${user.username}:`, error);
-        }
-        
-        progressText.textContent = `Enviando mensagens privadas (${enviadas} / ${expulsos.length})`;
-        progressBar.style.width = ((enviadas / expulsos.length) * 100) + '%';
-        
-        if (i < expulsos.length - 1) {
-          console.log(`⏳ Aguardando 3 segundos antes da próxima mensagem...`);
-          await new Promise(resolve => setTimeout(resolve, 3000));
+          
+          progressText.textContent = `Enviando mensagens privadas (${enviadas} / ${expulsos.length})`;
+          progressBar.style.width = ((enviadas / expulsos.length) * 100) + '%';
+          
+          if (enviadas < expulsos.length) {
+            await new Promise(resolve => setTimeout(resolve, 3000));
+          }
         }
       }
       
@@ -499,16 +476,10 @@
       setTimeout(() => {
         progressContainer.classList.add('hidden');
       }, 3000);
-      
-      console.log(`🏁 Processo concluído! ${enviadas}/${expulsos.length} mensagens privadas foram enviadas.`);
-      alert(`Processo concluído!\n✅ Enviadas: ${enviadas}\n📨 Total: ${expulsos.length}\n📊 Taxa de sucesso: ${((enviadas/expulsos.length)*100).toFixed(1)}%`);
     }
     
     async function enviarMensagemPrivada(username, motivo, print) {
-      console.log(`📧 === ENVIANDO MENSAGEM PRIVADA ===`);
-      console.log(`👤 Username recebido:`, JSON.stringify(username));
-      console.log(`📝 Motivo:`, motivo);
-      console.log(`🖼️ Print:`, print);
+      const cleanUsername = username.replace(/^"|"$/g, '').trim();
       
       const dataAtual = new Date().toLocaleDateString('pt-BR');
       const consideracoes = motivo === 'Inatividade' ? 
@@ -521,7 +492,7 @@
 						[font=Poppins][table style="width: 100%; border: none!important; overflow: hidden; line-height: 0.6em; border-radius: 15px"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden" bgcolor="#2e581d"] 
 						[img]https://www.habbo.com.br/habbo-imaging/badge/b09034s43131s50134s17113s1711594848847cad78ac939330154be639c58.gif[/img] 
 						[b][size=18][color=white]NOTIFICAÇÃO DE EXPULSÃO[/color][/size][/b]
-						[table style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${username}[/b][/color].[/center]
+						[table style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${cleanUsername}[/b][/color].[/center]
 						O [b][color=#00c203]Ministério da Companhia dos Supervisores [/color][/b], por meio desta Mensagem Privada, informa sobre irregularidades identificadas durante sua estadia. Confira: \n
 						[b]Data:[/b] ${dataAtual}
 						[b]Motivo:[/b] ${motivo}
@@ -534,44 +505,19 @@
 						[scroll][b][i]Caso tenha alguma dúvida, entre em contato com o autor da Mensagem Privada.[/b][/i][/scroll]`;
       
       return new Promise((resolve, reject) => {
-        const postData = {
+        $.post('/privmsg', {
           folder: 'inbox',
           mode: 'post',
           post: '1',
-          username: username,
+          username: cleanUsername,
           subject: '[SUP] Carta de Expulsão',
           message: message
-        };
-        
-        console.log(`📤 Dados da requisição POST:`, postData);
-        console.log(`🎯 Username sendo enviado:`, JSON.stringify(postData.username));
-        
-        $.post('/privmsg', postData)
+        })
         .done(function(response) {
           resolve(response);
         })
-        .fail(function(jqXHR, textStatus, errorThrown) {
-          let errorMessage = "Erro desconhecido";
-          let errorDetails = {
-            status: jqXHR.status,
-            statusText: jqXHR.statusText,
-            textStatus: textStatus,
-            errorThrown: errorThrown,
-            responseText: jqXHR.responseText
-          };
-          
-          if (textStatus === 'timeout') {
-            errorMessage = "Tempo limite excedido";
-          } else if (jqXHR.status === 0) {
-            errorMessage = "Erro de conexão";
-          } else if (jqXHR.status >= 400 && jqXHR.status < 500) {
-            errorMessage = "Erro do cliente";
-          } else if (jqXHR.status >= 500) {
-            errorMessage = "Erro do servidor";
-          }
-          
-          console.error(`❌ Erro ao enviar mensagem para ${username}:`, errorMessage, errorDetails);
-          reject({ message: errorMessage, details: errorDetails });
+        .fail(function(error) {
+          reject(error);
         });
       });
     }
