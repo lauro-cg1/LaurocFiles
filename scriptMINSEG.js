@@ -1,4 +1,4 @@
-console.log("V1.0");
+  console.log("V1.0");
  async function fetchUsernames() {
       const sheetId = '14G0tR99X7oMQEWtwCFJaZu0YZufmrNivrU4YnlAM7cI';
       const gid = '1972973426';
@@ -32,24 +32,19 @@ console.log("V1.0");
       let lines = text.split('\n').map(l => l.trim()).filter(Boolean);
       let result = [];
       
-      console.log('Linhas brutas do CSV de cargos:', lines);
-      
       for (let i = 0; i < lines.length; i++) {
         let line = lines[i];
         let m = line.match(/^"([^"]+)"$/);
         if (m) {
           let cargo = m[1].trim();
           result.push(cargo);
-          console.log(`Cargo ${i + 1}: ${cargo}`);
         } else {
           if (line.length > 0) {
             result.push(line);
-            console.log(`Cargo ${i + 1} (sem aspas): ${line}`);
           }
         }
       }
       
-      console.log('Total de cargos carregados:', result.length);
       return result;
     }
 
@@ -188,15 +183,12 @@ console.log("V1.0");
       if (!currentUserToRemove) return;
       
       const userIndex = usersData.findIndex(user => user.username === currentUserToRemove);
-      console.log(`Removendo usuário: ${currentUserToRemove} (ID: ${userIndex + 1})`);
       
       let cargo = 'Não encontrado';
       
       if (userIndex >= 0 && userIndex < cargosData.length) {
         cargo = cargosData[userIndex] || 'Não informado';
-        console.log(`Cargo encontrado para ${currentUserToRemove}: ${cargo}`);
       } else {
-        console.log(`Cargo NÃO encontrado para ${currentUserToRemove} (índice: ${userIndex}, tamanho da lista de cargos: ${cargosData.length})`);
       }
 
       removedUsers.push({
@@ -277,9 +269,6 @@ console.log("V1.0");
         return;
       }
       
-      console.log('Iniciando processo de postagens...');
-      console.log('Usuários removidos:', removedUsers);
-      
       const grupos = {};
       
       removedUsers.forEach(user => {
@@ -297,8 +286,6 @@ console.log("V1.0");
           grupos[key].prints.push(user.print);
         }
       });
-      
-      console.log('Grupos formados:', grupos);
       
       const gruposArray = Object.values(grupos);
       let totalPostagens = 0;
@@ -322,7 +309,6 @@ console.log("V1.0");
         postagensConcluidas = await processarGrupo(gruposArray[i], i, postagensConcluidas, totalPostagens);
         
         if (i < gruposArray.length - 1) {
-          console.log('Aguardando 2 segundos antes do próximo grupo...');
           await new Promise(resolve => setTimeout(resolve, 2000));
         }
       }
@@ -331,13 +317,9 @@ console.log("V1.0");
       setTimeout(() => {
         progressContainer.classList.add('hidden');
       }, 3000);
-      
-      console.log('Todas as postagens foram processadas!');
     }
     
     async function processarGrupo(grupo, index, postagensConcluidas, totalPostagens) {
-      console.log(`Processando grupo ${index + 1}:`, grupo);
-      
       const progressText = document.getElementById('progressText');
       const progressBar = document.getElementById('progressBar');
       
@@ -351,8 +333,6 @@ console.log("V1.0");
         gerarBBCodeExpulsao(nomes, grupo.cargo, grupo.motivo, dataAtual) :
         gerarBBCodeSaida(nomes, grupo.cargo, grupo.motivo, dataAtual);
       
-      console.log(`BBCode para requerimentos (grupo ${index + 1}):`, bbcodeRequerimentos);
-      
       try {
         await enviarPostagem(37886, bbcodeRequerimentos, `Requerimentos - Grupo ${index + 1}`);
         postagensConcluidas++;
@@ -361,11 +341,9 @@ console.log("V1.0");
         progressBar.style.width = ((postagensConcluidas / totalPostagens) * 100) + '%';
         
         if (isExpulsao) {
-          console.log('Aguardando 3 segundos antes da próxima postagem...');
           await new Promise(resolve => setTimeout(resolve, 3000));
           
           const bbcodeMedalhas = gerarBBCodeMedalhas(nomes, grupo.cargo, dataAtual);
-          console.log(`BBCode para medalhas (grupo ${index + 1}):`, bbcodeMedalhas);
           
           try {
             await enviarPostagem(36744, bbcodeMedalhas, `Medalhas - Grupo ${index + 1}`);
@@ -374,14 +352,11 @@ console.log("V1.0");
             progressText.textContent = `Realizando postagens (${postagensConcluidas} / ${totalPostagens})`;
             progressBar.style.width = ((postagensConcluidas / totalPostagens) * 100) + '%';
           } catch (medalhaError) {
-            console.error(`❌ ERRO ESPECÍFICO no tópico 36744 (medalhas):`, medalhaError);
-            console.error(`Detalhes do erro:`, medalhaError.responseText || medalhaError.statusText || medalhaError);
             alert(`Erro ao postar medalhas no tópico 36744: ${medalhaError.responseText || medalhaError.statusText || 'Erro desconhecido'}`);
           }
         }
         
       } catch (error) {
-        console.error(`Erro ao processar grupo ${index + 1}:`, error);
       }
       
       return postagensConcluidas;
@@ -430,9 +405,6 @@ console.log("V1.0");
     }
     
     async function enviarPostagem(topico, bbcode, descricao) {
-      console.log(`Enviando postagem para tópico ${topico} - ${descricao}`);
-      console.log('BBCode:', bbcode);
-      
       return new Promise((resolve, reject) => {
         $.post('/post', {
           t: topico,
@@ -441,7 +413,6 @@ console.log("V1.0");
           post: 1,
         })
         .done(function(response) {
-          console.log(`✅ Postagem enviada com sucesso - ${descricao}`, response);
           resolve(response);
         })
         .fail(function(xhr, status, error) {
@@ -453,15 +424,12 @@ console.log("V1.0");
             topico: topico,
             descricao: descricao
           };
-          console.error(`❌ Erro ao enviar postagem - ${descricao}`, errorDetails);
           reject(errorDetails);
         });
       });
     }
     
     async function enviarMensagensPrivadas() {
-      console.log('Iniciando envio de mensagens privadas...');
-      
       const expulsos = removedUsers.filter(user => 
         user.reason === 'Inatividade' || 
         user.reason === 'Não realizou a graduação em até 7 dias após a entrada na companhia'
@@ -471,8 +439,6 @@ console.log("V1.0");
         alert('Nenhum usuário para enviar mensagem privada');
         return;
       }
-      
-      console.log('Usuários que receberão mensagem privada:', expulsos);
       
       const progressContainer = document.getElementById('progressContainer');
       const progressText = document.getElementById('progressText');
@@ -500,7 +466,9 @@ console.log("V1.0");
           progressText.textContent = `Enviando mensagens privadas (${enviadas} / ${expulsos.length})`;
           progressBar.style.width = ((enviadas / expulsos.length) * 100) + '%';
           
-          await new Promise(resolve => setTimeout(resolve, 1000));
+          if (enviadas < expulsos.length) {
+            await new Promise(resolve => setTimeout(resolve, 3000));
+          }
         }
       }
       
@@ -534,8 +502,6 @@ console.log("V1.0");
 						[size=11][color=white]BBCode modificado por [b]laurocg2[/b] com base no original de .Brendon.[/color][/size][/td][/tr][/table]
 						[scroll][b][i]Caso tenha alguma dúvida, entre em contato com o autor da Mensagem Privada.[/b][/i][/scroll]`;
       
-      console.log(`Enviando mensagem privada para ${username} - Motivo: ${motivo}`);
-      
       return new Promise((resolve, reject) => {
         $.post('/privmsg', {
           folder: 'inbox',
@@ -546,11 +512,9 @@ console.log("V1.0");
           message: message
         })
         .done(function(response) {
-          console.log(`✅ Mensagem enviada para ${username}`, response);
           resolve(response);
         })
         .fail(function(error) {
-          console.error(`❌ Erro ao enviar mensagem para ${username}`, error);
           reject(error);
         });
       });
@@ -584,12 +548,6 @@ console.log("V1.0");
         usersData = await fetchUsernames();
         cargosData = await fetchCargos();
         
-        console.log('Dados carregados:');
-        console.log('Usuários:', usersData.length);
-        console.log('Cargos:', cargosData.length);
-        console.log('Primeiros 5 usuários:', usersData.slice(0, 5));
-        console.log('Primeiros 5 cargos:', cargosData.slice(0, 5));
-        
         let cardsHtml = '';
         let attentionCount = 0;
         const totalUsers = usersData.length;
@@ -602,8 +560,6 @@ console.log("V1.0");
           
           loading.textContent = `Carregando dados (${i + 1} / ${totalUsers})`;
           
-          console.log(`Usuário ${i + 1}: ${username} (ID: ${i + 1})`);
-          
           try {
             const user = await fetchHabboUser(username);
             const groups = await fetchHabboGroups(user.uniqueId);
@@ -611,7 +567,6 @@ console.log("V1.0");
             cardsHtml += cardData.html;
             if (cardData.needsAttention) attentionCount++;
           } catch (e) {
-            console.log(`Erro ao processar usuário ${username} (ID: ${i + 1}):`, e.message);
             cardsHtml += `<div class="card" data-username="${username}"><button class="remove-btn" onclick="openRemoveModal('${username}')">&times;</button><div class="info">${username}<br><span style='color:#d32f2f'>Usuário não encontrado ou erro.</span></div></div>`;
           }
         }
