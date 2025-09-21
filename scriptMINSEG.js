@@ -1,4 +1,4 @@
-console.log("V1.0");
+console.log("V1.1");
  async function fetchUsernames() {
       const sheetId = '14G0tR99X7oMQEWtwCFJaZu0YZufmrNivrU4YnlAM7cI';
       const gid = '1972973426';
@@ -412,7 +412,7 @@ console.log("V1.0");
         day: '2-digit', 
         month: 'short', 
         year: 'numeric' 
-      }).replace(/\./g, '');
+      }).replace(/\./g, '').replace(/ de /g, ' ');
       
       return `[font=Poppins][color=#004d1a][b][size=17]✗ DADOS DO RESPONSÁVEL[/size][/b][/color]
 
