@@ -440,54 +440,93 @@
         return;
       }
       
-      const progressContainer = document.getElementById('progressContainer');
-      const progressText = document.getElementById('progressText');
-      const progressBar = document.getElementById('progressBar');
+      criarInterfaceMensagens(expulsos);
+    }
+    
+    function criarInterfaceMensagens(expulsos) {
+      const removedList = document.getElementById('removedList');
+      removedList.innerHTML = '';
       
-      progressContainer.classList.remove('hidden');
-      progressText.textContent = 'Enviando mensagens privadas (0 / ' + expulsos.length + ')';
-      progressBar.style.width = '0%';
+      const titleDiv = document.createElement('div');
+      titleDiv.innerHTML = '<h4 style="margin-bottom: 15px; color: #036e04;">Mensagens Privadas - Clique para enviar individualmente:</h4>';
+      removedList.appendChild(titleDiv);
       
-      let sucessCount = 0;
-      let errorCount = 0;
-      let processedCount = 0;
-      
-      const processUser = async (user, index) => {
-        try {
-          console.log(`📩 Tentando enviar mensagem para: ${user.username} (${index + 1}/${expulsos.length})`);
-          await enviarMensagemPrivada(user.username, user.reason, user.print);
-          sucessCount++;
-          console.log(`✅ Mensagem enviada com sucesso para: ${user.username}`);
-        } catch (error) {
-          errorCount++;
-          console.error(`❌ Erro ao enviar mensagem para: ${user.username}`, error);
-        } finally {
-          processedCount++;
+      expulsos.forEach((user, index) => {
+        const userDiv = document.createElement('div');
+        userDiv.style.cssText = `
+          display: flex; 
+          align-items: center; 
+          justify-content: space-between; 
+          margin-bottom: 10px; 
+          padding: 10px; 
+          background: #f9f9f9; 
+          border-radius: 5px; 
+          border-left: 4px solid #036e04;
+        `;
+        
+        const userInfo = document.createElement('div');
+        userInfo.style.cssText = 'flex-grow: 1; margin-right: 10px;';
+        userInfo.innerHTML = `
+          <strong>${user.username}</strong><br>
+          <small style="color: #666;">${user.reason}</small>
+        `;
+        
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.cssText = 'display: flex; align-items: center; gap: 10px;';
+        
+        const sendButton = document.createElement('button');
+        sendButton.textContent = 'Enviar MP';
+        sendButton.style.cssText = `
+          padding: 8px 15px; 
+          background-color: #007cba; 
+          color: white; 
+          border: none; 
+          border-radius: 4px; 
+          cursor: pointer;
+          font-weight: bold;
+          transition: background-color 0.2s;
+        `;
+        
+        sendButton.onmouseover = function() {
+          this.style.backgroundColor = '#005a8b';
+        };
+        sendButton.onmouseout = function() {
+          this.style.backgroundColor = '#007cba';
+        };
+        
+        const statusSpan = document.createElement('span');
+        statusSpan.style.cssText = 'min-width: 80px; font-weight: bold; text-align: center;';
+        statusSpan.textContent = 'Aguardando';
+        statusSpan.style.color = '#666';
+        
+        sendButton.onclick = async function() {
+          statusSpan.textContent = 'Enviando...';
+          statusSpan.style.color = 'orange';
           
-          progressText.textContent = `Enviando mensagens privadas (${processedCount} / ${expulsos.length})`;
-          progressBar.style.width = ((processedCount / expulsos.length) * 100) + '%';
-          
-          if (processedCount < expulsos.length) {
-            await new Promise(resolve => setTimeout(resolve, 3000));
+          try {
+            console.log(`📩 Tentando enviar mensagem para: ${user.username}`);
+            await enviarMensagemPrivada(user.username, user.reason, user.print);
+            statusSpan.textContent = '✓ Enviado';
+            statusSpan.style.color = 'green';
+            console.log(`✅ Mensagem enviada com sucesso para: ${user.username}`);
+          } catch (error) {
+            statusSpan.textContent = '✗ Erro';
+            statusSpan.style.color = 'red';
+            console.error(`❌ Erro ao enviar mensagem para: ${user.username}`, error);
           }
-          
-          if (processedCount === expulsos.length) {
-            progressText.textContent = `Mensagens enviadas! Sucesso: ${sucessCount}, Erros: ${errorCount}`;
-            setTimeout(() => {
-              progressContainer.classList.add('hidden');
-            }, 3000);
-          }
-        }
-      };
-      
-      for (let i = 0; i < expulsos.length; i++) {
-        await processUser(expulsos[i], i);
-      }
+        };
+        
+        buttonContainer.appendChild(sendButton);
+        buttonContainer.appendChild(statusSpan);
+        
+        userDiv.appendChild(userInfo);
+        userDiv.appendChild(buttonContainer);
+        removedList.appendChild(userDiv);
+      });
     }
     
     async function enviarMensagemPrivada(username, motivo, print) {
       const cleanUsername = username.replace(/^"|"$/g, '').trim();
-      
       console.log(`📧 === ENVIANDO MENSAGEM PRIVADA ===`);
       console.log(`🧹 Username limpo: "${cleanUsername}"`);
       
