@@ -1897,4 +1897,127 @@ console.log("V1.0");
         });
 
         setTimeout(handleResize, 1000);
+        
+        function replaceIconPlaceholders() {
+            const iconMap = {
+                '????📱': '📱',
+                '????🎉': '🎉', 
+                '????🎮': '🎮',
+                '????🔄': '🔄',
+                '????✏️': '✏️',
+                '????📏': '📏',
+                '????🗑️': '🗑️',
+                '????🎯': '🎯',
+                '????🏁': '🏁',
+                '????♔': '♔',
+                '????💡': '💡',
+                '????????': '🎉',
+                '????': '🎮',
+                '?': '🎯'
+            };
+            
+            function replaceInElement(element) {
+                if (element.nodeType === 3) {
+                    let text = element.textContent;
+                    let wasModified = false;
+                    
+                    if (text.includes('????')) {
+                        if (text.includes('Parabéns')) {
+                            text = text.replace(/\?{4}/g, '🎉');
+                            wasModified = true;
+                        } else if (text.includes('Jogar') || text.includes('Iniciar')) {
+                            text = text.replace(/\?{4}/g, '🎮');
+                            wasModified = true;
+                        } else if (text.includes('Recomeçar') || text.includes('Novo')) {
+                            text = text.replace(/\?{4}/g, '🔄');
+                            wasModified = true;
+                        } else if (text.includes('Pincel')) {
+                            text = text.replace(/\?{4}/g, '✏️');
+                            wasModified = true;
+                        } else if (text.includes('Linha')) {
+                            text = text.replace(/\?{4}/g, '📏');
+                            wasModified = true;
+                        } else if (text.includes('Limpar')) {
+                            text = text.replace(/\?{4}/g, '🗑️');
+                            wasModified = true;
+                        } else if (text.includes('Desafio')) {
+                            text = text.replace(/\?{4}/g, '🎯');
+                            wasModified = true;
+                        } else if (text.includes('Finalizar')) {
+                            text = text.replace(/\?{4}/g, '🏁');
+                            wasModified = true;
+                        } else {
+                            text = text.replace(/\?{4}/g, '🎮');
+                            wasModified = true;
+                        }
+                    }
+                    
+                    if (wasModified) {
+                        element.textContent = text;
+                    }
+                } else if (element.nodeType === 1) {
+                    for (let i = 0; i < element.childNodes.length; i++) {
+                        replaceInElement(element.childNodes[i]);
+                    }
+                }
+            }
+            
+            function replaceIconsInCSS() {
+                const style = document.createElement('style');
+                style.textContent = `
+                    .rotate-icon::before {
+                        content: '📱' !important;
+                    }
+                    .dica-btn::before {
+                        content: '💡' !important;
+                    }
+                    .checkers-piece.king::after {
+                        content: '♔' !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            replaceInElement(document.body);
+            replaceIconsInCSS();
+            
+            const rotateIcon = document.querySelector('.rotate-icon');
+            if (rotateIcon && rotateIcon.textContent.includes('?')) {
+                rotateIcon.textContent = '📱';
+            }
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', replaceIconPlaceholders);
+        } else {
+            replaceIconPlaceholders();
+        }
+        
+        setTimeout(replaceIconPlaceholders, 500);
+        
+        function applyPoppinsFont() {
+            document.body.style.fontFamily = "'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+            
+            const mainElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, div, button, input, select, textarea');
+            mainElements.forEach(element => {
+                const computedStyle = window.getComputedStyle(element);
+                if (computedStyle.fontFamily.includes('Segoe UI') || 
+                    computedStyle.fontFamily.includes('Tahoma') || 
+                    computedStyle.fontFamily.includes('Geneva') || 
+                    computedStyle.fontFamily.includes('Verdana') ||
+                    computedStyle.fontFamily.includes('sans-serif')) {
+                    element.style.fontFamily = "'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+                }
+            });
+            
+            console.log('Fonte Poppins aplicada via JavaScript override');
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', applyPoppinsFont);
+        } else {
+            applyPoppinsFont();
+        }
+        
+        setTimeout(applyPoppinsFont, 100);
         }
