@@ -320,6 +320,11 @@ console.log("V1.0");
       
       for (let i = 0; i < gruposArray.length; i++) {
         postagensConcluidas = await processarGrupo(gruposArray[i], i, postagensConcluidas, totalPostagens);
+        
+        if (i < gruposArray.length - 1) {
+          console.log('Aguardando 2 segundos antes do próximo grupo...');
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
       }
       
       progressText.textContent = 'Postagens realizadas com sucesso!';
@@ -356,13 +361,23 @@ console.log("V1.0");
         progressBar.style.width = ((postagensConcluidas / totalPostagens) * 100) + '%';
         
         if (isExpulsao) {
+          console.log('Aguardando 3 segundos antes da próxima postagem...');
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          
           const bbcodeMedalhas = gerarBBCodeMedalhas(nomes, grupo.cargo, dataAtual);
           console.log(`BBCode para medalhas (grupo ${index + 1}):`, bbcodeMedalhas);
-          await enviarPostagem(36744, bbcodeMedalhas, `Medalhas - Grupo ${index + 1}`);
-          postagensConcluidas++;
           
-          progressText.textContent = `Realizando postagens (${postagensConcluidas} / ${totalPostagens})`;
-          progressBar.style.width = ((postagensConcluidas / totalPostagens) * 100) + '%';
+          try {
+            await enviarPostagem(36744, bbcodeMedalhas, `Medalhas - Grupo ${index + 1}`);
+            postagensConcluidas++;
+            
+            progressText.textContent = `Realizando postagens (${postagensConcluidas} / ${totalPostagens})`;
+            progressBar.style.width = ((postagensConcluidas / totalPostagens) * 100) + '%';
+          } catch (medalhaError) {
+            console.error(`❌ ERRO ESPECÍFICO no tópico 36744 (medalhas):`, medalhaError);
+            console.error(`Detalhes do erro:`, medalhaError.responseText || medalhaError.statusText || medalhaError);
+            alert(`Erro ao postar medalhas no tópico 36744: ${medalhaError.responseText || medalhaError.statusText || 'Erro desconhecido'}`);
+          }
         }
         
       } catch (error) {
@@ -429,9 +444,17 @@ console.log("V1.0");
           console.log(`✅ Postagem enviada com sucesso - ${descricao}`, response);
           resolve(response);
         })
-        .fail(function(error) {
-          console.error(`❌ Erro ao enviar postagem - ${descricao}`, error);
-          reject(error);
+        .fail(function(xhr, status, error) {
+          const errorDetails = {
+            status: xhr.status,
+            statusText: xhr.statusText,
+            responseText: xhr.responseText,
+            error: error,
+            topico: topico,
+            descricao: descricao
+          };
+          console.error(`❌ Erro ao enviar postagem - ${descricao}`, errorDetails);
+          reject(errorDetails);
         });
       });
     }
