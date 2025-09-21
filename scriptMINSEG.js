@@ -1,4 +1,6 @@
-    console.log("V1.1");
+   console.log("V1.0");
+    document.title = "[SUP] Min. Segurança - Controle";
+    
  async function fetchUsernames() {
       const sheetId = '14G0tR99X7oMQEWtwCFJaZu0YZufmrNivrU4YnlAM7cI';
       const gid = '1972973426';
@@ -504,11 +506,9 @@
           statusSpan.style.color = 'orange';
           
           try {
-            console.log(`📩 Tentando enviar mensagem para: ${user.username}`);
             await enviarMensagemPrivada(user.username, user.reason, user.print);
             statusSpan.textContent = '✓ Enviado';
             statusSpan.style.color = 'green';
-            console.log(`✅ Mensagem enviada com sucesso para: ${user.username}`);
           } catch (error) {
             statusSpan.textContent = '✗ Erro';
             statusSpan.style.color = 'red';
@@ -527,9 +527,6 @@
     
     async function enviarMensagemPrivada(username, motivo, print) {
       const cleanUsername = username.replace(/^"|"$/g, '').trim();
-      console.log(`📧 === ENVIANDO MENSAGEM PRIVADA ===`);
-      console.log(`🧹 Username limpo: "${cleanUsername}"`);
-      
       const dataAtual = new Date().toLocaleDateString('pt-BR');
       const consideracoes = motivo === 'Inatividade' ? 
         'De acordo com o Código de Conduta dos Supervisores, membros que ficarem 5 ou mais dias offline no Habbo Hotel serão expulsos e receberão 100 medalhas efetivas negativas.' :
@@ -557,17 +554,6 @@
         $.ajaxSetup({
           timeout: 30000
         });
-        
-        console.log(`📤 Dados da requisição POST:`, {
-          folder: 'inbox',
-          mode: 'post',
-          post: '1',
-          username: cleanUsername,
-          subject: '[SUP] Carta de Expulsão',
-          message: message
-        });
-        console.log(`🎯 Username sendo enviado: "${cleanUsername}"`);
-        
         $.post('/privmsg', {
           folder: 'inbox',
           mode: 'post',
@@ -577,20 +563,13 @@
           message: message
         })
         .done(function(response) {
-          console.log(`📨 Resposta recebida para "${cleanUsername}":`, response);
-          
           const responseText = typeof response === 'string' ? response : JSON.stringify(response);
           const isSuccess = responseText.includes('message sent') || 
                           responseText.includes('success') || 
                           responseText.includes('enviada') ||
                           responseText.includes('Message sent') ||
                           (!responseText.includes('error') && !responseText.includes('erro') && !responseText.includes('Error'));
-          
-          console.log(`🔍 Response text: "${responseText}"`);
-          console.log(`✅ Success status: ${isSuccess}`);
-          
           if (isSuccess) {
-            console.log(`✅ Mensagem processada com sucesso para: "${cleanUsername}"`);
             resolve(response);
           } else {
             console.error(`❌ Resposta indica falha para "${cleanUsername}": ${responseText}`);
