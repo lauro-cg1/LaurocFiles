@@ -1,4 +1,4 @@
-console.log("V1.1");
+console.log("V1.0");
  async function fetchUsernames() {
       const sheetId = '14G0tR99X7oMQEWtwCFJaZu0YZufmrNivrU4YnlAM7cI';
       const gid = '1972973426';
@@ -523,12 +523,12 @@ console.log("V1.1");
 						[img]https://www.habbo.com.br/habbo-imaging/badge/b09034s43131s50134s17113s1711594848847cad78ac939330154be639c58.gif[/img] 
 						[b][size=18][color=white]NOTIFICAÇÃO DE EXPULSÃO[/color][/size][/b]
 						[table style="width: 100%; border: none!important; overflow: hidden; line-height: 1.4em; border-radius: 15px"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; overflow: hidden" bgcolor="ffffff"][center]Saudações, [color=#065708][b]${username}[/b][/color].[/center]
-						O [b][color=#00c203]Ministério da Companhia dos Supervisores [/color][/b], por meio desta Mensagem Privada, informa sobre irregularidades identificadas durante sua estadia. Confira: \\n
+						O [b][color=#00c203]Ministério da Companhia dos Supervisores [/color][/b], por meio desta Mensagem Privada, informa sobre irregularidades identificadas durante sua estadia. Confira: \n
 						[b]Data:[/b] ${dataAtual} 
 						[b]Motivo:[/b] ${motivo}
 						[b]Considerações:[/b] ${consideracoes} 
-						[b]Provas:[/b] ${linkPrint} \\n
-						[center]O erro será punido conforme os regulamentos da companhia, resultando em uma [b]expulsão[/b].[/center] \\n
+						[b]Provas:[/b] ${linkPrint} \n
+						[center]O erro será punido conforme os regulamentos da companhia, resultando em uma [b]expulsão[/b].[/center] \n
 						[center][table style="border-radius: 15px; overflow: hidden; width: 40%" bgcolor="#198700"][tr style="overflow: hidden; border: none !important;"][td style="border: none!important; width: 30%; overflow: hidden" bgcolor="#198700"][url=${linkPrint}][right][img]https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPpOjvA7M2VafDm8loCfggSJX5uCkskY6YA5Hu9CwVDhPYCSyAsc7A6b6QKTS75wpdPaHdKejD8dZkMmMJOW0OjpLb0HHu4tUZ7lypNSJjA6q8kD8VZ1G5Nd4oE_FF78jY8qmSgAufBmEJ/s1600/ES59E.gif[/img][/right][/url][/td][td style="border: none!important; overflow: hidden"][left][b][size=14][url=${linkPrint}][color=white]COMPROVAÇÃO[/color][/size][/b] 
 						[size=10][color=white]Clique aqui para ver a comprovação.[/color][/size][/url][/left][/td][/tr][/table][/center][/td][/tr][/table][/td][/tr][/table][/font]
 						[size=11][color=white]BBCode modificado por [b]laurocg2[/b] com base no original de .Brendon.[/color][/size][/td][/tr][/table]
