@@ -1,4 +1,4 @@
-    console.log("V1.0");
+    console.log("V1.1");
  async function fetchUsernames() {
       const sheetId = '14G0tR99X7oMQEWtwCFJaZu0YZufmrNivrU4YnlAM7cI';
       const gid = '1972973426';
