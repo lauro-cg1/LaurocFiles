@@ -467,7 +467,7 @@
           progressBar.style.width = ((enviadas / expulsos.length) * 100) + '%';
           
           if (enviadas < expulsos.length) {
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            await new Promise(resolve => setTimeout(resolve, 5000));
           }
         }
       }
