@@ -1,4 +1,4 @@
-  console.log("V1.1");
+   console.log("V1.0");
     document.title = "[SUP] Min. Segurança - Controle";
     
  async function fetchUsernames() {
@@ -267,7 +267,7 @@
 
     async function realizarPostagens() {
       if (removedUsers.length === 0) {
-        alert('Nenhum usuário removido para realizar postagens!');
+        mostrarAviso('Nenhum usuário removido para realizar postagens!');
         return;
       }
       
@@ -365,7 +365,7 @@
               progressText.textContent = `Realizando postagens (${postagensConcluidas} / ${totalPostagens})`;
               progressBar.style.width = ((postagensConcluidas / totalPostagens) * 100) + '%';
             } catch (medalhaError) {
-              alert(`Erro ao postar medalhas no tópico 36744: ${medalhaError.responseText || medalhaError.statusText || 'Erro desconhecido'}`);
+              mostrarAviso(`Erro ao postar medalhas no tópico 36744: ${medalhaError.responseText || medalhaError.statusText || 'Erro desconhecido'}`, 'erro');
             }
           }
         }
@@ -450,7 +450,7 @@
       );
       
       if (expulsos.length === 0) {
-        alert('Nenhum usuário para enviar mensagem privada');
+        mostrarAviso('Nenhum usuário para enviar mensagem privada');
         return;
       }
       
@@ -674,10 +674,46 @@
       }
     }
 
-    function mostrarAviso(mensagem) {
+    function mostrarAviso(mensagem, tipo = 'aviso') {
       const avisoExistente = document.getElementById('avisoCustom');
       if (avisoExistente) {
         avisoExistente.remove();
+      }
+
+      let cores, iconeTexto, tituloTexto;
+      switch(tipo) {
+        case 'erro':
+          cores = {
+            bg: 'linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%)',
+            border: '#f44336',
+            text: '#c62828',
+            btn: 'linear-gradient(135deg, #f44336 0%, #d32f2f 100%)',
+            shadow: 'rgba(244, 67, 54, 0.3)'
+          };
+          iconeTexto = '❌';
+          tituloTexto = 'Erro!';
+          break;
+        case 'sucesso':
+          cores = {
+            bg: 'linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%)',
+            border: '#4caf50',
+            text: '#2e7d32',
+            btn: 'linear-gradient(135deg, #4caf50 0%, #388e3c 100%)',
+            shadow: 'rgba(76, 175, 80, 0.3)'
+          };
+          iconeTexto = '✅';
+          tituloTexto = 'Sucesso!';
+          break;
+        default:
+          cores = {
+            bg: 'linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%)',
+            border: '#f39c12',
+            text: '#8b4513',
+            btn: 'linear-gradient(135deg, #f39c12 0%, #d68910 100%)',
+            shadow: 'rgba(243, 156, 18, 0.3)'
+          };
+          iconeTexto = '⚠️';
+          tituloTexto = 'Atenção!';
       }
 
       const overlay = document.createElement('div');
@@ -698,8 +734,8 @@
 
       const avisoContent = document.createElement('div');
       avisoContent.style.cssText = `
-        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-        border: 3px solid #f39c12;
+        background: ${cores.bg};
+        border: 3px solid ${cores.border};
         border-radius: 20px;
         padding: 30px;
         max-width: 500px;
@@ -711,7 +747,7 @@
       `;
 
       const icone = document.createElement('div');
-      icone.innerHTML = '⚠️';
+      icone.innerHTML = iconeTexto;
       icone.style.cssText = `
         font-size: 3rem;
         margin-bottom: 15px;
@@ -719,19 +755,19 @@
       `;
 
       const titulo = document.createElement('h3');
-      titulo.textContent = 'Atenção!';
+      titulo.textContent = tituloTexto;
       titulo.style.cssText = `
-        color: #8b4513;
+        color: ${cores.text};
         font-size: 1.5rem;
         margin-bottom: 15px;
         font-weight: bold;
-        text-shadow: 0 1px 2px rgba(139, 69, 19, 0.3);
+        text-shadow: 0 1px 2px ${cores.shadow};
       `;
 
       const mensagemEl = document.createElement('p');
       mensagemEl.textContent = mensagem;
       mensagemEl.style.cssText = `
-        color: #8b4513;
+        color: ${cores.text};
         font-size: 1.1rem;
         line-height: 1.5;
         margin-bottom: 25px;
@@ -741,7 +777,7 @@
       const btnOk = document.createElement('button');
       btnOk.textContent = 'OK, Entendi';
       btnOk.style.cssText = `
-        background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+        background: ${cores.btn};
         color: white;
         border: none;
         border-radius: 10px;
@@ -750,18 +786,18 @@
         font-weight: bold;
         cursor: pointer;
         transition: all 0.2s;
-        box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+        box-shadow: 0 4px 12px ${cores.shadow};
         font-family: 'Poppins', sans-serif;
       `;
 
       btnOk.onmouseover = () => {
         btnOk.style.transform = 'translateY(-2px)';
-        btnOk.style.boxShadow = '0 6px 20px rgba(243, 156, 18, 0.5)';
+        btnOk.style.boxShadow = `0 6px 20px ${cores.shadow.replace('0.3', '0.5')}`;
       };
 
       btnOk.onmouseout = () => {
         btnOk.style.transform = 'translateY(0)';
-        btnOk.style.boxShadow = '0 4px 12px rgba(243, 156, 18, 0.3)';
+        btnOk.style.boxShadow = `0 4px 12px ${cores.shadow}`;
       };
 
       btnOk.onclick = () => {
@@ -777,33 +813,36 @@
       avisoContent.appendChild(btnOk);
       overlay.appendChild(avisoContent);
 
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes fadeOut {
-          from { opacity: 1; }
-          to { opacity: 0; }
-        }
-        @keyframes slideInScale {
-          from { 
-            opacity: 0; 
-            transform: translateY(-50px) scale(0.8); 
+      if (!document.getElementById('avisoStyles')) {
+        const style = document.createElement('style');
+        style.id = 'avisoStyles';
+        style.textContent = `
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
           }
-          to { 
-            opacity: 1; 
-            transform: translateY(0) scale(1); 
+          @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
           }
-        }
-        @keyframes bounce {
-          0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-          40% { transform: translateY(-10px); }
-          60% { transform: translateY(-5px); }
-        }
-      `;
-      document.head.appendChild(style);
+          @keyframes slideInScale {
+            from { 
+              opacity: 0; 
+              transform: translateY(-50px) scale(0.8); 
+            }
+            to { 
+              opacity: 1; 
+              transform: translateY(0) scale(1); 
+            }
+          }
+          @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+          }
+        `;
+        document.head.appendChild(style);
+      }
 
       document.body.appendChild(overlay);
 
@@ -959,7 +998,7 @@
       const nome = input.value.trim();
       
       if (nome === '') {
-        alert('Por favor, digite um nome válido.');
+        mostrarAviso('Por favor, digite um nome válido.');
         input.focus();
         return;
       }
@@ -968,8 +1007,6 @@
       fecharModalResponsavel();
       
       input.value = '';
-      
-      alert(`Nome do responsável definido: ${responsavelNome}`);
     }
 
     function obterNomeResponsavel() {
@@ -1024,7 +1061,6 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s;
-        margin-bottom: 15px;
         width: 100%;
       `;
       btnResponsavel.onmouseover = () => {
