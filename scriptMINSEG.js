@@ -1,4 +1,4 @@
-   console.log("V1.0");
+  console.log("V1.0");
     document.title = "[SUP] Min. Segurança - Controle";
     
  async function fetchUsernames() {
@@ -343,18 +343,25 @@
         progressBar.style.width = ((postagensConcluidas / totalPostagens) * 100) + '%';
         
         if (isExpulsao) {
+          if (!responsavelNome) {
+            alert('É necessário definir o nome do responsável antes de processar as medalhas. Por favor, defina o responsável e tente novamente.');
+            return postagensConcluidas;
+          }
+          
           await new Promise(resolve => setTimeout(resolve, 3000));
           
           const bbcodeMedalhas = gerarBBCodeMedalhas(nomes, grupo.cargo, dataAtual);
           
-          try {
-            await enviarPostagem(36744, bbcodeMedalhas, `Medalhas - Grupo ${index + 1}`);
-            postagensConcluidas++;
-            
-            progressText.textContent = `Realizando postagens (${postagensConcluidas} / ${totalPostagens})`;
-            progressBar.style.width = ((postagensConcluidas / totalPostagens) * 100) + '%';
-          } catch (medalhaError) {
-            alert(`Erro ao postar medalhas no tópico 36744: ${medalhaError.responseText || medalhaError.statusText || 'Erro desconhecido'}`);
+          if (bbcodeMedalhas) {
+            try {
+              await enviarPostagem(36744, bbcodeMedalhas, `Medalhas - Grupo ${index + 1}`);
+              postagensConcluidas++;
+              
+              progressText.textContent = `Realizando postagens (${postagensConcluidas} / ${totalPostagens})`;
+              progressBar.style.width = ((postagensConcluidas / totalPostagens) * 100) + '%';
+            } catch (medalhaError) {
+              alert(`Erro ao postar medalhas no tópico 36744: ${medalhaError.responseText || medalhaError.statusText || 'Erro desconhecido'}`);
+            }
           }
         }
         
@@ -661,4 +668,239 @@
         loading.style.display = 'none';
       }
     }
+
+    let responsavelNome = '';
+
+    function criarModalResponsavel() {
+      const modal = document.createElement('div');
+      modal.id = 'usernameModal';
+      modal.style.cssText = `
+        display: none;
+        position: fixed;
+        z-index: 1001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+      `;
+
+      const modalContent = document.createElement('div');
+      modalContent.style.cssText = `
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 30px;
+        border: none;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        position: relative;
+        animation: slideIn 0.3s ease;
+      `;
+
+      const closeBtn = document.createElement('span');
+      closeBtn.innerHTML = '&times;';
+      closeBtn.style.cssText = `
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        position: absolute;
+        top: 15px;
+        right: 20px;
+      `;
+      closeBtn.onmouseover = () => closeBtn.style.color = '#dc3545';
+      closeBtn.onmouseout = () => closeBtn.style.color = '#aaa';
+      closeBtn.onclick = () => fecharModalResponsavel();
+
+      const title = document.createElement('h3');
+      title.textContent = 'Nome do Responsável (Medalhas)';
+      title.style.cssText = `
+        color: #036e04;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+      `;
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.id = 'responsavelInput';
+      input.placeholder = 'Digite o nome do responsável';
+      input.style.cssText = `
+        width: 100%;
+        padding: 12px;
+        border: 2px solid rgba(14, 185, 76, 0.2);
+        border-radius: 8px;
+        font-size: 1rem;
+        margin: 15px 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+      `;
+      input.onfocus = () => {
+        input.style.borderColor = '#0eb94c';
+        input.style.boxShadow = '0 0 8px rgba(14, 185, 76, 0.3)';
+      };
+      input.onblur = () => {
+        input.style.borderColor = 'rgba(14, 185, 76, 0.2)';
+        input.style.boxShadow = 'none';
+      };
+
+      const confirmBtn = document.createElement('button');
+      confirmBtn.textContent = 'Confirmar';
+      confirmBtn.style.cssText = `
+        background: linear-gradient(135deg, #036e04 0%, #0eb94c 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 20px;
+        width: 100%;
+        font-family: 'Poppins', sans-serif;
+      `;
+      confirmBtn.onmouseover = () => {
+        confirmBtn.style.transform = 'translateY(-2px)';
+        confirmBtn.style.boxShadow = '0 4px 16px rgba(3, 110, 4, 0.4)';
+      };
+      confirmBtn.onmouseout = () => {
+        confirmBtn.style.transform = 'translateY(0)';
+        confirmBtn.style.boxShadow = 'none';
+      };
+      confirmBtn.onclick = () => confirmarResponsavel();
+
+      modalContent.appendChild(closeBtn);
+      modalContent.appendChild(title);
+      modalContent.appendChild(input);
+      modalContent.appendChild(confirmBtn);
+      modal.appendChild(modalContent);
+
+      document.body.appendChild(modal);
+
+      input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          confirmarResponsavel();
+        }
+      });
+    }
+
+    function abrirModalResponsavel() {
+      const modal = document.getElementById('usernameModal');
+      if (!modal) {
+        criarModalResponsavel();
+      }
+      document.getElementById('usernameModal').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('responsavelInput').focus();
+      }, 100);
+    }
+
+    function fecharModalResponsavel() {
+      document.getElementById('usernameModal').style.display = 'none';
+    }
+
+    function confirmarResponsavel() {
+      const input = document.getElementById('responsavelInput');
+      const nome = input.value.trim();
+      
+      if (nome === '') {
+        alert('Por favor, digite um nome válido.');
+        input.focus();
+        return;
+      }
+      
+      responsavelNome = nome;
+      fecharModalResponsavel();
+      
+      input.value = '';
+      
+      alert(`Nome do responsável definido: ${responsavelNome}`);
+    }
+
+    function obterNomeResponsavel() {
+      return responsavelNome || '{USERNAME}';
+    }
+
+    function gerarBBCodeMedalhas(nomes, cargo, data) {
+      if (!responsavelNome) {
+        abrirModalResponsavel();
+        return '';
+      }
+
+      const dataFormatada = new Date().toLocaleDateString('pt-BR', { 
+        day: '2-digit', 
+        month: 'short', 
+        year: 'numeric' 
+      }).replace(/\./g, '').replace(/ de /g, ' ');
+      
+      return `[font=Poppins][color=#004d1a][b][size=17]✗ DADOS DO RESPONSÁVEL[/size][/b][/color]
+
+[b]Nickname:[/b] ${responsavelNome}
+[b]Grupo de tarefas:[/b] Supervisores
+[b]Cargo referente:[/b] ${cargo}
+
+[color=#004d1a][b][size=17]✗ MEDALHAS ATRIBUÍDAS[/size][/b][/color]
+
+[b]Período de referência:[/b] ${dataFormatada}
+[b]Policiais:[/b] ${nomes}
+[b]Número de medalhas:[/b] [color=red](-100)[/color]
+
+[b]Motivo:[/b] Expulsão do grupo de tarefas.[/font]`;
+    }
+
+    function adicionarBotaoResponsavel() {
+      const removedModal = document.getElementById('removedModal');
+      const modalContent = removedModal.querySelector('.modal-content');
+      
+      if (document.getElementById('btnDefinirResponsavel')) {
+        return;
+      }
+      
+      const btnResponsavel = document.createElement('button');
+      btnResponsavel.id = 'btnDefinirResponsavel';
+      btnResponsavel.textContent = `Definir Responsável${responsavelNome ? ': ' + responsavelNome : ''}`;
+      btnResponsavel.style.cssText = `
+        background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-bottom: 15px;
+        width: 100%;
+      `;
+      btnResponsavel.onmouseover = () => {
+        btnResponsavel.style.transform = 'translateY(-2px)';
+        btnResponsavel.style.boxShadow = '0 4px 12px rgba(108, 117, 125, 0.3)';
+      };
+      btnResponsavel.onmouseout = () => {
+        btnResponsavel.style.transform = 'translateY(0)';
+        btnResponsavel.style.boxShadow = 'none';
+      };
+      btnResponsavel.onclick = () => {
+        abrirModalResponsavel();
+        setTimeout(() => {
+          if (responsavelNome) {
+            btnResponsavel.textContent = `Definir Responsável: ${responsavelNome}`;
+          }
+        }, 500);
+      };
+      
+      const primeiroBtn = modalContent.querySelector('.btn-primary');
+      modalContent.insertBefore(btnResponsavel, primeiroBtn);
+    }
+
+    const originalShowRemovedModal = showRemovedModal;
+    showRemovedModal = function() {
+      originalShowRemovedModal();
+      adicionarBotaoResponsavel();
+    };
+
     main();
