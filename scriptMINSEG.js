@@ -1,4 +1,4 @@
-   console.log("V1.0");
+    console.log("V1.1");
     document.title = "[SUP] Min. Segurança - Controle";
     
  async function fetchUsernames() {
@@ -1007,6 +1007,15 @@
       fecharModalResponsavel();
       
       input.value = '';
+      
+      atualizarBotaoResponsavel();
+    }
+
+    function atualizarBotaoResponsavel() {
+      const btnResponsavel = document.getElementById('btnDefinirResponsavel');
+      if (btnResponsavel) {
+        btnResponsavel.textContent = `Definir Responsável${responsavelNome ? ': ' + responsavelNome : ''}`;
+      }
     }
 
     function obterNomeResponsavel() {
@@ -1044,7 +1053,9 @@
       const removedModal = document.getElementById('removedModal');
       const modalContent = removedModal.querySelector('.modal-content');
       
-      if (document.getElementById('btnDefinirResponsavel')) {
+      const btnExistente = document.getElementById('btnDefinirResponsavel');
+      if (btnExistente) {
+        atualizarBotaoResponsavel();
         return;
       }
       
@@ -1073,11 +1084,6 @@
       };
       btnResponsavel.onclick = () => {
         abrirModalResponsavel();
-        setTimeout(() => {
-          if (responsavelNome) {
-            btnResponsavel.textContent = `Definir Responsável: ${responsavelNome}`;
-          }
-        }, 500);
       };
       
       const primeiroBtn = modalContent.querySelector('.btn-primary');
