@@ -1,4 +1,4 @@
-  console.log("V1.0");
+  console.log("V1.1");
     document.title = "[SUP] Min. Segurança - Controle";
     
  async function fetchUsernames() {
@@ -271,6 +271,16 @@
         return;
       }
       
+      const temExpulsoes = removedUsers.some(user => 
+        user.reason === 'Inatividade' || 
+        user.reason === 'Não realizou a graduação em até 7 dias após a entrada na companhia'
+      );
+      
+      if (temExpulsoes && !responsavelNome) {
+        mostrarAviso('É necessário definir o nome do responsável antes de processar as medalhas. Por favor, defina o responsável e tente novamente.');
+        return;
+      }
+      
       const grupos = {};
       
       removedUsers.forEach(user => {
@@ -343,11 +353,6 @@
         progressBar.style.width = ((postagensConcluidas / totalPostagens) * 100) + '%';
         
         if (isExpulsao) {
-          if (!responsavelNome) {
-            alert('É necessário definir o nome do responsável antes de processar as medalhas. Por favor, defina o responsável e tente novamente.');
-            return postagensConcluidas;
-          }
-          
           await new Promise(resolve => setTimeout(resolve, 3000));
           
           const bbcodeMedalhas = gerarBBCodeMedalhas(nomes, grupo.cargo, dataAtual);
@@ -669,6 +674,152 @@
       }
     }
 
+    function mostrarAviso(mensagem) {
+      const avisoExistente = document.getElementById('avisoCustom');
+      if (avisoExistente) {
+        avisoExistente.remove();
+      }
+
+      const overlay = document.createElement('div');
+      overlay.id = 'avisoCustom';
+      overlay.style.cssText = `
+        display: flex;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.6);
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.3s ease;
+      `;
+
+      const avisoContent = document.createElement('div');
+      avisoContent.style.cssText = `
+        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+        border: 3px solid #f39c12;
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        text-align: center;
+        position: relative;
+        animation: slideInScale 0.4s ease;
+      `;
+
+      const icone = document.createElement('div');
+      icone.innerHTML = '⚠️';
+      icone.style.cssText = `
+        font-size: 3rem;
+        margin-bottom: 15px;
+        animation: bounce 0.6s ease;
+      `;
+
+      const titulo = document.createElement('h3');
+      titulo.textContent = 'Atenção!';
+      titulo.style.cssText = `
+        color: #8b4513;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        font-weight: bold;
+        text-shadow: 0 1px 2px rgba(139, 69, 19, 0.3);
+      `;
+
+      const mensagemEl = document.createElement('p');
+      mensagemEl.textContent = mensagem;
+      mensagemEl.style.cssText = `
+        color: #8b4513;
+        font-size: 1.1rem;
+        line-height: 1.5;
+        margin-bottom: 25px;
+        font-weight: 600;
+      `;
+
+      const btnOk = document.createElement('button');
+      btnOk.textContent = 'OK, Entendi';
+      btnOk.style.cssText = `
+        background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+        font-family: 'Poppins', sans-serif;
+      `;
+
+      btnOk.onmouseover = () => {
+        btnOk.style.transform = 'translateY(-2px)';
+        btnOk.style.boxShadow = '0 6px 20px rgba(243, 156, 18, 0.5)';
+      };
+
+      btnOk.onmouseout = () => {
+        btnOk.style.transform = 'translateY(0)';
+        btnOk.style.boxShadow = '0 4px 12px rgba(243, 156, 18, 0.3)';
+      };
+
+      btnOk.onclick = () => {
+        overlay.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => {
+          overlay.remove();
+        }, 300);
+      };
+
+      avisoContent.appendChild(icone);
+      avisoContent.appendChild(titulo);
+      avisoContent.appendChild(mensagemEl);
+      avisoContent.appendChild(btnOk);
+      overlay.appendChild(avisoContent);
+
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+          from { opacity: 1; }
+          to { opacity: 0; }
+        }
+        @keyframes slideInScale {
+          from { 
+            opacity: 0; 
+            transform: translateY(-50px) scale(0.8); 
+          }
+          to { 
+            opacity: 1; 
+            transform: translateY(0) scale(1); 
+          }
+        }
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+          40% { transform: translateY(-10px); }
+          60% { transform: translateY(-5px); }
+        }
+      `;
+      document.head.appendChild(style);
+
+      document.body.appendChild(overlay);
+
+      setTimeout(() => {
+        btnOk.focus();
+      }, 400);
+
+      const handleEsc = (e) => {
+        if (e.key === 'Escape') {
+          btnOk.click();
+          document.removeEventListener('keydown', handleEsc);
+        }
+      };
+      document.addEventListener('keydown', handleEsc);
+    }
+
     let responsavelNome = '';
 
     function criarModalResponsavel() {
@@ -864,8 +1015,8 @@
       btnResponsavel.id = 'btnDefinirResponsavel';
       btnResponsavel.textContent = `Definir Responsável${responsavelNome ? ': ' + responsavelNome : ''}`;
       btnResponsavel.style.cssText = `
-        background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-        color: white;
+        background: linear-gradient(135deg, #fadd82 0%, #f2da8d 100%);
+        color: #333;
         border: none;
         border-radius: 8px;
         padding: 10px 20px;
@@ -878,7 +1029,7 @@
       `;
       btnResponsavel.onmouseover = () => {
         btnResponsavel.style.transform = 'translateY(-2px)';
-        btnResponsavel.style.boxShadow = '0 4px 12px rgba(108, 117, 125, 0.3)';
+        btnResponsavel.style.boxShadow = '0 4px 12px rgba(255, 193, 7, 0.4)';
       };
       btnResponsavel.onmouseout = () => {
         btnResponsavel.style.transform = 'translateY(0)';
