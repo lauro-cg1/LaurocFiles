@@ -5,10 +5,22 @@ let warningsData = [];
 let filteredData = [];
 let deleteMode = false;
 
-document.addEventListener('DOMContentLoaded', function() {
-    loadWarnings();
-    setupSearchFilter();
-});
+function initializeApp() {
+    try {
+        loadWarnings();
+        setupSearchFilter();
+    } catch (e) {
+        console.error('Erro na inicialização do aplicativo:', e);
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+    initializeApp();
+}
+
+window.SUPQuadro_init = initializeApp;
 
 function loadWarnings() {
     const contentArea = document.getElementById('content-area');
