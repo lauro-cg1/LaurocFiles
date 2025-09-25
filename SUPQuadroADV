@@ -1,1 +1,509 @@
-const _0x89756f=_0x18c0;(function(_0x3c649a,_0x3aaa42){const _0x540e4b=_0x18c0,_0x1ab090=_0x3c649a();while(!![]){try{const _0x290f2a=-parseInt(_0x540e4b(0x14b))/0x1*(parseInt(_0x540e4b(0x167))/0x2)+parseInt(_0x540e4b(0x175))/0x3*(-parseInt(_0x540e4b(0x177))/0x4)+parseInt(_0x540e4b(0x17d))/0x5+parseInt(_0x540e4b(0x1c2))/0x6+-parseInt(_0x540e4b(0x187))/0x7*(parseInt(_0x540e4b(0x163))/0x8)+parseInt(_0x540e4b(0x15c))/0x9*(-parseInt(_0x540e4b(0x169))/0xa)+-parseInt(_0x540e4b(0x13f))/0xb*(-parseInt(_0x540e4b(0x1bf))/0xc);if(_0x290f2a===_0x3aaa42)break;else _0x1ab090['push'](_0x1ab090['shift']());}catch(_0x2fcf33){_0x1ab090['push'](_0x1ab090['shift']());}}}(_0x188a,0xeda64));const SCRIPT_URL=_0x89756f(0x1b9);let warningsData=[],filteredData=[],deleteMode=![];document[_0x89756f(0x183)](_0x89756f(0x13c),function(){loadWarnings(),setupSearchFilter();});function loadWarnings(){const _0x48d0cf=_0x89756f,_0x5c0494=document[_0x48d0cf(0x190)](_0x48d0cf(0x182));_0x5c0494['innerHTML']=_0x48d0cf(0x146),fetchWarningsData();}function fetchWarningsData(){const _0xb99b4a=_0x89756f,_0x30206c=_0xb99b4a(0x144)+Date[_0xb99b4a(0x145)]()+'_'+Math[_0xb99b4a(0x135)]()['toString'](0x24)[_0xb99b4a(0x1a9)](0x2,0x9);window[_0x30206c]=function(_0x9df07f){const _0x464d7b=_0xb99b4a;try{_0x9df07f&&_0x9df07f[_0x464d7b(0x191)]?(warningsData=_0x9df07f['warnings']||[],filteredData=[...warningsData],displayWarnings()):showError(_0x464d7b(0x17e)+(_0x9df07f[_0x464d7b(0x1ad)]||'Erro\x20desconhecido'));}catch(_0x3c4091){showError(_0x464d7b(0x17b)+_0x3c4091[_0x464d7b(0x14d)]);}window[_0x30206c]&&delete window[_0x30206c];const _0x48321b=document[_0x464d7b(0x190)](_0x464d7b(0x18d)+_0x30206c);_0x48321b&&_0x48321b[_0x464d7b(0x1c5)]();};const _0xe9e2c6=document['createElement']('script');_0xe9e2c6['id']='script_'+_0x30206c,_0xe9e2c6[_0xb99b4a(0x17a)]=SCRIPT_URL+_0xb99b4a(0x155)+_0x30206c+_0xb99b4a(0x13b)+Date[_0xb99b4a(0x145)](),_0xe9e2c6[_0xb99b4a(0x18f)]=function(){const _0x2f913e=_0xb99b4a;showError(_0x2f913e(0x170));},document['head'][_0xb99b4a(0x1b1)](_0xe9e2c6);}function displayWarnings(){const _0x41a9d1=_0x89756f,_0x1aed12=document[_0x41a9d1(0x190)](_0x41a9d1(0x182));if(filteredData[_0x41a9d1(0x16b)]===0x0){_0x1aed12[_0x41a9d1(0x15f)]=_0x41a9d1(0x139);return;}let _0x13bdfa=_0x41a9d1(0x19e)+(deleteMode?'<th></th>':'')+_0x41a9d1(0x16f);filteredData[_0x41a9d1(0x181)](_0x54ac04=>{const _0x3cd54c=_0x41a9d1,_0x14d3af=isDateExpired(_0x54ac04[_0x3cd54c(0x1c6)]),_0x6ce871='',_0x31e4e1=_0x14d3af?_0x3cd54c(0x14e):_0x3cd54c(0x1af),_0x41c7f4=_0x14d3af?_0x3cd54c(0x180):'Ativa',_0x2cb472=_0x54ac04[_0x3cd54c(0x166)]===_0x3cd54c(0x1a7)?_0x3cd54c(0x1bc):_0x3cd54c(0x1ae),_0x2c049d=deleteMode?_0x3cd54c(0x1bd)+(_0x54ac04[_0x3cd54c(0x13d)]||_0x3cd54c(0x197))+_0x3cd54c(0x16c):'';_0x13bdfa+=_0x3cd54c(0x1b2)+_0x6ce871+_0x3cd54c(0x1c1)+_0x2c049d+_0x3cd54c(0x143)+formatDateTime(_0x54ac04['dateTime'])+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td><strong>'+escapeHtml(_0x54ac04[_0x3cd54c(0x165)])+_0x3cd54c(0x19c)+escapeHtml(_0x54ac04[_0x3cd54c(0x1c3)])+_0x3cd54c(0x142)+escapeHtml(_0x54ac04['warned'])+_0x3cd54c(0x176)+_0x2cb472+'\x22>'+escapeHtml(_0x54ac04[_0x3cd54c(0x166)])+_0x3cd54c(0x172)+escapeHtml(_0x54ac04[_0x3cd54c(0x141)])+_0x3cd54c(0x156)+formatDate(_0x54ac04[_0x3cd54c(0x1c6)])+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td><span\x20class=\x22status-badge\x20'+_0x31e4e1+'\x22>'+_0x41c7f4+_0x3cd54c(0x132);}),_0x13bdfa+=_0x41a9d1(0x140),_0x1aed12[_0x41a9d1(0x15f)]=_0x13bdfa;}function isDateExpired(_0x2766eb){const _0x3625ec=_0x89756f;if(!_0x2766eb)return![];const _0x5548a2=new Date(),_0xc76743=new Date(_0x2766eb);return _0x5548a2[_0x3625ec(0x171)](0x0,0x0,0x0,0x0),_0xc76743[_0x3625ec(0x171)](0x0,0x0,0x0,0x0),_0xc76743<_0x5548a2;}function formatDateTime(_0x540a92){const _0x466a36=_0x89756f;if(!_0x540a92)return'';try{const _0x4a3f74=new Date(_0x540a92);return _0x4a3f74[_0x466a36(0x14a)](_0x466a36(0x1b6));}catch(_0x1e4a7b){return _0x540a92;}}function formatDate(_0x66cde6){const _0xd3ddf3=_0x89756f;if(!_0x66cde6)return'';try{const _0x39cbc9=typeof _0x66cde6==='string'&&_0x66cde6[_0xd3ddf3(0x198)](/^(\d{4})-(\d{2})-(\d{2})$/);let _0x38a141;if(_0x39cbc9){const _0xd40be=parseInt(_0x39cbc9[0x1],0xa),_0x47f1fa=parseInt(_0x39cbc9[0x2],0xa)-0x1,_0x44b1b7=parseInt(_0x39cbc9[0x3],0xa);_0x38a141=new Date(_0xd40be,_0x47f1fa,_0x44b1b7);}else _0x38a141=new Date(_0x66cde6);if(isNaN(_0x38a141[_0xd3ddf3(0x164)]()))return _0x66cde6;return _0x38a141['toLocaleDateString']('pt-BR');}catch(_0x8feef2){return _0x66cde6;}}function escapeHtml(_0x4d9544){const _0x4743be=_0x89756f,_0x54ebba=document[_0x4743be(0x154)]('div');return _0x54ebba[_0x4743be(0x148)]=_0x4d9544,_0x54ebba[_0x4743be(0x15f)];}function setupSearchFilter(){const _0x8eff30=_0x89756f,_0x134083=document['getElementById'](_0x8eff30(0x1b7));_0x134083[_0x8eff30(0x183)](_0x8eff30(0x192),function(){const _0x195d51=_0x8eff30,_0x2f18bd=this[_0x195d51(0x1b5)]['toLowerCase']()[_0x195d51(0x16e)]();_0x2f18bd===''?filteredData=[...warningsData]:filteredData=warningsData[_0x195d51(0x19b)](_0x26546f=>_0x26546f[_0x195d51(0x179)]['toLowerCase']()['includes'](_0x2f18bd)),displayWarnings();});}function openModal(){const _0x3cb071=_0x89756f,_0x1433dd=document[_0x3cb071(0x190)]('warningModal');_0x1433dd[_0x3cb071(0x184)][_0x3cb071(0x1ac)]=_0x3cb071(0x189);const _0x498e15=new Date(),_0x46d4ed=new Date(_0x498e15[_0x3cb071(0x164)]()+0x1e*0x18*0x3c*0x3c*0x3e8);document[_0x3cb071(0x190)](_0x3cb071(0x1c6))['value']=_0x46d4ed['toISOString']()[_0x3cb071(0x138)]('T')[0x0];}function closeModal(){const _0x1b0009=_0x89756f,_0xc9076a=document[_0x1b0009(0x190)](_0x1b0009(0x174));_0xc9076a[_0x1b0009(0x184)][_0x1b0009(0x1ac)]=_0x1b0009(0x13e),document[_0x1b0009(0x190)](_0x1b0009(0x161))[_0x1b0009(0x149)]();}function _0x18c0(_0x59d577,_0x7a8ca8){const _0x188a28=_0x188a();return _0x18c0=function(_0x18c040,_0x358952){_0x18c040=_0x18c040-0x131;let _0x213623=_0x188a28[_0x18c040];return _0x213623;},_0x18c0(_0x59d577,_0x7a8ca8);}function submitWarning(){const _0x4b8cb6=_0x89756f,_0xb14d4d=document[_0x4b8cb6(0x190)](_0x4b8cb6(0x161));if(!_0xb14d4d['checkValidity']()){_0xb14d4d[_0x4b8cb6(0x137)]();return;}const _0x467df3={'responsible':document['getElementById']('responsible')['value']['trim'](),'position':document[_0x4b8cb6(0x190)](_0x4b8cb6(0x1c3))['value']['trim'](),'warned':document['getElementById'](_0x4b8cb6(0x179))[_0x4b8cb6(0x1b5)][_0x4b8cb6(0x16e)](),'type':document[_0x4b8cb6(0x190)](_0x4b8cb6(0x166))[_0x4b8cb6(0x1b5)],'reason':document[_0x4b8cb6(0x190)](_0x4b8cb6(0x141))[_0x4b8cb6(0x1b5)][_0x4b8cb6(0x16e)](),'finalDate':document[_0x4b8cb6(0x190)](_0x4b8cb6(0x1c6))[_0x4b8cb6(0x1b5)]},_0x317a78=event['target'],_0x29afee=_0x317a78[_0x4b8cb6(0x15f)];_0x317a78[_0x4b8cb6(0x15f)]=_0x4b8cb6(0x1b3),_0x317a78[_0x4b8cb6(0x18e)]=!![],submitToGoogleScript(_0x467df3)[_0x4b8cb6(0x1be)](_0x44a5da=>{const _0x4b1dbc=_0x4b8cb6;_0x44a5da[_0x4b1dbc(0x191)]?showAlert(_0x4b1dbc(0x16d),_0x4b1dbc(0x1b0),{'type':_0x4b1dbc(0x191)})['then'](()=>{closeModal(),refreshData();}):showAlert('Erro','Erro\x20ao\x20registrar\x20advertência:\x20'+_0x44a5da[_0x4b1dbc(0x1ad)],{'type':_0x4b1dbc(0x1ad)});})[_0x4b8cb6(0x17c)](_0x5a3075=>{const _0x4fb101=_0x4b8cb6;showAlert(_0x4fb101(0x1bb),_0x4fb101(0x151)+_0x5a3075['message'],{'type':_0x4fb101(0x1ad)});})[_0x4b8cb6(0x1a4)](()=>{const _0x1fb7b7=_0x4b8cb6;_0x317a78['innerHTML']=_0x29afee,_0x317a78[_0x1fb7b7(0x18e)]=![];});}function showAlert(_0xafd942,_0x1769a6,_0x14c92e={}){return new Promise(_0x4a5664=>{const _0x3e19e9=_0x18c0,_0x39bdde=document[_0x3e19e9(0x190)](_0x3e19e9(0x1a6)),_0x1b09a6=document[_0x3e19e9(0x190)]('customAlertTitle'),_0x14d8f4=document['getElementById'](_0x3e19e9(0x178)),_0x3474ec=document[_0x3e19e9(0x190)]('customAlertOk');_0x1b09a6[_0x3e19e9(0x148)]=_0xafd942||'Aviso',_0x14d8f4[_0x3e19e9(0x148)]=_0x1769a6||'';const _0x22a5cd=_0x39bdde[_0x3e19e9(0x195)]('.alert-icon');if(_0x14c92e['type']===_0x3e19e9(0x191))_0x22a5cd[_0x3e19e9(0x148)]='✅';else _0x14c92e['type']===_0x3e19e9(0x1ad)?_0x22a5cd[_0x3e19e9(0x148)]='❌':_0x22a5cd[_0x3e19e9(0x148)]='🔔';const _0x248d35=document[_0x3e19e9(0x190)](_0x3e19e9(0x15b));if(_0x248d35)_0x248d35[_0x3e19e9(0x18b)][_0x3e19e9(0x19f)](_0x3e19e9(0x14c));document[_0x3e19e9(0x162)][_0x3e19e9(0x184)][_0x3e19e9(0x134)]=_0x3e19e9(0x152),_0x39bdde[_0x3e19e9(0x18b)][_0x3e19e9(0x19f)]('show');try{_0x3474ec[_0x3e19e9(0x173)]();}catch(_0x4e1549){}function _0x7b5702(){const _0x5dec79=_0x3e19e9;_0x39bdde['classList'][_0x5dec79(0x1c5)](_0x5dec79(0x14c));if(_0x248d35)_0x248d35[_0x5dec79(0x18b)][_0x5dec79(0x1c5)](_0x5dec79(0x14c));document['body'][_0x5dec79(0x184)][_0x5dec79(0x134)]='',_0x3474ec[_0x5dec79(0x186)](_0x5dec79(0x1c4),_0x1e6b53),document[_0x5dec79(0x186)](_0x5dec79(0x1a8),_0x3633e),_0x4a5664();}function _0x1e6b53(){_0x7b5702();}function _0x3633e(_0x1cddce){const _0x218531=_0x3e19e9;(_0x1cddce['key']===_0x218531(0x18a)||_0x1cddce[_0x218531(0x159)]===_0x218531(0x15d))&&_0x7b5702();}_0x3474ec[_0x3e19e9(0x183)](_0x3e19e9(0x1c4),_0x1e6b53),document['addEventListener'](_0x3e19e9(0x1a8),_0x3633e);});}function submitToGoogleScript(_0xda4b7f){return new Promise((_0x50daf3,_0x201ef2)=>{const _0x415fa4=_0x18c0,_0x478b6b=_0x415fa4(0x188)+Date['now']()+'_'+Math[_0x415fa4(0x135)]()['toString'](0x24)[_0x415fa4(0x1a9)](0x2,0x9);window[_0x478b6b]=function(_0x2bf7bc){const _0x528d06=_0x415fa4;_0x50daf3(_0x2bf7bc);window[_0x478b6b]&&delete window[_0x478b6b];const _0x26af66=document[_0x528d06(0x190)](_0x528d06(0x18d)+_0x478b6b);_0x26af66&&_0x26af66[_0x528d06(0x1c5)]();};const _0x54a8f6=document['createElement'](_0x415fa4(0x19d));_0x54a8f6['id']=_0x415fa4(0x18d)+_0x478b6b;const _0x8727ea=new URLSearchParams({'action':_0x415fa4(0x1b8),'callback':_0x478b6b,'responsible':_0xda4b7f[_0x415fa4(0x165)],'position':_0xda4b7f[_0x415fa4(0x1c3)],'warned':_0xda4b7f[_0x415fa4(0x179)],'type':_0xda4b7f[_0x415fa4(0x166)],'reason':_0xda4b7f[_0x415fa4(0x141)],'finalDate':_0xda4b7f[_0x415fa4(0x1c6)],'_':Date['now']()});_0x54a8f6[_0x415fa4(0x17a)]=SCRIPT_URL+'?'+_0x8727ea[_0x415fa4(0x1a3)](),_0x54a8f6[_0x415fa4(0x18f)]=function(){const _0x1476d8=_0x415fa4;_0x201ef2(new Error(_0x1476d8(0x170)));},document['head'][_0x415fa4(0x1b1)](_0x54a8f6);});}function startRemoveFlow(){const _0x118cbf=_0x89756f;showPrompt(_0x118cbf(0x158),_0x118cbf(0x1b4))[_0x118cbf(0x1be)](_0x526afe=>{const _0x2b7973=_0x118cbf;if(!_0x526afe)return;verifyCode(_0x526afe)[_0x2b7973(0x1be)](_0x1647e6=>{const _0x6142f6=_0x2b7973;_0x1647e6&&_0x1647e6[_0x6142f6(0x168)]?(deleteMode=!![],showAlert(_0x6142f6(0x1c0),_0x6142f6(0x136),{'type':'success'})[_0x6142f6(0x1be)](()=>displayWarnings())):showAlert(_0x6142f6(0x193),_0x6142f6(0x15a),{'type':_0x6142f6(0x1ad)});})[_0x2b7973(0x17c)](_0x520af0=>{const _0x16f3fc=_0x2b7973;showAlert(_0x16f3fc(0x1bb),'Falha\x20ao\x20verificar\x20código:\x20'+(_0x520af0[_0x16f3fc(0x14d)]||_0x520af0),{'type':_0x16f3fc(0x1ad)});});})[_0x118cbf(0x17c)](()=>{});}function verifyCode(_0x4bee90){return new Promise((_0x62ab4e,_0x1ef00b)=>{const _0x1d9745=_0x18c0,_0x3caa45=_0x1d9745(0x185)+Date[_0x1d9745(0x145)]()+'_'+Math[_0x1d9745(0x135)]()[_0x1d9745(0x1a3)](0x24)[_0x1d9745(0x1a9)](0x2,0x9);window[_0x3caa45]=function(_0x3e9025){const _0x567fc7=_0x1d9745;_0x62ab4e(_0x3e9025);if(window[_0x3caa45])delete window[_0x3caa45];const _0x1b249b=document[_0x567fc7(0x190)]('script_'+_0x3caa45);if(_0x1b249b)_0x1b249b['remove']();};const _0x69611a=document[_0x1d9745(0x154)](_0x1d9745(0x19d));_0x69611a['id']=_0x1d9745(0x18d)+_0x3caa45,_0x69611a[_0x1d9745(0x17a)]=SCRIPT_URL+_0x1d9745(0x1c8)+_0x3caa45+'&code='+encodeURIComponent(_0x4bee90)+_0x1d9745(0x13b)+Date['now'](),_0x69611a[_0x1d9745(0x18f)]=function(){_0x1ef00b(new Error('Erro\x20ao\x20conectar'));},document[_0x1d9745(0x199)][_0x1d9745(0x1b1)](_0x69611a);});}function showPrompt(_0x2a05c3,_0x407c43){return new Promise(_0x17a2df=>{const _0x4c997c=_0x18c0,_0x38a9f2=document[_0x4c997c(0x190)](_0x4c997c(0x150)),_0x2c83da=document[_0x4c997c(0x190)](_0x4c997c(0x14f)),_0x1665f6=document[_0x4c997c(0x190)](_0x4c997c(0x1a5)),_0x3cb5d2=document[_0x4c997c(0x190)]('customPromptOk'),_0x10ec56=document[_0x4c997c(0x190)](_0x4c997c(0x16a));document[_0x4c997c(0x190)](_0x4c997c(0x19a))[_0x4c997c(0x148)]=_0x2a05c3||'',document[_0x4c997c(0x190)](_0x4c997c(0x1ca))[_0x4c997c(0x148)]=_0x407c43||'',_0x38a9f2[_0x4c997c(0x18b)][_0x4c997c(0x19f)]('show'),_0x2c83da[_0x4c997c(0x184)]['display']=_0x4c997c(0x1c9),_0x2c83da[_0x4c997c(0x18b)][_0x4c997c(0x19f)](_0x4c997c(0x14c)),document[_0x4c997c(0x162)]['style'][_0x4c997c(0x134)]=_0x4c997c(0x152),_0x1665f6['value']='';try{_0x1665f6['focus']();}catch(_0x2f4701){}function _0x505229(){const _0x545b3c=_0x4c997c;_0x38a9f2[_0x545b3c(0x18b)][_0x545b3c(0x1c5)]('show'),_0x2c83da[_0x545b3c(0x18b)][_0x545b3c(0x1c5)](_0x545b3c(0x14c)),_0x2c83da[_0x545b3c(0x184)]['display']=_0x545b3c(0x13e),document[_0x545b3c(0x162)]['style'][_0x545b3c(0x134)]='',_0x3cb5d2[_0x545b3c(0x186)](_0x545b3c(0x1c4),_0x2a9895),_0x10ec56[_0x545b3c(0x186)](_0x545b3c(0x1c4),_0x4278bd),document['removeEventListener'](_0x545b3c(0x1a8),_0x396f54);}function _0x2a9895(){const _0x255f31=_0x4c997c,_0x4f39fb=_0x1665f6[_0x255f31(0x1b5)];_0x505229(),_0x17a2df(_0x4f39fb);}function _0x4278bd(){_0x505229(),_0x17a2df(null);}function _0x396f54(_0x301459){const _0x59debd=_0x4c997c;_0x301459['key']===_0x59debd(0x18a)&&_0x4278bd(),_0x301459[_0x59debd(0x159)]===_0x59debd(0x15d)&&_0x2a9895();}_0x3cb5d2[_0x4c997c(0x183)](_0x4c997c(0x1c4),_0x2a9895),_0x10ec56[_0x4c997c(0x183)](_0x4c997c(0x1c4),_0x4278bd),document[_0x4c997c(0x183)](_0x4c997c(0x1a8),_0x396f54);});}function showConfirm(_0x1f2a8a){return new Promise(_0x500449=>{const _0x34bc38=_0x18c0,_0x2dff8e=document[_0x34bc38(0x190)](_0x34bc38(0x17f)),_0x2b3c15=document['getElementById'](_0x34bc38(0x157)),_0x13b29c=document['getElementById'](_0x34bc38(0x1ab)),_0x1393fe=document[_0x34bc38(0x190)](_0x34bc38(0x13a));document[_0x34bc38(0x190)](_0x34bc38(0x1a0))[_0x34bc38(0x148)]=_0x1f2a8a||_0x34bc38(0x1aa),_0x2dff8e[_0x34bc38(0x18b)][_0x34bc38(0x19f)]('show'),_0x2b3c15[_0x34bc38(0x184)]['display']='flex',_0x2b3c15['classList']['add'](_0x34bc38(0x14c)),document[_0x34bc38(0x162)][_0x34bc38(0x184)][_0x34bc38(0x134)]=_0x34bc38(0x152);function _0x46be5b(){const _0x29e116=_0x34bc38;_0x2dff8e[_0x29e116(0x18b)][_0x29e116(0x1c5)](_0x29e116(0x14c)),_0x2b3c15[_0x29e116(0x18b)][_0x29e116(0x1c5)](_0x29e116(0x14c)),_0x2b3c15[_0x29e116(0x184)]['display']=_0x29e116(0x13e),document[_0x29e116(0x162)]['style'][_0x29e116(0x134)]='',_0x13b29c[_0x29e116(0x186)](_0x29e116(0x1c4),_0x3d63ea),_0x1393fe[_0x29e116(0x186)]('click',_0xb2de8f),document[_0x29e116(0x186)]('keydown',_0x4d5254);}function _0x3d63ea(){_0x46be5b(),_0x500449(!![]);}function _0xb2de8f(){_0x46be5b(),_0x500449(![]);}function _0x4d5254(_0x2aba75){const _0x3e1cc6=_0x34bc38;_0x2aba75[_0x3e1cc6(0x159)]===_0x3e1cc6(0x18a)&&_0xb2de8f(),_0x2aba75[_0x3e1cc6(0x159)]===_0x3e1cc6(0x15d)&&_0x3d63ea();}_0x13b29c[_0x34bc38(0x183)](_0x34bc38(0x1c4),_0x3d63ea),_0x1393fe[_0x34bc38(0x183)]('click',_0xb2de8f),document[_0x34bc38(0x183)](_0x34bc38(0x1a8),_0x4d5254);});}function _0x188a(){const _0x5d0d8a=['12vGDDyG','Remoção\x20habilitada','\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','2718708WuqYfG','position','click','remove','finalDate','remove_','?action=verifyCode&callback=','flex','customPromptMessage','Advertência\x20removida\x20com\x20sucesso','</span></td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','Linha\x20inválida\x20para\x20remoção','overflow','random','Clique\x20no\x20X\x20ao\x20lado\x20esquerdo\x20da\x20advertência\x20para\x20marcar\x20para\x20remoção.','reportValidity','split','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22empty-state\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2048px;\x20margin-bottom:\x2020px;\x22>📋</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h3>Nenhuma\x20advertência\x20encontrada</h3>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Não\x20há\x20advertências\x20registradas\x20ou\x20que\x20correspondam\x20à\x20sua\x20busca.</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','customConfirmNo','&_=','DOMContentLoaded','sheetRow','none','23010020PKAuEj','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</tbody>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</table>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','reason','</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td><strong>','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>','callback_','now','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22loading\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22loading-spinner\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Carregando\x20advertências...</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22btn\x20btn-primary\x22\x20onclick=\x22refreshData()\x22\x20style=\x22margin-top:\x2020px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20🔄\x20Tentar\x20Novamente\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','textContent','reset','toLocaleString','41OumIUt','show','message','status-expired','customPrompt','customPromptOverlay','Erro\x20ao\x20enviar\x20dados:\x20','hidden','Não\x20foi\x20possível\x20remover:\x20','createElement','?action=getWarnings&callback=','</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>','customConfirm','Código\x20de\x20Remoção','key','O\x20código\x20informado\x20é\x20inválido.','customAlertOverlay','1764ydagwm','Enter','?action=removeWarning&callback=','innerHTML','onclick','warningForm','body','40vKqKQD','getTime','responsible','type','23284SEwstI','valid','13240VzbOhk','customPromptCancel','length',')\x22>✖</td>','Sucesso','trim','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>Data/Hora</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>Responsável</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>Cargo</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>Advertido</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>Tipo</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>Motivo</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>Data\x20Final</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>Status</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</thead>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tbody>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','Erro\x20ao\x20conectar\x20com\x20o\x20servidor','setHours','</span></td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>','focus','warningModal','2078757XNZZeG','</strong></td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td><span\x20class=\x22type-badge\x20','8OxtFax','customAlertMessage','warned','src','Erro\x20ao\x20processar\x20os\x20dados:\x20','catch','6506865upznLR','Erro\x20ao\x20carregar\x20os\x20dados:\x20','customConfirmOverlay','Expirada','forEach','content-area','addEventListener','style','verify_','removeEventListener','1050329XyhRwR','submitCallback_','block','Escape','classList','Removido','script_','disabled','onerror','getElementById','success','input','Código\x20inválido','erro\x20desconhecido','querySelector','target','null','match','head','customPromptTitle','filter','</strong></td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>','script','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22table-container\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<table>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<thead>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','add','customConfirmMessage','Deseja\x20remover\x20essa\x20advertência?','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22empty-state\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2048px;\x20margin-bottom:\x2020px;\x20color:\x20#e53e3e;\x22>❌</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h3>Erro\x20ao\x20carregar\x20dados</h3>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>','toString','finally','customPromptInput','customAlert','Advertência\x20Verbal','keydown','substr','Confirma?','customConfirmYes','display','error','type-internal','status-active','Advertência\x20registrada\x20com\x20sucesso!','appendChild','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr\x20class=\x22','⏳\x20Salvando...','Insira\x20o\x20código\x20para\x20habilitar\x20remoção','value','pt-BR','searchInput','addWarning','https://script.google.com/macros/s/AKfycbyGSO0xQ_Gg1MTISbEVaP9ylnDXmjzsOk7Sn8ReeZ62dsKK49sl8IJuLeD53t9pUQdo/exec','&sheetRow=','Erro','type-verbal','<td\x20class=\x22delete-col\x22\x20title=\x22Remover\x22\x20onclick=\x22confirmRemove(','then'];_0x188a=function(){return _0x5d0d8a;};return _0x188a();}async function confirmRemove(_0x23f385){const _0x4f396a=_0x89756f;if(!_0x23f385||isNaN(_0x23f385)){showAlert(_0x4f396a(0x1bb),_0x4f396a(0x133),{'type':_0x4f396a(0x1ad)});return;}const _0x190616=await showConfirm(_0x4f396a(0x1a1));if(!_0x190616)return;const _0x3205a2=_0x4f396a(0x1c7)+Date[_0x4f396a(0x145)]()+'_'+Math[_0x4f396a(0x135)]()[_0x4f396a(0x1a3)](0x24)['substr'](0x2,0x9);window[_0x3205a2]=function(_0x48b939){const _0x58aa1b=_0x4f396a;_0x48b939&&_0x48b939['success']?showAlert(_0x58aa1b(0x18c),_0x58aa1b(0x131),{'type':_0x58aa1b(0x191)})[_0x58aa1b(0x1be)](()=>refreshData()):showAlert(_0x58aa1b(0x1bb),_0x58aa1b(0x153)+(_0x48b939&&_0x48b939[_0x58aa1b(0x1ad)]?_0x48b939['error']:_0x58aa1b(0x194)),{'type':_0x58aa1b(0x1ad)});if(window[_0x3205a2])delete window[_0x3205a2];const _0x5e0d07=document[_0x58aa1b(0x190)](_0x58aa1b(0x18d)+_0x3205a2);if(_0x5e0d07)_0x5e0d07[_0x58aa1b(0x1c5)]();};const _0x2a081c=document['createElement'](_0x4f396a(0x19d));_0x2a081c['id']=_0x4f396a(0x18d)+_0x3205a2,_0x2a081c[_0x4f396a(0x17a)]=SCRIPT_URL+_0x4f396a(0x15e)+_0x3205a2+_0x4f396a(0x1ba)+_0x23f385+_0x4f396a(0x13b)+Date[_0x4f396a(0x145)](),_0x2a081c[_0x4f396a(0x18f)]=function(){const _0x3bbfd0=_0x4f396a;showAlert(_0x3bbfd0(0x1bb),'Falha\x20na\x20conexão',{'type':_0x3bbfd0(0x1ad)});},document['head'][_0x4f396a(0x1b1)](_0x2a081c);}function refreshData(){loadWarnings();}function showError(_0xa05761){const _0x5cc10f=_0x89756f,_0x929305=document[_0x5cc10f(0x190)](_0x5cc10f(0x182));_0x929305['innerHTML']=_0x5cc10f(0x1a2)+_0xa05761+_0x5cc10f(0x147);}window[_0x89756f(0x160)]=function(_0x164e9c){const _0x543c94=_0x89756f,_0x50e44f=document[_0x543c94(0x190)](_0x543c94(0x174));_0x164e9c[_0x543c94(0x196)]===_0x50e44f&&closeModal();};
+
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGSO0xQ_Gg1MTISbEVaP9ylnDXmjzsOk7Sn8ReeZ62dsKK49sl8IJuLeD53t9pUQdo/exec';
+
+let warningsData = [];
+let filteredData = [];
+let deleteMode = false;
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadWarnings();
+    setupSearchFilter();
+});
+
+function loadWarnings() {
+    const contentArea = document.getElementById('content-area');
+    contentArea.innerHTML = `
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <p>Carregando advertências...</p>
+        </div>
+    `;
+
+    fetchWarningsData();
+}
+
+function fetchWarningsData() {
+    const callbackName = `callback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    
+    window[callbackName] = function(data) {
+        try {
+            if (data && data.success) {
+                warningsData = data.warnings || [];
+                filteredData = [...warningsData];
+                displayWarnings();
+            } else {
+                showError('Erro ao carregar os dados: ' + (data.error || 'Erro desconhecido'));
+            }
+        } catch (error) {
+            showError('Erro ao processar os dados: ' + error.message);
+        }
+        
+        if (window[callbackName]) {
+            delete window[callbackName];
+        }
+        const script = document.getElementById(`script_${callbackName}`);
+        if (script) {
+            script.remove();
+        }
+    };
+
+    const script = document.createElement('script');
+    script.id = `script_${callbackName}`;
+    script.src = `${SCRIPT_URL}?action=getWarnings&callback=${callbackName}&_=${Date.now()}`;
+    script.onerror = function() {
+        showError('Erro ao conectar com o servidor');
+    };
+    
+    document.head.appendChild(script);
+}
+
+function displayWarnings() {
+    const contentArea = document.getElementById('content-area');
+    
+    if (filteredData.length === 0) {
+        contentArea.innerHTML = `
+            <div class="empty-state">
+                <div style="font-size: 48px; margin-bottom: 20px;">📋</div>
+                <h3>Nenhuma advertência encontrada</h3>
+                <p>Não há advertências registradas ou que correspondam à sua busca.</p>
+            </div>
+        `;
+        return;
+    }
+
+    let tableHTML = `
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        ${deleteMode ? '<th></th>' : ''}
+                        <th>Data/Hora</th>
+                        <th>Responsável</th>
+                        <th>Cargo</th>
+                        <th>Advertido</th>
+                        <th>Tipo</th>
+                        <th>Motivo</th>
+                        <th>Data Final</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+
+    filteredData.forEach(warning => {
+        const isExpired = isDateExpired(warning.finalDate);
+        const rowClass = '';
+        const statusClass = isExpired ? 'status-expired' : 'status-active';
+        const statusText = isExpired ? 'Expirada' : 'Ativa';
+        const typeClass = warning.type === 'Advertência Verbal' ? 'type-verbal' : 'type-internal';
+
+        const deleteCell = deleteMode ? `<td class="delete-col" title="Remover" onclick="confirmRemove(${warning.sheetRow || 'null'})">✖</td>` : '';
+
+        tableHTML += `
+            <tr class="${rowClass}">
+                ${deleteCell}
+                <td>${formatDateTime(warning.dateTime)}</td>
+                <td><strong>${escapeHtml(warning.responsible)}</strong></td>
+                <td>${escapeHtml(warning.position)}</td>
+                <td><strong>${escapeHtml(warning.warned)}</strong></td>
+                <td><span class="type-badge ${typeClass}">${escapeHtml(warning.type)}</span></td>
+                <td>${escapeHtml(warning.reason)}</td>
+                <td>${formatDate(warning.finalDate)}</td>
+                <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+            </tr>
+        `;
+    });
+
+    tableHTML += `
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    contentArea.innerHTML = tableHTML;
+}
+
+function isDateExpired(dateString) {
+    if (!dateString) return false;
+    const today = new Date();
+    const finalDate = new Date(dateString);
+    today.setHours(0, 0, 0, 0);
+    finalDate.setHours(0, 0, 0, 0);
+    return finalDate < today;
+}
+
+function formatDateTime(dateTimeString) {
+    if (!dateTimeString) return '';
+    try {
+        const date = new Date(dateTimeString);
+        return date.toLocaleString('pt-BR');
+    } catch (error) {
+        return dateTimeString;
+    }
+}
+
+function formatDate(dateString) {
+    if (!dateString) return '';
+    try {
+        const ymd = typeof dateString === 'string' && dateString.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        let date;
+        if (ymd) {
+            const year = parseInt(ymd[1], 10);
+            const month = parseInt(ymd[2], 10) - 1;
+            const day = parseInt(ymd[3], 10);
+            date = new Date(year, month, day);
+        } else {
+            date = new Date(dateString);
+        }
+        if (isNaN(date.getTime())) return dateString;
+        return date.toLocaleDateString('pt-BR');
+    } catch (error) {
+        return dateString;
+    }
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function setupSearchFilter() {
+    const searchInput = document.getElementById('searchInput');
+    if (!searchInput) return;
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        
+        if (searchTerm === '') {
+            filteredData = [...warningsData];
+        } else {
+            filteredData = warningsData.filter(warning => 
+                warning.warned.toLowerCase().includes(searchTerm)
+            );
+        }
+        
+        displayWarnings();
+    });
+}
+
+function openModal() {
+    const modal = document.getElementById('warningModal');
+    if (!modal) return;
+    modal.style.display = 'block';
+    
+    const today = new Date();
+    const futureDate = new Date(today.getTime() + (30 * 24 * 60 * 60 * 1000));
+    const input = document.getElementById('finalDate');
+    if (input) input.value = futureDate.toISOString().split('T')[0];
+}
+
+function closeModal() {
+    const modal = document.getElementById('warningModal');
+    if (!modal) return;
+    modal.style.display = 'none';
+    const form = document.getElementById('warningForm');
+    if (form) form.reset();
+}
+
+function submitWarning() {
+    const form = document.getElementById('warningForm');
+    
+    if (!form) return;
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    const formData = {
+        responsible: document.getElementById('responsible').value.trim(),
+        position: document.getElementById('position').value.trim(),
+        warned: document.getElementById('warned').value.trim(),
+        type: document.getElementById('type').value,
+        reason: document.getElementById('reason').value.trim(),
+        finalDate: document.getElementById('finalDate').value
+    };
+
+    const submitBtn = document.querySelector('#warningModal .modal-footer .btn-success');
+    const originalText = submitBtn ? submitBtn.innerHTML : 'Salvando...';
+    if (submitBtn) {
+        submitBtn.innerHTML = '⏳ Salvando...';
+        submitBtn.disabled = true;
+    }
+
+    submitToGoogleScript(formData)
+        .then(response => {
+            if (response.success) {
+                showAlert('Sucesso', 'Advertência registrada com sucesso!', {type: 'success'}).then(() => {
+                    closeModal();
+                    refreshData();
+                });
+            } else {
+                showAlert('Erro', 'Erro ao registrar advertência: ' + response.error, {type: 'error'});
+            }
+        })
+        .catch(error => {
+            showAlert('Erro', 'Erro ao enviar dados: ' + (error.message || error), {type: 'error'});
+        })
+        .finally(() => {
+            if (submitBtn) {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+}
+
+function showAlert(title, message, options = {}) {
+    return new Promise(resolve => {
+        const alertEl = document.getElementById('customAlert');
+        const alertTitle = document.getElementById('customAlertTitle');
+        const alertMessage = document.getElementById('customAlertMessage');
+        const okBtn = document.getElementById('customAlertOk');
+
+        if (alertTitle) alertTitle.textContent = title || 'Aviso';
+        if (alertMessage) alertMessage.textContent = message || '';
+
+        const iconEl = alertEl ? alertEl.querySelector('.alert-icon') : null;
+        if (iconEl) {
+            if (options.type === 'success') {
+                iconEl.textContent = '✅';
+            } else if (options.type === 'error') {
+                iconEl.textContent = '❌';
+            } else {
+                iconEl.textContent = '🔔';
+            }
+        }
+
+        const overlay = document.getElementById('customAlertOverlay');
+        if (overlay) overlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        if (alertEl) alertEl.classList.add('show');
+        try { if (okBtn) okBtn.focus(); } catch(e) {}
+
+        function cleanup() {
+            if (alertEl) alertEl.classList.remove('show');
+            if (overlay) overlay.classList.remove('show');
+            document.body.style.overflow = '';
+            if (okBtn) okBtn.removeEventListener('click', onOk);
+            document.removeEventListener('keydown', onKeyDown);
+            resolve();
+        }
+
+        function onOk() {
+            cleanup();
+        }
+
+        function onKeyDown(e) {
+            if (e.key === 'Escape' || e.key === 'Enter') {
+                cleanup();
+            }
+        }
+
+        if (okBtn) okBtn.addEventListener('click', onOk);
+        document.addEventListener('keydown', onKeyDown);
+    });
+}
+
+function submitToGoogleScript(data) {
+    return new Promise((resolve, reject) => {
+        const callbackName = `submitCallback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        
+        window[callbackName] = function(response) {
+            resolve(response);
+            
+            if (window[callbackName]) {
+                delete window[callbackName];
+            }
+            const script = document.getElementById(`script_${callbackName}`);
+            if (script) {
+                script.remove();
+            }
+        };
+
+        const script = document.createElement('script');
+        script.id = `script_${callbackName}`;
+        
+        const params = new URLSearchParams({
+            action: 'addWarning',
+            callback: callbackName,
+            responsible: data.responsible,
+            position: data.position,
+            warned: data.warned,
+            type: data.type,
+            reason: data.reason,
+            finalDate: data.finalDate,
+            _: Date.now()
+        });
+        
+        script.src = `${SCRIPT_URL}?${params.toString()}`;
+        script.onerror = function() {
+            reject(new Error('Erro ao conectar com o servidor'));
+        };
+        
+        document.head.appendChild(script);
+    });
+}
+
+function startRemoveFlow() {
+    showPrompt('Código de Remoção', 'Insira o código para habilitar remoção').then(code => {
+        if (!code) return;
+        verifyCode(code).then(result => {
+            if (result && result.valid) {
+                deleteMode = true;
+                showAlert('Remoção habilitada', 'Clique no X ao lado esquerdo da advertência para marcar para remoção.', {type: 'success'}).then(() => displayWarnings());
+            } else {
+                showAlert('Código inválido', 'O código informado é inválido.', {type: 'error'});
+            }
+        }).catch(err => {
+            showAlert('Erro', 'Falha ao verificar código: ' + (err.message || err), {type: 'error'});
+        });
+    }).catch(()=>{});
+}
+
+function verifyCode(code) {
+    return new Promise((resolve, reject) => {
+        const callbackName = `verify_${Date.now()}_${Math.random().toString(36).substr(2,9)}`;
+        window[callbackName] = function(data) {
+            resolve(data);
+            if (window[callbackName]) delete window[callbackName];
+            const s = document.getElementById(`script_${callbackName}`); if (s) s.remove();
+        };
+        const script = document.createElement('script');
+        script.id = `script_${callbackName}`;
+        script.src = `${SCRIPT_URL}?action=verifyCode&callback=${callbackName}&code=${encodeURIComponent(code)}&_=${Date.now()}`;
+        script.onerror = function(){ reject(new Error('Erro ao conectar')); };
+        document.head.appendChild(script);
+    });
+}
+
+function showPrompt(title, message) {
+    return new Promise(resolve => {
+        const overlay = document.getElementById('customPromptOverlay');
+        const dialog = document.getElementById('customPrompt');
+        const input = document.getElementById('customPromptInput');
+        const ok = document.getElementById('customPromptOk');
+        const cancel = document.getElementById('customPromptCancel');
+
+        if (document.getElementById('customPromptTitle')) document.getElementById('customPromptTitle').textContent = title || '';
+        if (document.getElementById('customPromptMessage')) document.getElementById('customPromptMessage').textContent = message || '';
+
+        if (overlay) overlay.classList.add('show');
+        if (dialog) dialog.style.display = 'flex';
+        if (dialog) dialog.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        if (input) input.value = '';
+        try{ if (input) input.focus(); } catch(e){}
+
+        function cleanup() {
+            if (overlay) overlay.classList.remove('show');
+            if (dialog) dialog.classList.remove('show');
+            if (dialog) dialog.style.display = 'none';
+            document.body.style.overflow = '';
+            if (ok) ok.removeEventListener('click', onOk);
+            if (cancel) cancel.removeEventListener('click', onCancel);
+            document.removeEventListener('keydown', onKey);
+        }
+
+        function onOk(){ const val = input ? input.value : null; cleanup(); resolve(val); }
+        function onCancel(){ cleanup(); resolve(null); }
+        function onKey(e){ if (e.key === 'Escape') { onCancel(); } if (e.key === 'Enter') { onOk(); } }
+
+        if (ok) ok.addEventListener('click', onOk);
+        if (cancel) cancel.addEventListener('click', onCancel);
+        document.addEventListener('keydown', onKey);
+    });
+}
+
+function showConfirm(message) {
+    return new Promise(resolve => {
+        const overlay = document.getElementById('customConfirmOverlay');
+        const dialog = document.getElementById('customConfirm');
+        const yes = document.getElementById('customConfirmYes');
+        const no = document.getElementById('customConfirmNo');
+
+        if (document.getElementById('customConfirmMessage')) document.getElementById('customConfirmMessage').textContent = message || 'Confirma?';
+
+        if (overlay) overlay.classList.add('show');
+        if (dialog) dialog.style.display = 'flex';
+        if (dialog) dialog.classList.add('show');
+        document.body.style.overflow = 'hidden';
+
+        function cleanup() {
+            if (overlay) overlay.classList.remove('show');
+            if (dialog) dialog.classList.remove('show');
+            if (dialog) dialog.style.display = 'none';
+            document.body.style.overflow = '';
+            if (yes) yes.removeEventListener('click', onYes);
+            if (no) no.removeEventListener('click', onNo);
+            document.removeEventListener('keydown', onKey);
+        }
+
+        function onYes(){ cleanup(); resolve(true); }
+        function onNo(){ cleanup(); resolve(false); }
+        function onKey(e){ if (e.key === 'Escape') { onNo(); } if (e.key === 'Enter') { onYes(); } }
+
+        if (yes) yes.addEventListener('click', onYes);
+        if (no) no.addEventListener('click', onNo);
+        document.addEventListener('keydown', onKey);
+    });
+}
+
+async function confirmRemove(sheetRow) {
+    if (!sheetRow || isNaN(sheetRow)) {
+        showAlert('Erro', 'Linha inválida para remoção', {type: 'error'});
+        return;
+    }
+
+    const ok = await showConfirm('Deseja remover essa advertência?');
+    if (!ok) return;
+
+    const callbackName = `remove_${Date.now()}_${Math.random().toString(36).substr(2,9)}`;
+    window[callbackName] = function(res){
+        if (res && res.success) {
+            showAlert('Removido', 'Advertência removida com sucesso', {type: 'success'}).then(()=> refreshData());
+        } else {
+            showAlert('Erro', 'Não foi possível remover: ' + (res && res.error ? res.error : 'erro desconhecido'), {type: 'error'});
+        }
+        if (window[callbackName]) delete window[callbackName];
+        const s = document.getElementById(`script_${callbackName}`); if (s) s.remove();
+    };
+    const script = document.createElement('script');
+    script.id = `script_${callbackName}`;
+    script.src = `${SCRIPT_URL}?action=removeWarning&callback=${callbackName}&sheetRow=${sheetRow}&_=${Date.now()}`;
+    script.onerror = function(){ showAlert('Erro', 'Falha na conexão', {type:'error'}); };
+    document.head.appendChild(script);
+}
+
+function refreshData() {
+    loadWarnings();
+}
+
+function showError(message) {
+    const contentArea = document.getElementById('content-area');
+    if (!contentArea) return;
+    contentArea.innerHTML = `
+        <div class="empty-state">
+            <div style="font-size: 48px; margin-bottom: 20px; color: #e53e3e;">❌</div>
+            <h3>Erro ao carregar dados</h3>
+            <p>${message}</p>
+            <button class="btn btn-primary" onclick="refreshData()" style="margin-top: 20px;">
+                🔄 Tentar Novamente
+            </button>
+        </div>
+    `;
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('warningModal');
+    if (event.target === modal) {
+        closeModal();
+    }
+}
+
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.startRemoveFlow = startRemoveFlow;
+window.refreshData = refreshData;
+window.submitWarning = submitWarning;
+window.confirmRemove = confirmRemove;
+window.loadWarnings = loadWarnings;
+
