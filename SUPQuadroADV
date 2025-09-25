@@ -1,0 +1,486 @@
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGSO0xQ_Gg1MTISbEVaP9ylnDXmjzsOk7Sn8ReeZ62dsKK49sl8IJuLeD53t9pUQdo/exec';
+        
+    let warningsData = [];
+    let filteredData = [];
+    let deleteMode = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadWarnings();
+            setupSearchFilter();
+        });
+
+        function loadWarnings() {
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Carregando advertências...</p>
+                </div>
+            `;
+
+            fetchWarningsData();
+        }
+
+        function fetchWarningsData() {
+            const callbackName = `callback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            
+            window[callbackName] = function(data) {
+                try {
+                    if (data && data.success) {
+                        warningsData = data.warnings || [];
+                        filteredData = [...warningsData];
+                        displayWarnings();
+                    } else {
+                        showError('Erro ao carregar os dados: ' + (data.error || 'Erro desconhecido'));
+                    }
+                } catch (error) {
+                    showError('Erro ao processar os dados: ' + error.message);
+                }
+                
+                if (window[callbackName]) {
+                    delete window[callbackName];
+                }
+                const script = document.getElementById(`script_${callbackName}`);
+                if (script) {
+                    script.remove();
+                }
+            };
+
+            const script = document.createElement('script');
+            script.id = `script_${callbackName}`;
+            script.src = `${SCRIPT_URL}?action=getWarnings&callback=${callbackName}&_=${Date.now()}`;
+            script.onerror = function() {
+                showError('Erro ao conectar com o servidor');
+            };
+            
+            document.head.appendChild(script);
+        }
+
+        function displayWarnings() {
+            const contentArea = document.getElementById('content-area');
+            
+            if (filteredData.length === 0) {
+                contentArea.innerHTML = `
+                    <div class="empty-state">
+                        <div style="font-size: 48px; margin-bottom: 20px;">📋</div>
+                        <h3>Nenhuma advertência encontrada</h3>
+                        <p>Não há advertências registradas ou que correspondam à sua busca.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let tableHTML = `
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                ${deleteMode ? '<th></th>' : ''}
+                                <th>Data/Hora</th>
+                                <th>Responsável</th>
+                                <th>Cargo</th>
+                                <th>Advertido</th>
+                                <th>Tipo</th>
+                                <th>Motivo</th>
+                                <th>Data Final</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            filteredData.forEach(warning => {
+                const isExpired = isDateExpired(warning.finalDate);
+                const rowClass = '';
+                const statusClass = isExpired ? 'status-expired' : 'status-active';
+                const statusText = isExpired ? 'Expirada' : 'Ativa';
+                const typeClass = warning.type === 'Advertência Verbal' ? 'type-verbal' : 'type-internal';
+
+                const deleteCell = deleteMode ? `<td class="delete-col" title="Remover" onclick="confirmRemove(${warning.sheetRow || 'null'})">✖</td>` : '';
+
+                tableHTML += `
+                    <tr class="${rowClass}">
+                        ${deleteCell}
+                        <td>${formatDateTime(warning.dateTime)}</td>
+                        <td><strong>${escapeHtml(warning.responsible)}</strong></td>
+                        <td>${escapeHtml(warning.position)}</td>
+                        <td><strong>${escapeHtml(warning.warned)}</strong></td>
+                        <td><span class="type-badge ${typeClass}">${escapeHtml(warning.type)}</span></td>
+                        <td>${escapeHtml(warning.reason)}</td>
+                        <td>${formatDate(warning.finalDate)}</td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            contentArea.innerHTML = tableHTML;
+        }
+
+        function isDateExpired(dateString) {
+            if (!dateString) return false;
+            const today = new Date();
+            const finalDate = new Date(dateString);
+            today.setHours(0, 0, 0, 0);
+            finalDate.setHours(0, 0, 0, 0);
+            return finalDate < today;
+        }
+
+        function formatDateTime(dateTimeString) {
+            if (!dateTimeString) return '';
+            try {
+                const date = new Date(dateTimeString);
+                return date.toLocaleString('pt-BR');
+            } catch (error) {
+                return dateTimeString;
+            }
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            try {
+                const ymd = typeof dateString === 'string' && dateString.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+                let date;
+                if (ymd) {
+                    const year = parseInt(ymd[1], 10);
+                    const month = parseInt(ymd[2], 10) - 1;
+                    const day = parseInt(ymd[3], 10);
+                    date = new Date(year, month, day);
+                } else {
+                    date = new Date(dateString);
+                }
+                if (isNaN(date.getTime())) return dateString;
+                return date.toLocaleDateString('pt-BR');
+            } catch (error) {
+                return dateString;
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function setupSearchFilter() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                if (searchTerm === '') {
+                    filteredData = [...warningsData];
+                } else {
+                    filteredData = warningsData.filter(warning => 
+                        warning.warned.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+                displayWarnings();
+            });
+        }
+
+        function openModal() {
+            const modal = document.getElementById('warningModal');
+            modal.style.display = 'block';
+            
+            const today = new Date();
+            const futureDate = new Date(today.getTime() + (30 * 24 * 60 * 60 * 1000));
+            document.getElementById('finalDate').value = futureDate.toISOString().split('T')[0];
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('warningModal');
+            modal.style.display = 'none';
+            document.getElementById('warningForm').reset();
+        }
+
+        function submitWarning() {
+            const form = document.getElementById('warningForm');
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const formData = {
+                responsible: document.getElementById('responsible').value.trim(),
+                position: document.getElementById('position').value.trim(),
+                warned: document.getElementById('warned').value.trim(),
+                type: document.getElementById('type').value,
+                reason: document.getElementById('reason').value.trim(),
+                finalDate: document.getElementById('finalDate').value
+            };
+
+            const submitBtn = event.target;
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '⏳ Salvando...';
+            submitBtn.disabled = true;
+
+            submitToGoogleScript(formData)
+                .then(response => {
+                    if (response.success) {
+                        showAlert('Sucesso', 'Advertência registrada com sucesso!', {type: 'success'}).then(() => {
+                            closeModal();
+                            refreshData();
+                        });
+                    } else {
+                        showAlert('Erro', 'Erro ao registrar advertência: ' + response.error, {type: 'error'});
+                    }
+                })
+                .catch(error => {
+                    showAlert('Erro', 'Erro ao enviar dados: ' + error.message, {type: 'error'});
+                })
+                .finally(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
+        }
+
+        function showAlert(title, message, options = {}) {
+            return new Promise(resolve => {
+                const alertEl = document.getElementById('customAlert');
+                const alertTitle = document.getElementById('customAlertTitle');
+                const alertMessage = document.getElementById('customAlertMessage');
+                const okBtn = document.getElementById('customAlertOk');
+
+                alertTitle.textContent = title || 'Aviso';
+                alertMessage.textContent = message || '';
+
+                const iconEl = alertEl.querySelector('.alert-icon');
+                if (options.type === 'success') {
+                    iconEl.textContent = '✅';
+                } else if (options.type === 'error') {
+                    iconEl.textContent = '❌';
+                } else {
+                    iconEl.textContent = '🔔';
+                }
+
+                const overlay = document.getElementById('customAlertOverlay');
+                if (overlay) overlay.classList.add('show');
+                document.body.style.overflow = 'hidden';
+                alertEl.classList.add('show');
+                try { okBtn.focus(); } catch(e) {}
+
+                function cleanup() {
+                    alertEl.classList.remove('show');
+                    if (overlay) overlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                    okBtn.removeEventListener('click', onOk);
+                    document.removeEventListener('keydown', onKeyDown);
+                    resolve();
+                }
+
+                function onOk() {
+                    cleanup();
+                }
+
+                function onKeyDown(e) {
+                    if (e.key === 'Escape' || e.key === 'Enter') {
+                        cleanup();
+                    }
+                }
+
+                okBtn.addEventListener('click', onOk);
+                document.addEventListener('keydown', onKeyDown);
+            });
+        }
+
+        function submitToGoogleScript(data) {
+            return new Promise((resolve, reject) => {
+                const callbackName = `submitCallback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+                
+                window[callbackName] = function(response) {
+                    resolve(response);
+                    
+                    if (window[callbackName]) {
+                        delete window[callbackName];
+                    }
+                    const script = document.getElementById(`script_${callbackName}`);
+                    if (script) {
+                        script.remove();
+                    }
+                };
+
+                const script = document.createElement('script');
+                script.id = `script_${callbackName}`;
+                
+                const params = new URLSearchParams({
+                    action: 'addWarning',
+                    callback: callbackName,
+                    responsible: data.responsible,
+                    position: data.position,
+                    warned: data.warned,
+                    type: data.type,
+                    reason: data.reason,
+                    finalDate: data.finalDate,
+                    _: Date.now()
+                });
+                
+                script.src = `${SCRIPT_URL}?${params.toString()}`;
+                script.onerror = function() {
+                    reject(new Error('Erro ao conectar com o servidor'));
+                };
+                
+                document.head.appendChild(script);
+            });
+        }
+
+        function startRemoveFlow() {
+            showPrompt('Código de Remoção', 'Insira o código para habilitar remoção').then(code => {
+                if (!code) return;
+                verifyCode(code).then(result => {
+                    if (result && result.valid) {
+                        deleteMode = true;
+                        showAlert('Remoção habilitada', 'Clique no X ao lado esquerdo da advertência para marcar para remoção.', {type: 'success'}).then(() => displayWarnings());
+                    } else {
+                        showAlert('Código inválido', 'O código informado é inválido.', {type: 'error'});
+                    }
+                }).catch(err => {
+                    showAlert('Erro', 'Falha ao verificar código: ' + (err.message || err), {type: 'error'});
+                });
+            }).catch(()=>{});
+        }
+
+        function verifyCode(code) {
+            return new Promise((resolve, reject) => {
+                const callbackName = `verify_${Date.now()}_${Math.random().toString(36).substr(2,9)}`;
+                window[callbackName] = function(data) {
+                    resolve(data);
+                    if (window[callbackName]) delete window[callbackName];
+                    const s = document.getElementById(`script_${callbackName}`); if (s) s.remove();
+                };
+                const script = document.createElement('script');
+                script.id = `script_${callbackName}`;
+                script.src = `${SCRIPT_URL}?action=verifyCode&callback=${callbackName}&code=${encodeURIComponent(code)}&_=${Date.now()}`;
+                script.onerror = function(){ reject(new Error('Erro ao conectar')); };
+                document.head.appendChild(script);
+            });
+        }
+
+        function showPrompt(title, message) {
+            return new Promise(resolve => {
+                const overlay = document.getElementById('customPromptOverlay');
+                const dialog = document.getElementById('customPrompt');
+                const input = document.getElementById('customPromptInput');
+                const ok = document.getElementById('customPromptOk');
+                const cancel = document.getElementById('customPromptCancel');
+
+                document.getElementById('customPromptTitle').textContent = title || '';
+                document.getElementById('customPromptMessage').textContent = message || '';
+
+                overlay.classList.add('show');
+                dialog.style.display = 'flex';
+                dialog.classList.add('show');
+                document.body.style.overflow = 'hidden';
+                input.value = '';
+                try{ input.focus(); } catch(e){}
+
+                function cleanup() {
+                    overlay.classList.remove('show');
+                    dialog.classList.remove('show');
+                    dialog.style.display = 'none';
+                    document.body.style.overflow = '';
+                    ok.removeEventListener('click', onOk);
+                    cancel.removeEventListener('click', onCancel);
+                    document.removeEventListener('keydown', onKey);
+                }
+
+                function onOk(){ const val = input.value; cleanup(); resolve(val); }
+                function onCancel(){ cleanup(); resolve(null); }
+                function onKey(e){ if (e.key === 'Escape') { onCancel(); } if (e.key === 'Enter') { onOk(); } }
+
+                ok.addEventListener('click', onOk);
+                cancel.addEventListener('click', onCancel);
+                document.addEventListener('keydown', onKey);
+            });
+        }
+
+        function showConfirm(message) {
+            return new Promise(resolve => {
+                const overlay = document.getElementById('customConfirmOverlay');
+                const dialog = document.getElementById('customConfirm');
+                const yes = document.getElementById('customConfirmYes');
+                const no = document.getElementById('customConfirmNo');
+
+                document.getElementById('customConfirmMessage').textContent = message || 'Confirma?';
+
+                overlay.classList.add('show');
+                dialog.style.display = 'flex';
+                dialog.classList.add('show');
+                document.body.style.overflow = 'hidden';
+
+                function cleanup() {
+                    overlay.classList.remove('show');
+                    dialog.classList.remove('show');
+                    dialog.style.display = 'none';
+                    document.body.style.overflow = '';
+                    yes.removeEventListener('click', onYes);
+                    no.removeEventListener('click', onNo);
+                    document.removeEventListener('keydown', onKey);
+                }
+
+                function onYes(){ cleanup(); resolve(true); }
+                function onNo(){ cleanup(); resolve(false); }
+                function onKey(e){ if (e.key === 'Escape') { onNo(); } if (e.key === 'Enter') { onYes(); } }
+
+                yes.addEventListener('click', onYes);
+                no.addEventListener('click', onNo);
+                document.addEventListener('keydown', onKey);
+            });
+        }
+
+        async function confirmRemove(sheetRow) {
+            if (!sheetRow || isNaN(sheetRow)) {
+                showAlert('Erro', 'Linha inválida para remoção', {type: 'error'});
+                return;
+            }
+
+            const ok = await showConfirm('Deseja remover essa advertência?');
+            if (!ok) return;
+
+            const callbackName = `remove_${Date.now()}_${Math.random().toString(36).substr(2,9)}`;
+            window[callbackName] = function(res){
+                if (res && res.success) {
+                    showAlert('Removido', 'Advertência removida com sucesso', {type: 'success'}).then(()=> refreshData());
+                } else {
+                    showAlert('Erro', 'Não foi possível remover: ' + (res && res.error ? res.error : 'erro desconhecido'), {type: 'error'});
+                }
+                if (window[callbackName]) delete window[callbackName];
+                const s = document.getElementById(`script_${callbackName}`); if (s) s.remove();
+            };
+            const script = document.createElement('script');
+            script.id = `script_${callbackName}`;
+            script.src = `${SCRIPT_URL}?action=removeWarning&callback=${callbackName}&sheetRow=${sheetRow}&_=${Date.now()}`;
+            script.onerror = function(){ showAlert('Erro', 'Falha na conexão', {type:'error'}); };
+            document.head.appendChild(script);
+        }
+
+        function refreshData() {
+            loadWarnings();
+        }
+
+        function showError(message) {
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = `
+                <div class="empty-state">
+                    <div style="font-size: 48px; margin-bottom: 20px; color: #e53e3e;">❌</div>
+                    <h3>Erro ao carregar dados</h3>
+                    <p>${message}</p>
+                    <button class="btn btn-primary" onclick="refreshData()" style="margin-top: 20px;">
+                        🔄 Tentar Novamente
+                    </button>
+                </div>
+            `;
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('warningModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
