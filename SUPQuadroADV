@@ -1,4 +1,4 @@
-
+console.log("V1.0");
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGSO0xQ_Gg1MTISbEVaP9ylnDXmjzsOk7Sn8ReeZ62dsKK49sl8IJuLeD53t9pUQdo/exec';
 
 let warningsData = [];
