@@ -1,0 +1,940 @@
+    async function enviarPostagem(topico, bbcode) {
+      console.log('=== ENVIO DE POST EM TÓPICO ===');
+      console.log('Usuário ou grupo:', `Tópico ID: ${topico}`);
+      console.log('Título:', 'Resposta no tópico');
+      console.log('Mensagem:', bbcode);
+      console.log('================================');
+      return new Promise((resolve, reject) => {
+        $.post('/post', {
+          t: topico,
+          message: bbcode,
+          mode: 'reply',
+          post: 1,
+        })
+        .done(function(response) {
+          resolve(response);
+        })
+        .fail(function(xhr, status, error) {
+          const errorDetails = {
+            xhr: xhr,
+            status: status,
+            error: error
+          };
+          reject(errorDetails);
+        });
+      });
+    }
+
+    function send_MPGroup(title, usergroup, message){
+      console.log('=== ENVIO DE MP PARA GRUPO ===');
+      console.log('Usuário ou grupo:', `Grupo ID: ${usergroup}`);
+      console.log('Título:', title);
+      console.log('Mensagem:', message);
+      console.log('================================');
+      showLoading();
+      
+      $.post('/privmsg',{
+        folder: 'inbox',
+        mode: 'post',
+        post: '1',
+        usergroup: usergroup,
+        subject: title,
+        message: message
+        }).done(function () {
+        hideLoading();
+        showSuccessPopup("Mensagem Privada enviada!");
+        }).fail(function (){
+        hideLoading();
+        alert("Erro");
+      })
+    }
+
+    function send_MP(title, user, message){
+      console.log('=== ENVIO DE MP INDIVIDUAL ===');
+      console.log('Usuário ou grupo:', user);
+      console.log('Título:', title);
+      console.log('Mensagem:', message);
+      console.log('================================');
+      showLoading();
+      
+      $.post('/privmsg',{
+        folder: 'inbox',
+        mode: 'post',
+        post: '1',
+        username: user,
+        subject: title,
+        message: message
+        }).done(function () {
+        hideLoading();
+        showSuccessPopup("Mensagem Privada enviada para " + user);
+        }).fail(function (){
+        hideLoading();
+        alert("Erro");
+      })
+    }
+
+    function showLoading() {
+      console.log('🔄 Mostrando loading...');
+    }
+
+    function hideLoading() {
+      console.log('✅ Escondendo loading...');
+    }
+
+    function showSuccessPopup(message) {
+      console.log('🎉 Sucesso:', message);
+      alert(message);
+    }
+
+    let pendingAction = null;
+
+    (function () {
+      const modal = document.getElementById('resumo-modal');
+      const openButton = document.getElementById('resumo-semanal-btn');
+      const closeButtons = modal.querySelectorAll('[data-close-modal]');
+      const dialog = modal.querySelector('.modal-dialog');
+      const form = document.getElementById('resumo-form');
+      const sendButton = document.getElementById('send-resumo');
+      const feedbackMessage = document.getElementById('feedback-message');
+
+      const promotionsConfig = [
+        { id: 'promo-supervisor', label: 'Supervisor > Tutor' },
+        { id: 'promo-tutor', label: 'Tutor > Fiscalizador' },
+        { id: 'promo-fiscalizador', label: 'Fiscalizador > Graduador' },
+        { id: 'promo-graduador', label: 'Graduador > Estagiário' },
+        { id: 'promo-estagiario', label: 'Estagiário > Ministro' },
+        { id: 'promo-ministro', label: 'Ministro > Vice-Líder' },
+        { id: 'promo-vice', label: 'Vice-Líder > Líder' }
+      ];
+
+      function toggleModal(show) {
+        if (show) {
+          modal.classList.add('is-active');
+          modal.setAttribute('aria-hidden', 'false');
+          setTimeout(() => {
+            dialog.focus({ preventScroll: true });
+          }, 10);
+        } else {
+          modal.classList.remove('is-active');
+          modal.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      openButton.addEventListener('click', () => {
+        toggleModal(true);
+      });
+
+      closeButtons.forEach((button) => {
+        button.addEventListener('click', () => toggleModal(false));
+      });
+
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          toggleModal(false);
+        }
+      });
+
+
+      form.addEventListener('submit', (event) => event.preventDefault());
+
+      function formatDate(value, placeholder) {
+        if (!value) {
+          return placeholder;
+        }
+
+        const isoMatch = /^\s*(\d{4})-(\d{2})-(\d{2})\s*$/.exec(value);
+
+        if (!isoMatch) {
+          return placeholder;
+        }
+
+        const [, year, month, day] = isoMatch;
+        const monthIndex = Number(month) - 1;
+        const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+        if (monthIndex < 0 || monthIndex > 11) {
+          return placeholder;
+        }
+
+        return `${day.padStart(2, '0')} ${months[monthIndex]} ${year}`;
+      }
+
+      function formatPercentage(value, placeholder) {
+        if (!value) {
+          return placeholder;
+        }
+        const trimmed = value.trim();
+        if (!trimmed) {
+          return placeholder;
+        }
+        return trimmed.endsWith('%') ? trimmed : `${trimmed}%`;
+      }
+
+      function sanitiseNamesInput(value) {
+        return value
+          .split(/[\n/;,]+/)
+          .map((chunk) => chunk.replace(/^"+|"+$/g, '').trim())
+          .filter(Boolean);
+      }
+
+      function buildPromotionBlocks(promotions) {
+        return promotions.map((promotion) => {
+          const upperLabel = promotion.label.toUpperCase();
+          
+          const avatarCells = promotion.names.map((name) => {
+            const encodedName = encodeURIComponent(name);
+            return `[td][img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${encodedName}&action=wav&direction=3&head_direction=3&gesture=sml&size=b[/img][/td]`;
+          }).join('');
+
+          const nameCells = promotion.names.map((name) => {
+            return `[td][font=Poppins][color=#143733][b]${name}[/b][/color][/font][/td]`;
+          }).join('');
+
+          return `[table  style="font-weight: 500; border-radius: 10px 10px 0px 0px; width: 40%; overflow: hidden; margin: 0 auto;" bgcolor="#143733"][tr][td style="overflow: hidden; padding: 0.5%"][font=Poppins][color=#FFFFFF][b]${upperLabel}[/b][/color][/font][/td][/tr][/table][table  style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden; margin: 0 auto;" bgcolor="#EDEDED"][tr]${avatarCells}[/tr]
+
+[tr bgcolor="#E0E0E0"]${nameCells}[/tr][/table]`;
+        }).join('\n');
+      }
+
+      function buildPromotionsSection(promotionsData) {
+        const filledPromotions = promotionsData.filter((promotion) => promotion.names.length > 0);
+
+        if (!filledPromotions.length) {
+          return '';
+        }
+
+        const promotionBlocks = buildPromotionBlocks(filledPromotions);
+
+        return `
+[table style="font-weight: 500; border-radius: 10px 10px 0px 0px; width: 40%; float: left; overflow: hidden;" bgcolor="#075B4B"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 0.5%"][font=Poppins][size=15][color=#FFFFFF][b]PROMOVIDOS DA SEMANA[/b][/color][/size][/font][/td][/tr][/table][table style="font-weight: 500; border-radius: 0px 10px 10px 10px; width: 100%; overflow: hidden;" bgcolor="#F5F5F5"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 1.7%"][font=Poppins]Confira os membros promovidos em razão do excelente desempenho durante a sua estadia no cargo:[/font]
+
+${promotionBlocks}
+[font=Poppins]O [color=#075B4B][b]Departamento de Comunicação e Interatividade[/b][/color], em conjunto com a [color=#075B4B][b]liderança dos Supervisores[/b][/color], parabeniza os promovidos e agradece imensamente pelo trabalho realizado em prol da companhia![/font]
+
+[table  style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden; margin: 0 auto;" bgcolor="#EDEDED"][tr][td style="overflow: hidden; padding: 1%"][font=Poppins]Caso não tenha sido promovido, [color=#075B4B][b]NÃO DESANIME![/b][/color]
+Outras promoções estão a caminho nas próximas semanas, então continue firme que o próximo promovido pode ser [color=#075B4B][b]você[/b][/color]! [color=#075B4B][b];)[/b][/color][/font][/td][/tr][/table][/td][/tr][/table]`;
+      }
+
+      function buildHighlightsSection(member1, percentage1, member2, percentage2) {
+        const member1Avatar = encodeURIComponent(member1 || 'nome do membro 1');
+        const member2Avatar = encodeURIComponent(member2 || 'nome do membro 2');
+        return `
+[table style="font-weight: 500; border-radius: 10px 10px 0px 0px; width: 40%; float: left; overflow: hidden;" bgcolor="#075B4B"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 0.5%"][font=Poppins][size=15][color=#FFFFFF][b]DESTAQUES DA SEMANA[/b][/color][/size][/font][/td][/tr][/table][table style="font-weight: 500; border-radius: 0px 10px 10px 10px; width: 100%; overflow: hidden;" bgcolor="#F5F5F5"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 1.7%"][font=Poppins]Confira os dois supervisores que alcançaram uma posição de destaque no último desempenho semanal:[/font]
+[table  style="font-weight: 500; border-radius: 10px; width: 70%; overflow: hidden; margin: 0 auto;" bgcolor="#F5F5F5"][tr][td style="overflow: hidden; padding: 2%; width: 30%"][table  style="font-weight: 500; border-radius: 10px 10px 0px 0px; width: 100%; overflow: hidden; margin: 0 auto;" bgcolor="#143733"][tr][td style="overflow: hidden; padding: 0.5%"][font=Poppins][color=#FFFFFF][b]1º LUGAR[/b][/color][/font][/td][/tr][/table][table  style="font-weight: 500; border-radius: 0px 0px 10px 10px; width: 100%; overflow: hidden; margin: 0 auto;" bgcolor="#EDEDED"][tr][td style="overflow: hidden; padding: 0%"][img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${member1Avatar}&action=wav&direction=3&head_direction=3&gesture=sml&size=b[/img][/td][/tr]
+
+[tr bgcolor="#E0E0E0"][td][font=Poppins][color=#143733][b]${member1 || '(nome do membro 1)'} - ${percentage1}[/b][/color][/font][/td][/tr][/table][/td]
+
+[td style="overflow: hidden; padding: 2%; width: 30%"][table  style="font-weight: 500; border-radius: 10px 10px 0px 0px; width: 100%; overflow: hidden; margin: 0 auto;" bgcolor="#143733"][tr][td style="overflow: hidden; padding: 0.5%"][font=Poppins][color=#FFFFFF][b]2º LUGAR[/b][/color][/font][/td][/tr][/table][table  style="font-weight: 500; border-radius: 0px 0px 10px 10px; width: 100%; overflow: hidden; margin: 0 auto;" bgcolor="#EDEDED"][tr][td style="overflow: hidden; padding: 0%"][img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${member2Avatar}&action=wav&direction=3&head_direction=3&gesture=sml&size=b[/img][/td][/tr]
+
+[tr bgcolor="#E0E0E0"][td][font=Poppins][color=#143733][b]${member2 || '(nome do membro 2)'} - ${percentage2}[/b][/color][/font][/td][/tr][/table][/td][/tr][/table][font=Poppins][color=#075B4B][b]Parabéns aos destaques semanais[/b][/color], assim como a todos aqueles que cumpriram as metas e que estão contribuindo constantemente para a nossa evolução![/font][/td][/tr][/table]`;
+      }
+
+      function buildProjectsSection(votesLink, projectsLink, ombudsmanLink) {
+        return `
+[table style="font-weight: 500; border-radius: 10px 10px 0px 0px; width: 40%; float: left; overflow: hidden;" bgcolor="#075B4B"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 0.5%"][font=Poppins][size=15][color=#FFFFFF][b]PROJETOS APROVADOS[/b][/color][/size][/font][/td][/tr][/table][table style="font-weight: 500; border-radius: 0px 10px 10px 10px; width: 100%; overflow: hidden;" bgcolor="#F5F5F5"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 1.7%"][font=Poppins]E, para encerrar com chave de ouro, informamos que todos os projetos e sugestões encaminhados ao ministério já foram cuidadosamente avaliados e, é claro, não poderíamos deixar de reconhecer aqueles cujas propostas foram aprovadas!
+
+[table  style="font-weight: 500; border-radius: 10px; width: 90%; overflow: hidden; margin: 0 auto;" bgcolor="#EDEDED"][tr][td style="overflow: hidden; padding: 1.5%"][left][color=#075B4B][b]-[/b][/color] Para visualizar a [color=#075B4B][b]transparência dos votos[/b][/color] da última semana, [url=${votesLink}][color=#075B4B][b]CLIQUE AQUI[/b][/color][/url].
+[color=#075B4B][b]-[/b][/color] Para acessar a [color=#075B4B][b]transparência de envios[/b][/color] e conferir todas as propostas aprovadas nos últimos meses, [url=${projectsLink}][color=#075B4B][b]CLIQUE AQUI[/b][/color][/url].[/left][/td][/tr][/table][/td][/tr][/table]
+Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLink}][color=#075B4B][b]Envie sua proposta em nossa Ouvidoria![/b][/color][/url][/font][/td][/tr][/table][/td][/tr][/table]`;
+      }
+
+      function buildBbcode() {
+        const firstDay = formatDate(document.getElementById('primeiro-dia').value, '(primeiro dia da semana)');
+        const lastDay = formatDate(document.getElementById('ultimo-dia').value, '(ultimo dia da semana)');
+
+        const member1 = document.getElementById('membro-1').value.trim();
+        const member2 = document.getElementById('membro-2').value.trim();
+        const percentage1 = formatPercentage(document.getElementById('porcentagem-1').value, '(porcentagem do membro 1)');
+        const percentage2 = formatPercentage(document.getElementById('porcentagem-2').value, '(porcentagem do membro 2)');
+
+        const promotionsData = promotionsConfig.map((promotion) => {
+          const rawValue = document.getElementById(promotion.id).value;
+          return {
+            ...promotion,
+            names: sanitiseNamesInput(rawValue)
+          };
+        });
+
+        const transparencyVotes = document.getElementById('transparencia-votos').value.trim() || '(link da transparencia de votos)';
+        const transparencyProjects = document.getElementById('transparencia-projetos').value.trim() || '(link da transparencia de projetos)';
+        const ombudsmanLink = document.getElementById('ouvidoria-link').value.trim() || 'https://www.policiarcc.com/t35403-sup-ouvidoria';
+
+        const promotionsSection = buildPromotionsSection(promotionsData);
+        const highlightsSection = buildHighlightsSection(member1, percentage1, member2, percentage2);
+        const projectsSection = buildProjectsSection(transparencyVotes, transparencyProjects, ombudsmanLink);
+
+        const bbcodeParts = [
+          `[table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#075B4B"][tr][td style="overflow: hidden; padding: 1%"][img]https://i.imgur.com/ZCRUcgz.jpeg[/img]
+
+[table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#FFFFFF"][tr style="border: none;"][td style="border: none!important;"][table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#FFFFFF"][tr style="border: none;"][td style="border: none!important;"][table class="rank" style="border: none!important; margin: 0em; line-height: 1em;" bgcolor="#075B4B"]
+[tr style="border: none;"][td style="border: none!important;"][size=16][b][color=#ffffff][font=Poppins]RESUMO SEMANAL[/font][/color][/b][/size][/td][/tr][/table]`,
+          `[font=Poppins]O [color=#075B4B][b]Departamento de Comunicação e Interatividade[/b][/color] dos Supervisores está passando por aqui para te deixar por dentro de todas as [color=#075B4B][b]NOVIDADES[/b][/color] que rolaram em nossa companhia na semana de [color=#075B4B][b]${firstDay}[/b][/color] a [color=#075B4B][b]${lastDay}[/b][/color]. Fique de olho![/font]`
+        ];
+
+        if (promotionsSection) {
+          bbcodeParts.push(promotionsSection);
+        }
+
+        bbcodeParts.push(highlightsSection, projectsSection, `[font=Poppins][size=12][color=#FFFFFF]Comunicação que inspira, momentos que marcam![/color][/size][/font][/td][/tr][/table]`);
+
+        return bbcodeParts.join('\n\n');
+      }
+
+      sendButton.addEventListener('click', async () => {
+        try {
+          feedbackMessage.textContent = 'Enviando mensagem...';
+        const bbcode = buildBbcode();
+          
+          send_MPGroup('[SUP] O que rolou essa semana?', 5, bbcode);
+          
+          feedbackMessage.textContent = 'Mensagem enviada com sucesso!';
+          setTimeout(() => {
+            feedbackMessage.textContent = '';
+            toggleModal(false);
+          }, 2000);
+        } catch (error) {
+          feedbackMessage.textContent = 'Erro ao enviar mensagem.';
+        setTimeout(() => {
+          feedbackMessage.textContent = '';
+        }, 3000);
+        }
+      });
+
+      const hallModal = document.getElementById('hall-modal');
+      const hallOpenButton = document.getElementById('hall-supervisores-btn');
+      const hallCloseButtons = hallModal.querySelectorAll('[data-close-modal]');
+      const hallDialog = hallModal.querySelector('.modal-dialog');
+      const hallForm = document.getElementById('hall-form');
+      const hallSendButton = document.getElementById('send-hall');
+      const hallFeedbackMessage = document.getElementById('hall-feedback-message');
+
+      function toggleHallModal(show) {
+        if (show) {
+          hallModal.classList.add('is-active');
+          hallModal.setAttribute('aria-hidden', 'false');
+          setTimeout(() => {
+            hallDialog.focus({ preventScroll: true });
+          }, 10);
+        } else {
+          hallModal.classList.remove('is-active');
+          hallModal.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      function buildHallBbcode() {
+        const firstDay = formatDate(document.getElementById('hall-primeiro-dia').value, '(primeiro dia da semana)');
+        const lastDay = formatDate(document.getElementById('hall-ultimo-dia').value, '(ultimo dia da semana)');
+        const destaque1 = document.getElementById('hall-destaque-1').value.trim() || '(1º destaque)';
+        const destaque2 = document.getElementById('hall-destaque-2').value.trim() || '(2º destaque)';
+        const destaqueOuvidoria = document.getElementById('hall-destaque-ouvidoria').value.trim() || '(destaque ouvidoria)';
+
+        const encodedDestaque1 = encodeURIComponent(destaque1);
+        const encodedDestaque2 = encodeURIComponent(destaque2);
+        const encodedDestaqueOuvidoria = encodeURIComponent(destaqueOuvidoria);
+
+        return `[table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#189600"][tr][td style="overflow: hidden; padding: 1%"][img]https://i44.servimg.com/u/f44/20/14/19/80/dpglqx14.png[/img]\n\n[table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#FFFFFF"][tr][td style="overflow: hidden; padding: 1.5%"][table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#189600"][tr][td style="overflow: hidden; padding: 0.5%"][font=Poppins][color=#FFFFFF][size=18][color=#FFFFFF][b]HALL DOS DESTAQUES[/b][/color][/size][/color][/font][/td][/tr][/table]\n[font=Poppins][color=#FFFFFFF]Destaques referentes à semana de [b]${firstDay} a ${lastDay}[/b].[/color][/font]\n\n[table  style="transition: none 0ms ease 0s; border-collapse: collapse; width: -webkit-fill-available; border-color: rgb(194, 194, 194) !important;" bgcolor="#FFFFFF" border="1"][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][table  class="rank" style="transition: none 0ms ease 0s; margin: 0em 81.7812px; color: rgb(255, 255, 255); font-weight: 600; height: 36px; width: -webkit-fill-available; border-radius: 12px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; line-height: 0em; RCC - SÓ A VERDADEIRA!: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="#37a132"][tr style="transition: none 0ms ease 0s; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][font=Lexend Deca][size=16]DESTAQUES DA PORCENTAGEM[/size][/font][/td][/tr][/table][/td][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][table  class="rank" style="transition: none 0ms ease 0s; margin: 0em 88.3125px; color: rgb(255, 255, 255); font-weight: 600; height: 36px; width: -webkit-fill-available; border-radius: 12px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; line-height: 0em; RCC - SÓ A VERDADEIRA!: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="#37a132"][tr style="transition: none 0ms ease 0s; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][font=Lexend Deca][size=16]DESTAQUE DA OUVIDORIA[/size][/font][/td][/tr][/table][/td][/tr][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][table  style="transition: none 0ms ease 0s; border-collapse: collapse; width: -webkit-fill-available; border-color: rgb(194, 194, 194) !important;"][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][img]https://www.habbo.com.br/habbo-imaging/avatarimage?img_format=png&amp;user=${encodedDestaque1}&amp;direction=2&amp;head_direction=3&amp;size=m&amp;gesture=sml&amp;action=std[/img][/td][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][img]https://www.habbo.com.br/habbo-imaging/avatarimage?img_format=png&amp;user=${encodedDestaque2}&amp;direction=4&amp;head_direction=3&amp;size=m&amp;gesture=sml&amp;action=std[/img][/td][/tr][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][font=Lexend Deca][color=#37a132][size=16][b]${destaque1}[/b][/size][/color][/font][/td][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][font=Lexend Deca][color=#37a132][size=16][b]${destaque2}[/b][/size][/color][/font][/td][/tr][/table][/td][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][table  style="transition: none 0ms ease 0s; border-collapse: collapse; width: -webkit-fill-available; border-color: rgb(194, 194, 194) !important;"][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][img]https://www.habbo.com.br/habbo-imaging/avatarimage?img_format=png&amp;user=${encodedDestaqueOuvidoria}&amp;direction=3&amp;head_direction=3&amp;size=m&amp;gesture=sml&amp;action=std[/img][/td][/tr][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][font=Lexend Deca][color=#37a132][size=16][b]${destaqueOuvidoria}[/b][/size][/color][/font][/td][/tr][/table][/td][/tr][/table]\n[font=Poppins][b]A liderança parabeniza e expressa gratidão a esses supervisores pelo empenho e dedicação em prol do grupo![/b][/font][/td][/tr][/table][/td][/tr][/table]`;
+      }
+
+      hallOpenButton.addEventListener('click', () => {
+        toggleHallModal(true);
+      });
+
+      hallCloseButtons.forEach((button) => {
+        button.addEventListener('click', () => toggleHallModal(false));
+      });
+
+      hallModal.addEventListener('click', (event) => {
+        if (event.target === hallModal) {
+          toggleHallModal(false);
+        }
+      });
+
+      hallForm.addEventListener('submit', (event) => event.preventDefault());
+
+      hallSendButton.addEventListener('click', async () => {
+        try {
+          hallFeedbackMessage.textContent = 'Enviando post...';
+          const bbcode = buildHallBbcode();
+          
+          await enviarPostagem(37322, bbcode);
+          
+          hallFeedbackMessage.textContent = 'Post enviado com sucesso!';
+          setTimeout(() => {
+            hallFeedbackMessage.textContent = '';
+            toggleHallModal(false);
+          }, 2000);
+        } catch (error) {
+          hallFeedbackMessage.textContent = 'Erro ao enviar post.';
+          setTimeout(() => {
+            hallFeedbackMessage.textContent = '';
+          }, 3000);
+        }
+      });
+
+      const ataModal = document.getElementById('ata-modal');
+      const ataOpenButton = document.getElementById('ata-reuniao-btn');
+      const ataCloseButtons = ataModal.querySelectorAll('[data-close-modal]');
+      const ataDialog = ataModal.querySelector('.modal-dialog');
+      const ataForm = document.getElementById('ata-form');
+      const ataSendButton = document.getElementById('send-ata');
+      const ataFeedbackMessage = document.getElementById('ata-feedback-message');
+
+      const projetosContainer = document.getElementById('projetos-container');
+      const addProjetoButton = document.getElementById('add-projeto');
+      const pautasContainer = document.getElementById('pautas-container');
+      const addPautaButton = document.getElementById('add-pauta');
+
+      let pautaCounter = 5;
+
+      function toggleAtaModal(show) {
+        if (show) {
+          ataModal.classList.add('is-active');
+          ataModal.setAttribute('aria-hidden', 'false');
+        setTimeout(() => {
+            ataDialog.focus({ preventScroll: true });
+          }, 10);
+        } else {
+          ataModal.classList.remove('is-active');
+          ataModal.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      function createProjetoItem() {
+        const div = document.createElement('div');
+        div.className = 'projeto-item form-grid-three';
+        div.style.marginBottom = '1rem';
+        div.innerHTML = `
+          <label>Ordem <input type="text" name="projeto-ordem" placeholder="Ex: 111"></label>
+          <label>Autor <input type="text" name="projeto-autor" placeholder="Nome do autor"></label>
+          <label>Resumo da proposta <input type="text" name="projeto-resumo" placeholder="Descrição breve"></label>
+          <button type="button" class="remove-item" style="grid-column: span 3; margin-top: 0.5rem; background: #dc3545; color: white; border: none; padding: 0.5rem; border-radius: 8px; cursor: pointer;">Remover</button>
+        `;
+        
+        const removeButton = div.querySelector('.remove-item');
+        removeButton.addEventListener('click', () => {
+          div.remove();
+        });
+        
+        return div;
+      }
+
+
+      function createPautaItem() {
+        pautaCounter++;
+        const div = document.createElement('div');
+        div.className = 'pauta-item';
+        div.style.marginBottom = '0.5rem';
+        div.innerHTML = `
+          <label>Pauta ${pautaCounter} <input type="text" name="pauta-texto" placeholder="Descrição da pauta"></label>
+          <button type="button" class="remove-item" style="margin-top: 0.5rem; background: #dc3545; color: white; border: none; padding: 0.5rem; border-radius: 8px; cursor: pointer;">Remover</button>
+        `;
+        
+        const removeButton = div.querySelector('.remove-item');
+        removeButton.addEventListener('click', () => {
+          div.remove();
+          const pautaItems = pautasContainer.querySelectorAll('.pauta-item label');
+          pautaItems.forEach((label, index) => {
+            label.childNodes[0].textContent = `Pauta ${index + 1} `;
+          });
+          pautaCounter = pautaItems.length;
+        });
+        
+        return div;
+      }
+
+      function formatDateBrazilian(value) {
+        if (!value) return '(data da reunião)';
+        
+        const isoMatch = /^\s*(\d{4})-(\d{2})-(\d{2})\s*$/.exec(value);
+        if (!isoMatch) return '(data da reunião)';
+        
+        const [, year, month, day] = isoMatch;
+        return `${day}/${month}/${year}`;
+      }
+
+      function buildAtaBbcode() {
+        const dataReuniao = formatDateBrazilian(document.getElementById('ata-data-reuniao').value);
+        
+        const projetos = [];
+        projetosContainer.querySelectorAll('.projeto-item').forEach(item => {
+          const ordem = item.querySelector('input[name="projeto-ordem"]').value.trim();
+          const autor = item.querySelector('input[name="projeto-autor"]').value.trim();
+          const resumo = item.querySelector('input[name="projeto-resumo"]').value.trim();
+          if (ordem || autor || resumo) {
+            projetos.push({ ordem: ordem || '(ordem)', autor: autor || '(autor)', resumo: resumo || '(resumo)' });
+          }
+        });
+
+        const promocoesFixas = [
+          { tipo: 'SUPERVISOR > TUTOR', campo: 'promo-supervisor-tutor' },
+          { tipo: 'TUTOR > FISCALIZADOR', campo: 'promo-tutor-fiscalizador' },
+          { tipo: 'FISCALIZADOR > GRADUADOR', campo: 'promo-fiscalizador-graduador' },
+          { tipo: 'GRADUADOR > ESTAGIÁRIO', campo: 'promo-graduador-estagiario' },
+          { tipo: 'ESTAGIÁRIO > MINISTRO', campo: 'promo-estagiario-ministro' },
+          { tipo: 'MINISTRO > VICE-LÍDER', campo: 'promo-ministro-vice' },
+          { tipo: 'VICE-LÍDER > LÍDER', campo: 'promo-vice-lider' }
+        ];
+
+        const pautas = [];
+        pautasContainer.querySelectorAll('.pauta-item input[name="pauta-texto"]').forEach(input => {
+          const texto = input.value.trim();
+          if (texto) {
+            pautas.push(texto);
+          }
+        });
+
+        const projetosText = projetos.map(p => 
+          `[b]Ordem:[/b] ${p.ordem}
+[b]Autor:[/b] ${p.autor}
+[b]Resumo da proposta:[/b] ${p.resumo}`
+        ).join('\n\n');
+
+        const promocoesText = promocoesFixas.map(promocao => {
+          const nomes = document.getElementById(promocao.campo).value.trim();
+          if (nomes) {
+            const nomesArray = nomes.split('/').map(nome => nome.trim()).filter(nome => nome);
+            const nomesLinhas = nomesArray.join('\n');
+            return `[color=#143733][b]${promocao.tipo}[/b][/color]\n${nomesLinhas}`;
+          }
+          return '';
+        }).filter(text => text).join('\n\n');
+
+        const pautasText = pautas.map(pauta => 
+          `[img(20px,10px)]https://i.imgur.com/CK5G1XM.png[/img] ${pauta}`
+        ).join('\n\n');
+
+        return `[table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#075B4B"][tr][td style="overflow: hidden; padding: 1%"][img]https://i.imgur.com/ZCRUcgz.jpeg[/img]
+
+        [table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#FFFFFF"][tr style="border: none;"][td style="border: none!important;"][table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#FFFFFF"][tr style="border: none;"][td style="border: none!important;"][table class="rank" style="border: none!important; margin: 0em; line-height: 1em;" bgcolor="#075B4B"][tr style="border: none;"][td style="border: none!important;"][size=16][b][color=#ffffff][font=Poppins]ATA DE REUNIÃO[/font][/color][/b][/size][/td][/tr][/table]
+        
+        [font=Poppins]A reunião quinzenal dos Supervisores busca constantemente inovar as pautas para fomentar a interação e a participação dos membros, além de apresentar novidades e reconhecer os policiais que se destacaram nas últimas semanas pelo envio de projetos, cumprimento de metas, ingresso em grupos internos, entre outros feitos. Caso não seja possível comparecer, não há motivo para preocupação, pois o [color=#143733][b]Departamento de Comunicação e Interatividade[/b][/color] registrou todos os pontos abordados na reunião realizada em [color=#143733][b]${dataReuniao}[/b][/color].
+        
+        [color=#143733][b]Segue o resumo da reunião para mantê-lo informado e alinhado conosco:[/b][/color][/font]
+        
+        [table style="border-radius: 10px 10px 0px 0px; width: 40%; float: left; overflow: hidden;" bgcolor="#075B4B"][tr style="overflow: hidden;"][td style="overflow: hidden; padding: 0.5%;"][font=Poppins][size=15][color=#FFFFFF][b]PROJETOS APROVADOS[/b][/color][/size][/font][/td][/tr][/table][table style="border-radius: 0px 10px 10px 10px; width: 100%; overflow: hidden;" bgcolor="#EFEFEF"][tr style="overflow: hidden;"][td style="overflow: hidden; padding: 1.7%;"]
+        [justify][font=Poppins]${projetosText}[/font][/justify][/td][/tr][/table]
+        
+        [table style="border-radius: 10px 10px 0px 0px; width: 40%; float: left; overflow: hidden;" bgcolor="#075B4B"][tr style="overflow: hidden;"][td style="overflow: hidden; padding: 0.5%;"][font=Poppins][size=15][color=#FFFFFF][b]PROMOÇÕES[/b][/color][/size][/font][/td][/tr][/table][table style="border-radius: 0px 10px 10px 10px; width: 100%; overflow: hidden;" bgcolor="#EFEFEF"][tr style="overflow: hidden;"][td style="overflow: hidden; padding: 1.7%;"]
+        [justify][font=Poppins]${promocoesText}[/font][/justify][/td][/tr][/table]
+        
+        [table style="border-radius: 10px 10px 0px 0px; width: 40%; float: left; overflow: hidden;" bgcolor="#075B4B"][tr style="overflow: hidden;"][td style="overflow: hidden; padding: 0.5%;"][font=Poppins][size=15][color=#FFFFFF][b]PAUTAS IMPORTANTES[/b][/color][/size][/font][/td][/tr][/table][table style="border-radius: 0px 10px 10px 10px; width: 100%; overflow: hidden;" bgcolor="#EFEFEF"][tr style="overflow: hidden;"][td style="overflow: hidden; padding: 1.7%;"]
+        [justify][font=Poppins]${pautasText}[/font][/justify][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
+        [font=Poppins][size=12][color=#FFFFFF]Comunicação que inspira, momentos que marcam![/color][/size][/font][/td][/tr][/table]`;
+      }
+
+      ataOpenButton.addEventListener('click', () => {
+        toggleAtaModal(true);
+      });
+
+      ataCloseButtons.forEach((button) => {
+        button.addEventListener('click', () => toggleAtaModal(false));
+      });
+
+      ataModal.addEventListener('click', (event) => {
+        if (event.target === ataModal) {
+          toggleAtaModal(false);
+        }
+      });
+
+      ataForm.addEventListener('submit', (event) => event.preventDefault());
+
+      addProjetoButton.addEventListener('click', () => {
+        projetosContainer.appendChild(createProjetoItem());
+      });
+
+      addPautaButton.addEventListener('click', () => {
+        pautasContainer.appendChild(createPautaItem());
+      });
+
+      ataSendButton.addEventListener('click', async () => {
+        try {
+          ataFeedbackMessage.textContent = 'Enviando post...';
+          const bbcode = buildAtaBbcode();
+          
+          await enviarPostagem(36952, bbcode);
+          
+          ataFeedbackMessage.textContent = 'Post enviado com sucesso!';
+          setTimeout(() => {
+            ataFeedbackMessage.textContent = '';
+            toggleAtaModal(false);
+          }, 2000);
+        } catch (error) {
+          ataFeedbackMessage.textContent = 'Erro ao enviar post.';
+          setTimeout(() => {
+            ataFeedbackMessage.textContent = '';
+        }, 3000);
+        }
+      });
+
+      const reuniaoModal = document.getElementById('reuniao-geral-modal');
+      const reuniaoOpenButton = document.getElementById('reuniao-geral-btn');
+      const reuniaoCloseButtons = reuniaoModal.querySelectorAll('[data-close-modal]');
+      const reuniaoDialog = reuniaoModal.querySelector('.modal-dialog');
+      const reuniaoForm = document.getElementById('reuniao-geral-form');
+      const reuniaoSendButton = document.getElementById('send-reuniao');
+      const reuniaoFeedbackMessage = document.getElementById('reuniao-feedback-message');
+
+      function toggleReuniaoModal(show) {
+        if (show) {
+          reuniaoModal.classList.add('is-active');
+          reuniaoModal.setAttribute('aria-hidden', 'false');
+          setTimeout(() => {
+            reuniaoDialog.focus({ preventScroll: true });
+          }, 10);
+        } else {
+          reuniaoModal.classList.remove('is-active');
+          reuniaoModal.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      function formatDateLong(value) {
+        if (!value) return '(data da reunião)';
+        
+        const isoMatch = /^\s*(\d{4})-(\d{2})-(\d{2})\s*$/.exec(value);
+        if (!isoMatch) return '(data da reunião)';
+        
+        const [, year, month, day] = isoMatch;
+        const monthNames = ['JANEIRO', 'FEVEREIRO', 'MARÇO', 'ABRIL', 'MAIO', 'JUNHO', 'JULHO', 'AGOSTO', 'SETEMBRO', 'OUTUBRO', 'NOVEMBRO', 'DEZEMBRO'];
+        const monthIndex = Number(month) - 1;
+        
+        if (monthIndex < 0 || monthIndex > 11) return '(data da reunião)';
+        
+        return `${Number(day)} de ${monthNames[monthIndex]} de ${year}`;
+      }
+
+      function buildReuniaoGeralBbcode() {
+        const dataFormatada = formatDateLong(document.getElementById('reuniao-data').value);
+        const horario = document.getElementById('reuniao-horario').value.trim() || '(horário da reunião)';
+        const local = document.getElementById('reuniao-local').value.trim() || '[SUP] Sala de Reuniões';
+
+        return `[table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#075B4B"][tr][td style="overflow: hidden; padding: 1%"][img]https://i.imgur.com/ZCRUcgz.jpeg[/img]
+        
+        [table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#FFFFFF"][tr][td style="overflow: hidden; padding: 1.5%"][table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#FFFFFF"][tr style="border: none;"][td style="border: none!important;"][table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#075B4B"][tr][td style="overflow: hidden; padding: 0.5%"][font=Poppins][color=#FFFFFF][size=18][b]REUNIÃO GERAL[/b][/size][/color][/font][/td][/tr][/table]
+        
+        [font=Poppins]O [color=#075B4B][b]Departamento de Comunicação e Interatividade[/b][/color] vem convidá-lo(a) para a [color=#075B4B][b]REUNIÃO GERAL[/b][/color] da [color=#075B4B][b]MELHOR COMPANHIA[/b][/color] da Polícia RCC. Vai ter de tudo: novidades quentinhas, promoções e aquele bate-papo que só os supervisores sabem fazer![/font]
+        
+        [table style="font-weight: 500; border-radius: 10px 10px 0px 0px; width: 40%; float: left; overflow: hidden;" bgcolor="#075B4B"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 0.5%"][font=Poppins][size=15][color=#FFFFFF][b]INFORMAÇÕES[/b][/color][/size][/font][/td][/tr][/table][table style="font-weight: 500; border-radius: 0px 10px 10px 10px; width: 100%; overflow: hidden;" bgcolor="#F5F5F5"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 1.7%"]
+        [font=Poppins]Confira as informações da reunião e lembre-se que, ao final, teremos um [color=#075B4B][b]EVENTO[/b][/color] mega divertido com prêmios imperdíveis:
+
+        [center][table style="font-weight: 500; border-radius: 10px; width: 50%; overflow: hidden;" bgcolor="#143733"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 0.5%"][font=Poppins][color=#FFFFFF][b]DATA[/b][/color][/font][/td][td style="font-weight: 500; width: 50%; overflow: hidden; padding: 0.5%" bgcolor="#EDEDED"][font=Poppins][color=#143733][b]${dataFormatada}[/b][/color][/font][/td][/tr][/table]
+        [table style="font-weight: 500; border-radius: 10px; width: 50%; overflow: hidden;" bgcolor="#143733"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 0.5%"][font=Poppins][color=#FFFFFF][b]HORÁRIO[/b][/color][/font][/td][td style="font-weight: 500; width: 50%; overflow: hidden; padding: 0.5%" bgcolor="#EDEDED"][font=Poppins][color=#143733][b]${horario}[/b][/color][/font][/td][/tr][/table]
+        [table style="font-weight: 500; border-radius: 10px; width: 50%; overflow: hidden;" bgcolor="#143733"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 0.5%"][font=Poppins][color=#FFFFFF][b]LOCAL[/b][/color][/font][/td][td style="font-weight: 500; width: 50%; overflow: hidden; padding: 0.5%" bgcolor="#EDEDED"][font=Poppins][color=#143733][b]${local}[/b][/color][/font][/td][/tr][/table][/center]
+
+        [table  style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden; margin: 0 auto;" bgcolor="#EDEDED"][tr][td style="overflow: hidden; padding: 1%"][font=Poppins][color=#075B4B][b]{USERNAME}[/b][/color], a sua presença é fundamental para que você fique por dentro de todas as novidades da companhia. Além disso, é a sua participação que realmente faz a diferença e ajuda a impulsionar todas as mudanças, não é mesmo?[/font][/td][/tr][/table][color=#075B4B][b]Contamos com sua presença![/b][/color][/font][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
+        [font=Poppins][size=12][color=#FFFFFF]Comunicação que inspira, momentos que marcam![/color][/size][/font][/td][/tr][/table]`;
+      }
+
+      const linksModal = document.getElementById('links-uteis-modal');
+      const linksOpenButton = document.getElementById('links-uteis-btn');
+      const linksCloseButtons = linksModal.querySelectorAll('[data-close-modal]');
+      const linksDialog = linksModal.querySelector('.modal-dialog');
+
+      const confirmModal = document.getElementById('confirm-modal');
+      const confirmSendButton = document.getElementById('confirm-send-yes');
+      const confirmFeedbackMessage = document.getElementById('confirm-feedback-message');
+      const confirmCloseButtons = confirmModal.querySelectorAll('[data-close-modal]');
+
+      const lembreteUsersModal = document.getElementById('lembrete-users-modal');
+      const lembreteUsersForm = document.getElementById('lembrete-users-form');
+      const lembreteUsersSendButton = document.getElementById('send-lembrete-users');
+      const lembreteUsersFeedbackMessage = document.getElementById('lembrete-users-feedback-message');
+      const lembreteUsersCloseButtons = lembreteUsersModal.querySelectorAll('[data-close-modal]');
+
+      function toggleLinksModal(show) {
+        if (show) {
+          linksModal.classList.add('is-active');
+          linksModal.setAttribute('aria-hidden', 'false');
+          setTimeout(() => {
+            linksDialog.focus({ preventScroll: true });
+          }, 10);
+        } else {
+          linksModal.classList.remove('is-active');
+          linksModal.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      function toggleConfirmModal(show) {
+        if (show) {
+          confirmModal.classList.add('is-active');
+          confirmModal.setAttribute('aria-hidden', 'false');
+        } else {
+          confirmModal.classList.remove('is-active');
+          confirmModal.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      function toggleLembreteUsersModal(show) {
+        if (show) {
+          lembreteUsersModal.classList.add('is-active');
+          lembreteUsersModal.setAttribute('aria-hidden', 'false');
+        } else {
+          lembreteUsersModal.classList.remove('is-active');
+          lembreteUsersModal.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      async function sendMultipleMP(title, users, message) {
+        console.log('=== INICIANDO ENVIO MÚLTIPLO ===');
+        console.log('Total de usuários:', users.length);
+        console.log('Usuários:', users);
+        console.log('================================');
+        
+        for (let i = 0; i < users.length; i++) {
+          const user = users[i];
+          lembreteUsersFeedbackMessage.textContent = `Enviando para ${user} (${i + 1}/${users.length})...`;
+          
+          try {
+            send_MP(title, user, message);
+          } catch (error) {
+            console.error(`❌ Erro ao enviar para ${user}:`, error);
+          }
+          
+          if (i < users.length - 1) {
+            console.log(`⏳ Aguardando 2 segundos antes do próximo envio...`);
+            await new Promise(resolve => setTimeout(resolve, 2000));
+          }
+        }
+        
+        console.log('✅ Envio múltiplo concluído!');
+        lembreteUsersFeedbackMessage.textContent = `Mensagens enviadas para ${users.length} usuários!`;
+        setTimeout(() => {
+          lembreteUsersFeedbackMessage.textContent = '';
+          toggleLembreteUsersModal(false);
+        }, 3000);
+      }
+
+      reuniaoOpenButton.addEventListener('click', () => {
+        toggleReuniaoModal(true);
+      });
+
+      reuniaoCloseButtons.forEach((button) => {
+        button.addEventListener('click', () => toggleReuniaoModal(false));
+      });
+
+      reuniaoModal.addEventListener('click', (event) => {
+        if (event.target === reuniaoModal) {
+          toggleReuniaoModal(false);
+        }
+      });
+
+      reuniaoForm.addEventListener('submit', (event) => event.preventDefault());
+
+      reuniaoSendButton.addEventListener('click', async () => {
+        try {
+          reuniaoFeedbackMessage.textContent = 'Enviando mensagem...';
+          const bbcode = buildReuniaoGeralBbcode();
+          
+          send_MPGroup('[SUP] REUNIÃO GERAL CHEGANDO!', 5, bbcode);
+          
+          reuniaoFeedbackMessage.textContent = 'Mensagem enviada com sucesso!';
+        setTimeout(() => {
+            reuniaoFeedbackMessage.textContent = '';
+            toggleReuniaoModal(false);
+          }, 2000);
+        } catch (error) {
+          reuniaoFeedbackMessage.textContent = 'Erro ao enviar mensagem.';
+          setTimeout(() => {
+            reuniaoFeedbackMessage.textContent = '';
+        }, 3000);
+        }
+      });
+
+      linksOpenButton.addEventListener('click', () => {
+        toggleLinksModal(true);
+      });
+
+      linksCloseButtons.forEach((button) => {
+        button.addEventListener('click', () => toggleLinksModal(false));
+      });
+
+      linksModal.addEventListener('click', (event) => {
+        if (event.target === linksModal) {
+          toggleLinksModal(false);
+        }
+      });
+      confirmCloseButtons.forEach((button) => {
+        button.addEventListener('click', () => toggleConfirmModal(false));
+      });
+
+      confirmModal.addEventListener('click', (event) => {
+        if (event.target === confirmModal) {
+          toggleConfirmModal(false);
+        }
+      });
+
+      confirmSendButton.addEventListener('click', () => {
+        if (pendingAction) {
+          confirmFeedbackMessage.textContent = 'Enviando...';
+          pendingAction.action();
+          pendingAction = null;
+          setTimeout(() => {
+            toggleConfirmModal(false);
+          }, 1000);
+        }
+      });
+
+      lembreteUsersCloseButtons.forEach((button) => {
+        button.addEventListener('click', () => toggleLembreteUsersModal(false));
+      });
+
+      lembreteUsersModal.addEventListener('click', (event) => {
+        if (event.target === lembreteUsersModal) {
+          toggleLembreteUsersModal(false);
+        }
+      });
+
+      lembreteUsersForm.addEventListener('submit', (event) => event.preventDefault());
+
+      lembreteUsersSendButton.addEventListener('click', async () => {
+        const usuariosText = document.getElementById('lembrete-usuarios').value.trim();
+        if (!usuariosText) {
+          lembreteUsersFeedbackMessage.textContent = 'Por favor, informe os usuários.';
+          return;
+        }
+
+        const usuarios = usuariosText.split('/').map(user => user.trim()).filter(user => user);
+        if (usuarios.length === 0) {
+          lembreteUsersFeedbackMessage.textContent = 'Nenhum usuário válido encontrado.';
+          return;
+        }
+
+        const bbcode = `[table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#075B4B"]
+[tr style="border: none;"][td style="border: none!important;"][center][img]https://i.imgur.com/ZCRUcgz.jpeg[/img][/center]
+
+[table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#FFFFFF"][tr style="border: none;"][td style="border: none!important;"][table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#FFFFFF"][tr style="border: none;"][td style="border: none!important;"][table class="rank" style="border: none!important; margin: 0em; line-height: 1em;" bgcolor="#075B4B"]
+[tr style="border: none;"][td style="border: none!important;"][size=16][b][color=#ffffff][font=Poppins]BORA BATER A META?[/font][/color][/b][/size][/td][/tr][/table]
+[justify][font=Poppins]Olá, supervisor(a), [b]{USERNAME}[/b]!
+
+Sabia que, ao atingir a meta semanal dos supervisores, você ganha [color=#004100][b]10 medalhas efetivas positivas[/b][/color] que contribuem diretamente para o aumento do seu salário mensal? Isso mesmo! No entanto, verificamos que você ainda não cumpriu a meta desta semana, cujo prazo final é [color=#ff0000][b]sábado às 23h59[/b][/color]. Mas fique tranquilo(a), [color=#004100][b]ainda dá tempo de correr atrás e garantir sua meta positiva e o salário na conta![/b][/color][/font][/justify]
+
+[table style="font-weight: 500; border-radius: 10px; width: 90%; overflow: hidden; margin: 0 auto;" bgcolor="#FFFFFF"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 0%"][table style="font-weight: 500; border-radius: 10px 10px 0px 0px; width: 50%; float: left; overflow: hidden;" bgcolor="#075B4B"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 0.5%"][font=Poppins][size=14][color=#FFFFFF][b]NÃO CONSEGUIRÁ BATER A META?[/b][/color][/size][/font][/td][/tr][/table][table style="font-weight: 500; border-radius: 0px 10px 10px 10px; width: 100%; overflow: hidden;" bgcolor="#e5e5e5"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 1.7%"][font=Poppins]Caso esteja impossibilitado de cumprir a meta, o ministério disponibiliza um formulário para a devida justificativa, que permitirá ficar em casos especiais e isentará de qualquer penalidade.[/font]
+
+[url=https://docs.google.com/forms/d/e/1FAIpQLSecxhgrSjlFul33GaB0jYuk9HISli_5ITFivKVWZ_lQnD9b4A/viewform][table style="font-weight: 500; border-radius: 10px; width: 70%; overflow: hidden; margin: 0 auto;" bgcolor="#143733"][tr style="border: none !important; overflow: hidden"][td style="font-weight: 500; width: 20%; overflow: hidden; padding: 1.6%" bgcolor="#143733"][font=Poppins][color=#FFFFFF]Para acessar o formulário de justificativa,[/color][/font][/td]
+
+[td style="font-weight: 500; width: 10%; overflow: hidden; padding: 1.6%" bgcolor="#FFFFFF"][font=Poppins][color=#143733][b]CLIQUE AQUI[/b][/color][/font][/td][/tr][/table][/url]
+[font=Poppins]É importante lembrar que a justificativa deve ser enviada até às [color=#ff0000][b]23h59[/b][/color] de [color=#ff0000][b]domingo[/b][/color].[/font][/td][/tr][/table][/td][/tr][/table]
+[font=Poppins]Caso tenha dúvidas ou necessite de apoio para alcançar a meta, não hesite em buscar a ajuda de um membro do ministério.[/font][/td][/tr][/table][/td][/tr][/table]
+[font=Poppins][size=11][color=#FFFFFF]Comunicação que inspira, momentos que marcam!
+Todos os direitos reservados à [b]Companhia dos Supervisores[/b].[/color][/size][/font][/td][/tr][/table]`;
+
+        await sendMultipleMP('[SUP] Ei, bora bater a meta?', usuarios, bbcode);
+      });
+
+      document.getElementById('subgrupos-btn').addEventListener('click', () => {
+        pendingAction = {
+          action: () => {
+            const bbcode = `[table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#075B4B"]
+[tr style="border: none;"][td style="border: none!important;"][center][img]https://i.imgur.com/ZCRUcgz.jpeg[/img][/center]
+
+[table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#FFFFFF"][tr style="border: none;"][td style="border: none!important;"][table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#FFFFFF"][tr style="border: none;"][td style="border: none!important;"][table class="rank" style="border: none!important; margin: 0em; line-height: 1em;" bgcolor="#075B4B"]
+[tr style="border: none;"][td style="border: none!important;"][size=16][b][color=#ffffff][font=Poppins]VOCÊ CONHECE NOSSOS SUBGRUPOS?[/font][/color][/b][/size][/td][/tr][/table]
+[justify][font=Poppins]Olá, supervisor(a), [b]{USERNAME}[/b]!
+
+Você sabia que a [b][color=#004100]Companhia dos Supervisores[/color][/b] oferece subgrupos que podem impulsionar sua carreira, gerar reconhecimento e facilitar seu trabalho dentro e fora da companhia?
+
+[color=#004100][b]Os três disponíveis são:[/b][/color]
+[img]https://i.imgur.com/Fy7cOsa.png[/img] Departamento de Aplicação (DA);
+[img]https://i.imgur.com/Fy7cOsa.png[/img] Departamento de Comunicação de Interatividade (DCI);
+[img]https://i.imgur.com/Fy7cOsa.png[/img] Divisão de Investigação e Segurança (DIS).
+
+[color=#004100][b]O melhor:[/b][/color] você pode participar de todos eles!
+
+Para entrar em um subgrupo, basta acessar as [b]Inscrições Departamentais[/b], preencher o formulário e aguardar sua convocação.[/font][/justify]
+
+[table style="overflow: hidden; box-shadow: 0 0 0 1px #FFFFFF; border-radius: 15px 5px 15px 5px; width: 100%;"][tr style="border: none!important;"][td style="border: none!important; overflow: hidden; padding: 0%;" bgcolor="#FFFFFF" colspan="3"][/td][/tr][tr style="border: none!important;"][td style="border: none!important; overflow: hidden; padding: 0.2% 0% 1.5% 0%; width: 33%; vertical-align: top" bgcolor="#FFFFFF"][center][url=https://www.policiarcc.com/h247-sup-inscricoes-departamentais][table style="box-shadow: 0 0 0 1px #075B4B; border-radius: 15px 5px 15px 5px; width: 90%; overflow: hidden;"][tr][td style="overflow: hidden; padding: 0.4%; width: 35%;" bgcolor="#075B4B"][img(50px,50px)]https://i.imgur.com/dnTQDPh.png[/img][/td][td style="overflow: hidden; padding: 0.8%; width: 65%;" bgcolor="#FFFFFF"][font=Poppins][color=#004100][b]CONHEÇA OS SUBGRUPOS[/b]
+[size=11][color=#000000]Clique aqui para acessar a central de inscrições departamentais.[/color][/size][/color][/font][/td][/tr][/table][/url][/center][/td]
+[td style="border: none!important; overflow: hidden; padding: 0.2% 0% 1.5% 0%; width: 33%; vertical-align: top" bgcolor="#FFFFFF"][center][url=https://docs.google.com/forms/d/e/1FAIpQLSf-bUgLKE_Wb9b3A1mCKJKFNptt_3bMiBr6ACcvCxVvCOn9fg/viewform][table style="box-shadow: 0 0 0 1px #075B4B; border-radius: 15px 5px 15px 5px; width: 90%; overflow: hidden;"][tr][td style="overflow: hidden; padding: 0.4%; width: 35%;" bgcolor="#075B4B"][img(50px,50px)]https://i.imgur.com/dnTQDPh.png[/img][/td][td style="overflow: hidden; padding: 0.8%; width: 65%;" bgcolor="#FFFFFF"][font=Poppins][color=#004100][b]INSCREVA-SE AGORA[/b]
+[size=11][color=#000000]Clique aqui para direcionar ao formulário de inscrição e fazer parte.[/color][/size][/color][/font][/td][/tr][/table][/url][/center][/td][/tr][/table][/td][/tr][/table][/td][/tr][/table]
+[font=Poppins][size=11][color=#FFFFFF]Comunicação que inspira, momentos que marcam!
+Todos os direitos reservados à [b]Companhia dos Supervisores[/b].[/color][/size][/font][/td][/tr][/table]`;
+            
+            send_MPGroup('[SUP] Você conhece nossos subgrupos?', 5, bbcode);
+          }
+        };
+        toggleConfirmModal(true);
+      });
+
+      document.getElementById('lembrete-meta-btn').addEventListener('click', () => {
+        toggleLembreteUsersModal(true);
+      });
+
+      document.getElementById('ranking-interno-btn').addEventListener('click', () => {
+        pendingAction = {
+          action: () => {
+            const bbcode = `[table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#075B4B"]
+[tr style="border: none;"][td style="border: none!important;"][center][img]https://i.imgur.com/ZCRUcgz.jpeg[/img][/center]
+
+[table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#FFFFFF"][tr style="border: none;"][td style="border: none!important;"][table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#FFFFFF"][tr style="border: none;"][td style="border: none!important;"][table class="rank" style="border: none!important; margin: 0em; line-height: 1em;" bgcolor="#075B4B"]
+[tr style="border: none;"][td style="border: none!important;"][size=16][b][color=#ffffff][font=Poppins]VOCÊ CONHECE NOSSO RANKING INTERNO?[/font][/color][/b][/size][/td][/tr][/table]
+[justify][font=Poppins]Olá, supervisor(a), [b]{USERNAME}[/b]!
+
+Chegou a hora de conferir quem está brilhando no nosso [b]Ranking Interno[/b] dos [b]SUP[/b]ervisores! Acompanhe de perto o resultado de todo o esforço e dedicação que movimenta nossa companhia. Lembre-se que o ranking é atualizado mensalmente.[/font][/justify]
+
+[table style="font-weight: 500; border-radius: 10px; width: 85%; overflow: hidden; margin: 0 auto;" bgcolor="#FFFFFF"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 0%"][table style="font-weight: 500; border-radius: 10px 10px 0px 0px; width: 50%; float: left; overflow: hidden;" bgcolor="#075B4B"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 0.5%"][font=Poppins][size=14][color=#FFFFFF][b]QUER CONFERIR SUA PONTUAÇÃO?[/b][/color][/size][/font][/td][/tr][/table][table style="font-weight: 500; border-radius: 0px 10px 10px 10px; width: 100%; overflow: hidden;" bgcolor="#e5e5e5"][tr style="border: none !important; overflow: hidden"][td style="border: none!important; overflow: hidden; padding: 1.7%"][font=Poppins]Não fique na curiosidade, descubra sua posição e aproveite para somar mais pontos no nosso ranking![/font]
+
+[url=https://www.policiarcc.com/t34781-sup-ranking-interno][table style="font-weight: 500; border-radius: 10px; width: 50%; overflow: hidden; margin: 0 auto;" bgcolor="#143733"][tr style="border: none !important; overflow: hidden"][td style="font-weight: 500; width: 20%; overflow: hidden; padding: 1.6%" bgcolor="#143733"][font=Poppins][color=#FFFFFF]Para acessar nosso ranking,[/color][/font][/td][td style="font-weight: 500; width: 10%; overflow: hidden; padding: 1.6%" bgcolor="#FFFFFF"][font=Poppins][color=#143733][b]CLIQUE AQUI[/b][/color][/font][/td][/tr][/table][/url][/td][/tr][/table][/td][/tr][/table]
+[font=Poppins][color=#000000][color=#143733][b]O supervisor que alcançar o 1º lugar garante:[/b][/color]
+- Uso do emblema [b]"[RCC] Melhor Policial do Mês"[/b] por 30 dias;
+- Uma [b]medalha no perfil do RCC System[/b], conforme o Código de Conduta Militar.[/color][/font][/td][/tr][/table][/td][/tr][/table]
+[font=Poppins][size=11][color=#FFFFFF]Comunicação que inspira, momentos que marcam!
+Todos os direitos reservados à [b]Companhia dos Supervisores[/b].[/color][/size][/font][/td][/tr][/table]`;
+            
+            send_MPGroup('[SUP] Já conferiu seu lugar no ranking interno?', 5, bbcode);
+          }
+        };
+        toggleConfirmModal(true);
+      });
+
+      document.getElementById('whatsapp-btn').addEventListener('click', () => {
+        pendingAction = {
+          action: () => {
+            const bbcode = `[table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#075B4B"]
+[tr style="border: none;"][td style="border: none!important;"][center][img]https://i.imgur.com/ZCRUcgz.jpeg[/img][/center]
+
+[table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#FFFFFF"][tr style="border: none;"][td style="border: none!important;"][table class="rank" style="border: none!important; margin: 0em; color: black; font-weight: 400; border-radius: 10px; line-height: 1.4em;" bgcolor="#FFFFFF"][tr style="border: none;"][td style="border: none!important;"][table class="rank" style="border: none!important; margin: 0em; line-height: 1em;" bgcolor="#075B4B"]
+[tr style="border: none;"][td style="border: none!important;"][size=16][b][color=#ffffff][font=Poppins]CONVITE: GRUPO DE WHATSAPP[/font][/color][/b][/size][/td][/tr][/table]
+[justify][font=Poppins]Você sabia que a nossa companhia possui um [color=#004100][b]grupo no WhatsApp[/b][/color] destinado à livre comunicação entre os membros?
+
+Além disso, os supervisores contam com um grupo destinado à divulgação de informações relevantes da companhia. Nele, são enviados todos os avisos importantes, incluindo novidades e as escalas dos tutores e fiscalizadores. [color=#004100][b]É ideal para quem prefere não participar de grupos muito movimentados![/b][/color][/font][/justify]
+
+[center][table style="border: none!important; width: 90%; overflow: hidden;"][tr style="border: none!important;"][td style="border: none!important; overflow: hidden; padding: 0.4%; width: 45%;" bgcolor="#FFFFFF"][center][url=https://chat.whatsapp.com/FYKQQEYAyn1GQfiJz1tPgJ][table style="box-shadow: 0 0 0 1px #075B4B; border-radius: 10px; width: 90%; overflow: hidden;"][tr][td style="overflow: hidden; padding: 0.4%; width: 35%;" bgcolor="#075B4B"][img(50px,50px)]https://i.imgur.com/VVjSWkr.png[/img][/td][td style="overflow: hidden; padding: 0.8%; width: 65%;" bgcolor="#FFFFFF"][font=Poppins][color=#075B4B][b]GRUPO GERAL[/b]
+[size=11][color=#000000]Clique aqui para entrar no grupo do Whatsapp.[/color][/size][/color][/font][/td][/tr][/table][/url][/center][/td]
+
+[td style="border: none!important; overflow: hidden; padding: 0.4%; width: 45%;" bgcolor="#FFFFFF"][center][url=https://chat.whatsapp.com/DhdB6bPfdh65uAVasdqS6q][table style="box-shadow: 0 0 0 1px #075B4B; border-radius: 10px; width: 90%; overflow: hidden;"][tr][td style="overflow: hidden; padding: 0.4%; width: 35%;" bgcolor="#075B4B"][img(50px,50px)]https://i.imgur.com/VVjSWkr.png[/img][/td][td style="overflow: hidden; padding: 0.8%; width: 65%;" bgcolor="#FFFFFF"][font=Poppins][color=#075B4B][b]GRUPO DE AVISOS[/b]
+[size=11][color=#000000]Clique aqui para entrar no grupo do Whatsapp.[/color][/size][/color][/font][/td][/tr][/table][/url][/center][/td][/tr][/table][/center]
+
+[font=Poppins][color=#004100][b]Venha interagir com a gente![/b][/color][/font][/td][/tr][/table][/td][/tr][/table]
+[font=Poppins][size=11][color=#FFFFFF]Comunicação que inspira, momentos que marcam!
+Todos os direitos reservados à [b]Companhia dos Supervisores[/b].[/color][/size][/font][/td][/tr][/table]`;
+            
+            send_MPGroup('[SUP] Faça parte dos nossos grupos de comunicação!', 5, bbcode);
+          }
+        };
+        toggleConfirmModal(true);
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          if (modal.classList.contains('is-active')) {
+            toggleModal(false);
+          }
+          if (hallModal.classList.contains('is-active')) {
+            toggleHallModal(false);
+          }
+          if (ataModal.classList.contains('is-active')) {
+            toggleAtaModal(false);
+          }
+          if (reuniaoModal.classList.contains('is-active')) {
+            toggleReuniaoModal(false);
+          }
+          if (linksModal.classList.contains('is-active')) {
+            toggleLinksModal(false);
+          }
+          if (confirmModal.classList.contains('is-active')) {
+            toggleConfirmModal(false);
+          }
+          if (lembreteUsersModal.classList.contains('is-active')) {
+            toggleLembreteUsersModal(false);
+          }
+        }
+      });
+    })();
