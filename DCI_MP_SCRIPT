@@ -1,4 +1,5 @@
-    async function enviarPostagem(topico, bbcode) {
+console.log("V1.0");
+async function enviarPostagem(topico, bbcode) {
       console.log('=== ENVIO DE POST EM TÓPICO ===');
       console.log('Usuário ou grupo:', `Tópico ID: ${topico}`);
       console.log('Título:', 'Resposta no tópico');
@@ -115,6 +116,9 @@
             dialog.focus({ preventScroll: true });
           }, 10);
         } else {
+          if (document.activeElement && modal.contains(document.activeElement)) {
+            document.activeElement.blur();
+          }
           modal.classList.remove('is-active');
           modal.setAttribute('aria-hidden', 'true');
         }
@@ -316,6 +320,9 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
             hallDialog.focus({ preventScroll: true });
           }, 10);
         } else {
+          if (document.activeElement && hallModal.contains(document.activeElement)) {
+            document.activeElement.blur();
+          }
           hallModal.classList.remove('is-active');
           hallModal.setAttribute('aria-hidden', 'true');
         }
@@ -385,6 +392,28 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
       const addPautaButton = document.getElementById('add-pauta');
 
       let pautaCounter = 5;
+      let projetoCounter = 3;
+
+      document.querySelectorAll('#projetos-container .projeto-item').forEach((item, index) => {
+        const labels = item.querySelectorAll('label');
+        const ordemId = `projeto-ordem-${index + 1}`;
+        const autorId = `projeto-autor-${index + 1}`;
+        const resumoId = `projeto-resumo-${index + 1}`;
+        labels[0].setAttribute('for', ordemId);
+        labels[0].querySelector('input').id = ordemId;
+        labels[1].setAttribute('for', autorId);
+        labels[1].querySelector('input').id = autorId;
+        labels[2].setAttribute('for', resumoId);
+        labels[2].querySelector('input').id = resumoId;
+      });
+
+      document.querySelectorAll('#pautas-container .pauta-item').forEach((item, index) => {
+        const label = item.querySelector('label');
+        const input = item.querySelector('input');
+        const id = `pauta-${index + 1}`;
+        label.setAttribute('for', id);
+        input.id = id;
+      });
 
       function toggleAtaModal(show) {
         if (show) {
@@ -394,6 +423,9 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
             ataDialog.focus({ preventScroll: true });
           }, 10);
         } else {
+          if (document.activeElement && ataModal.contains(document.activeElement)) {
+            document.activeElement.blur();
+          }
           ataModal.classList.remove('is-active');
           ataModal.setAttribute('aria-hidden', 'true');
         }
@@ -403,10 +435,14 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
         const div = document.createElement('div');
         div.className = 'projeto-item form-grid-three';
         div.style.marginBottom = '1rem';
+        const counter = projetoCounter++;
+        const ordemId = `projeto-ordem-${counter}`;
+        const autorId = `projeto-autor-${counter}`;
+        const resumoId = `projeto-resumo-${counter}`;
         div.innerHTML = `
-          <label>Ordem <input type="text" name="projeto-ordem" placeholder="Ex: 111"></label>
-          <label>Autor <input type="text" name="projeto-autor" placeholder="Nome do autor"></label>
-          <label>Resumo da proposta <input type="text" name="projeto-resumo" placeholder="Descrição breve"></label>
+          <label for="${ordemId}">Ordem <input type="text" id="${ordemId}" name="projeto-ordem" placeholder="Ex: 111"></label>
+          <label for="${autorId}">Autor <input type="text" id="${autorId}" name="projeto-autor" placeholder="Nome do autor"></label>
+          <label for="${resumoId}">Resumo da proposta <input type="text" id="${resumoId}" name="projeto-resumo" placeholder="Descrição breve"></label>
           <button type="button" class="remove-item" style="grid-column: span 3; margin-top: 0.5rem; background: #dc3545; color: white; border: none; padding: 0.5rem; border-radius: 8px; cursor: pointer;">Remover</button>
         `;
         
@@ -424,16 +460,22 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
         const div = document.createElement('div');
         div.className = 'pauta-item';
         div.style.marginBottom = '0.5rem';
+        const id = `pauta-${pautaCounter}`;
         div.innerHTML = `
-          <label>Pauta ${pautaCounter} <input type="text" name="pauta-texto" placeholder="Descrição da pauta"></label>
+          <label for="${id}">Pauta ${pautaCounter} <input type="text" id="${id}" name="pauta-texto" placeholder="Descrição da pauta"></label>
           <button type="button" class="remove-item" style="margin-top: 0.5rem; background: #dc3545; color: white; border: none; padding: 0.5rem; border-radius: 8px; cursor: pointer;">Remover</button>
         `;
         
         const removeButton = div.querySelector('.remove-item');
         removeButton.addEventListener('click', () => {
           div.remove();
-          const pautaItems = pautasContainer.querySelectorAll('.pauta-item label');
-          pautaItems.forEach((label, index) => {
+          const pautaItems = pautasContainer.querySelectorAll('.pauta-item');
+          pautaItems.forEach((item, index) => {
+            const label = item.querySelector('label');
+            const input = item.querySelector('input');
+            const newId = `pauta-${index + 1}`;
+            label.setAttribute('for', newId);
+            input.id = newId;
             label.childNodes[0].textContent = `Pauta ${index + 1} `;
           });
           pautaCounter = pautaItems.length;
@@ -582,6 +624,9 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
             reuniaoDialog.focus({ preventScroll: true });
           }, 10);
         } else {
+          if (document.activeElement && reuniaoModal.contains(document.activeElement)) {
+            document.activeElement.blur();
+          }
           reuniaoModal.classList.remove('is-active');
           reuniaoModal.setAttribute('aria-hidden', 'true');
         }
@@ -648,6 +693,9 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
             linksDialog.focus({ preventScroll: true });
           }, 10);
         } else {
+          if (document.activeElement && linksModal.contains(document.activeElement)) {
+            document.activeElement.blur();
+          }
           linksModal.classList.remove('is-active');
           linksModal.setAttribute('aria-hidden', 'true');
         }
@@ -658,6 +706,9 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
           confirmModal.classList.add('is-active');
           confirmModal.setAttribute('aria-hidden', 'false');
         } else {
+          if (document.activeElement && confirmModal.contains(document.activeElement)) {
+            document.activeElement.blur();
+          }
           confirmModal.classList.remove('is-active');
           confirmModal.setAttribute('aria-hidden', 'true');
         }
@@ -668,6 +719,9 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
           lembreteUsersModal.classList.add('is-active');
           lembreteUsersModal.setAttribute('aria-hidden', 'false');
         } else {
+          if (document.activeElement && lembreteUsersModal.contains(document.activeElement)) {
+            document.activeElement.blur();
+          }
           lembreteUsersModal.classList.remove('is-active');
           lembreteUsersModal.setAttribute('aria-hidden', 'true');
         }
