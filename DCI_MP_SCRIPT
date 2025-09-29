@@ -1,5 +1,4 @@
-console.log("V1.0");
-async function enviarPostagem(topico, bbcode) {
+    async function enviarPostagem(topico, bbcode) {
       console.log('=== ENVIO DE POST EM TÓPICO ===');
       console.log('Usuário ou grupo:', `Tópico ID: ${topico}`);
       console.log('Título:', 'Resposta no tópico');
@@ -261,7 +260,7 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
 
         const transparencyVotes = document.getElementById('transparencia-votos').value.trim() || '(link da transparencia de votos)';
         const transparencyProjects = document.getElementById('transparencia-projetos').value.trim() || '(link da transparencia de projetos)';
-        const ombudsmanLink = document.getElementById('ouvidoria-link').value.trim() || 'https://www.policiarcc.com/t35403-sup-ouvidoria';
+        const ombudsmanLink = document.getElementById('ouvidoria').value.trim() || 'https://www.policiarcc.com/t35403-sup-ouvidoria';
 
         const promotionsSection = buildPromotionsSection(promotionsData);
         const highlightsSection = buildHighlightsSection(member1, percentage1, member2, percentage2);
@@ -392,28 +391,6 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
       const addPautaButton = document.getElementById('add-pauta');
 
       let pautaCounter = 5;
-      let projetoCounter = 3;
-
-      document.querySelectorAll('#projetos-container .projeto-item').forEach((item, index) => {
-        const labels = item.querySelectorAll('label');
-        const ordemId = `projeto-ordem-${index + 1}`;
-        const autorId = `projeto-autor-${index + 1}`;
-        const resumoId = `projeto-resumo-${index + 1}`;
-        labels[0].setAttribute('for', ordemId);
-        labels[0].querySelector('input').id = ordemId;
-        labels[1].setAttribute('for', autorId);
-        labels[1].querySelector('input').id = autorId;
-        labels[2].setAttribute('for', resumoId);
-        labels[2].querySelector('input').id = resumoId;
-      });
-
-      document.querySelectorAll('#pautas-container .pauta-item').forEach((item, index) => {
-        const label = item.querySelector('label');
-        const input = item.querySelector('input');
-        const id = `pauta-${index + 1}`;
-        label.setAttribute('for', id);
-        input.id = id;
-      });
 
       function toggleAtaModal(show) {
         if (show) {
@@ -435,14 +412,10 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
         const div = document.createElement('div');
         div.className = 'projeto-item form-grid-three';
         div.style.marginBottom = '1rem';
-        const counter = projetoCounter++;
-        const ordemId = `projeto-ordem-${counter}`;
-        const autorId = `projeto-autor-${counter}`;
-        const resumoId = `projeto-resumo-${counter}`;
         div.innerHTML = `
-          <label for="${ordemId}">Ordem <input type="text" id="${ordemId}" name="projeto-ordem" placeholder="Ex: 111"></label>
-          <label for="${autorId}">Autor <input type="text" id="${autorId}" name="projeto-autor" placeholder="Nome do autor"></label>
-          <label for="${resumoId}">Resumo da proposta <input type="text" id="${resumoId}" name="projeto-resumo" placeholder="Descrição breve"></label>
+          <label>Ordem <input type="text" name="projeto-ordem" placeholder="Ex: 111"></label>
+          <label>Autor <input type="text" name="projeto-autor" placeholder="Nome do autor"></label>
+          <label>Resumo da proposta <input type="text" name="projeto-resumo" placeholder="Descrição breve"></label>
           <button type="button" class="remove-item" style="grid-column: span 3; margin-top: 0.5rem; background: #dc3545; color: white; border: none; padding: 0.5rem; border-radius: 8px; cursor: pointer;">Remover</button>
         `;
         
@@ -460,22 +433,16 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
         const div = document.createElement('div');
         div.className = 'pauta-item';
         div.style.marginBottom = '0.5rem';
-        const id = `pauta-${pautaCounter}`;
         div.innerHTML = `
-          <label for="${id}">Pauta ${pautaCounter} <input type="text" id="${id}" name="pauta-texto" placeholder="Descrição da pauta"></label>
+          <label>Pauta ${pautaCounter} <input type="text" name="pauta-texto" placeholder="Descrição da pauta"></label>
           <button type="button" class="remove-item" style="margin-top: 0.5rem; background: #dc3545; color: white; border: none; padding: 0.5rem; border-radius: 8px; cursor: pointer;">Remover</button>
         `;
         
         const removeButton = div.querySelector('.remove-item');
         removeButton.addEventListener('click', () => {
           div.remove();
-          const pautaItems = pautasContainer.querySelectorAll('.pauta-item');
-          pautaItems.forEach((item, index) => {
-            const label = item.querySelector('label');
-            const input = item.querySelector('input');
-            const newId = `pauta-${index + 1}`;
-            label.setAttribute('for', newId);
-            input.id = newId;
+          const pautaItems = pautasContainer.querySelectorAll('.pauta-item label');
+          pautaItems.forEach((label, index) => {
             label.childNodes[0].textContent = `Pauta ${index + 1} `;
           });
           pautaCounter = pautaItems.length;
