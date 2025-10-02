@@ -1,4 +1,4 @@
-   console.log("V1.0");
+  console.log("V2.0");
 
 function initializeScript() {
     const tabsContainer = document.getElementById('tabs');
