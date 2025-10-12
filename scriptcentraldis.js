@@ -1,4 +1,4 @@
-					console.log("V2.3");
+	console.log("V2.4");
 
 		function aplicarCustomizacoesRobustas() {
 			let tentativas = 0;
@@ -432,13 +432,78 @@ function openEscalaModal() {
 			}
 			
 			function mostrarFormulario() {
-				hideAllForms();
-				showElement('postagem_casos_forms');
-				setTimeout(() => {
-					if (typeof Choices !== 'undefined') {
-						initializeChoices();
+				const modal = document.createElement('div');
+				modal.style.cssText = `
+					position: fixed;
+					top: 0;
+					left: 0;
+					width: 100vw;
+					height: 100vh;
+					background: rgba(0, 0, 0, 0.85);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					z-index: 10000;
+					backdrop-filter: blur(5px);
+				`;
+				
+				modal.innerHTML = `
+					<div style="
+						background: var(--bg-card);
+						color: var(--text-primary);
+						border-radius: 20px;
+						padding: 40px;
+						max-width: 500px;
+						width: 90%;
+						text-align: center;
+						box-shadow: 0 20px 60px rgba(0, 255, 136, 0.3);
+						border: 2px solid var(--primary-green);
+					">
+						<div style="font-size: 3rem; margin-bottom: 20px;">📋</div>
+						<h2 style="color: var(--primary-green); margin-bottom: 20px; font-size: 1.5rem;">
+							Agora a abertura e fechamento de casos, e registro de falhas é feito diretamente pela Central de Casos!
+						</h2>
+						<button id="btn-central-casos" style="
+							background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+							color: var(--bg-dark);
+							border: none;
+							padding: 15px 30px;
+							border-radius: 12px;
+							font-weight: 600;
+							font-size: 1rem;
+							cursor: pointer;
+							transition: all 0.3s ease;
+							margin-top: 10px;
+							font-family: inherit;
+						" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 25px rgba(0, 255, 136, 0.3)';" 
+						   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+							<i class="fas fa-external-link-alt"></i> Ir para a Central de Casos
+						</button>
+					</div>
+				`;
+				
+				document.body.appendChild(modal);
+				
+				document.getElementById('btn-central-casos').addEventListener('click', () => {
+					window.open('https://centraldecasosdis.cloud/', '_blank');
+					document.body.removeChild(modal);
+				});
+				
+				modal.addEventListener('click', (e) => {
+					if (e.target === modal) {
+						document.body.removeChild(modal);
 					}
-				}, 50);
+				});
+				
+				const closeOnEsc = (e) => {
+					if (e.key === 'Escape') {
+						if (document.body.contains(modal)) {
+							document.body.removeChild(modal);
+						}
+						document.removeEventListener('keydown', closeOnEsc);
+					}
+				};
+				document.addEventListener('keydown', closeOnEsc);
 			}
 			
 			function mostrarFormulario2() {
