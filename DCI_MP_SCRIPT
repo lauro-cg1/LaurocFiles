@@ -1,4 +1,4 @@
-      console.log("V1.1");
+     console.log("V1.2");
       function mostrarValidacaoModal(mensagem, mostrarSpinner = true) {
         let modal = document.getElementById('validationModal');
         if (!modal) {
@@ -93,7 +93,7 @@
           
           await new Promise(resolve => setTimeout(resolve, 3000));
           
-          const response = await fetch(`/u${username}`);
+          const response = await fetch(`https://www.policiarcc.com/privmsg?folder=outbox`);
           const html = await response.text();
           
           const parser = new DOMParser();
@@ -148,7 +148,15 @@
           
           await new Promise(resolve => setTimeout(resolve, 3000));
           
-          const response = await fetch(`/t${topico}`);
+          const urlsTopicos = {
+            '36952': 'https://www.policiarcc.com/t36952-sup-resumo-da-reuniao-geral?view=newest',
+            '37322': 'https://www.policiarcc.com/t37322-sup-hall-dos-destaques?view=newest'
+          };
+          
+          const urlFetch = urlsTopicos[topico] || `https://www.policiarcc.com/t${topico}?view=newest`;
+          console.log(`[VALIDAÇÃO POST] Buscando em: ${urlFetch}`);
+          
+          const response = await fetch(urlFetch);
           const html = await response.text();
           
           const parser = new DOMParser();
@@ -1248,6 +1256,13 @@ Todos os direitos reservados à [b]Companhia dos Supervisores[/b].[/color][/size
           if (lembreteUsersModal.classList.contains('is-active')) {
             toggleLembreteUsersModal(false);
           }
+        }
+      });
+      
+      document.addEventListener('DOMContentLoaded', function() {
+        const buscarBtn = document.getElementById('buscar-pendentes');
+        if (buscarBtn) {
+          buscarBtn.textContent = buscarBtn.textContent.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim();
         }
       });
     })();
