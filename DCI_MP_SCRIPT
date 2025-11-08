@@ -1,27 +1,233 @@
-    async function enviarPostagem(topico, bbcode) {
+      console.log("V1.1");
+      function mostrarValidacaoModal(mensagem, mostrarSpinner = true) {
+        let modal = document.getElementById('validationModal');
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'validationModal';
+          modal.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.7); display: flex; justify-content: center; 
+            align-items: center; z-index: 10000;
+          `;
+          
+          const content = document.createElement('div');
+          content.style.cssText = `
+            background: white; padding: 30px; border-radius: 15px; 
+            text-align: center; max-width: 400px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+          `;
+          
+          const spinner = document.createElement('div');
+          spinner.id = 'validationSpinner';
+          spinner.style.cssText = `
+            border: 4px solid #f3f3f3; border-top: 4px solid #036e04;
+            border-radius: 50%; width: 40px; height: 40px; 
+            animation: spin 1s linear infinite; margin: 0 auto 15px;
+          `;
+          
+          const text = document.createElement('div');
+          text.id = 'validationStatus';
+          text.style.cssText = 'font-size: 1.1rem; color: #036e04; font-weight: 600;';
+          text.textContent = mensagem;
+          
+          content.appendChild(spinner);
+          content.appendChild(text);
+          modal.appendChild(content);
+          document.body.appendChild(modal);
+          
+          if (!document.getElementById('validation-spin-style')) {
+            const style = document.createElement('style');
+            style.id = 'validation-spin-style';
+            style.textContent = `
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `;
+            document.head.appendChild(style);
+          }
+        } else {
+          document.getElementById('validationStatus').textContent = mensagem;
+          const spinner = document.getElementById('validationSpinner');
+          spinner.style.display = mostrarSpinner ? 'block' : 'none';
+        }
+        modal.style.display = 'flex';
+      }
+      
+      function fecharValidacaoModal(sucesso = true) {
+        const modal = document.getElementById('validationModal');
+        if (modal) {
+          setTimeout(() => {
+            modal.style.display = 'none';
+          }, sucesso ? 1500 : 3000);
+        }
+      }
+      
+      function obterHorarioAtual() {
+        const agora = new Date();
+        const horas = String(agora.getHours()).padStart(2, '0');
+        const minutos = String(agora.getMinutes()).padStart(2, '0');
+        return `${horas}:${minutos}`;
+      }
+      
+      function validarHorario(horarioEncontrado, horarioEnvio, tolerancia = 2) {
+        const [horaEnc, minEnc] = horarioEncontrado.split(':').map(Number);
+        const [horaEnv, minEnv] = horarioEnvio.split(':').map(Number);
+        
+        const minutosEncontrado = horaEnc * 60 + minEnc;
+        const minutosEnvio = horaEnv * 60 + minEnv;
+        
+        const diferenca = Math.abs(minutosEncontrado - minutosEnvio);
+        
+        return diferenca <= tolerancia;
+      }
+      
+      async function validarEnvioMensagem(username, tentativa = 1) {
+        const maxTentativas = 6;
+        const intervaloTentativa = 10000;
+        
+        mostrarValidacaoModal(`Validando envio da mensagem... (Tentativa ${tentativa}/${maxTentativas})`);
+        
+        try {
+          const horarioEnvio = obterHorarioAtual();
+          console.log(`[VALIDAÇÃO] Horário de envio: ${horarioEnvio}`);
+          
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          
+          const response = await fetch(`/u${username}`);
+          const html = await response.text();
+          
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          
+          const mensagensRecebidas = doc.querySelectorAll('.module.main .main-content.profile-view dd');
+          
+          let horarioUltimaMensagem = null;
+          
+          mensagensRecebidas.forEach(dd => {
+            const texto = dd.textContent.trim();
+            const match = texto.match(/(\d{2}:\d{2})/);
+            if (match) {
+              horarioUltimaMensagem = match[1];
+            }
+          });
+          
+          console.log(`[VALIDAÇÃO] Horário encontrado no perfil: ${horarioUltimaMensagem}`);
+          
+          if (horarioUltimaMensagem && validarHorario(horarioUltimaMensagem, horarioEnvio, 2)) {
+            mostrarValidacaoModal('✅ Mensagem validada com sucesso!', false);
+            fecharValidacaoModal(true);
+            return true;
+          } else {
+            if (tentativa < maxTentativas) {
+              mostrarValidacaoModal(`Aguardando confirmação... (Tentativa ${tentativa + 1}/${maxTentativas})`);
+              await new Promise(resolve => setTimeout(resolve, intervaloTentativa));
+              return validarEnvioMensagem(username, tentativa + 1);
+            } else {
+              mostrarValidacaoModal('⚠️ Não foi possível validar o envio. Verifique manualmente.', false);
+              fecharValidacaoModal(false);
+              return false;
+            }
+          }
+        } catch (error) {
+          console.error('[VALIDAÇÃO] Erro:', error);
+          mostrarValidacaoModal('❌ Erro na validação. Verifique manualmente.', false);
+          fecharValidacaoModal(false);
+          return false;
+        }
+      }
+      
+      async function validarEnvioPostagem(topico, tentativa = 1) {
+        const maxTentativas = 6;
+        const intervaloTentativa = 10000;
+        
+        mostrarValidacaoModal(`Validando postagem... (Tentativa ${tentativa}/${maxTentativas})`);
+        
+        try {
+          const horarioEnvio = obterHorarioAtual();
+          console.log(`[VALIDAÇÃO POST] Horário de envio: ${horarioEnvio}`);
+          
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          
+          const response = await fetch(`/t${topico}`);
+          const html = await response.text();
+          
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          
+          const posts = doc.querySelectorAll('.post');
+          
+          if (posts.length > 0) {
+            const ultimoPost = posts[posts.length - 1];
+            const horarioPost = ultimoPost.querySelector('.post-header .right');
+            
+            if (horarioPost) {
+              const textoHorario = horarioPost.textContent.trim();
+              const match = textoHorario.match(/(\d{2}:\d{2})/);
+              
+              if (match) {
+                const horarioEncontrado = match[1];
+                console.log(`[VALIDAÇÃO POST] Horário encontrado: ${horarioEncontrado}`);
+                
+                if (validarHorario(horarioEncontrado, horarioEnvio, 2)) {
+                  mostrarValidacaoModal('✅ Postagem validada com sucesso!', false);
+                  fecharValidacaoModal(true);
+                  return true;
+                }
+              }
+            }
+          }
+          
+          if (tentativa < maxTentativas) {
+            mostrarValidacaoModal(`Aguardando confirmação... (Tentativa ${tentativa + 1}/${maxTentativas})`);
+            await new Promise(resolve => setTimeout(resolve, intervaloTentativa));
+            return validarEnvioPostagem(topico, tentativa + 1);
+          } else {
+            mostrarValidacaoModal('⚠️ Não foi possível validar a postagem. Verifique manualmente.', false);
+            fecharValidacaoModal(false);
+            return false;
+          }
+        } catch (error) {
+          console.error('[VALIDAÇÃO POST] Erro:', error);
+          mostrarValidacaoModal('❌ Erro na validação. Verifique manualmente.', false);
+          fecharValidacaoModal(false);
+          return false;
+        }
+      }
+      
+      
+       async function enviarPostagem(topico, bbcode) {
       console.log('=== ENVIO DE POST EM TÓPICO ===');
       console.log('Usuário ou grupo:', `Tópico ID: ${topico}`);
       console.log('Título:', 'Resposta no tópico');
       console.log('Mensagem:', bbcode);
       console.log('================================');
-      return new Promise((resolve, reject) => {
-        $.post('/post', {
-          t: topico,
-          message: bbcode,
-          mode: 'reply',
-          post: 1,
-        })
-        .done(function(response) {
-          resolve(response);
-        })
-        .fail(function(xhr, status, error) {
+      
+      return new Promise(async (resolve, reject) => {
+        try {
+          const postResponse = await $.post('/post', {
+            t: topico,
+            message: bbcode,
+            mode: 'reply',
+            post: 1,
+          });
+          
+          const validado = await validarEnvioPostagem(topico);
+          
+          if (validado) {
+            console.log('✅ Postagem validada com sucesso!');
+          } else {
+            console.warn('⚠️ Postagem não validada, mas pode ter sido enviada.');
+          }
+          
+          resolve(postResponse);
+        } catch (error) {
           const errorDetails = {
-            xhr: xhr,
-            status: status,
-            error: error
+            xhr: error.xhr || error,
+            status: error.status || 'unknown',
+            error: error.error || error.message
           };
           reject(errorDetails);
-        });
+        }
       });
     }
 
@@ -49,7 +255,7 @@
       })
     }
 
-    function send_MP(title, user, message){
+    async function send_MP(title, user, message){
       console.log('=== ENVIO DE MP INDIVIDUAL ===');
       console.log('Usuário ou grupo:', user);
       console.log('Título:', title);
@@ -57,20 +263,36 @@
       console.log('================================');
       showLoading();
       
-      $.post('/privmsg',{
-        folder: 'inbox',
-        mode: 'post',
-        post: '1',
-        username: user,
-        subject: title,
-        message: message
-        }).done(function () {
-        hideLoading();
-        showSuccessPopup("Mensagem Privada enviada para " + user);
-        }).fail(function (){
-        hideLoading();
-        alert("Erro");
-      })
+      return new Promise(async (resolve, reject) => {
+        try {
+          await $.post('/privmsg',{
+            folder: 'inbox',
+            mode: 'post',
+            post: '1',
+            username: user,
+            subject: title,
+            message: message
+          });
+          
+          hideLoading();
+          
+          const validado = await validarEnvioMensagem(user);
+          
+          if (validado) {
+            console.log('✅ Mensagem validada com sucesso!');
+            showSuccessPopup("Mensagem Privada enviada para " + user);
+          } else {
+            console.warn('⚠️ Mensagem não validada, mas pode ter sido enviada.');
+            showSuccessPopup("Mensagem enviada para " + user + " (validação pendente)");
+          }
+          
+          resolve();
+        } catch (error) {
+          hideLoading();
+          alert("Erro ao enviar mensagem para " + user);
+          reject(error);
+        }
+      });
     }
 
     function showLoading() {
@@ -332,13 +554,23 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
         const lastDay = formatDate(document.getElementById('hall-ultimo-dia').value, '(ultimo dia da semana)');
         const destaque1 = document.getElementById('hall-destaque-1').value.trim() || '(1º destaque)';
         const destaque2 = document.getElementById('hall-destaque-2').value.trim() || '(2º destaque)';
-        const destaqueOuvidoria = document.getElementById('hall-destaque-ouvidoria').value.trim() || '(destaque ouvidoria)';
+        const destaqueOuvidoria = document.getElementById('hall-destaque-ouvidoria').value.trim();
 
         const encodedDestaque1 = encodeURIComponent(destaque1);
         const encodedDestaque2 = encodeURIComponent(destaque2);
-        const encodedDestaqueOuvidoria = encodeURIComponent(destaqueOuvidoria);
+        const hasOuvidoria = destaqueOuvidoria !== '';
+        const encodedDestaqueOuvidoria = hasOuvidoria ? encodeURIComponent(destaqueOuvidoria) : '';
+        
+        const ouvidoriaHeaderColumn = hasOuvidoria 
+          ? `[td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][table  class="rank" style="transition: none 0ms ease 0s; margin: 0em 88.3125px; color: rgb(255, 255, 255); font-weight: 600; height: 36px; width: -webkit-fill-available; border-radius: 12px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; line-height: 0em; RCC - SÓ A VERDADEIRA!: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="#37a132"][tr style="transition: none 0ms ease 0s; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][font=Lexend Deca][size=16]DESTAQUE DA OUVIDORIA[/size][/font][/td][/tr][/table][/td]`
+          : '';
+        
+        const ouvidoriaContentColumn = hasOuvidoria
+          ? `[td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][table  style="transition: none 0ms ease 0s; border-collapse: collapse; width: -webkit-fill-available; border-color: rgb(194, 194, 194) !important;"][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][img]https://www.habbo.com.br/habbo-imaging/avatarimage?img_format=png&amp;user=${encodedDestaqueOuvidoria}&amp;direction=3&amp;head_direction=3&amp;size=m&amp;gesture=sml&amp;action=std[/img][/td][/tr][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][font=Lexend Deca][color=#37a132][size=16][b]${destaqueOuvidoria}[/b][/size][/color][/font][/td][/tr][/table][/td]`
+          : '';
 
-        return `[table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#189600"][tr][td style="overflow: hidden; padding: 1%"][img]https://i44.servimg.com/u/f44/20/14/19/80/dpglqx14.png[/img]\n\n[table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#FFFFFF"][tr][td style="overflow: hidden; padding: 1.5%"][table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#189600"][tr][td style="overflow: hidden; padding: 0.5%"][font=Poppins][color=#FFFFFF][size=18][color=#FFFFFF][b]HALL DOS DESTAQUES[/b][/color][/size][/color][/font][/td][/tr][/table]\n[font=Poppins][color=#FFFFFFF]Destaques referentes à semana de [b]${firstDay} a ${lastDay}[/b].[/color][/font]\n\n[table  style="transition: none 0ms ease 0s; border-collapse: collapse; width: -webkit-fill-available; border-color: rgb(194, 194, 194) !important;" bgcolor="#FFFFFF" border="1"][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][table  class="rank" style="transition: none 0ms ease 0s; margin: 0em 81.7812px; color: rgb(255, 255, 255); font-weight: 600; height: 36px; width: -webkit-fill-available; border-radius: 12px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; line-height: 0em; RCC - SÓ A VERDADEIRA!: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="#37a132"][tr style="transition: none 0ms ease 0s; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][font=Lexend Deca][size=16]DESTAQUES DA PORCENTAGEM[/size][/font][/td][/tr][/table][/td][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][table  class="rank" style="transition: none 0ms ease 0s; margin: 0em 88.3125px; color: rgb(255, 255, 255); font-weight: 600; height: 36px; width: -webkit-fill-available; border-radius: 12px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; line-height: 0em; RCC - SÓ A VERDADEIRA!: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="#37a132"][tr style="transition: none 0ms ease 0s; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][font=Lexend Deca][size=16]DESTAQUE DA OUVIDORIA[/size][/font][/td][/tr][/table][/td][/tr][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][table  style="transition: none 0ms ease 0s; border-collapse: collapse; width: -webkit-fill-available; border-color: rgb(194, 194, 194) !important;"][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][img]https://www.habbo.com.br/habbo-imaging/avatarimage?img_format=png&amp;user=${encodedDestaque1}&amp;direction=2&amp;head_direction=3&amp;size=m&amp;gesture=sml&amp;action=std[/img][/td][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][img]https://www.habbo.com.br/habbo-imaging/avatarimage?img_format=png&amp;user=${encodedDestaque2}&amp;direction=4&amp;head_direction=3&amp;size=m&amp;gesture=sml&amp;action=std[/img][/td][/tr][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][font=Lexend Deca][color=#37a132][size=16][b]${destaque1}[/b][/size][/color][/font][/td][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][font=Lexend Deca][color=#37a132][size=16][b]${destaque2}[/b][/size][/color][/font][/td][/tr][/table][/td][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][table  style="transition: none 0ms ease 0s; border-collapse: collapse; width: -webkit-fill-available; border-color: rgb(194, 194, 194) !important;"][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][img]https://www.habbo.com.br/habbo-imaging/avatarimage?img_format=png&amp;user=${encodedDestaqueOuvidoria}&amp;direction=3&amp;head_direction=3&amp;size=m&amp;gesture=sml&amp;action=std[/img][/td][/tr][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][font=Lexend Deca][color=#37a132][size=16][b]${destaqueOuvidoria}[/b][/size][/color][/font][/td][/tr][/table][/td][/tr][/table]\n[font=Poppins][b]A liderança parabeniza e expressa gratidão a esses supervisores pelo empenho e dedicação em prol do grupo![/b][/font][/td][/tr][/table][/td][/tr][/table]`;
+        return `[table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#189600"][tr][td style="overflow: hidden; padding: 1%"][img]https://i44.servimg.com/u/f44/20/14/19/80/dpglqx14.png[/img]\n\n[table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#FFFFFF"][tr][td style="overflow: hidden; padding: 1.5%"][table style="font-weight: 500; border-radius: 10px; width: 100%; overflow: hidden;" bgcolor="#189600"][tr][td style="overflow: hidden; padding: 0.5%"][font=Poppins][color=#FFFFFF][size=18][color=#FFFFFF][b]HALL DOS DESTAQUES[/b][/color][/size][/color][/font][/td][/tr][/table]
+        [font=Poppins][color=#FFFFFFF]Destaques referentes à semana de [b]${firstDay} a ${lastDay}[/b].[/color][/font]\n\n[table  style="transition: none 0ms ease 0s; border-collapse: collapse; width: -webkit-fill-available; border-color: rgb(194, 194, 194) !important;" bgcolor="#FFFFFF" border="1"][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][table  class="rank" style="transition: none 0ms ease 0s; margin: 0em 81.7812px; color: rgb(255, 255, 255); font-weight: 600; height: 36px; width: -webkit-fill-available; border-radius: 12px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; line-height: 0em; RCC - SÓ A VERDADEIRA!: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="#37a132"][tr style="transition: none 0ms ease 0s; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][font=Lexend Deca][size=16]DESTAQUES DA PORCENTAGEM[/size][/font][/td][/tr][/table][/td]${ouvidoriaHeaderColumn}[/tr][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][table  style="transition: none 0ms ease 0s; border-collapse: collapse; width: -webkit-fill-available; border-color: rgb(194, 194, 194) !important;"][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][img]https://www.habbo.com.br/habbo-imaging/avatarimage?img_format=png&amp;user=${encodedDestaque1}&amp;direction=2&amp;head_direction=3&amp;size=m&amp;gesture=sml&amp;action=std[/img][/td][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][img]https://www.habbo.com.br/habbo-imaging/avatarimage?img_format=png&amp;user=${encodedDestaque2}&amp;direction=4&amp;head_direction=3&amp;size=m&amp;gesture=sml&amp;action=std[/img][/td][/tr][tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][font=Lexend Deca][color=#37a132][size=16][b]${destaque1}[/b][/size][/color][/font][/td][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][font=Lexend Deca][color=#37a132][size=16][b]${destaque2}[/b][/size][/color][/font][/td][/tr][/table][/td]${ouvidoriaContentColumn}[/tr][/table]\n[font=Poppins][b]A liderança parabeniza e expressa gratidão a esses supervisores pelo empenho e dedicação em prol do grupo![/b][/font][/td][/tr][/table][/td][/tr][/table]`;
       }
 
       hallOpenButton.addEventListener('click', () => {
@@ -705,14 +937,14 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
           lembreteUsersFeedbackMessage.textContent = `Enviando para ${user} (${i + 1}/${users.length})...`;
           
           try {
-            send_MP(title, user, message);
+            await send_MP(title, user, message);
           } catch (error) {
             console.error(`❌ Erro ao enviar para ${user}:`, error);
           }
           
           if (i < users.length - 1) {
-            console.log(`⏳ Aguardando 2 segundos antes do próximo envio...`);
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            console.log(`⏳ Aguardando 8 segundos antes do próximo envio...`);
+            await new Promise(resolve => setTimeout(resolve, 4000));
           }
         }
         
@@ -806,16 +1038,76 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
 
       lembreteUsersForm.addEventListener('submit', (event) => event.preventDefault());
 
-      lembreteUsersSendButton.addEventListener('click', async () => {
-        const usuariosText = document.getElementById('lembrete-usuarios').value.trim();
-        if (!usuariosText) {
-          lembreteUsersFeedbackMessage.textContent = 'Por favor, informe os usuários.';
-          return;
-        }
+      let usuariosPendentesCache = [];
 
-        const usuarios = usuariosText.split('/').map(user => user.trim()).filter(user => user);
-        if (usuarios.length === 0) {
-          lembreteUsersFeedbackMessage.textContent = 'Nenhum usuário válido encontrado.';
+      const appScriptUrl = 'https://script.google.com/macros/s/AKfycbxrER1mzviCRF5vYr9hbKxcexOUYwvlxio8Ntp0-ntQpzrcQMMaikSAvJ7Taakx68FG/exec';
+
+      document.getElementById('buscar-pendentes').addEventListener('click', async () => {
+        lembreteUsersFeedbackMessage.textContent = 'Buscando usuários pendentes...';
+        document.getElementById('buscar-pendentes').disabled = true;
+        
+        try {
+          const response = await fetch(appScriptUrl + '?action=getUsuariosPendentes');
+          const data = await response.json();
+          
+          if (data.success && data.usuarios && data.usuarios.length > 0) {
+            usuariosPendentesCache = data.usuarios;
+            
+            const usuariosSection = document.getElementById('usuarios-encontrados-section');
+            const usuariosLista = document.getElementById('usuarios-lista');
+            
+            usuariosLista.innerHTML = `
+              <p style="margin: 0 0 0.5rem; color: var(--accent-700); font-weight: 600;">
+                ✅ ${data.total} usuário(s) pendente(s) encontrado(s):
+              </p>
+              <ul style="margin: 0.5rem 0 0; padding-left: 1.5rem; color: rgba(5, 67, 56, 0.9);">
+                ${data.usuarios.map(usuario => `<li style="margin: 0.25rem 0;">${usuario}</li>`).join('')}
+              </ul>
+            `;
+            
+            usuariosSection.style.display = 'block';
+            document.getElementById('send-lembrete-users').disabled = false;
+            
+            lembreteUsersFeedbackMessage.textContent = `${data.total} usuário(s) encontrado(s)!`;
+            setTimeout(() => {
+              lembreteUsersFeedbackMessage.textContent = '';
+            }, 3000);
+          } else if (data.success && data.usuarios && data.usuarios.length === 0) {
+            usuariosPendentesCache = [];
+            
+            const usuariosSection = document.getElementById('usuarios-encontrados-section');
+            const usuariosLista = document.getElementById('usuarios-lista');
+            
+            usuariosLista.innerHTML = `
+              <p style="margin: 0; color: rgba(5, 67, 56, 0.7);">
+                ✅ Nenhum usuário pendente encontrado. Todos estão com a meta positiva!
+              </p>
+            `;
+            
+            usuariosSection.style.display = 'block';
+            document.getElementById('send-lembrete-users').disabled = true;
+            
+            lembreteUsersFeedbackMessage.textContent = 'Nenhum usuário pendente!';
+            setTimeout(() => {
+              lembreteUsersFeedbackMessage.textContent = '';
+            }, 3000);
+          } else {
+            throw new Error(data.error || 'Erro desconhecido ao buscar usuários');
+          }
+        } catch (error) {
+          console.error('Erro ao buscar usuários:', error);
+          lembreteUsersFeedbackMessage.textContent = 'Erro ao buscar usuários. Verifique a URL e tente novamente.';
+          setTimeout(() => {
+            lembreteUsersFeedbackMessage.textContent = '';
+          }, 5000);
+        } finally {
+          document.getElementById('buscar-pendentes').disabled = false;
+        }
+      });
+
+      lembreteUsersSendButton.addEventListener('click', async () => {
+        if (usuariosPendentesCache.length === 0) {
+          lembreteUsersFeedbackMessage.textContent = 'Nenhum usuário para enviar. Busque os usuários primeiro.';
           return;
         }
 
@@ -838,7 +1130,7 @@ Sabia que, ao atingir a meta semanal dos supervisores, você ganha [color=#00410
 [font=Poppins][size=11][color=#FFFFFF]Comunicação que inspira, momentos que marcam!
 Todos os direitos reservados à [b]Companhia dos Supervisores[/b].[/color][/size][/font][/td][/tr][/table]`;
 
-        await sendMultipleMP('[SUP] Ei, bora bater a meta?', usuarios, bbcode);
+        await sendMultipleMP('[SUP] Ei, bora bater a meta?', usuariosPendentesCache, bbcode);
       });
 
       document.getElementById('subgrupos-btn').addEventListener('click', () => {
@@ -918,7 +1210,7 @@ Todos os direitos reservados à [b]Companhia dos Supervisores[/b].[/color][/size
 
 Além disso, os supervisores contam com um grupo destinado à divulgação de informações relevantes da companhia. Nele, são enviados todos os avisos importantes, incluindo novidades e as escalas dos tutores e fiscalizadores. [color=#004100][b]É ideal para quem prefere não participar de grupos muito movimentados![/b][/color][/font][/justify]
 
-[center][table style="border: none!important; width: 90%; overflow: hidden;"][tr style="border: none!important;"][td style="border: none!important; overflow: hidden; padding: 0.4%; width: 45%;" bgcolor="#FFFFFF"][center][url=https://chat.whatsapp.com/EQ7MHXLuNxgDty6RR7wBqU][table style="box-shadow: 0 0 0 1px #075B4B; border-radius: 10px; width: 90%; overflow: hidden;"][tr][td style="overflow: hidden; padding: 0.4%; width: 35%;" bgcolor="#075B4B"][img(50px,50px)]https://i.imgur.com/VVjSWkr.png[/img][/td][td style="overflow: hidden; padding: 0.8%; width: 65%;" bgcolor="#FFFFFF"][font=Poppins][color=#075B4B][b]GRUPO GERAL[/b]
+[center][table style="border: none!important; width: 90%; overflow: hidden;"][tr style="border: none!important;"][td style="border: none!important; overflow: hidden; padding: 0.4%; width: 45%;" bgcolor="#FFFFFF"][center][url=https://chat.whatsapp.com/FYKQQEYAyn1GQfiJz1tPgJ][table style="box-shadow: 0 0 0 1px #075B4B; border-radius: 10px; width: 90%; overflow: hidden;"][tr][td style="overflow: hidden; padding: 0.4%; width: 35%;" bgcolor="#075B4B"][img(50px,50px)]https://i.imgur.com/VVjSWkr.png[/img][/td][td style="overflow: hidden; padding: 0.8%; width: 65%;" bgcolor="#FFFFFF"][font=Poppins][color=#075B4B][b]GRUPO GERAL[/b]
 [size=11][color=#000000]Clique aqui para entrar no grupo do Whatsapp.[/color][/size][/color][/font][/td][/tr][/table][/url][/center][/td]
 
 [td style="border: none!important; overflow: hidden; padding: 0.4%; width: 45%;" bgcolor="#FFFFFF"][center][url=https://chat.whatsapp.com/DhdB6bPfdh65uAVasdqS6q][table style="box-shadow: 0 0 0 1px #075B4B; border-radius: 10px; width: 90%; overflow: hidden;"][tr][td style="overflow: hidden; padding: 0.4%; width: 35%;" bgcolor="#075B4B"][img(50px,50px)]https://i.imgur.com/VVjSWkr.png[/img][/td][td style="overflow: hidden; padding: 0.8%; width: 65%;" bgcolor="#FFFFFF"][font=Poppins][color=#075B4B][b]GRUPO DE AVISOS[/b]
