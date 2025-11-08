@@ -1,4 +1,4 @@
-      console.log("V1.1");
+      console.log("V1.2");
       function mostrarValidacaoModal(mensagem, mostrarSpinner = true) {
         let modal = document.getElementById('validationModal');
         if (!modal) {
@@ -1287,9 +1287,18 @@ Todos os direitos reservados à [b]Companhia dos Supervisores[/b].[/color][/size
       });
       
       document.addEventListener('DOMContentLoaded', function() {
-        const buscarBtn = document.getElementById('buscar-pendentes');
-        if (buscarBtn) {
-          buscarBtn.textContent = buscarBtn.textContent.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').replace(/\?\?\?\?/g, '').trim();
+        function limparEmojisQuebrados(elemento) {
+          if (elemento.nodeType === Node.TEXT_NODE) {
+            if (elemento.textContent.includes('????')) {
+              elemento.textContent = elemento.textContent.replace(/\?\?\?\?/g, '');
+            }
+          } else if (elemento.nodeType === Node.ELEMENT_NODE) {
+            for (let i = 0; i < elemento.childNodes.length; i++) {
+              limparEmojisQuebrados(elemento.childNodes[i]);
+            }
+          }
         }
+
+        limparEmojisQuebrados(document.body);
       });
     })();
