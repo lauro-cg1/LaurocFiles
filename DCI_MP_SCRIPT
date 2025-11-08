@@ -1,4 +1,4 @@
-  console.log("V1.1");
+      console.log("V1.2");
       function mostrarValidacaoModal(mensagem, mostrarSpinner = true) {
         let modal = document.getElementById('validationModal');
         if (!modal) {
@@ -1208,20 +1208,24 @@ Todos os direitos reservados à [b]Companhia dos Supervisores[/b].[/color][/size
         function limparTextoBotao(tentativa = 0) {
           const botao = document.getElementById('buscar-pendentes');
           if (botao) {
-            const textoAtual = botao.textContent || botao.innerText;
-            if (textoAtual.includes('????') && tentativa < 3) {
+            botao.textContent = 'Buscar Usuários Pendentes';
+            botao.innerHTML = 'Buscar Usuários Pendentes';
+            
+            if (tentativa < 3) {
               setTimeout(() => {
-                botao.textContent = 'Buscar Usuários Pendentes';
-                limparTextoBotao(tentativa + 1);
+                const textoAtual = botao.textContent || botao.innerText;
+                if (textoAtual.includes('????') || textoAtual.includes('🔍')) {
+                  limparTextoBotao(tentativa + 1);
+                }
               }, 50);
-            } else if (!textoAtual.includes('????')) {
-              botao.textContent = 'Buscar Usuários Pendentes';
             }
           }
         }
         
         limparTextoBotao();
+        setTimeout(() => limparTextoBotao(), 10);
         setTimeout(() => limparTextoBotao(), 100);
+        setTimeout(() => limparTextoBotao(), 200);
       });
 
       document.getElementById('ranking-interno-btn').addEventListener('click', () => {
