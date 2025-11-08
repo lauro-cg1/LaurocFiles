@@ -1,4 +1,4 @@
-      console.log("V1.2");
+  console.log("V1.1");
       function mostrarValidacaoModal(mensagem, mostrarSpinner = true) {
         let modal = document.getElementById('validationModal');
         if (!modal) {
@@ -89,7 +89,7 @@
         
         try {
           const horarioEnvio = obterHorarioAtual();
-          console.log(`[VALIDAÇÃO] Horário de envio: ${horarioEnvio.texto}`);
+          console.log(`[VALIDAÇÃO] Horário de envio: ${horarioEnvio}`);
           
           await new Promise(resolve => setTimeout(resolve, 3000));
           
@@ -119,7 +119,7 @@
                     const matchHora = textoCompleto.match(/(\d{1,2}):(\d{2})/);
                     
                     if (matchHora) {
-                      console.log(`[VALIDAÇÃO] Horário encontrado: ${matchHora[0]}, Horário atual: ${horarioEnvio.texto}`);
+                      console.log(`[VALIDAÇÃO] Horário encontrado: ${matchHora[0]}, Horário atual: ${horarioEnvio}`);
                       
                       if (validarHorario(matchHora[0], horarioEnvio, 2)) {
                         console.log(`[VALIDAÇÃO] ✓ Envio confirmado para ${username} às ${matchHora[0]}`);
@@ -165,7 +165,7 @@
         
         try {
           const horarioEnvio = obterHorarioAtual();
-          console.log(`[VALIDAÇÃO POST] Horário de envio: ${horarioEnvio.texto}`);
+          console.log(`[VALIDAÇÃO POST] Horário de envio: ${horarioEnvio}`);
           
           await new Promise(resolve => setTimeout(resolve, 3000));
           
@@ -195,7 +195,7 @@
                 const matchHora = dataHora.match(/(\d{1,2}):(\d{2})/);
                 
                 if (matchHora) {
-                  console.log(`[VALIDAÇÃO POST] Horário encontrado: ${matchHora[0]}, Horário envio: ${horarioEnvio.texto}`);
+                  console.log(`[VALIDAÇÃO POST] Horário encontrado: ${matchHora[0]}, Horário envio: ${horarioEnvio}`);
                   
                   if (validarHorario(matchHora[0], horarioEnvio, 3)) {
                     console.log(`[VALIDAÇÃO POST] ✓ Postagem confirmada às ${matchHora[0]}`);
@@ -1204,6 +1204,24 @@ Todos os direitos reservados à [b]Companhia dos Supervisores[/b].[/color][/size
 
       document.getElementById('lembrete-meta-btn').addEventListener('click', () => {
         toggleLembreteUsersModal(true);
+        
+        function limparTextoBotao(tentativa = 0) {
+          const botao = document.getElementById('buscar-pendentes');
+          if (botao) {
+            const textoAtual = botao.textContent || botao.innerText;
+            if (textoAtual.includes('????') && tentativa < 3) {
+              setTimeout(() => {
+                botao.textContent = 'Buscar Usuários Pendentes';
+                limparTextoBotao(tentativa + 1);
+              }, 50);
+            } else if (!textoAtual.includes('????')) {
+              botao.textContent = 'Buscar Usuários Pendentes';
+            }
+          }
+        }
+        
+        limparTextoBotao();
+        setTimeout(() => limparTextoBotao(), 100);
       });
 
       document.getElementById('ranking-interno-btn').addEventListener('click', () => {
