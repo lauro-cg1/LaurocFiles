@@ -1,4 +1,4 @@
-  console.log("V1.1.1");
+   console.log("V1.5.1");
       function mostrarValidacaoModal(mensagem, mostrarSpinner = true) {
         let modal = document.getElementById('validationModal');
         if (!modal) {
@@ -1267,7 +1267,7 @@ Todos os direitos reservados à [b]Companhia dos Supervisores[/b].[/color][/size
 
 Além disso, os supervisores contam com um grupo destinado à divulgação de informações relevantes da companhia. Nele, são enviados todos os avisos importantes, incluindo novidades e as escalas dos tutores e fiscalizadores. [color=#004100][b]É ideal para quem prefere não participar de grupos muito movimentados![/b][/color][/font][/justify]
 
-[center][table style="border: none!important; width: 90%; overflow: hidden;"][tr style="border: none!important;"][td style="border: none!important; overflow: hidden; padding: 0.4%; width: 45%;" bgcolor="#FFFFFF"][center][url=https://chat.whatsapp.com/FYKQQEYAyn1GQfiJz1tPgJ][table style="box-shadow: 0 0 0 1px #075B4B; border-radius: 10px; width: 90%; overflow: hidden;"][tr][td style="overflow: hidden; padding: 0.4%; width: 35%;" bgcolor="#075B4B"][img(50px,50px)]https://i.imgur.com/VVjSWkr.png[/img][/td][td style="overflow: hidden; padding: 0.8%; width: 65%;" bgcolor="#FFFFFF"][font=Poppins][color=#075B4B][b]GRUPO GERAL[/b]
+[center][table style="border: none!important; width: 90%; overflow: hidden;"][tr style="border: none!important;"][td style="border: none!important; overflow: hidden; padding: 0.4%; width: 45%;" bgcolor="#FFFFFF"][center][url=https://chat.whatsapp.com/EQ7MHXLuNxgDty6RR7wBqU][table style="box-shadow: 0 0 0 1px #075B4B; border-radius: 10px; width: 90%; overflow: hidden;"][tr][td style="overflow: hidden; padding: 0.4%; width: 35%;" bgcolor="#075B4B"][img(50px,50px)]https://i.imgur.com/VVjSWkr.png[/img][/td][td style="overflow: hidden; padding: 0.8%; width: 65%;" bgcolor="#FFFFFF"][font=Poppins][color=#075B4B][b]GRUPO GERAL[/b]
 [size=11][color=#000000]Clique aqui para entrar no grupo do Whatsapp.[/color][/size][/color][/font][/td][/tr][/table][/url][/center][/td]
 
 [td style="border: none!important; overflow: hidden; padding: 0.4%; width: 45%;" bgcolor="#FFFFFF"][center][url=https://chat.whatsapp.com/DhdB6bPfdh65uAVasdqS6q][table style="box-shadow: 0 0 0 1px #075B4B; border-radius: 10px; width: 90%; overflow: hidden;"][tr][td style="overflow: hidden; padding: 0.4%; width: 35%;" bgcolor="#075B4B"][img(50px,50px)]https://i.imgur.com/VVjSWkr.png[/img][/td][td style="overflow: hidden; padding: 0.8%; width: 65%;" bgcolor="#FFFFFF"][font=Poppins][color=#075B4B][b]GRUPO DE AVISOS[/b]
