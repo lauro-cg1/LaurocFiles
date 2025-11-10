@@ -1,4 +1,4 @@
-   console.log("V1.5.1");
+  console.log("V1.6.0");
       function mostrarValidacaoModal(mensagem, mostrarSpinner = true) {
         let modal = document.getElementById('validationModal');
         if (!modal) {
@@ -543,9 +543,24 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
       sendButton.addEventListener('click', async () => {
         try {
           feedbackMessage.textContent = 'Enviando mensagem...';
-        const bbcode = buildBbcode();
+          const bbcode = buildBbcode();
           
-          send_MPGroup('[SUP] O que rolou essa semana?', 5, bbcode);
+          await new Promise((resolve, reject) => {
+            $.post('/privmsg',{
+              folder: 'inbox',
+              mode: 'post',
+              post: '1',
+              usergroup: 5,
+              subject: '[SUP] O que rolou essa semana?',
+              message: bbcode
+            }).done(function () {
+              console.log('✅ Mensagem enviada com sucesso para o grupo');
+              resolve();
+            }).fail(function (error){
+              console.error('❌ Erro ao enviar mensagem:', error);
+              reject(error);
+            });
+          });
           
           feedbackMessage.textContent = 'Mensagem enviada com sucesso!';
           setTimeout(() => {
@@ -553,10 +568,11 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
             toggleModal(false);
           }, 2000);
         } catch (error) {
+          console.error('Erro no envio:', error);
           feedbackMessage.textContent = 'Erro ao enviar mensagem.';
-        setTimeout(() => {
-          feedbackMessage.textContent = '';
-        }, 3000);
+          setTimeout(() => {
+            feedbackMessage.textContent = '';
+          }, 3000);
         }
       });
 
