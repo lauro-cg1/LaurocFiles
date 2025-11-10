@@ -1,4 +1,4 @@
-  console.log("V1.6.0");
+  console.log("V1.6.5");
       function mostrarValidacaoModal(mensagem, mostrarSpinner = true) {
         let modal = document.getElementById('validationModal');
         if (!modal) {
@@ -499,25 +499,41 @@ Tem uma ideia que gostaria de compartilhar com o ministério? [url=${ombudsmanLi
       }
 
       function buildBbcode() {
-        const firstDay = formatDate(document.getElementById('primeiro-dia').value, '(primeiro dia da semana)');
-        const lastDay = formatDate(document.getElementById('ultimo-dia').value, '(ultimo dia da semana)');
+        const firstDayEl = document.getElementById('primeiro-dia');
+        const lastDayEl = document.getElementById('ultimo-dia');
+        const member1El = document.getElementById('membro-1');
+        const member2El = document.getElementById('membro-2');
+        const percentage1El = document.getElementById('porcentagem-1');
+        const percentage2El = document.getElementById('porcentagem-2');
+        const transparencyVotesEl = document.getElementById('transparencia-votos');
+        const transparencyProjectsEl = document.getElementById('transparencia-projetos');
+        const ombudsmanEl = document.getElementById('ouvidoria');
 
-        const member1 = document.getElementById('membro-1').value.trim();
-        const member2 = document.getElementById('membro-2').value.trim();
-        const percentage1 = formatPercentage(document.getElementById('porcentagem-1').value, '(porcentagem do membro 1)');
-        const percentage2 = formatPercentage(document.getElementById('porcentagem-2').value, '(porcentagem do membro 2)');
+        if (!firstDayEl || !lastDayEl || !member1El || !member2El || !percentage1El || !percentage2El) {
+          console.error('Elementos do formulário não encontrados!');
+          throw new Error('Elementos do formulário não encontrados. Verifique se o modal está aberto.');
+        }
+
+        const firstDay = formatDate(firstDayEl.value, '(primeiro dia da semana)');
+        const lastDay = formatDate(lastDayEl.value, '(ultimo dia da semana)');
+
+        const member1 = member1El.value.trim();
+        const member2 = member2El.value.trim();
+        const percentage1 = formatPercentage(percentage1El.value, '(porcentagem do membro 1)');
+        const percentage2 = formatPercentage(percentage2El.value, '(porcentagem do membro 2)');
 
         const promotionsData = promotionsConfig.map((promotion) => {
-          const rawValue = document.getElementById(promotion.id).value;
+          const element = document.getElementById(promotion.id);
+          const rawValue = element ? element.value : '';
           return {
             ...promotion,
             names: sanitiseNamesInput(rawValue)
           };
         });
 
-        const transparencyVotes = document.getElementById('transparencia-votos').value.trim() || '(link da transparencia de votos)';
-        const transparencyProjects = document.getElementById('transparencia-projetos').value.trim() || '(link da transparencia de projetos)';
-        const ombudsmanLink = document.getElementById('ouvidoria').value.trim() || 'https://www.policiarcc.com/t35403-sup-ouvidoria';
+        const transparencyVotes = (transparencyVotesEl ? transparencyVotesEl.value.trim() : '') || '(link da transparencia de votos)';
+        const transparencyProjects = (transparencyProjectsEl ? transparencyProjectsEl.value.trim() : '') || '(link da transparencia de projetos)';
+        const ombudsmanLink = (ombudsmanEl ? ombudsmanEl.value.trim() : '') || 'https://www.policiarcc.com/t35403-sup-ouvidoria';
 
         const promotionsSection = buildPromotionsSection(promotionsData);
         const highlightsSection = buildHighlightsSection(member1, percentage1, member2, percentage2);
