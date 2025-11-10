@@ -1,4 +1,4 @@
-  console.log("V1.6.5");
+    console.log("V1.3.1");
       function mostrarValidacaoModal(mensagem, mostrarSpinner = true) {
         let modal = document.getElementById('validationModal');
         if (!modal) {
@@ -432,8 +432,8 @@
 
       function sanitiseNamesInput(value) {
         return value
-          .split(/[\n/;,]+/)
-          .map((chunk) => chunk.replace(/^"+|"+$/g, '').trim())
+          .split(/[\n/]+/)
+          .map((chunk) => chunk.trim())
           .filter(Boolean);
       }
 
