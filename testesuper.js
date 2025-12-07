@@ -280,8 +280,7 @@ function stopIdleAnimation() {
 async function getUsername() {
     try {
         const response = await fetchWithRetry('https://www.policiarcc.com/forum', {
-            mode: 'cors',
-            credentials: 'include'
+            mode: 'cors'
         });
         const html = await response.text();
         const match = html.match(/_userdata\["username"\]\s*=\s*"([^"]+)"/);
@@ -293,6 +292,7 @@ async function getUsername() {
             showErrorModal('Não foi possível te identificar, verifique se está logado no fórum e tente novamente!');
         }
     } catch (error) {
+        console.error('Error getting username:', error);
         showErrorModal('Não foi possível te identificar, verifique se está logado no fórum e tente novamente!');
     }
 }
@@ -454,9 +454,9 @@ async function doCheckin() {
         const response = await fetchWithRetry(WEBAPP_URL, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json',
             },
-            body: new URLSearchParams({
+            body: JSON.stringify({
                 action: 'checkin',
                 user: currentUser,
                 timestamp: new Date().toISOString()
@@ -466,21 +466,27 @@ async function doCheckin() {
         const result = await response.json();
         console.log('Checkin result:', result);
         
-        const today = new Date();
-        const currentDay = today.getDate();
-        
-        if (!userCheckinData.checkinDates.includes(currentDay)) {
-            userCheckinData.checkinDates.push(currentDay);
-            userCheckinData.checkinDates.sort((a, b) => a - b);
+        if (result.success) {
+            const today = new Date();
+            const currentDay = today.getDate();
+            
+            if (!userCheckinData.checkinDates.includes(currentDay)) {
+                userCheckinData.checkinDates.push(currentDay);
+                userCheckinData.checkinDates.sort((a, b) => a - b);
+            }
+            
+            const pointsToday = 5;
+            userCheckinData.totalPoints += pointsToday;
+            userCheckinData.lastCheckin = today.toISOString();
+            
+            updateStreakDisplay();
+            btn.textContent = '✅ Check-In Realizado';
+            msg.textContent = `🎉 Você ganhou ${pointsToday} pontos! Aguarde o próximo dia.`;
+        } else {
+            btn.disabled = false;
+            btn.textContent = '✨ Fazer Check-In ✨';
+            msg.textContent = '❌ ' + (result.error || 'Erro ao fazer check-in. Tente novamente.');
         }
-        
-        const pointsToday = 5;
-        userCheckinData.totalPoints += pointsToday;
-        userCheckinData.lastCheckin = today.toISOString();
-        
-        updateStreakDisplay();
-        btn.textContent = '✅ Check-In Realizado';
-        msg.textContent = `🎉 Você ganhou ${pointsToday} pontos! Aguarde o próximo dia.`;
         
     } catch (error) {
         btn.disabled = false;
